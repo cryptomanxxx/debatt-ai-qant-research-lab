@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-004-cross-dataset-validation",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp008_full_mnist_validation.json",
+  "research_question": "Do the parameter-efficiency advantages of the fixed bottleneck-plus-expansion architectures discovered on MNIST generalize to Fashion-MNIST without architecture search on the new dataset?",
+  "observations": [
+    "Exp008 retained h64_512 and h128_512 as parameter-efficient alternatives to wider single-layer controls on full MNIST.",
+    "Continuing to tune on MNIST would provide weaker evidence than testing the fixed architectures on a distinct dataset."
+  ],
+  "hypothesis": "Without changing the architectures, h64_512 and/or h128_512 remain Pareto-efficient relative to h128, h256, and h512 on Fashion-MNIST.",
+  "falsification_criterion": "The generalization hypothesis is weakened if the expansion architectures lose their accuracy-versus-parameter advantage and the matched single-layer controls dominate or replace them on the Pareto front.",
+  "proposed_method": {
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "expansion_candidates": [
+      [
+        64,
+        512
+      ],
+      [
+        128,
+        512
+      ]
+    ],
+    "controls": [
+      [
+        128
+      ],
+      [
+        256
+      ],
+      [
+        512
+      ]
+    ],
+    "architecture_search_on_new_dataset": false,
+    "planned_runs": 15,
+    "primary_metrics": [
+      "qant_accuracy",
+      "parameter_count",
+      "prediction_disagreements"
+    ]
+  },
+  "requested_budget": {
+    "max_parameters": 410000,
+    "max_candidates": 15,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "Fashion-MNIST is still a small grayscale image benchmark.",
+    "Three seeds limit precision.",
+    "CPU backend results cannot be interpreted as photonic hardware performance."
+  ]
+}
