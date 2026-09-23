@@ -1,0 +1,454 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp006_multiseed_replication",
+  "timestamp_utc": "2026-09-23T20:01:24.537831+00:00",
+  "backend": "qant-cpu",
+  "dataset": "MNIST",
+  "source_proposal": "proposal-001-replicate-expanding-topologies",
+  "job_id": "exp006-multiseed-replication",
+  "seeds": [
+    11,
+    22,
+    33,
+    44,
+    55
+  ],
+  "topologies": {
+    "h32_256": [
+      32,
+      256
+    ],
+    "h64_64_256": [
+      64,
+      64,
+      256
+    ],
+    "h128_256": [
+      128,
+      256
+    ],
+    "h64": [
+      64
+    ],
+    "h128": [
+      128
+    ],
+    "h256": [
+      256
+    ]
+  },
+  "configuration": {
+    "train_samples": 10000,
+    "test_samples": 1000,
+    "epochs": 3,
+    "planned_runs": 30
+  },
+  "budget": {
+    "max_parameters": 220000,
+    "max_candidates": 30,
+    "max_epochs": 3,
+    "max_train_samples": 10000,
+    "max_test_samples": 1000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "h32_256",
+      "widths": [
+        32,
+        256
+      ],
+      "parameter_count": 36138,
+      "reference_accuracy": 0.894,
+      "qant_accuracy": 0.894,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h64_64_256",
+      "widths": [
+        64,
+        64,
+        256
+      ],
+      "parameter_count": 73610,
+      "reference_accuracy": 0.898,
+      "qant_accuracy": 0.898,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h128_256",
+      "widths": [
+        128,
+        256
+      ],
+      "parameter_count": 136074,
+      "reference_accuracy": 0.899,
+      "qant_accuracy": 0.899,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h64",
+      "widths": [
+        64
+      ],
+      "parameter_count": 50890,
+      "reference_accuracy": 0.897,
+      "qant_accuracy": 0.899,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h128",
+      "widths": [
+        128
+      ],
+      "parameter_count": 101770,
+      "reference_accuracy": 0.907,
+      "qant_accuracy": 0.907,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h256",
+      "widths": [
+        256
+      ],
+      "parameter_count": 203530,
+      "reference_accuracy": 0.906,
+      "qant_accuracy": 0.906,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h32_256",
+      "widths": [
+        32,
+        256
+      ],
+      "parameter_count": 36138,
+      "reference_accuracy": 0.903,
+      "qant_accuracy": 0.904,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h64_64_256",
+      "widths": [
+        64,
+        64,
+        256
+      ],
+      "parameter_count": 73610,
+      "reference_accuracy": 0.892,
+      "qant_accuracy": 0.892,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h128_256",
+      "widths": [
+        128,
+        256
+      ],
+      "parameter_count": 136074,
+      "reference_accuracy": 0.905,
+      "qant_accuracy": 0.905,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h64",
+      "widths": [
+        64
+      ],
+      "parameter_count": 50890,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.891,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h128",
+      "widths": [
+        128
+      ],
+      "parameter_count": 101770,
+      "reference_accuracy": 0.898,
+      "qant_accuracy": 0.899,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h256",
+      "widths": [
+        256
+      ],
+      "parameter_count": 203530,
+      "reference_accuracy": 0.909,
+      "qant_accuracy": 0.909,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h32_256",
+      "widths": [
+        32,
+        256
+      ],
+      "parameter_count": 36138,
+      "reference_accuracy": 0.906,
+      "qant_accuracy": 0.906,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h64_64_256",
+      "widths": [
+        64,
+        64,
+        256
+      ],
+      "parameter_count": 73610,
+      "reference_accuracy": 0.904,
+      "qant_accuracy": 0.904,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h128_256",
+      "widths": [
+        128,
+        256
+      ],
+      "parameter_count": 136074,
+      "reference_accuracy": 0.921,
+      "qant_accuracy": 0.92,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h64",
+      "widths": [
+        64
+      ],
+      "parameter_count": 50890,
+      "reference_accuracy": 0.884,
+      "qant_accuracy": 0.885,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h128",
+      "widths": [
+        128
+      ],
+      "parameter_count": 101770,
+      "reference_accuracy": 0.904,
+      "qant_accuracy": 0.904,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h256",
+      "widths": [
+        256
+      ],
+      "parameter_count": 203530,
+      "reference_accuracy": 0.907,
+      "qant_accuracy": 0.906,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 44,
+      "candidate_id": "h32_256",
+      "widths": [
+        32,
+        256
+      ],
+      "parameter_count": 36138,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.891,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 44,
+      "candidate_id": "h64_64_256",
+      "widths": [
+        64,
+        64,
+        256
+      ],
+      "parameter_count": 73610,
+      "reference_accuracy": 0.897,
+      "qant_accuracy": 0.897,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 44,
+      "candidate_id": "h128_256",
+      "widths": [
+        128,
+        256
+      ],
+      "parameter_count": 136074,
+      "reference_accuracy": 0.907,
+      "qant_accuracy": 0.907,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 44,
+      "candidate_id": "h64",
+      "widths": [
+        64
+      ],
+      "parameter_count": 50890,
+      "reference_accuracy": 0.889,
+      "qant_accuracy": 0.888,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 44,
+      "candidate_id": "h128",
+      "widths": [
+        128
+      ],
+      "parameter_count": 101770,
+      "reference_accuracy": 0.891,
+      "qant_accuracy": 0.891,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 44,
+      "candidate_id": "h256",
+      "widths": [
+        256
+      ],
+      "parameter_count": 203530,
+      "reference_accuracy": 0.899,
+      "qant_accuracy": 0.899,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 55,
+      "candidate_id": "h32_256",
+      "widths": [
+        32,
+        256
+      ],
+      "parameter_count": 36138,
+      "reference_accuracy": 0.904,
+      "qant_accuracy": 0.904,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 55,
+      "candidate_id": "h64_64_256",
+      "widths": [
+        64,
+        64,
+        256
+      ],
+      "parameter_count": 73610,
+      "reference_accuracy": 0.906,
+      "qant_accuracy": 0.905,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 55,
+      "candidate_id": "h128_256",
+      "widths": [
+        128,
+        256
+      ],
+      "parameter_count": 136074,
+      "reference_accuracy": 0.923,
+      "qant_accuracy": 0.924,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 55,
+      "candidate_id": "h64",
+      "widths": [
+        64
+      ],
+      "parameter_count": 50890,
+      "reference_accuracy": 0.888,
+      "qant_accuracy": 0.889,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 55,
+      "candidate_id": "h128",
+      "widths": [
+        128
+      ],
+      "parameter_count": 101770,
+      "reference_accuracy": 0.9,
+      "qant_accuracy": 0.9,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 55,
+      "candidate_id": "h256",
+      "widths": [
+        256
+      ],
+      "parameter_count": 203530,
+      "reference_accuracy": 0.916,
+      "qant_accuracy": 0.916,
+      "prediction_disagreements": 0
+    }
+  ],
+  "summary": {
+    "h32_256": {
+      "mean_qant_accuracy": 0.8998000000000002,
+      "std_qant_accuracy": 0.006079473661428271,
+      "min_qant_accuracy": 0.891,
+      "max_qant_accuracy": 0.906,
+      "parameter_count": 36138
+    },
+    "h64_64_256": {
+      "mean_qant_accuracy": 0.8992000000000001,
+      "std_qant_accuracy": 0.00479165942028438,
+      "min_qant_accuracy": 0.892,
+      "max_qant_accuracy": 0.905,
+      "parameter_count": 73610
+    },
+    "h128_256": {
+      "mean_qant_accuracy": 0.9110000000000001,
+      "std_qant_accuracy": 0.009444575162494084,
+      "min_qant_accuracy": 0.899,
+      "max_qant_accuracy": 0.924,
+      "parameter_count": 136074
+    },
+    "h64": {
+      "mean_qant_accuracy": 0.8904,
+      "std_qant_accuracy": 0.004715930449020642,
+      "min_qant_accuracy": 0.885,
+      "max_qant_accuracy": 0.899,
+      "parameter_count": 50890
+    },
+    "h128": {
+      "mean_qant_accuracy": 0.9002000000000001,
+      "std_qant_accuracy": 0.005418486873657632,
+      "min_qant_accuracy": 0.891,
+      "max_qant_accuracy": 0.907,
+      "parameter_count": 101770
+    },
+    "h256": {
+      "mean_qant_accuracy": 0.9072000000000001,
+      "std_qant_accuracy": 0.0054918120870983975,
+      "min_qant_accuracy": 0.899,
+      "max_qant_accuracy": 0.916,
+      "parameter_count": 203530
+    }
+  },
+  "notes": "Multi-seed replication. Q.ANT CPU backend validates execution/correctness only; no photonic performance claim."
+}
