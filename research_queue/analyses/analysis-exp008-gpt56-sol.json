@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp008-gpt56-sol",
+  "experiment_id": "exp008_full_mnist_validation",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "source_result": "results/exp008_full_mnist_validation.json",
+  "hypothesis_assessment": "supported_with_qualification",
+  "observations": [
+    "The Pareto front is h32_512, h64_512, h128_512, h512; single-layer h128 and h256 are absent.",
+    "h64_512 reaches mean Q.ANT accuracy 0.96713 with 88650 parameters versus h128 at 0.96283 with 101770 parameters.",
+    "h128_512 reaches 0.97263 with 171658 parameters versus h256 at 0.97000 with 203530 parameters.",
+    "h32_512 does not exceed h128 accuracy on full MNIST, unlike the corresponding Exp007 comparison.",
+    "Q.ANT CPU and PyTorch predictions differ on only 1-6 of 10000 test examples per run."
+  ],
+  "interpretation": "Selected bottleneck-plus-expansion architectures retain a parameter-efficiency advantage on full MNIST, but the effect is not universal across every pair. The next falsification should test whether the fixed architectures generalize to a different dataset rather than continuing MNIST tuning.",
+  "limitations": [
+    "MNIST remains a simple image dataset.",
+    "Only three seeds were used.",
+    "Q.ANT CPU backend results do not establish photonic latency, energy efficiency, throughput, or hardware behavior."
+  ],
+  "next_research_direction": "Cross-dataset validation using the already-selected architectures without architecture search on the new dataset."
+}
