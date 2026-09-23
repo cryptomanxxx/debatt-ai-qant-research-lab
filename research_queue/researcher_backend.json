@@ -1,0 +1,7 @@
+{
+  "backend": "deterministic",
+  "mode": "proposal-only",
+  "allow_paid_usage": false,
+  "model": null,
+  "notes": "No external LLM is enabled. Groq, Codex and Codestral adapters may be added later without changing the proposal/approval/compute boundary."
+}
