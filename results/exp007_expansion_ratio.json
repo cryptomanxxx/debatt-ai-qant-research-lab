@@ -1,0 +1,641 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp007_expansion_ratio",
+  "timestamp_utc": "2026-09-23T20:48:34.705152+00:00",
+  "backend": "qant-cpu",
+  "dataset": "MNIST",
+  "source_proposal": "proposal-002-expansion-ratio",
+  "job_id": "exp007-expansion-ratio",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "topologies": {
+    "h32_64": [
+      32,
+      64
+    ],
+    "h32_128": [
+      32,
+      128
+    ],
+    "h32_256": [
+      32,
+      256
+    ],
+    "h32_512": [
+      32,
+      512
+    ],
+    "h64_128": [
+      64,
+      128
+    ],
+    "h64_256": [
+      64,
+      256
+    ],
+    "h64_512": [
+      64,
+      512
+    ],
+    "h128_256": [
+      128,
+      256
+    ],
+    "h128_512": [
+      128,
+      512
+    ],
+    "h64": [
+      64
+    ],
+    "h128": [
+      128
+    ],
+    "h256": [
+      256
+    ],
+    "h512": [
+      512
+    ]
+  },
+  "configuration": {
+    "train_samples": 10000,
+    "test_samples": 1000,
+    "epochs": 3,
+    "planned_runs": 39
+  },
+  "budget": {
+    "max_parameters": 410000,
+    "max_candidates": 39,
+    "max_epochs": 3,
+    "max_train_samples": 10000,
+    "max_test_samples": 1000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "h32_64",
+      "widths": [
+        32,
+        64
+      ],
+      "parameter_count": 27882,
+      "reference_accuracy": 0.884,
+      "qant_accuracy": 0.884,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h32_128",
+      "widths": [
+        32,
+        128
+      ],
+      "parameter_count": 30634,
+      "reference_accuracy": 0.891,
+      "qant_accuracy": 0.892,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h32_256",
+      "widths": [
+        32,
+        256
+      ],
+      "parameter_count": 36138,
+      "reference_accuracy": 0.894,
+      "qant_accuracy": 0.894,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h32_512",
+      "widths": [
+        32,
+        512
+      ],
+      "parameter_count": 47146,
+      "reference_accuracy": 0.892,
+      "qant_accuracy": 0.892,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h64_128",
+      "widths": [
+        64,
+        128
+      ],
+      "parameter_count": 59850,
+      "reference_accuracy": 0.897,
+      "qant_accuracy": 0.897,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h64_256",
+      "widths": [
+        64,
+        256
+      ],
+      "parameter_count": 69450,
+      "reference_accuracy": 0.893,
+      "qant_accuracy": 0.893,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h64_512",
+      "widths": [
+        64,
+        512
+      ],
+      "parameter_count": 88650,
+      "reference_accuracy": 0.903,
+      "qant_accuracy": 0.903,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h128_256",
+      "widths": [
+        128,
+        256
+      ],
+      "parameter_count": 136074,
+      "reference_accuracy": 0.899,
+      "qant_accuracy": 0.899,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h128_512",
+      "widths": [
+        128,
+        512
+      ],
+      "parameter_count": 171658,
+      "reference_accuracy": 0.903,
+      "qant_accuracy": 0.903,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h64",
+      "widths": [
+        64
+      ],
+      "parameter_count": 50890,
+      "reference_accuracy": 0.897,
+      "qant_accuracy": 0.899,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h128",
+      "widths": [
+        128
+      ],
+      "parameter_count": 101770,
+      "reference_accuracy": 0.907,
+      "qant_accuracy": 0.907,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h256",
+      "widths": [
+        256
+      ],
+      "parameter_count": 203530,
+      "reference_accuracy": 0.906,
+      "qant_accuracy": 0.906,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h512",
+      "widths": [
+        512
+      ],
+      "parameter_count": 407050,
+      "reference_accuracy": 0.906,
+      "qant_accuracy": 0.907,
+      "prediction_disagreements": 3
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h32_64",
+      "widths": [
+        32,
+        64
+      ],
+      "parameter_count": 27882,
+      "reference_accuracy": 0.889,
+      "qant_accuracy": 0.888,
+      "prediction_disagreements": 3
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h32_128",
+      "widths": [
+        32,
+        128
+      ],
+      "parameter_count": 30634,
+      "reference_accuracy": 0.903,
+      "qant_accuracy": 0.905,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h32_256",
+      "widths": [
+        32,
+        256
+      ],
+      "parameter_count": 36138,
+      "reference_accuracy": 0.903,
+      "qant_accuracy": 0.904,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h32_512",
+      "widths": [
+        32,
+        512
+      ],
+      "parameter_count": 47146,
+      "reference_accuracy": 0.908,
+      "qant_accuracy": 0.908,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h64_128",
+      "widths": [
+        64,
+        128
+      ],
+      "parameter_count": 59850,
+      "reference_accuracy": 0.902,
+      "qant_accuracy": 0.901,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h64_256",
+      "widths": [
+        64,
+        256
+      ],
+      "parameter_count": 69450,
+      "reference_accuracy": 0.897,
+      "qant_accuracy": 0.898,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h64_512",
+      "widths": [
+        64,
+        512
+      ],
+      "parameter_count": 88650,
+      "reference_accuracy": 0.907,
+      "qant_accuracy": 0.909,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h128_256",
+      "widths": [
+        128,
+        256
+      ],
+      "parameter_count": 136074,
+      "reference_accuracy": 0.905,
+      "qant_accuracy": 0.905,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h128_512",
+      "widths": [
+        128,
+        512
+      ],
+      "parameter_count": 171658,
+      "reference_accuracy": 0.919,
+      "qant_accuracy": 0.919,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h64",
+      "widths": [
+        64
+      ],
+      "parameter_count": 50890,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.891,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h128",
+      "widths": [
+        128
+      ],
+      "parameter_count": 101770,
+      "reference_accuracy": 0.898,
+      "qant_accuracy": 0.899,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h256",
+      "widths": [
+        256
+      ],
+      "parameter_count": 203530,
+      "reference_accuracy": 0.909,
+      "qant_accuracy": 0.909,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h512",
+      "widths": [
+        512
+      ],
+      "parameter_count": 407050,
+      "reference_accuracy": 0.922,
+      "qant_accuracy": 0.922,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h32_64",
+      "widths": [
+        32,
+        64
+      ],
+      "parameter_count": 27882,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.882,
+      "prediction_disagreements": 3
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h32_128",
+      "widths": [
+        32,
+        128
+      ],
+      "parameter_count": 30634,
+      "reference_accuracy": 0.896,
+      "qant_accuracy": 0.896,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h32_256",
+      "widths": [
+        32,
+        256
+      ],
+      "parameter_count": 36138,
+      "reference_accuracy": 0.906,
+      "qant_accuracy": 0.906,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h32_512",
+      "widths": [
+        32,
+        512
+      ],
+      "parameter_count": 47146,
+      "reference_accuracy": 0.912,
+      "qant_accuracy": 0.912,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h64_128",
+      "widths": [
+        64,
+        128
+      ],
+      "parameter_count": 59850,
+      "reference_accuracy": 0.907,
+      "qant_accuracy": 0.907,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h64_256",
+      "widths": [
+        64,
+        256
+      ],
+      "parameter_count": 69450,
+      "reference_accuracy": 0.911,
+      "qant_accuracy": 0.911,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h64_512",
+      "widths": [
+        64,
+        512
+      ],
+      "parameter_count": 88650,
+      "reference_accuracy": 0.914,
+      "qant_accuracy": 0.914,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h128_256",
+      "widths": [
+        128,
+        256
+      ],
+      "parameter_count": 136074,
+      "reference_accuracy": 0.921,
+      "qant_accuracy": 0.92,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h128_512",
+      "widths": [
+        128,
+        512
+      ],
+      "parameter_count": 171658,
+      "reference_accuracy": 0.92,
+      "qant_accuracy": 0.92,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h64",
+      "widths": [
+        64
+      ],
+      "parameter_count": 50890,
+      "reference_accuracy": 0.884,
+      "qant_accuracy": 0.885,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h128",
+      "widths": [
+        128
+      ],
+      "parameter_count": 101770,
+      "reference_accuracy": 0.904,
+      "qant_accuracy": 0.904,
+      "prediction_disagreements": 0
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h256",
+      "widths": [
+        256
+      ],
+      "parameter_count": 203530,
+      "reference_accuracy": 0.907,
+      "qant_accuracy": 0.906,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h512",
+      "widths": [
+        512
+      ],
+      "parameter_count": 407050,
+      "reference_accuracy": 0.912,
+      "qant_accuracy": 0.912,
+      "prediction_disagreements": 0
+    }
+  ],
+  "summary": {
+    "h32_64": {
+      "mean_qant_accuracy": 0.8846666666666666,
+      "std_qant_accuracy": 0.0024944382578492965,
+      "min_qant_accuracy": 0.882,
+      "max_qant_accuracy": 0.888,
+      "parameter_count": 27882
+    },
+    "h32_128": {
+      "mean_qant_accuracy": 0.8976666666666667,
+      "std_qant_accuracy": 0.005436502143433369,
+      "min_qant_accuracy": 0.892,
+      "max_qant_accuracy": 0.905,
+      "parameter_count": 30634
+    },
+    "h32_256": {
+      "mean_qant_accuracy": 0.9013333333333334,
+      "std_qant_accuracy": 0.005249338582674546,
+      "min_qant_accuracy": 0.894,
+      "max_qant_accuracy": 0.906,
+      "parameter_count": 36138
+    },
+    "h32_512": {
+      "mean_qant_accuracy": 0.904,
+      "std_qant_accuracy": 0.008640987597877155,
+      "min_qant_accuracy": 0.892,
+      "max_qant_accuracy": 0.912,
+      "parameter_count": 47146
+    },
+    "h64_128": {
+      "mean_qant_accuracy": 0.9016666666666667,
+      "std_qant_accuracy": 0.0041096093353126546,
+      "min_qant_accuracy": 0.897,
+      "max_qant_accuracy": 0.907,
+      "parameter_count": 59850
+    },
+    "h64_256": {
+      "mean_qant_accuracy": 0.9006666666666666,
+      "std_qant_accuracy": 0.007586537784494036,
+      "min_qant_accuracy": 0.893,
+      "max_qant_accuracy": 0.911,
+      "parameter_count": 69450
+    },
+    "h64_512": {
+      "mean_qant_accuracy": 0.9086666666666666,
+      "std_qant_accuracy": 0.004496912521077351,
+      "min_qant_accuracy": 0.903,
+      "max_qant_accuracy": 0.914,
+      "parameter_count": 88650
+    },
+    "h128_256": {
+      "mean_qant_accuracy": 0.908,
+      "std_qant_accuracy": 0.008831760866327854,
+      "min_qant_accuracy": 0.899,
+      "max_qant_accuracy": 0.92,
+      "parameter_count": 136074
+    },
+    "h128_512": {
+      "mean_qant_accuracy": 0.914,
+      "std_qant_accuracy": 0.007788880963698622,
+      "min_qant_accuracy": 0.903,
+      "max_qant_accuracy": 0.92,
+      "parameter_count": 171658
+    },
+    "h64": {
+      "mean_qant_accuracy": 0.8916666666666666,
+      "std_qant_accuracy": 0.005734883511361756,
+      "min_qant_accuracy": 0.885,
+      "max_qant_accuracy": 0.899,
+      "parameter_count": 50890
+    },
+    "h128": {
+      "mean_qant_accuracy": 0.9033333333333333,
+      "std_qant_accuracy": 0.003299831645537225,
+      "min_qant_accuracy": 0.899,
+      "max_qant_accuracy": 0.907,
+      "parameter_count": 101770
+    },
+    "h256": {
+      "mean_qant_accuracy": 0.907,
+      "std_qant_accuracy": 0.0014142135623730965,
+      "min_qant_accuracy": 0.906,
+      "max_qant_accuracy": 0.909,
+      "parameter_count": 203530
+    },
+    "h512": {
+      "mean_qant_accuracy": 0.9136666666666667,
+      "std_qant_accuracy": 0.006236095644623242,
+      "min_qant_accuracy": 0.907,
+      "max_qant_accuracy": 0.922,
+      "parameter_count": 407050
+    }
+  },
+  "pareto_front": [
+    "h32_64",
+    "h32_128",
+    "h32_256",
+    "h32_512",
+    "h64_512",
+    "h128_512"
+  ],
+  "notes": "Expansion-ratio study. Q.ANT CPU backend validates execution/correctness only; no photonic performance claim."
+}
