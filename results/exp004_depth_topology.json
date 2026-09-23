@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp004_depth_topology",
+  "timestamp_utc": "2026-09-23T17:26:26.708080+00:00",
+  "seed": 42,
+  "backend": "qant-cpu",
+  "dataset": "MNIST",
+  "search_space": {"topologies":{"h64":[64],"h64_64":[64,64],"h128":[128],"h128_64":[128,64],"h256":[256],"h128_128":[128,128]},"activation":"relu"},
+  "configuration": {"train_samples":10000,"test_samples":1000,"epochs":3},
+  "environment": {"python":"3.13.15","torch":"2.11.0+cpu"},
+  "pareto_objectives": {"maximize":"qant_accuracy","minimize":"parameter_count"},
+  "pareto_front": ["h64","h64_64","h128","h128_64","h256"],
+  "results": [
+    {"candidate_id":"h64","hidden_layers":1,"widths":[64],"parameter_count":50890,"reference_accuracy":0.886,"qant_accuracy":0.886,"prediction_disagreements":0,"qant_cpu_ms_per_sample":0.4034117679998417},
+    {"candidate_id":"h64_64","hidden_layers":2,"widths":[64,64],"parameter_count":55050,"reference_accuracy":0.886,"qant_accuracy":0.889,"prediction_disagreements":5,"qant_cpu_ms_per_sample":0.4120496690006803},
+    {"candidate_id":"h128","hidden_layers":1,"widths":[128],"parameter_count":101770,"reference_accuracy":0.898,"qant_accuracy":0.899,"prediction_disagreements":1,"qant_cpu_ms_per_sample":1.3492929130002267},
+    {"candidate_id":"h128_64","hidden_layers":2,"widths":[128,64],"parameter_count":109386,"reference_accuracy":0.902,"qant_accuracy":0.901,"prediction_disagreements":1,"qant_cpu_ms_per_sample":0.7707764609995138},
+    {"candidate_id":"h256","hidden_layers":1,"widths":[256],"parameter_count":203530,"reference_accuracy":0.902,"qant_accuracy":0.903,"prediction_disagreements":2,"qant_cpu_ms_per_sample":1.7752557399999205},
+    {"candidate_id":"h128_128","hidden_layers":2,"widths":[128,128],"parameter_count":118282,"reference_accuracy":0.896,"qant_accuracy":0.896,"prediction_disagreements":0,"qant_cpu_ms_per_sample":0.8502874070004509}
+  ],
+  "notes": "CPU timing is diagnostic only and excluded from Pareto calculation."
+}
