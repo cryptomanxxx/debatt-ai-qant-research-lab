@@ -10,28 +10,33 @@ if not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,95}",proposal_id):
     raise SystemExit("Invalid proposal id")
 
 p=Path("research_queue/proposals")/f"{proposal_id}.json"
-if not p.exists():
-    raise SystemExit(f"Unknown proposal: {proposal_id}")
+if not p.exists(): raise SystemExit(f"Unknown proposal: {proposal_id}")
 proposal=json.loads(p.read_text())
 if proposal.get("proposal_id")!=proposal_id or proposal.get("status")!="proposed":
     raise SystemExit("Proposal is not eligible for approval")
 if proposal.get("approval_required") is not True:
     raise SystemExit("Proposal does not declare human approval")
 
-# v1 only compiles the known replication proposal. This keeps the bridge narrow:
-# AI may propose research, but cannot inject arbitrary executable code.
-if proposal_id!="proposal-001-replicate-expanding-topologies":
+# Explicit allowlist: proposals cannot inject executable paths or commands.
+MAPPINGS={
+ "proposal-001-replicate-expanding-topologies":(
+   "exp006-multiseed-replication","experiments/006_multiseed_replication/run.py"),
+ "proposal-002-expansion-ratio":(
+   "exp007-expansion-ratio","experiments/007_expansion_ratio/run.py")
+}
+if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
 
+job_id,experiment=MAPPINGS[proposal_id]
 job={
- "job_id":"exp006-multiseed-replication",
+ "job_id":job_id,
  "status":"approved",
- "experiment":"experiments/006_multiseed_replication/run.py",
+ "experiment":experiment,
  "runner":"github-actions",
  "description":"Human-approved compilation of "+proposal_id,
  "budget":proposal["requested_budget"],
  "source_proposal":proposal_id
 }
-out=Path("research_queue/jobs")/(job["job_id"]+".json")
+out=Path("research_queue/jobs")/(job_id+".json")
 out.write_text(json.dumps(job,indent=2)+"\n")
 print(json.dumps(job,indent=2))
