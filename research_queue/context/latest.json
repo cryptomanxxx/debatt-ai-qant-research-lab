@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "purpose": "Evidence packet for the next falsifiable research proposal.",
   "rules": [
     "Use repository results as experimental evidence.",
@@ -111,6 +111,124 @@
           "parameter_count": 203530
         }
       }
+    },
+    {
+      "file": "exp007_expansion_ratio.json",
+      "experiment_id": "exp007_expansion_ratio",
+      "backend": "qant-cpu",
+      "dataset": "MNIST",
+      "summary": {
+        "h32_64": {
+          "mean_qant_accuracy": 0.8846666666666666,
+          "std_qant_accuracy": 0.0024944382578492965,
+          "min_qant_accuracy": 0.882,
+          "max_qant_accuracy": 0.888,
+          "parameter_count": 27882
+        },
+        "h32_128": {
+          "mean_qant_accuracy": 0.8976666666666667,
+          "std_qant_accuracy": 0.005436502143433369,
+          "min_qant_accuracy": 0.892,
+          "max_qant_accuracy": 0.905,
+          "parameter_count": 30634
+        },
+        "h32_256": {
+          "mean_qant_accuracy": 0.9013333333333334,
+          "std_qant_accuracy": 0.005249338582674546,
+          "min_qant_accuracy": 0.894,
+          "max_qant_accuracy": 0.906,
+          "parameter_count": 36138
+        },
+        "h32_512": {
+          "mean_qant_accuracy": 0.904,
+          "std_qant_accuracy": 0.008640987597877155,
+          "min_qant_accuracy": 0.892,
+          "max_qant_accuracy": 0.912,
+          "parameter_count": 47146
+        },
+        "h64_128": {
+          "mean_qant_accuracy": 0.9016666666666667,
+          "std_qant_accuracy": 0.0041096093353126546,
+          "min_qant_accuracy": 0.897,
+          "max_qant_accuracy": 0.907,
+          "parameter_count": 59850
+        },
+        "h64_256": {
+          "mean_qant_accuracy": 0.9006666666666666,
+          "std_qant_accuracy": 0.007586537784494036,
+          "min_qant_accuracy": 0.893,
+          "max_qant_accuracy": 0.911,
+          "parameter_count": 69450
+        },
+        "h64_512": {
+          "mean_qant_accuracy": 0.9086666666666666,
+          "std_qant_accuracy": 0.004496912521077351,
+          "min_qant_accuracy": 0.903,
+          "max_qant_accuracy": 0.914,
+          "parameter_count": 88650
+        },
+        "h128_256": {
+          "mean_qant_accuracy": 0.908,
+          "std_qant_accuracy": 0.008831760866327854,
+          "min_qant_accuracy": 0.899,
+          "max_qant_accuracy": 0.92,
+          "parameter_count": 136074
+        },
+        "h128_512": {
+          "mean_qant_accuracy": 0.914,
+          "std_qant_accuracy": 0.007788880963698622,
+          "min_qant_accuracy": 0.903,
+          "max_qant_accuracy": 0.92,
+          "parameter_count": 171658
+        },
+        "h64": {
+          "mean_qant_accuracy": 0.8916666666666666,
+          "std_qant_accuracy": 0.005734883511361756,
+          "min_qant_accuracy": 0.885,
+          "max_qant_accuracy": 0.899,
+          "parameter_count": 50890
+        },
+        "h128": {
+          "mean_qant_accuracy": 0.9033333333333333,
+          "std_qant_accuracy": 0.003299831645537225,
+          "min_qant_accuracy": 0.899,
+          "max_qant_accuracy": 0.907,
+          "parameter_count": 101770
+        },
+        "h256": {
+          "mean_qant_accuracy": 0.907,
+          "std_qant_accuracy": 0.0014142135623730965,
+          "min_qant_accuracy": 0.906,
+          "max_qant_accuracy": 0.909,
+          "parameter_count": 203530
+        },
+        "h512": {
+          "mean_qant_accuracy": 0.9136666666666667,
+          "std_qant_accuracy": 0.006236095644623242,
+          "min_qant_accuracy": 0.907,
+          "max_qant_accuracy": 0.922,
+          "parameter_count": 407050
+        }
+      },
+      "pareto_front": [
+        "h32_64",
+        "h32_128",
+        "h32_256",
+        "h32_512",
+        "h64_512",
+        "h128_512"
+      ]
+    }
+  ],
+  "researcher_analyses": [
+    {
+      "file": "analysis-exp007-gpt56-sol.json",
+      "analysis_id": "analysis-exp007-gpt56-sol",
+      "experiment_id": "exp007_expansion_ratio",
+      "researcher": "GPT-5.6 Sol via ChatGPT",
+      "hypothesis_assessment": "partially_supported",
+      "interpretation": "Experiment 007 supports a parameter-efficiency advantage for several bottleneck-plus-expansion architectures under this MNIST setup, but does not support a universal monotonic expansion-ratio rule. The 32-wide bottleneck showed a monotonic trend, while the 64-wide bottleneck did not. The strongest next question is therefore whether the apparent efficiency advantage generalizes beyond the current small MNIST training regime rather than further optimizing the same benchmark immediately.",
+      "next_research_direction": "Test whether selected Pareto-efficient expansion architectures retain their advantage under a stronger validation regime, before making broader architectural claims."
     }
   ]
 }
