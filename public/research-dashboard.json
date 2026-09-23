@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-09-23T21:07:33.447258+00:00",
+  "project": {
+    "name": "Debatt-AI Q.ANT Research Lab",
+    "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
+    "current_backend": "qant-cpu",
+    "backend_disclaimer": "Q.ANT CPU-backend results validate software execution and numerical behavior. They are not measurements of photonic hardware latency, energy efficiency, throughput, or optical behavior."
+  },
+  "status": {
+    "completed_experiments": 7,
+    "latest_completed_experiment": "exp008_full_mnist_validation",
+    "current_research_direction": "Cross-dataset validation on Fashion-MNIST with architectures locked before evaluation."
+  },
+  "experiments": [
+    {
+      "id": "exp001_baseline",
+      "dataset": "MNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-23T17:04:15.451903+00:00",
+      "pareto_front": []
+    },
+    {
+      "id": "exp003_architecture_search",
+      "dataset": "MNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-23T17:17:58.434242+00:00",
+      "pareto_front": [
+        "relu_h16",
+        "relu_h32",
+        "relu_h64",
+        "relu_h128",
+        "relu_h256"
+      ]
+    },
+    {
+      "id": "exp004_depth_topology",
+      "dataset": "MNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-23T17:26:26.708080+00:00",
+      "pareto_front": [
+        "h64",
+        "h64_64",
+        "h128",
+        "h128_64",
+        "h256"
+      ]
+    },
+    {
+      "id": "exp005_auto_topology_search",
+      "dataset": "MNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-23T17:17:58.434242+00:00",
+      "pareto_front": [
+        "h32",
+        "h32_64",
+        "h32_128",
+        "h32_64_64",
+        "h32_256",
+        "h64_256",
+        "h64_64_256",
+        "h128_256"
+      ]
+    },
+    {
+      "id": "exp006_multiseed_replication",
+      "dataset": "MNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-23T20:01:24.537831+00:00",
+      "pareto_front": []
+    },
+    {
+      "id": "exp007_expansion_ratio",
+      "dataset": "MNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-23T20:48:34.705152+00:00",
+      "pareto_front": [
+        "h32_64",
+        "h32_128",
+        "h32_256",
+        "h32_512",
+        "h64_512",
+        "h128_512"
+      ]
+    },
+    {
+      "id": "exp008_full_mnist_validation",
+      "dataset": "MNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-23T21:07:33.447258+00:00",
+      "pareto_front": [
+        "h32_512",
+        "h64_512",
+        "h128_512",
+        "h512"
+      ]
+    }
+  ],
+  "featured_comparison": {
+    "experiment_id": "exp008_full_mnist_validation",
+    "dataset": "MNIST",
+    "metric": "mean_qant_accuracy",
+    "architectures": [
+      {
+        "architecture": "h32_512",
+        "parameters": 47146,
+        "mean_accuracy": 0.961,
+        "std_accuracy": 0.0022464787260658777,
+        "pareto": true
+      },
+      {
+        "architecture": "h64_512",
+        "parameters": 88650,
+        "mean_accuracy": 0.9671333333333333,
+        "std_accuracy": 0.002072572207561269,
+        "pareto": true
+      },
+      {
+        "architecture": "h128",
+        "parameters": 101770,
+        "mean_accuracy": 0.9628333333333333,
+        "std_accuracy": 0.00047140452079103207,
+        "pareto": false
+      },
+      {
+        "architecture": "h128_512",
+        "parameters": 171658,
+        "mean_accuracy": 0.9726333333333333,
+        "std_accuracy": 0.0012472191289246482,
+        "pareto": true
+      },
+      {
+        "architecture": "h256",
+        "parameters": 203530,
+        "mean_accuracy": 0.9700000000000001,
+        "std_accuracy": 0.0006480740698408175,
+        "pareto": false
+      },
+      {
+        "architecture": "h512",
+        "parameters": 407050,
+        "mean_accuracy": 0.9737666666666667,
+        "std_accuracy": 0.0031201851796897493,
+        "pareto": true
+      }
+    ]
+  },
+  "research_loop": [
+    "results",
+    "AI researcher",
+    "falsifiable hypothesis",
+    "human approval",
+    "guarded Q.ANT experiment",
+    "new results"
+  ],
+  "provenance": {
+    "source": "Generated from version-controlled result files in this repository.",
+    "note": "The public schema intentionally omits internal job, proposal, execution and governance details."
+  }
+}
