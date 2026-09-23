@@ -68,7 +68,9 @@ payload = {
         "completed_experiments": len(experiments),
         "latest_completed_experiment": latest.get("experiment_id") if latest else None,
         "current_research_direction": (
-            "Cross-dataset validation and Q.ANT-specific architecture research."
+            ("Q.ANT-specific architecture research: investigating whether hardware-supported "
+            "nonlinearities and KAN-style operations can produce more parameter-efficient "
+            "neural architectures than conventional ReLU networks.")
         ),
     },
     "experiments": experiments,
