@@ -24,7 +24,9 @@ MAPPINGS={
  "proposal-002-expansion-ratio":(
    "exp007-expansion-ratio","experiments/007_expansion_ratio/run.py"),
  "proposal-003-stronger-mnist-validation":(
-   "exp008-full-mnist-validation","experiments/008_full_mnist_validation/run.py")
+   "exp008-full-mnist-validation","experiments/008_full_mnist_validation/run.py"),
+ "proposal-004-cross-dataset-validation":(
+   "exp009-cross-dataset-validation","experiments/009_cross_dataset_validation/run.py")
 }
 if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
