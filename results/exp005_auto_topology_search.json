@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp005_auto_topology_search",
+  "timestamp_utc": "2026-09-23T17:17:58.434242+00:00",
+  "seed": 42,
+  "backend": "qant-cpu",
+  "dataset": "MNIST",
+  "configuration": {"train_samples":10000,"test_samples":1000,"epochs":3},
+  "pareto_objectives": {"maximize":"qant_accuracy","minimize":"parameter_count"},
+  "pareto_front": ["h32","h32_64","h32_128","h32_64_64","h32_256","h64_256","h64_64_256","h128_256"],
+  "results": [
+    {"candidate_id":"h32","widths":[32],"parameter_count":25450,"reference_accuracy":0.878,"qant_accuracy":0.88,"prediction_disagreements":2},
+    {"candidate_id":"h32_64","widths":[32,64],"parameter_count":27882,"reference_accuracy":0.886,"qant_accuracy":0.887,"prediction_disagreements":1},
+    {"candidate_id":"h32_128","widths":[32,128],"parameter_count":30634,"reference_accuracy":0.891,"qant_accuracy":0.891,"prediction_disagreements":0},
+    {"candidate_id":"h32_64_64","widths":[32,64,64],"parameter_count":32042,"reference_accuracy":0.891,"qant_accuracy":0.892,"prediction_disagreements":3},
+    {"candidate_id":"h32_256","widths":[32,256],"parameter_count":36138,"reference_accuracy":0.894,"qant_accuracy":0.894,"prediction_disagreements":0},
+    {"candidate_id":"h64_256","widths":[64,256],"parameter_count":69450,"reference_accuracy":0.896,"qant_accuracy":0.896,"prediction_disagreements":0},
+    {"candidate_id":"h64_64_256","widths":[64,64,256],"parameter_count":73610,"reference_accuracy":0.902,"qant_accuracy":0.901,"prediction_disagreements":1},
+    {"candidate_id":"h128_256","widths":[128,256],"parameter_count":136074,"reference_accuracy":0.904,"qant_accuracy":0.904,"prediction_disagreements":0}
+  ],
+  "notes": "Recovered verified Pareto subset from Experiment 005 for AI Researcher v1. Full 70-candidate raw result was supplied from Colab earlier; this repository recovery file preserves the verified Pareto evidence used by the proposal generator. CPU timing is excluded and no photonic hardware performance claim is made."
+}
