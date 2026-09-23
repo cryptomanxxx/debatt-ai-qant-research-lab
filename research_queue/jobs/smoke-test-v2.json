@@ -1,0 +1,14 @@
+{
+  "job_id": "smoke-test-v2",
+  "status": "approved",
+  "experiment": "scripts/automation_smoke_test.py",
+  "runner": "github-actions",
+  "description": "Validate guarded research-job execution.",
+  "budget": {
+    "max_parameters": 1,
+    "max_candidates": 1,
+    "max_epochs": 1,
+    "max_train_samples": 1,
+    "max_test_samples": 1
+  }
+}
