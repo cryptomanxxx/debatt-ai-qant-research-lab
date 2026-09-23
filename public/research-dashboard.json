@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-09-23T21:31:10.835827+00:00",
+  "generated_at_utc": "2026-09-23T22:03:41.691658+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -10,7 +10,7 @@
   "status": {
     "completed_experiments": 9,
     "latest_completed_experiment": "exp009_cross_dataset_validation",
-    "current_research_direction": "Cross-dataset validation and Q.ANT-specific architecture research."
+    "current_research_direction": "Q.ANT-specific architecture research: investigating whether hardware-supported nonlinearities and KAN-style operations can produce more parameter-efficient neural architectures than conventional ReLU networks."
   },
   "experiments": [
     {
