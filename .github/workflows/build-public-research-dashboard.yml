@@ -1,0 +1,36 @@
+name: Build Public Research Dashboard
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "results/exp*.json"
+      - "scripts/build_research_dashboard.py"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: public-research-dashboard
+  cancel-in-progress: false
+
+jobs:
+  build-dashboard:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Build public dashboard JSON
+        run: python scripts/build_research_dashboard.py
+      - name: Commit dashboard
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/research-dashboard.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Update public research dashboard"
+          git push
