@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-006-qant-fourier-capacity",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp010_qant_fourier_layer.json",
+  "research_question": "Can additional capacity in a locked Q.ANT-native Fourier/KAN architecture close part of the Fashion-MNIST accuracy gap to the h64_512 ReLU control while retaining a substantial parameter advantage?",
+  "observations": [
+    "Exp010 placed qfourier_g1 and qfourier_g2 on the accuracy-versus-parameter Pareto front, but their mean Q.ANT accuracies (0.8068 and 0.8225) remained below h64_512 (0.8596).",
+    "Increasing grid_size from 1 to 2 improved mean Q.ANT accuracy by about 1.57 percentage points while increasing trainable parameters from 15,690 to 31,370.",
+    "QFourier showed materially larger PyTorch-reference versus Q.ANT prediction disagreement (124-390 of 10,000) than the ReLU controls (2-15)."
+  ],
+  "hypothesis": "Increasing QFourier capacity with pre-registered grid sizes 4 and 8 will improve mean Q.ANT-backend accuracy beyond qfourier_g2, and at least one candidate will remain Pareto-efficient relative to h64_512 while using fewer trainable parameters.",
+  "falsification_criterion": "The hypothesis is weakened if neither larger-grid QFourier candidate improves mean Q.ANT accuracy over qfourier_g2, or if both are dominated by h64_512 and/or smaller QFourier candidates on mean Q.ANT accuracy and parameter count. Large growth in reference-to-Q.ANT disagreement will also count against the practical usefulness of the added capacity.",
+  "proposed_method": {
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "qant_native_candidates": [
+      {
+        "id": "qfourier_g2",
+        "architecture": "QFourier 784->10",
+        "grid_size": 2,
+        "role": "Exp010 replication anchor"
+      },
+      {
+        "id": "qfourier_g4",
+        "architecture": "QFourier 784->10",
+        "grid_size": 4
+      },
+      {
+        "id": "qfourier_g8",
+        "architecture": "QFourier 784->10",
+        "grid_size": 8
+      }
+    ],
+    "relu_controls": [
+      {
+        "id": "h64_512",
+        "widths": [
+          64,
+          512
+        ]
+      }
+    ],
+    "architecture_search_on_dataset": false,
+    "training_reference": "Train amplitude/phase parameters with exact torch.cos and no injected training noise; evaluate QFourier through qant.ai.calc_kan_layer_fprop on the Q.ANT CPU backend.",
+    "primary_metrics": [
+      "qant_accuracy",
+      "parameter_count",
+      "prediction_disagreements",
+      "reference_accuracy"
+    ],
+    "planned_runs": 12
+  },
+  "requested_budget": {
+    "max_parameters": 130000,
+    "max_candidates": 12,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "Q.ANT CPU backend only; no claim about photonic latency, energy, throughput, or optical-hardware performance.",
+    "Fashion-MNIST, three seeds, and three epochs limit generality and precision.",
+    "Exact cosine training and Q.ANT periodic evaluation are not identical; disagreement is therefore a primary metric.",
+    "The architecture family and grid sizes are locked before Exp011 execution to avoid post-hoc tuning."
+  ]
+}
