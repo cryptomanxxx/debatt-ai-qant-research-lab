@@ -1,0 +1,7 @@
+{
+  "job_id": "smoke-test",
+  "status": "ready",
+  "command": "python scripts/automation_smoke_test.py",
+  "runner": "github-actions",
+  "description": "Minimal Q.ANT infrastructure validation job"
+}
