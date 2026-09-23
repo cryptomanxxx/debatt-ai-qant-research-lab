@@ -22,7 +22,9 @@ MAPPINGS={
  "proposal-001-replicate-expanding-topologies":(
    "exp006-multiseed-replication","experiments/006_multiseed_replication/run.py"),
  "proposal-002-expansion-ratio":(
-   "exp007-expansion-ratio","experiments/007_expansion_ratio/run.py")
+   "exp007-expansion-ratio","experiments/007_expansion_ratio/run.py"),
+ "proposal-003-stronger-mnist-validation":(
+   "exp008-full-mnist-validation","experiments/008_full_mnist_validation/run.py")
 }
 if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
