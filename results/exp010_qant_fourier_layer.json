@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp010_qant_fourier_layer",
+  "timestamp_utc": "2026-09-23T22:56:24.693028+00:00",
+  "backend": "qant-cpu",
+  "dataset": "FashionMNIST",
+  "source_proposal": "proposal-005-qant-fourier-layer",
+  "job_id": "exp010-qant-fourier-layer",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "candidates": {
+    "qfourier_g1": {
+      "kind": "fourier",
+      "grid_size": 1
+    },
+    "qfourier_g2": {
+      "kind": "fourier",
+      "grid_size": 2
+    },
+    "h64_512": {
+      "kind": "relu",
+      "widths": [
+        64,
+        512
+      ]
+    },
+    "h128_512": {
+      "kind": "relu",
+      "widths": [
+        128,
+        512
+      ]
+    },
+    "h256": {
+      "kind": "relu",
+      "widths": [
+        256
+      ]
+    }
+  },
+  "configuration": {
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "planned_runs": 15,
+    "architecture_search_on_dataset": false
+  },
+  "budget": {
+    "max_parameters": 320000,
+    "max_candidates": 15,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "qfourier_g1",
+      "kind": "fourier",
+      "parameter_count": 15690,
+      "reference_accuracy": 0.8135,
+      "qant_accuracy": 0.8116,
+      "prediction_disagreements": 124
+    },
+    {
+      "seed": 11,
+      "candidate_id": "qfourier_g2",
+      "kind": "fourier",
+      "parameter_count": 31370,
+      "reference_accuracy": 0.8289,
+      "qant_accuracy": 0.8267,
+      "prediction_disagreements": 164
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h64_512",
+      "kind": "relu",
+      "parameter_count": 88650,
+      "reference_accuracy": 0.8661,
+      "qant_accuracy": 0.866,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h128_512",
+      "kind": "relu",
+      "parameter_count": 171658,
+      "reference_accuracy": 0.8642,
+      "qant_accuracy": 0.8647,
+      "prediction_disagreements": 12
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h256",
+      "kind": "relu",
+      "parameter_count": 203530,
+      "reference_accuracy": 0.8631,
+      "qant_accuracy": 0.8627,
+      "prediction_disagreements": 8
+    },
+    {
+      "seed": 22,
+      "candidate_id": "qfourier_g1",
+      "kind": "fourier",
+      "parameter_count": 15690,
+      "reference_accuracy": 0.8071,
+      "qant_accuracy": 0.8081,
+      "prediction_disagreements": 152
+    },
+    {
+      "seed": 22,
+      "candidate_id": "qfourier_g2",
+      "kind": "fourier",
+      "parameter_count": 31370,
+      "reference_accuracy": 0.8171,
+      "qant_accuracy": 0.8167,
+      "prediction_disagreements": 268
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h64_512",
+      "kind": "relu",
+      "parameter_count": 88650,
+      "reference_accuracy": 0.8479,
+      "qant_accuracy": 0.8478,
+      "prediction_disagreements": 11
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h128_512",
+      "kind": "relu",
+      "parameter_count": 171658,
+      "reference_accuracy": 0.8457,
+      "qant_accuracy": 0.8463,
+      "prediction_disagreements": 10
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h256",
+      "kind": "relu",
+      "parameter_count": 203530,
+      "reference_accuracy": 0.8515,
+      "qant_accuracy": 0.852,
+      "prediction_disagreements": 15
+    },
+    {
+      "seed": 33,
+      "candidate_id": "qfourier_g1",
+      "kind": "fourier",
+      "parameter_count": 15690,
+      "reference_accuracy": 0.8021,
+      "qant_accuracy": 0.8008,
+      "prediction_disagreements": 201
+    },
+    {
+      "seed": 33,
+      "candidate_id": "qfourier_g2",
+      "kind": "fourier",
+      "parameter_count": 31370,
+      "reference_accuracy": 0.8225,
+      "qant_accuracy": 0.8242,
+      "prediction_disagreements": 390
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h64_512",
+      "kind": "relu",
+      "parameter_count": 88650,
+      "reference_accuracy": 0.8647,
+      "qant_accuracy": 0.8649,
+      "prediction_disagreements": 9
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h128_512",
+      "kind": "relu",
+      "parameter_count": 171658,
+      "reference_accuracy": 0.8641,
+      "qant_accuracy": 0.8643,
+      "prediction_disagreements": 8
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h256",
+      "kind": "relu",
+      "parameter_count": 203530,
+      "reference_accuracy": 0.8576,
+      "qant_accuracy": 0.8581,
+      "prediction_disagreements": 9
+    }
+  ],
+  "summary": {
+    "qfourier_g1": {
+      "mean_qant_accuracy": 0.8068333333333332,
+      "std_qant_accuracy": 0.004499135719471285,
+      "min_qant_accuracy": 0.8008,
+      "max_qant_accuracy": 0.8116,
+      "parameter_count": 15690,
+      "kind": "fourier"
+    },
+    "qfourier_g2": {
+      "mean_qant_accuracy": 0.8225333333333333,
+      "std_qant_accuracy": 0.004249182927993998,
+      "min_qant_accuracy": 0.8167,
+      "max_qant_accuracy": 0.8267,
+      "parameter_count": 31370,
+      "kind": "fourier"
+    },
+    "h64_512": {
+      "mean_qant_accuracy": 0.8595666666666667,
+      "std_qant_accuracy": 0.008332399947727477,
+      "min_qant_accuracy": 0.8478,
+      "max_qant_accuracy": 0.866,
+      "parameter_count": 88650,
+      "kind": "relu"
+    },
+    "h128_512": {
+      "mean_qant_accuracy": 0.8584333333333333,
+      "std_qant_accuracy": 0.008581116218508818,
+      "min_qant_accuracy": 0.8463,
+      "max_qant_accuracy": 0.8647,
+      "parameter_count": 171658,
+      "kind": "relu"
+    },
+    "h256": {
+      "mean_qant_accuracy": 0.8576,
+      "std_qant_accuracy": 0.004382541119791897,
+      "min_qant_accuracy": 0.852,
+      "max_qant_accuracy": 0.8627,
+      "parameter_count": 203530,
+      "kind": "relu"
+    }
+  },
+  "pareto_front": [
+    "qfourier_g1",
+    "qfourier_g2",
+    "h64_512"
+  ],
+  "notes": "QFourier formulation follows Q.ANT's official example: train with torch.cos, evaluate with calc_kan_layer_fprop. Q.ANT CPU backend only; no photonic performance claim."
+}
