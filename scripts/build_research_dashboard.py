@@ -20,7 +20,7 @@ for p in sorted(RESULTS.glob("exp*.json")):
  if cfg: item["configuration"]={k:cfg[k] for k in ("train_samples","test_samples","epochs","planned_runs") if k in cfg}
  experiments.append(item)
 
-latest=load("exp008_full_mnist_validation.json")
+latest_candidates=[]\nfor p in RESULTS.glob("exp*.json"):\n try:\n  o=json.loads(p.read_text())\n  if o.get("summary") and (o.get("timestamp_utc") or o.get("timestamp")):\n   latest_candidates.append(o)\n except Exception:\n  pass\nlatest=max(latest_candidates,key=lambda o:o.get("timestamp_utc") or o.get("timestamp")) if latest_candidates else None
 featured=[]
 if latest:
  for name,s in latest.get("summary",{}).items():
