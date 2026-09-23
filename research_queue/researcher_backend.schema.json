@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AI Researcher backend configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["backend", "mode", "allow_paid_usage"],
+  "properties": {
+    "backend": {"enum": ["deterministic", "groq", "codex", "codestral"]},
+    "mode": {"enum": ["disabled", "proposal-only"]},
+    "allow_paid_usage": {"const": false},
+    "model": {"type": ["string", "null"]},
+    "notes": {"type": "string"}
+  }
+}
