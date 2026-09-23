@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Debatt-AI Q.ANT Research Job",
+  "type": "object",
+  "required": ["job_id","status","experiment","runner","budget"],
+  "properties": {
+    "job_id": {"type":"string","pattern":"^[a-z0-9][a-z0-9-]{0,63}$"},
+    "status": {"enum":["proposed","approved","running","completed","failed"]},
+    "experiment": {"type":"string","pattern":"^[a-zA-Z0-9_/-]+\\.py$"},
+    "runner": {"enum":["github-actions"]},
+    "description": {"type":"string","maxLength":500},
+    "budget": {
+      "type":"object",
+      "required":["max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"],
+      "properties":{
+        "max_parameters":{"type":"integer","minimum":1,"maximum":10000000},
+        "max_candidates":{"type":"integer","minimum":1,"maximum":500},
+        "max_epochs":{"type":"integer","minimum":1,"maximum":100},
+        "max_train_samples":{"type":"integer","minimum":1,"maximum":60000},
+        "max_test_samples":{"type":"integer","minimum":1,"maximum":10000}
+      },
+      "additionalProperties":false
+    }
+  },
+  "additionalProperties":false
+}
