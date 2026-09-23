@@ -1,0 +1,15 @@
+{
+  "job_id": "exp006-multiseed-replication",
+  "status": "approved",
+  "experiment": "experiments/006_multiseed_replication/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-001-replicate-expanding-topologies",
+  "budget": {
+    "max_parameters": 220000,
+    "max_candidates": 30,
+    "max_epochs": 3,
+    "max_train_samples": 10000,
+    "max_test_samples": 1000
+  },
+  "source_proposal": "proposal-001-replicate-expanding-topologies"
+}
