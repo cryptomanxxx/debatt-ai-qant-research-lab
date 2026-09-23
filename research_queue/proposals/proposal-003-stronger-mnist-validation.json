@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-003-stronger-mnist-validation",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_context": "research_queue/context/latest.json",
+  "research_question": "Do the parameter-efficiency advantages observed for selected bottleneck-plus-expansion architectures persist when trained on the full MNIST training set and evaluated on the full test set?",
+  "observations": [
+    "Experiment 007 placed h32_512, h64_512 and h128_512 on the accuracy-versus-parameter Pareto front.",
+    "h32_512 used 47146 parameters versus 101770 for h128 while their mean Q.ANT accuracies were 0.90400 and 0.90333 respectively in Experiment 007.",
+    "h64_512 used 88650 parameters versus 203530 for h256 while their mean Q.ANT accuracies were 0.90867 and 0.90700 respectively.",
+    "h128_512 used 171658 parameters versus 407050 for h512 while their mean Q.ANT accuracies were 0.91400 and 0.91367 respectively.",
+    "Experiment 007 used only 10000 training samples, 1000 test samples and three epochs."
+  ],
+  "hypothesis": "Selected bottleneck-plus-expansion architectures will retain a parameter-efficiency advantage over matched wider single-layer controls when the experiment is scaled from the 10000/1000 MNIST subset to the full 60000/10000 MNIST dataset.",
+  "falsification": "Weaken or reject the generalization claim if the selected expansion architectures lose their accuracy-versus-parameter advantage under full-dataset training, or if the matched single-layer controls become Pareto-efficient relative to them.",
+  "proposed_method": {
+    "type": "full-MNIST validation",
+    "dataset": "MNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "seeds": [11, 22, 33],
+    "expansion_candidates": [[32, 512], [64, 512], [128, 512]],
+    "single_layer_controls": [[128], [256], [512]],
+    "primary_metrics": ["qant_accuracy", "parameter_count", "prediction_disagreements"],
+    "analysis": "Compare mean accuracy and variability across seeds and recompute the accuracy-versus-parameter Pareto frontier under the stronger full-dataset validation regime."
+  },
+  "requested_budget": {
+    "max_parameters": 410000,
+    "max_candidates": 18,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "The experiment still uses MNIST and therefore tests robustness within one benchmark rather than cross-dataset generalization.",
+    "Three seeds provide limited uncertainty estimation.",
+    "Q.ANT CPU backend validates execution/correctness only and does not establish photonic latency, energy efficiency, optical-noise behavior or hardware performance."
+  ]
+}
