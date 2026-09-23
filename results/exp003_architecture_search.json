@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp003_architecture_search",
+  "timestamp_utc": "2026-09-23T17:17:58.434242+00:00",
+  "seed": 42,
+  "backend": "qant-cpu",
+  "dataset": "MNIST",
+  "search_space": {"hidden_width":[16,32,64,128,256],"activation":["relu","sigmoid"],"hidden_layers":1},
+  "configuration": {"train_samples":10000,"test_samples":1000,"epochs":3},
+  "environment": {"python":"3.13.15","torch":"2.11.0+cpu"},
+  "pareto_objectives": {"maximize":"qant_accuracy","minimize":"parameter_count"},
+  "pareto_front": ["relu_h16","relu_h32","relu_h64","relu_h128","relu_h256"],
+  "results": [
+    {"candidate_id":"relu_h16","activation":"relu","hidden_units":16,"parameter_count":12730,"reference_accuracy":0.846,"qant_accuracy":0.845,"prediction_disagreements":3,"qant_cpu_ms_per_sample":0.12420054499989419},
+    {"candidate_id":"relu_h32","activation":"relu","hidden_units":32,"parameter_count":25450,"reference_accuracy":0.878,"qant_accuracy":0.88,"prediction_disagreements":2,"qant_cpu_ms_per_sample":0.2128765489997022},
+    {"candidate_id":"relu_h64","activation":"relu","hidden_units":64,"parameter_count":50890,"reference_accuracy":0.886,"qant_accuracy":0.886,"prediction_disagreements":0,"qant_cpu_ms_per_sample":0.5733355350000693},
+    {"candidate_id":"relu_h128","activation":"relu","hidden_units":128,"parameter_count":101770,"reference_accuracy":0.898,"qant_accuracy":0.899,"prediction_disagreements":1,"qant_cpu_ms_per_sample":0.7728739559995574},
+    {"candidate_id":"relu_h256","activation":"relu","hidden_units":256,"parameter_count":203530,"reference_accuracy":0.902,"qant_accuracy":0.903,"prediction_disagreements":2,"qant_cpu_ms_per_sample":1.4212223800004722},
+    {"candidate_id":"sigmoid_h16","activation":"sigmoid","hidden_units":16,"parameter_count":12730,"reference_accuracy":0.743,"qant_accuracy":0.743,"prediction_disagreements":3,"qant_cpu_ms_per_sample":0.11744960000032734},
+    {"candidate_id":"sigmoid_h32","activation":"sigmoid","hidden_units":32,"parameter_count":25450,"reference_accuracy":0.833,"qant_accuracy":0.835,"prediction_disagreements":3,"qant_cpu_ms_per_sample":0.20309047000023384},
+    {"candidate_id":"sigmoid_h64","activation":"sigmoid","hidden_units":64,"parameter_count":50890,"reference_accuracy":0.859,"qant_accuracy":0.859,"prediction_disagreements":0,"qant_cpu_ms_per_sample":0.9045833089999178},
+    {"candidate_id":"sigmoid_h128","activation":"sigmoid","hidden_units":128,"parameter_count":101770,"reference_accuracy":0.869,"qant_accuracy":0.869,"prediction_disagreements":1,"qant_cpu_ms_per_sample":0.71628048999969},
+    {"candidate_id":"sigmoid_h256","activation":"sigmoid","hidden_units":256,"parameter_count":203530,"reference_accuracy":0.875,"qant_accuracy":0.875,"prediction_disagreements":1,"qant_cpu_ms_per_sample":2.0094785960002355}
+  ],
+  "notes": "CPU timing is diagnostic only and excluded from this Pareto calculation."
+}
