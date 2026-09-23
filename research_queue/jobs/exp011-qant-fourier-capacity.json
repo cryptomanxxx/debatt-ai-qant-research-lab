@@ -1,0 +1,15 @@
+{
+  "job_id": "exp011-qant-fourier-capacity",
+  "status": "approved",
+  "experiment": "experiments/011_qant_fourier_capacity/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-006-qant-fourier-capacity",
+  "budget": {
+    "max_parameters": 130000,
+    "max_candidates": 12,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-006-qant-fourier-capacity"
+}
