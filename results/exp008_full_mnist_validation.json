@@ -1,0 +1,314 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp008_full_mnist_validation",
+  "timestamp_utc": "2026-09-23T21:07:33.447258+00:00",
+  "backend": "qant-cpu",
+  "dataset": "MNIST",
+  "source_proposal": "proposal-003-stronger-mnist-validation",
+  "job_id": "exp008-full-mnist-validation",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "topologies": {
+    "h32_512": [
+      32,
+      512
+    ],
+    "h64_512": [
+      64,
+      512
+    ],
+    "h128_512": [
+      128,
+      512
+    ],
+    "h128": [
+      128
+    ],
+    "h256": [
+      256
+    ],
+    "h512": [
+      512
+    ]
+  },
+  "configuration": {
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "planned_runs": 18
+  },
+  "budget": {
+    "max_parameters": 410000,
+    "max_candidates": 18,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "h32_512",
+      "widths": [
+        32,
+        512
+      ],
+      "parameter_count": 47146,
+      "reference_accuracy": 0.9582,
+      "qant_accuracy": 0.9582,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h64_512",
+      "widths": [
+        64,
+        512
+      ],
+      "parameter_count": 88650,
+      "reference_accuracy": 0.9645,
+      "qant_accuracy": 0.9643,
+      "prediction_disagreements": 4
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h128_512",
+      "widths": [
+        128,
+        512
+      ],
+      "parameter_count": 171658,
+      "reference_accuracy": 0.9723,
+      "qant_accuracy": 0.9723,
+      "prediction_disagreements": 4
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h128",
+      "widths": [
+        128
+      ],
+      "parameter_count": 101770,
+      "reference_accuracy": 0.9627,
+      "qant_accuracy": 0.9625,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h256",
+      "widths": [
+        256
+      ],
+      "parameter_count": 203530,
+      "reference_accuracy": 0.9691,
+      "qant_accuracy": 0.9691,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h512",
+      "widths": [
+        512
+      ],
+      "parameter_count": 407050,
+      "reference_accuracy": 0.9693,
+      "qant_accuracy": 0.9694,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h32_512",
+      "widths": [
+        32,
+        512
+      ],
+      "parameter_count": 47146,
+      "reference_accuracy": 0.9609,
+      "qant_accuracy": 0.9611,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h64_512",
+      "widths": [
+        64,
+        512
+      ],
+      "parameter_count": 88650,
+      "reference_accuracy": 0.9676,
+      "qant_accuracy": 0.9679,
+      "prediction_disagreements": 3
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h128_512",
+      "widths": [
+        128,
+        512
+      ],
+      "parameter_count": 171658,
+      "reference_accuracy": 0.9713,
+      "qant_accuracy": 0.9713,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h128",
+      "widths": [
+        128
+      ],
+      "parameter_count": 101770,
+      "reference_accuracy": 0.9626,
+      "qant_accuracy": 0.9625,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h256",
+      "widths": [
+        256
+      ],
+      "parameter_count": 203530,
+      "reference_accuracy": 0.9703,
+      "qant_accuracy": 0.9703,
+      "prediction_disagreements": 6
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h512",
+      "widths": [
+        512
+      ],
+      "parameter_count": 407050,
+      "reference_accuracy": 0.9754,
+      "qant_accuracy": 0.9754,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h32_512",
+      "widths": [
+        32,
+        512
+      ],
+      "parameter_count": 47146,
+      "reference_accuracy": 0.9635,
+      "qant_accuracy": 0.9637,
+      "prediction_disagreements": 2
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h64_512",
+      "widths": [
+        64,
+        512
+      ],
+      "parameter_count": 88650,
+      "reference_accuracy": 0.9692,
+      "qant_accuracy": 0.9692,
+      "prediction_disagreements": 3
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h128_512",
+      "widths": [
+        128,
+        512
+      ],
+      "parameter_count": 171658,
+      "reference_accuracy": 0.9742,
+      "qant_accuracy": 0.9743,
+      "prediction_disagreements": 3
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h128",
+      "widths": [
+        128
+      ],
+      "parameter_count": 101770,
+      "reference_accuracy": 0.9636,
+      "qant_accuracy": 0.9635,
+      "prediction_disagreements": 1
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h256",
+      "widths": [
+        256
+      ],
+      "parameter_count": 203530,
+      "reference_accuracy": 0.9705,
+      "qant_accuracy": 0.9706,
+      "prediction_disagreements": 3
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h512",
+      "widths": [
+        512
+      ],
+      "parameter_count": 407050,
+      "reference_accuracy": 0.9765,
+      "qant_accuracy": 0.9765,
+      "prediction_disagreements": 3
+    }
+  ],
+  "summary": {
+    "h32_512": {
+      "mean_qant_accuracy": 0.961,
+      "std_qant_accuracy": 0.0022464787260658777,
+      "min_qant_accuracy": 0.9582,
+      "max_qant_accuracy": 0.9637,
+      "parameter_count": 47146
+    },
+    "h64_512": {
+      "mean_qant_accuracy": 0.9671333333333333,
+      "std_qant_accuracy": 0.002072572207561269,
+      "min_qant_accuracy": 0.9643,
+      "max_qant_accuracy": 0.9692,
+      "parameter_count": 88650
+    },
+    "h128_512": {
+      "mean_qant_accuracy": 0.9726333333333333,
+      "std_qant_accuracy": 0.0012472191289246482,
+      "min_qant_accuracy": 0.9713,
+      "max_qant_accuracy": 0.9743,
+      "parameter_count": 171658
+    },
+    "h128": {
+      "mean_qant_accuracy": 0.9628333333333333,
+      "std_qant_accuracy": 0.00047140452079103207,
+      "min_qant_accuracy": 0.9625,
+      "max_qant_accuracy": 0.9635,
+      "parameter_count": 101770
+    },
+    "h256": {
+      "mean_qant_accuracy": 0.9700000000000001,
+      "std_qant_accuracy": 0.0006480740698408175,
+      "min_qant_accuracy": 0.9691,
+      "max_qant_accuracy": 0.9706,
+      "parameter_count": 203530
+    },
+    "h512": {
+      "mean_qant_accuracy": 0.9737666666666667,
+      "std_qant_accuracy": 0.0031201851796897493,
+      "min_qant_accuracy": 0.9694,
+      "max_qant_accuracy": 0.9765,
+      "parameter_count": 407050
+    }
+  },
+  "pareto_front": [
+    "h32_512",
+    "h64_512",
+    "h128_512",
+    "h512"
+  ],
+  "notes": "Full-MNIST validation. Q.ANT CPU backend validates execution/correctness only; no photonic performance claim."
+}
