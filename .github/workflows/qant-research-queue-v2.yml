@@ -1,0 +1,55 @@
+name: Q.ANT Guarded Research Queue
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_id:
+        description: "Approved research job ID"
+        required: true
+        default: "smoke-test-v2"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: qant-guarded-research-queue
+  cancel-in-progress: false
+
+jobs:
+  run-job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install Q.ANT CPU backend
+        run: bash scripts/setup_qant_cpu.sh
+      - name: Install experiment dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install torch torchvision numpy ml_dtypes
+      - name: Validate and run approved job
+        run: python scripts/run_research_job_v2.py "${{ inputs.job_id }}"
+      - name: Write execution record
+        if: success()
+        run: |
+          mkdir -p local_results/executions
+          printf '{"job_id":"%s","status":"completed","git_commit":"%s","runner":"github-actions","run_id":"%s"}\n'             "${{ inputs.job_id }}" "${{ github.sha }}" "${{ github.run_id }}"             > "local_results/executions/${{ inputs.job_id }}-${{ github.run_id }}.json"
+      - name: Publish results and execution record
+        if: success()
+        run: |
+          mkdir -p results executions
+          shopt -s nullglob
+          result_files=(local_results/*.json local_results/*.csv)
+          execution_files=(local_results/executions/*)
+          [ ${#result_files[@]} -gt 0 ] && cp -f "${result_files[@]}" results/
+          [ ${#execution_files[@]} -gt 0 ] && cp -f "${execution_files[@]}" executions/
+          git config user.name "Debatt-AI Research Runner"
+          git config user.email "actions@users.noreply.github.com"
+          git add results/ executions/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Complete guarded research job ${{ inputs.job_id }}"
+          git push
