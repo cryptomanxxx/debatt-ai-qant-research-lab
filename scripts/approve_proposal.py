@@ -26,7 +26,9 @@ MAPPINGS={
  "proposal-003-stronger-mnist-validation":(
    "exp008-full-mnist-validation","experiments/008_full_mnist_validation/run.py"),
  "proposal-004-cross-dataset-validation":(
-   "exp009-cross-dataset-validation","experiments/009_cross_dataset_validation/run.py")
+   "exp009-cross-dataset-validation","experiments/009_cross_dataset_validation/run.py"),
+ "proposal-005-qant-fourier-layer":(
+   "exp010-qant-fourier-layer","experiments/010_qant_fourier_layer/run.py")
 }
 if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
