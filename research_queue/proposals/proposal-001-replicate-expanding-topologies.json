@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-001-replicate-expanding-topologies",
+  "created_utc": "2026-09-23T19:36:05.295552+00:00",
+  "researcher": "ai-researcher-v1",
+  "status": "proposed",
+  "research_question": "Are the parameter-efficient results of selected expanding ReLU topologies stable across random seeds?",
+  "observed_pattern": "Experiment 005 placed several expanding topologies on the accuracy/parameter Pareto frontier.",
+  "evidence": [
+    {
+      "candidate_id": "h32_256",
+      "widths": [
+        32,
+        256
+      ],
+      "parameter_count": 36138,
+      "qant_accuracy": 0.894
+    },
+    {
+      "candidate_id": "h64_64_256",
+      "widths": [
+        64,
+        64,
+        256
+      ],
+      "parameter_count": 73610,
+      "qant_accuracy": 0.901
+    },
+    {
+      "candidate_id": "h128_256",
+      "widths": [
+        128,
+        256
+      ],
+      "parameter_count": 136074,
+      "qant_accuracy": 0.904
+    }
+  ],
+  "hypothesis": "The apparent efficiency of selected expanding topologies persists across multiple random seeds rather than being a seed-42 artifact.",
+  "falsification": "Reject or weaken the hypothesis if repeated runs show that the advantage is unstable or disappears relative to matched comparison architectures.",
+  "proposed_method": {
+    "type": "multi-seed replication",
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55
+    ],
+    "targets": [
+      "h32_256",
+      "h64_64_256",
+      "h128_256"
+    ],
+    "comparators": [
+      "h64",
+      "h128",
+      "h256"
+    ],
+    "dataset": "MNIST",
+    "train_samples": 10000,
+    "test_samples": 1000,
+    "epochs": 3
+  },
+  "expected_information_gain": "Distinguishes a potentially stable architecture pattern from single-seed training noise before expanding the search space.",
+  "requested_budget": {
+    "max_parameters": 220000,
+    "max_candidates": 30,
+    "max_epochs": 3,
+    "max_train_samples": 10000,
+    "max_test_samples": 1000
+  },
+  "approval_required": true,
+  "limitations": [
+    "All supporting searches so far use MNIST and the Q.ANT CPU backend.",
+    "CPU timing is not evidence of photonic hardware performance.",
+    "This proposal is generated from existing results and does not claim the hypothesis is true."
+  ]
+}
