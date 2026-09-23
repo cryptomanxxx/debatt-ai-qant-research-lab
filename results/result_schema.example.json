@@ -1,0 +1,1 @@
+{"schema_version":1,"experiment_id":"example","seed":42,"backend":"qant-cpu","dataset":null,"architecture":{"layers":[],"parameter_count":null},"metrics":{"accuracy":null,"numerical_error_vs_reference":null,"latency_ms":null},"notes":"Template only. CPU latency is not photonic-hardware performance."}
