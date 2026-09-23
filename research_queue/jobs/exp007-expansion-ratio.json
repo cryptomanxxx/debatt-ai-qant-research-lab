@@ -1,0 +1,15 @@
+{
+  "job_id": "exp007-expansion-ratio",
+  "status": "approved",
+  "experiment": "experiments/007_expansion_ratio/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-002-expansion-ratio",
+  "budget": {
+    "max_parameters": 400000,
+    "max_candidates": 39,
+    "max_epochs": 3,
+    "max_train_samples": 10000,
+    "max_test_samples": 1000
+  },
+  "source_proposal": "proposal-002-expansion-ratio"
+}
