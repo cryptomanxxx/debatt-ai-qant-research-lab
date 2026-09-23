@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp001_baseline",
+  "timestamp_utc": "2026-09-23T17:04:15.451903+00:00",
+  "seed": 42,
+  "backend": "qant-cpu",
+  "dataset": "MNIST",
+  "configuration": {
+    "train_samples": 10000,
+    "test_samples": 1000,
+    "epochs": 3,
+    "hidden_units": 128
+  },
+  "architecture": {
+    "layers": [
+      "Linear(784,hidden)",
+      "ReLU",
+      "Linear(hidden,10)",
+      "Softmax"
+    ],
+    "parameter_count": 101770
+  },
+  "metrics": {
+    "reference_accuracy": 0.898,
+    "qant_accuracy": 0.899,
+    "prediction_disagreements": 1,
+    "qant_cpu_seconds": 0.7265309529999513,
+    "qant_cpu_ms_per_sample": 0.7265309529999513
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.11.0+cpu"
+  },
+  "notes": "Q.ANT CPU-backend timing only; not a measurement of photonic Q.ANT hardware."
+}
