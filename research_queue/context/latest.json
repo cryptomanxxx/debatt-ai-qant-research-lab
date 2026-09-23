@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "purpose": "Evidence packet for the next falsifiable research proposal.",
+  "rules": [
+    "Use repository results as experimental evidence.",
+    "Separate observations from hypotheses.",
+    "Propose only; human approval is required before compute.",
+    "Q.ANT CPU results do not establish photonic latency, energy, or hardware performance."
+  ],
+  "experiments": [
+    {
+      "file": "exp001_baseline.json",
+      "experiment_id": "exp001_baseline",
+      "backend": "qant-cpu",
+      "dataset": "MNIST"
+    },
+    {
+      "file": "exp002_width_search.json",
+      "experiment_id": "exp002_width_search",
+      "backend": "qant-cpu",
+      "dataset": "MNIST"
+    },
+    {
+      "file": "exp003_architecture_search.json",
+      "experiment_id": "exp003_architecture_search",
+      "backend": "qant-cpu",
+      "dataset": "MNIST",
+      "pareto_front": [
+        "relu_h16",
+        "relu_h32",
+        "relu_h64",
+        "relu_h128",
+        "relu_h256"
+      ]
+    },
+    {
+      "file": "exp004_depth_topology.json",
+      "experiment_id": "exp004_depth_topology",
+      "backend": "qant-cpu",
+      "dataset": "MNIST",
+      "pareto_front": [
+        "h64",
+        "h64_64",
+        "h128",
+        "h128_64",
+        "h256"
+      ]
+    },
+    {
+      "file": "exp005_auto_topology_search.json",
+      "experiment_id": "exp005_auto_topology_search",
+      "backend": "qant-cpu",
+      "dataset": "MNIST",
+      "pareto_front": [
+        "h32",
+        "h32_64",
+        "h32_128",
+        "h32_64_64",
+        "h32_256",
+        "h64_256",
+        "h64_64_256",
+        "h128_256"
+      ]
+    },
+    {
+      "file": "exp006_multiseed_replication.json",
+      "experiment_id": "exp006_multiseed_replication",
+      "backend": "qant-cpu",
+      "dataset": "MNIST",
+      "summary": {
+        "h32_256": {
+          "mean_qant_accuracy": 0.8998000000000002,
+          "std_qant_accuracy": 0.006079473661428271,
+          "min_qant_accuracy": 0.891,
+          "max_qant_accuracy": 0.906,
+          "parameter_count": 36138
+        },
+        "h64_64_256": {
+          "mean_qant_accuracy": 0.8992000000000001,
+          "std_qant_accuracy": 0.00479165942028438,
+          "min_qant_accuracy": 0.892,
+          "max_qant_accuracy": 0.905,
+          "parameter_count": 73610
+        },
+        "h128_256": {
+          "mean_qant_accuracy": 0.9110000000000001,
+          "std_qant_accuracy": 0.009444575162494084,
+          "min_qant_accuracy": 0.899,
+          "max_qant_accuracy": 0.924,
+          "parameter_count": 136074
+        },
+        "h64": {
+          "mean_qant_accuracy": 0.8904,
+          "std_qant_accuracy": 0.004715930449020642,
+          "min_qant_accuracy": 0.885,
+          "max_qant_accuracy": 0.899,
+          "parameter_count": 50890
+        },
+        "h128": {
+          "mean_qant_accuracy": 0.9002000000000001,
+          "std_qant_accuracy": 0.005418486873657632,
+          "min_qant_accuracy": 0.891,
+          "max_qant_accuracy": 0.907,
+          "parameter_count": 101770
+        },
+        "h256": {
+          "mean_qant_accuracy": 0.9072000000000001,
+          "std_qant_accuracy": 0.0054918120870983975,
+          "min_qant_accuracy": 0.899,
+          "max_qant_accuracy": 0.916,
+          "parameter_count": 203530
+        }
+      }
+    }
+  ]
+}
