@@ -15,7 +15,7 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
-import qant_native_computing_toolkit as q_ai
+import qant_native_computing_toolkit.ai as q_ai
 
 SEED = 42
 
