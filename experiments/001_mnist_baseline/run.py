@@ -16,6 +16,7 @@ from torch import nn
 from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
 import qant_native_computing_toolkit.ai as q_ai
+from ml_dtypes import bfloat16
 
 SEED = 42
 
@@ -29,13 +30,13 @@ class Baseline(nn.Module):
         return self.fc2(torch.relu(self.fc1(x)))
 
 def qant_predict(x, model):
-    w1=model.fc1.weight.detach().cpu().numpy()
-    b1=model.fc1.bias.detach().cpu().numpy()
-    w2=model.fc2.weight.detach().cpu().numpy()
-    b2=model.fc2.bias.detach().cpu().numpy()
+    w1=model.fc1.weight.detach().cpu().numpy().astype(bfloat16)
+    b1=model.fc1.bias.detach().cpu().numpy().astype(bfloat16)
+    w2=model.fc2.weight.detach().cpu().numpy().astype(bfloat16)
+    b2=model.fc2.bias.detach().cpu().numpy().astype(bfloat16)
     preds=[]
     for sample in x.detach().cpu().numpy():
-        fm=q_ai.linear_fprop(sample.reshape(-1), w1)
+        fm=q_ai.linear_fprop(sample.reshape(-1).astype(bfloat16), w1)
         fm=q_ai.add_bias_fprop(fm, b1)
         fm=q_ai.relu_fprop(fm)
         fm=q_ai.linear_fprop(fm, w2)
