@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-002-expansion-ratio",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_context": "research_queue/context/latest.json",
+  "research_question": "Does the ratio between bottleneck width and expansion width explain the parameter-efficiency pattern observed in Experiments 005 and 006?",
+  "observations": [
+    "Experiment 006 replicated h128_256 at mean Q.ANT accuracy 0.911 with 136074 parameters.",
+    "h256 reached mean Q.ANT accuracy 0.9072 with 203530 parameters.",
+    "h32_256 reached mean Q.ANT accuracy 0.8998 with 36138 parameters, close to h128 at 0.9002 with 101770 parameters.",
+    "h64_64_256 did not show a general benefit from adding depth, reaching mean Q.ANT accuracy 0.8992."
+  ],
+  "hypothesis": "Parameter efficiency depends on a structured bottleneck-to-expansion ratio rather than expansion or depth alone. For at least some bottleneck widths, increasing the following layer width will improve accuracy per parameter up to a useful range, after which gains diminish.",
+  "falsification": "Weaken or reject the hypothesis if expansion ratios show no repeatable relationship with accuracy/parameter efficiency across seeds, or if matched single-layer controls are consistently as efficient or more efficient.",
+  "proposed_method": {
+    "type": "factorial expansion-ratio study",
+    "dataset": "MNIST",
+    "train_samples": 10000,
+    "test_samples": 1000,
+    "epochs": 3,
+    "seeds": [11, 22, 33],
+    "two_layer_candidates": [
+      [32, 64], [32, 128], [32, 256], [32, 512],
+      [64, 128], [64, 256], [64, 512],
+      [128, 256], [128, 512]
+    ],
+    "single_layer_controls": [[64], [128], [256], [512]],
+    "primary_metrics": ["qant_accuracy", "parameter_count", "prediction_disagreements"],
+    "analysis": "Compare mean accuracy and variability across seeds, construct an accuracy-versus-parameter Pareto frontier, and examine performance as a function of expansion ratio."
+  },
+  "requested_budget": {
+    "max_parameters": 400000,
+    "max_candidates": 39,
+    "max_epochs": 3,
+    "max_train_samples": 10000,
+    "max_test_samples": 1000
+  },
+  "approval_required": true,
+  "limitations": [
+    "This experiment remains limited to MNIST and a small training subset.",
+    "Three seeds provide replication but only a limited estimate of training variability.",
+    "Q.ANT CPU backend validates execution/correctness; it does not establish photonic latency, energy efficiency, optical noise behavior, or hardware performance."
+  ]
+}
