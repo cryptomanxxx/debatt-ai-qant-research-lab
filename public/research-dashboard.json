@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-09-23T21:07:33.447258+00:00",
+  "generated_at_utc": "2026-09-23T21:31:10.835827+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -8,9 +8,9 @@
     "backend_disclaimer": "Q.ANT CPU-backend results validate software execution and numerical behavior. They are not measurements of photonic hardware latency, energy efficiency, throughput, or optical behavior."
   },
   "status": {
-    "completed_experiments": 7,
-    "latest_completed_experiment": "exp008_full_mnist_validation",
-    "current_research_direction": "Cross-dataset validation on Fashion-MNIST with architectures locked before evaluation."
+    "completed_experiments": 9,
+    "latest_completed_experiment": "exp009_cross_dataset_validation",
+    "current_research_direction": "Cross-dataset validation and Q.ANT-specific architecture research."
   },
   "experiments": [
     {
@@ -18,7 +18,24 @@
       "dataset": "MNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T17:04:15.451903+00:00",
-      "pareto_front": []
+      "pareto_front": [],
+      "configuration": {
+        "train_samples": 10000,
+        "test_samples": 1000,
+        "epochs": 3
+      }
+    },
+    {
+      "id": "exp002_width_search",
+      "dataset": "MNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-23T17:11:00+00:00",
+      "pareto_front": [],
+      "configuration": {
+        "train_samples": 10000,
+        "test_samples": 1000,
+        "epochs": 3
+      }
     },
     {
       "id": "exp003_architecture_search",
@@ -31,7 +48,12 @@
         "relu_h64",
         "relu_h128",
         "relu_h256"
-      ]
+      ],
+      "configuration": {
+        "train_samples": 10000,
+        "test_samples": 1000,
+        "epochs": 3
+      }
     },
     {
       "id": "exp004_depth_topology",
@@ -44,7 +66,12 @@
         "h128",
         "h128_64",
         "h256"
-      ]
+      ],
+      "configuration": {
+        "train_samples": 10000,
+        "test_samples": 1000,
+        "epochs": 3
+      }
     },
     {
       "id": "exp005_auto_topology_search",
@@ -60,14 +87,25 @@
         "h64_256",
         "h64_64_256",
         "h128_256"
-      ]
+      ],
+      "configuration": {
+        "train_samples": 10000,
+        "test_samples": 1000,
+        "epochs": 3
+      }
     },
     {
       "id": "exp006_multiseed_replication",
       "dataset": "MNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T20:01:24.537831+00:00",
-      "pareto_front": []
+      "pareto_front": [],
+      "configuration": {
+        "train_samples": 10000,
+        "test_samples": 1000,
+        "epochs": 3,
+        "planned_runs": 30
+      }
     },
     {
       "id": "exp007_expansion_ratio",
@@ -81,7 +119,13 @@
         "h32_512",
         "h64_512",
         "h128_512"
-      ]
+      ],
+      "configuration": {
+        "train_samples": 10000,
+        "test_samples": 1000,
+        "epochs": 3,
+        "planned_runs": 39
+      }
     },
     {
       "id": "exp008_full_mnist_validation",
@@ -93,54 +137,71 @@
         "h64_512",
         "h128_512",
         "h512"
-      ]
+      ],
+      "configuration": {
+        "train_samples": 60000,
+        "test_samples": 10000,
+        "epochs": 3,
+        "planned_runs": 18
+      }
+    },
+    {
+      "id": "exp009_cross_dataset_validation",
+      "dataset": "FashionMNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-23T21:22:12.508048+00:00",
+      "pareto_front": [
+        "h64_512",
+        "h128_512",
+        "h256",
+        "h512"
+      ],
+      "configuration": {
+        "train_samples": 60000,
+        "test_samples": 10000,
+        "epochs": 3,
+        "planned_runs": 15
+      }
     }
   ],
   "featured_comparison": {
-    "experiment_id": "exp008_full_mnist_validation",
-    "dataset": "MNIST",
+    "experiment_id": "exp009_cross_dataset_validation",
+    "dataset": "FashionMNIST",
     "metric": "mean_qant_accuracy",
     "architectures": [
       {
-        "architecture": "h32_512",
-        "parameters": 47146,
-        "mean_accuracy": 0.961,
-        "std_accuracy": 0.0022464787260658777,
-        "pareto": true
-      },
-      {
         "architecture": "h64_512",
         "parameters": 88650,
-        "mean_accuracy": 0.9671333333333333,
-        "std_accuracy": 0.002072572207561269,
+        "mean_accuracy": 0.8586666666666667,
+        "std_accuracy": 0.007825315045131101,
         "pareto": true
       },
       {
         "architecture": "h128",
         "parameters": 101770,
-        "mean_accuracy": 0.9628333333333333,
-        "std_accuracy": 0.00047140452079103207,
+        "mean_accuracy": 0.8503999999999999,
+        "std_accuracy": 0.0026191601707417317,
         "pareto": false
       },
       {
         "architecture": "h128_512",
         "parameters": 171658,
-        "mean_accuracy": 0.9726333333333333,
-        "std_accuracy": 0.0012472191289246482,
+        "mean_accuracy": 0.8591333333333333,
+        "std_accuracy": 0.006817787193967114,
         "pareto": true
       },
       {
         "architecture": "h256",
         "parameters": 203530,
-        "mean_accuracy": 0.9700000000000001,
-        "std_accuracy": 0.0006480740698408175,
-        "pareto": false
+        "mean_accuracy": 0.8592333333333334,
+        "std_accuracy": 0.002960105103239075,
+        "pareto": true
       },
       {
         "architecture": "h512",
         "parameters": 407050,
-        "mean_accuracy": 0.9737666666666667,
-        "std_accuracy": 0.0031201851796897493,
+        "mean_accuracy": 0.8649333333333334,
+        "std_accuracy": 0.005409456740026877,
         "pareto": true
       }
     ]
