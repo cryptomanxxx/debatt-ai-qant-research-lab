@@ -39,5 +39,7 @@ for key,limit in MAX.items():
 print("JOB APPROVED:",job_id)
 print("EXPERIMENT:",experiment)
 print("BUDGET:",json.dumps(budget,sort_keys=True))
-env=os.environ.copy()\nenv["QANT_JOB_CONFIG"]=str(path)\ncompleted=subprocess.run([sys.executable,experiment],check=False,env=env)
+env=os.environ.copy()
+env["QANT_JOB_CONFIG"]=str(path)
+completed=subprocess.run([sys.executable,experiment],check=False,env=env)
 raise SystemExit(completed.returncode)
