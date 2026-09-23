@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp007-gpt56-sol",
+  "experiment_id": "exp007_expansion_ratio",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "source_result": "results/exp007_expansion_ratio.json",
+  "hypothesis_assessment": "partially_supported",
+  "observations": [
+    "For bottleneck width 32, mean Q.ANT accuracy increased monotonically as the expansion width increased: h32_64 0.88467, h32_128 0.89767, h32_256 0.90133, h32_512 0.90400.",
+    "For bottleneck width 64, the relationship was not monotonic: h64_128 0.90167, h64_256 0.90067, h64_512 0.90867.",
+    "h32_512 achieved mean Q.ANT accuracy 0.90400 with 47146 parameters, versus h128 at 0.90333 with 101770 parameters.",
+    "h64_512 achieved mean Q.ANT accuracy 0.90867 with 88650 parameters, versus h256 at 0.90700 with 203530 parameters.",
+    "h128_512 achieved mean Q.ANT accuracy 0.91400 with 171658 parameters, versus h512 at 0.91367 with 407050 parameters.",
+    "The experiment's computed Pareto front contains h32_64, h32_128, h32_256, h32_512, h64_512 and h128_512; none of the single-layer controls are on that front."
+  ],
+  "interpretation": "Experiment 007 supports a parameter-efficiency advantage for several bottleneck-plus-expansion architectures under this MNIST setup, but does not support a universal monotonic expansion-ratio rule. The 32-wide bottleneck showed a monotonic trend, while the 64-wide bottleneck did not. The strongest next question is therefore whether the apparent efficiency advantage generalizes beyond the current small MNIST training regime rather than further optimizing the same benchmark immediately.",
+  "limitations": [
+    "Only three random seeds were used.",
+    "Training used 10000 MNIST samples and testing used 1000 samples for three epochs.",
+    "MNIST is a relatively simple benchmark and cannot establish general neural-network architecture superiority.",
+    "Q.ANT CPU backend results are execution/correctness evidence and do not establish photonic latency, energy efficiency, optical-noise behavior or photonic hardware performance."
+  ],
+  "next_research_direction": "Test whether selected Pareto-efficient expansion architectures retain their advantage under a stronger validation regime, before making broader architectural claims."
+}
