@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp010-gpt56-sol",
+  "experiment_id": "exp010_qant_fourier_layer",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "supported_with_qualification",
+  "observations": [
+    "Both QFourier candidates are on the accuracy-versus-parameter Pareto front, but neither matches the best ReLU accuracy.",
+    "qfourier_g1 averages 0.80683 Q.ANT accuracy with 15,690 parameters; qfourier_g2 averages 0.82253 with 31,370 parameters; h64_512 averages 0.85957 with 88,650 parameters.",
+    "Increasing QFourier grid size from 1 to 2 improves mean Q.ANT accuracy by about 1.57 percentage points while approximately doubling parameters.",
+    "QFourier reference-versus-Q.ANT prediction disagreement is materially larger than for the ReLU controls: 124-390 of 10,000 predictions versus 2-15 for ReLU."
+  ],
+  "interpretation": "The pre-registered hypothesis is supported only in the Pareto sense: Q.ANT-native Fourier models occupy the low-parameter end of the frontier, demonstrating a strong compression/accuracy trade-off, but they do not yet reach ReLU accuracy. The unusually large reference-versus-Q.ANT disagreement for QFourier is a separate and scientifically important result, consistent with the experiment's warning that exact cosine training and the toolkit's tcos-style evaluation are not identical.",
+  "next_research_direction": "Test whether modestly richer locked QFourier configurations improve accuracy without losing the parameter advantage, while explicitly treating reference-to-Q.ANT disagreement as a metric. A next experiment should compare larger grid sizes and/or a small stacked Fourier architecture under a fixed parameter budget rather than tuning post hoc on Exp010.",
+  "limitations": [
+    "Q.ANT CPU backend only; no photonic latency, energy, throughput, or optical-hardware claim.",
+    "Fashion-MNIST, three seeds, three epochs.",
+    "The QFourier training reference uses exact cosine whereas Q.ANT evaluation uses the toolkit's periodic operation."
+  ]
+}
