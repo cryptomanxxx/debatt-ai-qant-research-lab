@@ -1,0 +1,37 @@
+name: Approve Research Proposal
+
+on:
+  workflow_dispatch:
+    inputs:
+      proposal_id:
+        description: "Proposal to approve"
+        required: true
+        default: "proposal-001-replicate-expanding-topologies"
+        type: string
+      confirm:
+        description: "I reviewed this proposal and approve its compute budget"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+jobs:
+  approve:
+    if: ${{ inputs.confirm }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Compile proposal into approved job
+        run: python scripts/approve_proposal.py "${{ inputs.proposal_id }}"
+      - name: Publish approved job
+        run: |
+          git config user.name "Debatt-AI Research Approver"
+          git config user.email "actions@users.noreply.github.com"
+          git add research_queue/jobs/
+          git commit -m "Approve research proposal ${{ inputs.proposal_id }}"
+          git push
