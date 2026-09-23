@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-005-qant-fourier-layer",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp009_cross_dataset_validation.json",
+  "research_question": "Can Q.ANT's native Fourier/KAN-style layer preserve useful Fashion-MNIST classification accuracy with a competitive parameter budget compared with conventional ReLU networks, when the architecture is fixed before evaluation?",
+  "observations": [
+    "Exp009 showed that parameter-efficient dense ReLU architectures transfer from MNIST to Fashion-MNIST, but it did not test a Q.ANT-specific nonlinear architecture.",
+    "The official Q.ANT toolkit defines calc_kan_layer_fprop as a sum of trainable amplitudes times a cosine-related periodic optical nonlinearity over input channels and fixed frequency components.",
+    "The official Q.ANT example QFourier layer trains amplitude and phase parameters in PyTorch using cosine and uses calc_kan_layer_fprop for evaluation.",
+    "Q.ANT publicly positions native nonlinear operations and KAN-style/Fourier networks as a key architectural use case for its photonic processor."
+  ],
+  "hypothesis": "A Q.ANT QFourier classifier using the toolkit's native KAN-style periodic layer can reach the Fashion-MNIST accuracy-versus-parameter Pareto frontier against selected ReLU controls under the same training/test split and seed protocol.",
+  "falsification_criterion": "The hypothesis is weakened if every tested QFourier configuration is dominated by at least one ReLU control on both mean Q.ANT-backend accuracy and trainable parameter count, or if Q.ANT-versus-PyTorch inference disagreement is large enough to invalidate the comparison.",
+  "proposed_method": {
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "qant_native_candidates": [
+      {
+        "id": "qfourier_g1",
+        "architecture": "QFourier 784->10",
+        "grid_size": 1
+      },
+      {
+        "id": "qfourier_g2",
+        "architecture": "QFourier 784->10",
+        "grid_size": 2
+      }
+    ],
+    "relu_controls": [
+      {
+        "id": "h64_512",
+        "widths": [
+          64,
+          512
+        ]
+      },
+      {
+        "id": "h128_512",
+        "widths": [
+          128,
+          512
+        ]
+      },
+      {
+        "id": "h256",
+        "widths": [
+          256
+        ]
+      }
+    ],
+    "architecture_search_on_dataset": false,
+    "training_reference": "Train QFourier amplitude/phase parameters with the exact cosine formulation used by Q.ANT's official QFourier example; evaluate the trained QFourier candidates through qant.ai.calc_kan_layer_fprop on the Q.ANT CPU backend.",
+    "primary_metrics": [
+      "qant_accuracy",
+      "parameter_count",
+      "prediction_disagreements"
+    ],
+    "planned_runs": 15
+  },
+  "requested_budget": {
+    "max_parameters": 320000,
+    "max_candidates": 15,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "This experiment evaluates the Q.ANT CPU backend, not real photonic hardware performance.",
+    "The CPU backend's periodic function is an approximation of the hardware-related tcos behavior, so PyTorch cosine and Q.ANT outputs must be compared explicitly.",
+    "Fashion-MNIST remains a small grayscale benchmark and three seeds limit precision.",
+    "A favorable parameter trade-off would support further study of Q.ANT-native architectures, not prove latency or energy advantages."
+  ]
+}
