@@ -1,0 +1,15 @@
+{
+  "job_id": "exp010-qant-fourier-layer",
+  "status": "approved",
+  "experiment": "experiments/010_qant_fourier_layer/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-005-qant-fourier-layer",
+  "budget": {
+    "max_parameters": 320000,
+    "max_candidates": 15,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-005-qant-fourier-layer"
+}
