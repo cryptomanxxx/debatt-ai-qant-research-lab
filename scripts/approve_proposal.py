@@ -28,7 +28,9 @@ MAPPINGS={
  "proposal-004-cross-dataset-validation":(
    "exp009-cross-dataset-validation","experiments/009_cross_dataset_validation/run.py"),
  "proposal-005-qant-fourier-layer":(
-   "exp010-qant-fourier-layer","experiments/010_qant_fourier_layer/run.py")
+   "exp010-qant-fourier-layer","experiments/010_qant_fourier_layer/run.py"),
+ "proposal-006-qant-fourier-capacity":(
+   "exp011-qant-fourier-capacity","experiments/011_qant_fourier_capacity/run.py")
 }
 if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
