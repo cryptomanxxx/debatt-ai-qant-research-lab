@@ -19,18 +19,72 @@
     "train_samples": 10000,
     "test_samples": 1000,
     "epochs": 3,
-    "seeds": [11, 22, 33],
-    "two_layer_candidates": [
-      [32, 64], [32, 128], [32, 256], [32, 512],
-      [64, 128], [64, 256], [64, 512],
-      [128, 256], [128, 512]
+    "seeds": [
+      11,
+      22,
+      33
     ],
-    "single_layer_controls": [[64], [128], [256], [512]],
-    "primary_metrics": ["qant_accuracy", "parameter_count", "prediction_disagreements"],
+    "two_layer_candidates": [
+      [
+        32,
+        64
+      ],
+      [
+        32,
+        128
+      ],
+      [
+        32,
+        256
+      ],
+      [
+        32,
+        512
+      ],
+      [
+        64,
+        128
+      ],
+      [
+        64,
+        256
+      ],
+      [
+        64,
+        512
+      ],
+      [
+        128,
+        256
+      ],
+      [
+        128,
+        512
+      ]
+    ],
+    "single_layer_controls": [
+      [
+        64
+      ],
+      [
+        128
+      ],
+      [
+        256
+      ],
+      [
+        512
+      ]
+    ],
+    "primary_metrics": [
+      "qant_accuracy",
+      "parameter_count",
+      "prediction_disagreements"
+    ],
     "analysis": "Compare mean accuracy and variability across seeds, construct an accuracy-versus-parameter Pareto frontier, and examine performance as a function of expansion ratio."
   },
   "requested_budget": {
-    "max_parameters": 400000,
+    "max_parameters": 410000,
     "max_candidates": 39,
     "max_epochs": 3,
     "max_train_samples": 10000,
@@ -40,6 +94,7 @@
   "limitations": [
     "This experiment remains limited to MNIST and a small training subset.",
     "Three seeds provide replication but only a limited estimate of training variability.",
-    "Q.ANT CPU backend validates execution/correctness; it does not establish photonic latency, energy efficiency, optical noise behavior, or hardware performance."
+    "Q.ANT CPU backend validates execution/correctness; it does not establish photonic latency, energy efficiency, optical noise behavior, or hardware performance.",
+    "The 512-wide single-layer control has 407050 parameters, so the guarded parameter ceiling is set to 410000."
   ]
 }
