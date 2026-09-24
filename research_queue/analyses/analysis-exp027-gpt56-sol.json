@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp027-gpt56-sol",
+  "experiment_id": "exp027_qant_factorial_accumulation_map",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "supported",
+  "findings": [
+    "At fixed group count, increasing features per group from 2 to 8 increased stage-2 terms/output 4x and increased isolated stage-2 Q.ANT error at every tested group count.",
+    "For width 2, increasing groups 8→16→28 reduced stage-1 MAE 0.01631→0.01375→0.01037.",
+    "The lowest mean end-to-end logit error among the six tested architectures was 28x2 at 0.06289.",
+    "The 28x8 architecture had the highest mean reference accuracy (0.86067) but substantially larger end-to-end logit error (0.10118), demonstrating an accuracy-versus-numerical-compatibility trade-off."
+  ],
+  "interpretation": "The factorial intervention breaks the fixed-width coupling exposed by Exp026 and supports separately measurable stage-1 and stage-2 accumulation effects on the Q.ANT CPU backend.",
+  "next_research_direction": "Fit a preregistered two-variable compatibility model on Exp027 and test it on unseen group-width combinations.",
+  "limitations": ["CPU backend only; no photonic hardware performance claim.","The factorial grid contains six architectures and should be treated as an initial calibration set."]
+}
