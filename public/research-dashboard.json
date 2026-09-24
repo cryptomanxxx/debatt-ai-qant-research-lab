@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at_utc": "2026-09-24T10:15:03.330271+00:00",
+  "generated_at_utc": "2026-09-24T16:12:34.101985+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -345,22 +345,36 @@
     }
   ],
   "featured_comparison": {
-    "experiment_id": "exp016_qant_activation_error_occupancy",
+    "experiment_id": "exp011_qant_fourier_capacity",
     "dataset": "FashionMNIST",
     "metric": "mean_qant_accuracy",
     "architectures": [
       {
+        "architecture": "qfourier_g2",
+        "parameters": 31370,
+        "mean_accuracy": 0.8225333333333333,
+        "std_accuracy": 0.004249182927993998,
+        "pareto": true
+      },
+      {
         "architecture": "qfourier_g4",
         "parameters": 62730,
         "mean_accuracy": 0.8298666666666666,
-        "std_accuracy": null,
-        "pareto": false
+        "std_accuracy": 0.007972591938775128,
+        "pareto": true
+      },
+      {
+        "architecture": "h64_512",
+        "parameters": 88650,
+        "mean_accuracy": 0.8582000000000001,
+        "std_accuracy": 0.005376492040974904,
+        "pareto": true
       },
       {
         "architecture": "qfourier_g8",
         "parameters": 125450,
         "mean_accuracy": 0.8210333333333333,
-        "std_accuracy": null,
+        "std_accuracy": 0.015877937173603158,
         "pareto": false
       }
     ]
