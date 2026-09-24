@@ -1,0 +1,15 @@
+{
+  "job_id": "exp029-qant-7x2-residual-localization",
+  "status": "approved",
+  "experiment": "experiments/029_qant_7x2_residual_localization/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-024-qant-7x2-residual-localization",
+  "budget": {
+    "max_parameters": 45000,
+    "max_candidates": 9,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-024-qant-7x2-residual-localization"
+}
