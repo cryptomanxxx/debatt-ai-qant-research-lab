@@ -58,7 +58,9 @@ MAPPINGS={
  "proposal-019-qant-hierarchical-architecture-search":(
    "exp024-qant-hierarchical-architecture-search","experiments/024_qant_hierarchical_architecture_search/run.py"),
  "proposal-020-qant-hierarchical-error-localization":(
-   "exp025-qant-hierarchical-error-localization","experiments/025_qant_hierarchical_error_localization/run.py")
+   "exp025-qant-hierarchical-error-localization","experiments/025_qant_hierarchical_error_localization/run.py"),
+ "proposal-021-qant-predictive-compatibility-model":(
+   "exp026-qant-predictive-compatibility-model","experiments/026_qant_predictive_compatibility_model/run.py")
 }
 if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
