@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp019-gpt56-sol",
+  "experiment_id": "exp019_qant_amplitude_error_accumulation",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "not_supported",
+  "findings": [
+    "Observed mean absolute logit error was 0.23048 for g4 and 0.45694 for g8.",
+    "The component-wise reconstruction produced only 0.08625 for g4 and 0.08218 for g8.",
+    "Reconstruction MAE was 0.24617 for g4 and 0.46063 for g8, so the proposed decomposition did not reproduce the full-layer discrepancy.",
+    "g8 had larger pre-cancellation absolute residual mass, 0.20588 versus 0.15649, but also substantially greater estimated cancellation, 0.6041 versus 0.4517.",
+    "g8 amplitude L1 per output was larger, 132.38 versus 90.30, while mean absolute amplitude per parameter was smaller, 0.02111 versus 0.02880."
+  ],
+  "interpretation": "The preregistered amplitude-accumulation explanation is not supported by the attempted decomposition because the sum of separately evaluated component residuals does not reconstruct the observed full-layer reference-to-Q.ANT error. Before testing amplitude regularization, the additivity assumption and the exact semantics of calc_kan_layer_fprop must be validated in controlled synthetic tensor shapes.",
+  "next_research_direction": "Run a synthetic additivity ladder that compares one full calc_kan_layer_fprop call with sums of calls split by Fourier component and input channel, beginning at 1x1x1 and increasing dimensions. Separate Q.ANT full-call additivity from exact-cosine reference mismatch.",
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "The failed reconstruction may reflect the diagnostic method rather than non-additive backend behaviour.",
+    "Only 1000 FashionMNIST test examples were used."
+  ]
+}
