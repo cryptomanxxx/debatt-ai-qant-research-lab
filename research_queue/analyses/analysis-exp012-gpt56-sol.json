@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp012-gpt56-sol",
+  "experiment_id": "exp012_qant_fourier_robust_training",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "not_supported",
+  "conclusion": "The pre-registered Gaussian training-noise intervention did not reduce the reference-to-Q.ANT prediction disagreement at fixed QFourier g4. Mean disagreement was 323.0 with no noise and 325.67 with both noise_std=0.02 and 0.04. Mean Q.ANT accuracy changed only marginally from 0.82987 to 0.83013 and 0.83043, respectively. These small accuracy changes do not establish a robustness benefit across three seeds.",
+  "evidence": {
+    "noise_0": {
+      "mean_qant_accuracy": 0.8298666666666666,
+      "mean_reference_accuracy": 0.8328,
+      "mean_prediction_disagreements": 323
+    },
+    "noise_002": {
+      "mean_qant_accuracy": 0.8301333333333334,
+      "mean_reference_accuracy": 0.8326666666666668,
+      "mean_prediction_disagreements": 325.6666666666667
+    },
+    "noise_004": {
+      "mean_qant_accuracy": 0.8304333333333332,
+      "mean_reference_accuracy": 0.8324666666666668,
+      "mean_prediction_disagreements": 325.6666666666667
+    }
+  },
+  "interpretation": [
+    "The primary robustness criterion failed: neither pre-registered noise level lowered mean disagreement relative to the no-noise baseline.",
+    "The highest tested noise level improved mean Q.ANT accuracy by only about 0.057 percentage points versus no noise, while mean disagreement increased by about 2.67 predictions per 10,000.",
+    "Effects vary by seed: noise sometimes reduces disagreement and sometimes increases it, providing no consistent cross-seed direction.",
+    "The exact-cosine reference accuracy is essentially unchanged, so the intervention did not materially alter ordinary reference performance.",
+    "The Exp011/Exp012 evidence points away from simple output-noise regularization as the solution to the exact-cosine versus Q.ANT-periodic mismatch."
+  ],
+  "next_direction": "Investigate the mismatch directly rather than increasing grid size or merely injecting output noise. A clean next experiment should characterize where calc_kan_layer_fprop's periodic response differs from exact cosine over the activation/input ranges actually encountered by trained g4 models, then use that measured discrepancy to formulate a Q.ANT-aligned training surrogate before testing another learning intervention.",
+  "limitations": [
+    "Q.ANT CPU backend only; no photonic hardware performance claim.",
+    "Three seeds and three epochs limit precision.",
+    "FashionMNIST only.",
+    "The tested noise is applied to the layer output during training; other robustness mechanisms remain untested."
+  ]
+}
