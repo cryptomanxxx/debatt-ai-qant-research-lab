@@ -9,18 +9,41 @@ OUT = Path("public/research-dashboard.json")
 experiments = []
 latest_candidates = []
 
+EXPERIMENT_TYPES = {
+    "exp001_baseline": "baseline",
+    "exp002_width_search": "architecture_search",
+    "exp003_architecture_search": "architecture_search",
+    "exp004_depth_topology": "architecture_search",
+    "exp005_auto_topology_search": "architecture_search",
+    "exp006_multiseed_replication": "validation",
+    "exp007_expansion_ratio": "architecture_search",
+    "exp008_full_mnist_validation": "validation",
+    "exp009_cross_dataset_validation": "validation",
+    "exp010_qant_fourier_layer": "architecture_search",
+    "exp011_qant_fourier_capacity": "architecture_search",
+    "exp012_qant_fourier_robust_training": "training_method",
+}
+
 for p in sorted(RESULTS.glob("exp*.json")):
     try:
         o = json.loads(p.read_text())
     except Exception:
         continue
 
+    experiment_id = o.get("experiment_id")
+    experiment_type = EXPERIMENT_TYPES.get(experiment_id, "other")
+    summary = o.get("summary") or {}
     item = {
-        "id": o.get("experiment_id"),
+        "id": experiment_id,
+        "experiment_type": experiment_type,
+        "completed": True,
+        "result_count": len(o.get("results") or []),
+        "summary_count": len(summary),
         "dataset": o.get("dataset"),
         "backend": o.get("backend"),
         "timestamp_utc": o.get("timestamp_utc") or o.get("timestamp"),
         "pareto_front": o.get("pareto_front", []),
+        "pareto_applicable": experiment_type == "architecture_search",
     }
     cfg = o.get("configuration") or {}
     if cfg:
@@ -52,7 +75,7 @@ if latest:
     featured.sort(key=lambda x: x["parameters"])
 
 payload = {
-    "schema_version": 1,
+    "schema_version": 2,
     "generated_at_utc": datetime.now(timezone.utc).isoformat(),
     "project": {
         "name": "Debatt-AI Q.ANT Research Lab",
