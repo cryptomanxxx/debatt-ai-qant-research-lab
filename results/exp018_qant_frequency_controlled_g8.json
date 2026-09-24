@@ -1,0 +1,293 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp018_qant_frequency_controlled_g8",
+  "experiment_type": "architecture_search",
+  "timestamp_utc": "2026-09-24T18:18:54.933755+00:00",
+  "backend": "qant-cpu",
+  "dataset": "FashionMNIST",
+  "source_proposal": "proposal-013-qant-frequency-controlled-g8",
+  "job_id": "exp018-qant-frequency-controlled-g8",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "conditions": {
+    "qfourier_g4_k1_4": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "qfourier_g8_k1_8": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "qfourier_g8_repeat_k1_4": [
+      1,
+      2,
+      3,
+      4,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "configuration": {
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "planned_runs": 9
+  },
+  "budget": {
+    "max_parameters": 126000,
+    "max_candidates": 9,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.5.3"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "qfourier_g4_k1_4",
+      "frequencies": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8347,
+      "qant_accuracy": 0.8368,
+      "prediction_disagreements": 279,
+      "mean_absolute_logit_error": 0.23442979156970978,
+      "mean_max_absolute_logit_error_per_sample": 0.7381237149238586
+    },
+    {
+      "seed": 11,
+      "candidate_id": "qfourier_g8_k1_8",
+      "frequencies": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8403,
+      "qant_accuracy": 0.8314,
+      "prediction_disagreements": 566,
+      "mean_absolute_logit_error": 0.47417694330215454,
+      "mean_max_absolute_logit_error_per_sample": 1.7042330503463745
+    },
+    {
+      "seed": 11,
+      "candidate_id": "qfourier_g8_repeat_k1_4",
+      "frequencies": [
+        1,
+        2,
+        3,
+        4,
+        1,
+        2,
+        3,
+        4
+      ],
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8308,
+      "qant_accuracy": 0.8209,
+      "prediction_disagreements": 523,
+      "mean_absolute_logit_error": 0.4814717471599579,
+      "mean_max_absolute_logit_error_per_sample": 1.6800451278686523
+    },
+    {
+      "seed": 22,
+      "candidate_id": "qfourier_g4_k1_4",
+      "frequencies": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8283,
+      "qant_accuracy": 0.8187,
+      "prediction_disagreements": 379,
+      "mean_absolute_logit_error": 0.23426634073257446,
+      "mean_max_absolute_logit_error_per_sample": 0.7009074091911316
+    },
+    {
+      "seed": 22,
+      "candidate_id": "qfourier_g8_k1_8",
+      "frequencies": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8289,
+      "qant_accuracy": 0.7986,
+      "prediction_disagreements": 733,
+      "mean_absolute_logit_error": 0.46216514706611633,
+      "mean_max_absolute_logit_error_per_sample": 1.6458042860031128
+    },
+    {
+      "seed": 22,
+      "candidate_id": "qfourier_g8_repeat_k1_4",
+      "frequencies": [
+        1,
+        2,
+        3,
+        4,
+        1,
+        2,
+        3,
+        4
+      ],
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8125,
+      "qant_accuracy": 0.7942,
+      "prediction_disagreements": 593,
+      "mean_absolute_logit_error": 0.5094108581542969,
+      "mean_max_absolute_logit_error_per_sample": 1.8080748319625854
+    },
+    {
+      "seed": 33,
+      "candidate_id": "qfourier_g4_k1_4",
+      "frequencies": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8354,
+      "qant_accuracy": 0.8341,
+      "prediction_disagreements": 312,
+      "mean_absolute_logit_error": 0.2180081605911255,
+      "mean_max_absolute_logit_error_per_sample": 0.6601291298866272
+    },
+    {
+      "seed": 33,
+      "candidate_id": "qfourier_g8_k1_8",
+      "frequencies": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8402,
+      "qant_accuracy": 0.8331,
+      "prediction_disagreements": 461,
+      "mean_absolute_logit_error": 0.43098172545433044,
+      "mean_max_absolute_logit_error_per_sample": 1.5078257322311401
+    },
+    {
+      "seed": 33,
+      "candidate_id": "qfourier_g8_repeat_k1_4",
+      "frequencies": [
+        1,
+        2,
+        3,
+        4,
+        1,
+        2,
+        3,
+        4
+      ],
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8393,
+      "qant_accuracy": 0.8274,
+      "prediction_disagreements": 560,
+      "mean_absolute_logit_error": 0.4726860821247101,
+      "mean_max_absolute_logit_error_per_sample": 1.6367595195770264
+    }
+  ],
+  "summary": {
+    "qfourier_g4_k1_4": {
+      "frequencies": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "parameter_count": 62730,
+      "mean_reference_accuracy": 0.8328000000000001,
+      "std_reference_accuracy": 0.0031947874212013873,
+      "mean_qant_accuracy": 0.8298666666666666,
+      "std_qant_accuracy": 0.007972591938775128,
+      "mean_prediction_disagreements": 323.3333333333333,
+      "mean_absolute_logit_error": 0.2289014309644699,
+      "mean_max_absolute_logit_error_per_sample": 0.6997200846672058
+    },
+    "qfourier_g8_k1_8": {
+      "frequencies": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "parameter_count": 125450,
+      "mean_reference_accuracy": 0.8364666666666666,
+      "std_reference_accuracy": 0.0053505970591036876,
+      "mean_qant_accuracy": 0.8210333333333333,
+      "std_qant_accuracy": 0.015877937173603158,
+      "mean_prediction_disagreements": 586.6666666666666,
+      "mean_absolute_logit_error": 0.45577460527420044,
+      "mean_max_absolute_logit_error_per_sample": 1.6192876895268757
+    },
+    "qfourier_g8_repeat_k1_4": {
+      "frequencies": [
+        1,
+        2,
+        3,
+        4,
+        1,
+        2,
+        3,
+        4
+      ],
+      "parameter_count": 125450,
+      "mean_reference_accuracy": 0.8275333333333333,
+      "std_reference_accuracy": 0.011182227963255915,
+      "mean_qant_accuracy": 0.8141666666666666,
+      "std_qant_accuracy": 0.014365777234648857,
+      "mean_prediction_disagreements": 558.6666666666666,
+      "mean_absolute_logit_error": 0.4878562291463216,
+      "mean_max_absolute_logit_error_per_sample": 1.7082931598027546
+    }
+  },
+  "pareto_front": [
+    "qfourier_g4_k1_4"
+  ],
+  "notes": "Frequency intervention holding g8 parameter count fixed. Exact-cosine training and Q.ANT calc_kan_layer_fprop evaluation. CPU backend only; no photonic hardware performance claim."
+}
