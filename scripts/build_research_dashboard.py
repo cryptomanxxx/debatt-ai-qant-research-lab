@@ -45,6 +45,15 @@ for p in sorted(RESULTS.glob("exp*.json")):
         result_count = 1
     else:
         result_count = 0
+    pareto_front = o.get("pareto_front")
+    if pareto_front is None and experiment_id == "exp002_width_search" and isinstance(results, list):
+        # Legacy Exp002 predates explicit Pareto metadata. Every successive width
+        # increased both parameter count and Q.ANT accuracy, so all six points
+        # are non-dominated for the two objectives used by later searches.
+        pareto_front = [f"h{r['hidden_units']}" for r in results]
+    if pareto_front is None:
+        pareto_front = []
+
     item = {
         "id": experiment_id,
         "experiment_type": experiment_type,
@@ -54,7 +63,7 @@ for p in sorted(RESULTS.glob("exp*.json")):
         "dataset": o.get("dataset"),
         "backend": o.get("backend"),
         "timestamp_utc": o.get("timestamp_utc") or o.get("timestamp"),
-        "pareto_front": o.get("pareto_front", []),
+        "pareto_front": pareto_front,
         "pareto_applicable": experiment_type == "architecture_search",
     }
     cfg = o.get("configuration") or {}
