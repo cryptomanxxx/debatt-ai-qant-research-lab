@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-015-qant-kan-additivity-ladder",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp019_qant_amplitude_error_accumulation.json",
+  "research_question": "Why did the Exp019 sum of separately evaluated Fourier-component residuals fail to reconstruct the discrepancy of a full calc_kan_layer_fprop call?",
+  "observations": [
+    "Exp019 reconstruction MAE was approximately as large as the observed full-layer logit error.",
+    "The documented KAN-style expression is a sum over input channels and Fourier components, so an additive decomposition should be tested directly before further model-level interventions.",
+    "A small synthetic ladder can distinguish a diagnostic implementation error from backend behaviour without retraining neural networks."
+  ],
+  "hypothesis": "For controlled synthetic inputs, a full calc_kan_layer_fprop output will be numerically close to the sum of equivalent calls partitioned by Fourier component and by input channel when each partition uses matching sliced phis, amplitudes and ks.",
+  "falsification_criterion": "The additivity hypothesis is weakened if full-call versus partitioned-call error becomes materially larger than ordinary bfloat16-scale numerical variation at a reproducible dimensionality, despite mathematically equivalent sliced inputs and parameters.",
+  "proposed_method": {
+    "experiment_type": "diagnostic",
+    "dataset": "synthetic",
+    "cases": [
+      "1 input x 1 output x 1 component",
+      "1 input x 1 output x 4 components",
+      "4 inputs x 1 output x 4 components",
+      "4 inputs x 3 outputs x 4 components",
+      "32 inputs x 10 outputs x 4 components",
+      "32 inputs x 10 outputs x 8 components"
+    ],
+    "seeds": [11,22,33],
+    "samples_per_case": 256,
+    "primary_metrics": [
+      "component_split_mae_vs_full_qant",
+      "component_split_max_abs_vs_full_qant",
+      "input_split_mae_vs_full_qant",
+      "input_split_max_abs_vs_full_qant",
+      "full_qant_mae_vs_exact_cosine"
+    ],
+    "planned_runs": 18
+  },
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 18,
+    "max_epochs": 1,
+    "max_train_samples": 1,
+    "max_test_samples": 256
+  },
+  "approval_required": true,
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Synthetic dimensions are much smaller than the full FashionMNIST layer.",
+    "If additivity holds, a separate follow-up will be needed to identify the Exp019 implementation mismatch."
+  ]
+}
