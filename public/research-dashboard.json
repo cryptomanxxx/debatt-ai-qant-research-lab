@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "generated_at_utc": "2026-09-24T00:35:16.617330+00:00",
+  "schema_version": 2,
+  "generated_at_utc": "2026-09-24T08:07:19.735718+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -15,10 +15,15 @@
   "experiments": [
     {
       "id": "exp001_baseline",
+      "experiment_type": "baseline",
+      "completed": true,
+      "result_count": 0,
+      "summary_count": 0,
       "dataset": "MNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T17:04:15.451903+00:00",
       "pareto_front": [],
+      "pareto_applicable": false,
       "configuration": {
         "train_samples": 10000,
         "test_samples": 1000,
@@ -27,10 +32,15 @@
     },
     {
       "id": "exp002_width_search",
+      "experiment_type": "architecture_search",
+      "completed": true,
+      "result_count": 6,
+      "summary_count": 0,
       "dataset": "MNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T17:11:00+00:00",
       "pareto_front": [],
+      "pareto_applicable": true,
       "configuration": {
         "train_samples": 10000,
         "test_samples": 1000,
@@ -39,6 +49,10 @@
     },
     {
       "id": "exp003_architecture_search",
+      "experiment_type": "architecture_search",
+      "completed": true,
+      "result_count": 10,
+      "summary_count": 0,
       "dataset": "MNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T17:17:58.434242+00:00",
@@ -49,6 +63,7 @@
         "relu_h128",
         "relu_h256"
       ],
+      "pareto_applicable": true,
       "configuration": {
         "train_samples": 10000,
         "test_samples": 1000,
@@ -57,6 +72,10 @@
     },
     {
       "id": "exp004_depth_topology",
+      "experiment_type": "architecture_search",
+      "completed": true,
+      "result_count": 6,
+      "summary_count": 0,
       "dataset": "MNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T17:26:26.708080+00:00",
@@ -67,6 +86,7 @@
         "h128_64",
         "h256"
       ],
+      "pareto_applicable": true,
       "configuration": {
         "train_samples": 10000,
         "test_samples": 1000,
@@ -75,6 +95,10 @@
     },
     {
       "id": "exp005_auto_topology_search",
+      "experiment_type": "architecture_search",
+      "completed": true,
+      "result_count": 8,
+      "summary_count": 0,
       "dataset": "MNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T17:17:58.434242+00:00",
@@ -88,6 +112,7 @@
         "h64_64_256",
         "h128_256"
       ],
+      "pareto_applicable": true,
       "configuration": {
         "train_samples": 10000,
         "test_samples": 1000,
@@ -96,10 +121,15 @@
     },
     {
       "id": "exp006_multiseed_replication",
+      "experiment_type": "validation",
+      "completed": true,
+      "result_count": 30,
+      "summary_count": 6,
       "dataset": "MNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T20:01:24.537831+00:00",
       "pareto_front": [],
+      "pareto_applicable": false,
       "configuration": {
         "train_samples": 10000,
         "test_samples": 1000,
@@ -109,6 +139,10 @@
     },
     {
       "id": "exp007_expansion_ratio",
+      "experiment_type": "architecture_search",
+      "completed": true,
+      "result_count": 39,
+      "summary_count": 13,
       "dataset": "MNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T20:48:34.705152+00:00",
@@ -120,6 +154,7 @@
         "h64_512",
         "h128_512"
       ],
+      "pareto_applicable": true,
       "configuration": {
         "train_samples": 10000,
         "test_samples": 1000,
@@ -129,6 +164,10 @@
     },
     {
       "id": "exp008_full_mnist_validation",
+      "experiment_type": "validation",
+      "completed": true,
+      "result_count": 18,
+      "summary_count": 6,
       "dataset": "MNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T21:07:33.447258+00:00",
@@ -138,6 +177,7 @@
         "h128_512",
         "h512"
       ],
+      "pareto_applicable": false,
       "configuration": {
         "train_samples": 60000,
         "test_samples": 10000,
@@ -147,6 +187,10 @@
     },
     {
       "id": "exp009_cross_dataset_validation",
+      "experiment_type": "validation",
+      "completed": true,
+      "result_count": 15,
+      "summary_count": 5,
       "dataset": "FashionMNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T21:22:12.508048+00:00",
@@ -156,6 +200,7 @@
         "h256",
         "h512"
       ],
+      "pareto_applicable": false,
       "configuration": {
         "train_samples": 60000,
         "test_samples": 10000,
@@ -165,6 +210,10 @@
     },
     {
       "id": "exp010_qant_fourier_layer",
+      "experiment_type": "architecture_search",
+      "completed": true,
+      "result_count": 15,
+      "summary_count": 5,
       "dataset": "FashionMNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T22:56:24.693028+00:00",
@@ -173,6 +222,7 @@
         "qfourier_g2",
         "h64_512"
       ],
+      "pareto_applicable": true,
       "configuration": {
         "train_samples": 60000,
         "test_samples": 10000,
@@ -182,6 +232,10 @@
     },
     {
       "id": "exp011_qant_fourier_capacity",
+      "experiment_type": "architecture_search",
+      "completed": true,
+      "result_count": 12,
+      "summary_count": 4,
       "dataset": "FashionMNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-24T00:09:35.579842+00:00",
@@ -190,6 +244,7 @@
         "qfourier_g4",
         "h64_512"
       ],
+      "pareto_applicable": true,
       "configuration": {
         "train_samples": 60000,
         "test_samples": 10000,
@@ -199,10 +254,15 @@
     },
     {
       "id": "exp012_qant_fourier_robust_training",
+      "experiment_type": "training_method",
+      "completed": true,
+      "result_count": 9,
+      "summary_count": 3,
       "dataset": "FashionMNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-24T00:35:16.071254+00:00",
       "pareto_front": [],
+      "pareto_applicable": false,
       "configuration": {
         "train_samples": 60000,
         "test_samples": 10000,
