@@ -33,18 +33,19 @@ jobs:
           git config user.name "Debatt-AI Research Approver"
           git config user.email "actions@users.noreply.github.com"
           git add research_queue/jobs/
-          git commit -m "Approve research proposal ${{ inputs.proposal_id }}"
-          git push
+          if git diff --cached --quiet; then
+            echo "Approved job already exists; continuing to execution."
+          else
+            git commit -m "Approve research proposal ${{ inputs.proposal_id }}"
+            git push
+          fi
       - name: Resolve approved job ID
         id: approved
         shell: bash
         run: |
-          job_file="$(git diff-tree --no-commit-id --name-only -r HEAD -- 'research_queue/jobs/*.json' | head -n 1)"
-          if [ -z "$job_file" ]; then
-            echo "No approved job file found in approval commit."
-            exit 1
-          fi
-          echo "job_id=$(basename "$job_file" .json)" >> "$GITHUB_OUTPUT"
+          job_id="$(python -c 'import json,sys; from pathlib import Path; p=Path("research_queue/proposals")/(sys.argv[1]+".json"); d=json.loads(p.read_text()); m={"proposal-001-replicate-expanding-topologies":"exp006-multiseed-replication","proposal-002-expansion-ratio":"exp007-expansion-ratio","proposal-003-stronger-mnist-validation":"exp008-full-mnist-validation","proposal-004-cross-dataset-validation":"exp009-cross-dataset-validation","proposal-005-qant-fourier-layer":"exp010-qant-fourier-layer","proposal-006-qant-fourier-capacity":"exp011-qant-fourier-capacity","proposal-007-qant-fourier-robust-training":"exp012-qant-fourier-robust-training","proposal-008-qant-fourier-mismatch-diagnostic":"exp013-qant-fourier-mismatch-diagnostic"}; print(m[d["proposal_id"]])' "${{ inputs.proposal_id }}")"
+          test -f "research_queue/jobs/${job_id}.json"
+          echo "job_id=$job_id" >> "$GITHUB_OUTPUT"
     outputs:
       job_id: ${{ steps.approved.outputs.job_id }}
 
