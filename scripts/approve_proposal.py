@@ -66,7 +66,9 @@ MAPPINGS={
  "proposal-023-qant-predictive-compatibility-v2":(
    "exp028-qant-predictive-compatibility-v2","experiments/028_qant_predictive_compatibility_v2/run.py"),
  "proposal-024-qant-7x2-residual-localization":(
-   "exp029-qant-7x2-residual-localization","experiments/029_qant_7x2_residual_localization/run.py")
+   "exp029-qant-7x2-residual-localization","experiments/029_qant_7x2_residual_localization/run.py"),
+ "proposal-025-qant-compatibility-model-v3":(
+   "exp030-qant-compatibility-model-v3","experiments/030_qant_compatibility_model_v3/run.py")
 }
 if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
