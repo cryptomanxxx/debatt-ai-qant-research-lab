@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-018-qant-hierarchical-low-fanin",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp022_qant_grouped_accumulation_architecture.json",
+  "research_question": "Can a neural architecture trained natively as low-fan-in Q.ANT Fourier blocks retain useful FashionMNIST accuracy while reducing reference-to-Q.ANT numerical discrepancy?",
+  "observations": [
+    "Exp022 reduced mean logit MAE by about 86 percent when the same g4 model was evaluated as 16 smaller Q.ANT calls instead of one monolithic call.",
+    "Exp022 did not change the learned architecture; it only changed evaluation grouping.",
+    "A hierarchical model can make low fan-in an architectural property rather than an evaluation-time decomposition."
+  ],
+  "hypothesis": "A two-stage hierarchical QFourier model built from low-fan-in blocks will show substantially lower reference-to-Q.ANT disagreement than a monolithic g4 classifier while retaining competitive FashionMNIST accuracy at a comparable parameter scale.",
+  "falsification_criterion": "The hypothesis is weakened if the hierarchical model fails to reduce logit error and prediction disagreements, or if its reference accuracy drops by more than 2 percentage points relative to the monolithic g4 baseline.",
+  "proposed_method": {
+    "experiment_type": "architecture_search",
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "seeds": [11,22,33],
+    "conditions": [
+      "monolithic_g4",
+      "hierarchical_16x4_g4"
+    ],
+    "hierarchical_design": {
+      "input_groups": 16,
+      "pixels_per_group": 49,
+      "features_per_group": 4,
+      "stage1": "16 independent 49->4 QFourier g4 blocks",
+      "stage2": "64->10 QFourier g4 block"
+    },
+    "primary_metrics": [
+      "parameter_count",
+      "reference_accuracy",
+      "qant_accuracy",
+      "prediction_disagreements",
+      "mean_absolute_logit_error",
+      "mean_max_absolute_logit_error_per_sample"
+    ],
+    "planned_runs": 6
+  },
+  "requested_budget": {
+    "max_parameters": 63000,
+    "max_candidates": 6,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "The hierarchical model has a different function class and fewer parameters than the monolithic baseline, so accuracy and numerical agreement must be considered jointly.",
+    "FashionMNIST is still a small benchmark and does not establish generality."
+  ]
+}
