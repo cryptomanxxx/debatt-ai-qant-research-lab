@@ -1,0 +1,15 @@
+{
+  "job_id": "exp023-qant-hierarchical-low-fanin",
+  "status": "approved",
+  "experiment": "experiments/023_qant_hierarchical_low_fanin/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-018-qant-hierarchical-low-fanin",
+  "budget": {
+    "max_parameters": 63000,
+    "max_candidates": 6,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-018-qant-hierarchical-low-fanin"
+}
