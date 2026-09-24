@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp011-gpt56-sol",
+  "experiment_id": "exp011_qant_fourier_capacity",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "partially_supported",
+  "observations": [
+    "qfourier_g4 improved mean Q.ANT accuracy from qfourier_g2's 0.82253 to 0.82987 while increasing parameters from 31,370 to 62,730; both remain on the Pareto front.",
+    "qfourier_g8 did not continue the trend: mean Q.ANT accuracy fell to 0.82103 with 125,450 parameters, so it is dominated and absent from the Pareto front.",
+    "h64_512 remained substantially more accurate at 0.85820 with 88,650 parameters; qfourier_g4 therefore retains a parameter advantage but leaves about 2.83 percentage points of mean accuracy on the table.",
+    "Mean reference-to-Q.ANT prediction disagreements rose from 274 for g2 to 323 for g4 and 586.7 for g8, while h64_512 averaged only 6.7.",
+    "For g8, exact-cosine reference accuracy remained around 0.8365 on average while Q.ANT accuracy averaged 0.8210, indicating that the degradation is not explained solely by failure of the higher-capacity reference model to learn."
+  ],
+  "interpretation": "The capacity hypothesis is only partially supported. Increasing grid size from 2 to 4 improves Q.ANT accuracy and preserves Pareto efficiency, but grid size 8 reverses the gain and sharply increases reference-to-Q.ANT disagreement. This suggests that simply adding higher Fourier frequencies is not a reliable path to closing the ReLU gap under the current exact-cosine-training/Q.ANT-evaluation protocol. The mismatch between the training reference and Q.ANT periodic evaluation becomes more important as grid size grows.",
+  "next_research_direction": "Prioritize the reference-to-Q.ANT mismatch rather than increasing grid size further. A pre-registered follow-up should test Q.ANT's official training-noise/robustness approach or another Q.ANT-aligned training method at fixed g4 capacity, comparing disagreement and Q.ANT accuracy against the no-noise g4 baseline.",
+  "limitations": [
+    "Q.ANT CPU backend only; no photonic performance claim.",
+    "Fashion-MNIST, three seeds, three epochs.",
+    "The experiment changes Fourier grid size but not network depth or other architectural dimensions."
+  ]
+}
