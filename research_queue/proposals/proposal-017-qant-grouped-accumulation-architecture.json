@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-017-qant-grouped-accumulation-architecture",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp021_qant_accumulation_scaling_law.json",
+  "research_question": "Can reducing per-call Q.ANT accumulation width improve reference-to-Q.ANT agreement in a trained FashionMNIST Fourier classifier without materially reducing reference accuracy?",
+  "observations": [
+    "Exp021 found a strong synthetic relationship between accumulated-term count and Q.ANT CPU-backend numerical error, with log-log R2 approximately 0.953.",
+    "A monolithic g4 FashionMNIST QFourier layer accumulates 784 x 4 terms per output in one KAN call.",
+    "Partitioning the 784 inputs into groups reduces per-call fan-in while retaining all input pixels and the same four Fourier frequencies."
+  ],
+  "hypothesis": "Grouped g4 architectures with smaller per-call input fan-in will reduce reference-to-Q.ANT logit error and prediction disagreements relative to monolithic g4, while retaining similar reference accuracy.",
+  "falsification_criterion": "The hypothesis is weakened if grouping does not reduce mean absolute logit error and prediction disagreements consistently across seeds, or if any reduction requires a material loss of reference accuracy.",
+  "proposed_method": {
+    "experiment_type": "architecture_search",
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "seeds": [11,22,33],
+    "frequencies": [1,2,3,4],
+    "conditions": {
+      "monolithic_g4": 1,
+      "grouped_g4_4": 4,
+      "grouped_g4_16": 16
+    },
+    "group_combination": "sum per-group class logits plus one shared bias",
+    "primary_metrics": [
+      "reference_accuracy",
+      "qant_accuracy",
+      "prediction_disagreements",
+      "mean_absolute_logit_error",
+      "mean_max_absolute_logit_error_per_sample"
+    ],
+    "planned_runs": 9
+  },
+  "requested_budget": {
+    "max_parameters": 63000,
+    "max_candidates": 9,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Grouped execution changes numerical evaluation order but intentionally preserves the additive exact-cosine function class and parameter count.",
+    "This experiment tests numerical compatibility, not latency, energy efficiency or throughput."
+  ]
+}
