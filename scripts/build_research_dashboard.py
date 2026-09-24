@@ -31,6 +31,7 @@ EXPERIMENT_TYPES = {
     "exp019_qant_amplitude_error_accumulation": "diagnostic",
     "exp020_qant_kan_additivity_ladder": "diagnostic",
     "exp021_qant_accumulation_scaling_law": "diagnostic",
+    "exp022_qant_grouped_accumulation_architecture": "architecture_search",
 }
 
 for p in sorted(RESULTS.glob("exp*.json")):
