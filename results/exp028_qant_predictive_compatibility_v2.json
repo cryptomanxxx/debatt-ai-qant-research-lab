@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp028_qant_predictive_compatibility_v2",
+  "experiment_type": "validation",
+  "timestamp_utc": "2026-09-24T22:46:24.160775+00:00",
+  "backend": "qant-cpu",
+  "dataset": "FashionMNIST",
+  "source_proposal": "proposal-023-qant-predictive-compatibility-v2",
+  "job_id": "exp028-qant-predictive-compatibility-v2",
+  "calibration": {
+    "source": "exp027",
+    "points": [
+      [
+        392.0,
+        64.0,
+        0.07564775894085567
+      ],
+      [
+        392.0,
+        256.0,
+        0.08323618521293004
+      ],
+      [
+        196.0,
+        128.0,
+        0.0731502075990041
+      ],
+      [
+        196.0,
+        512.0,
+        0.08554018785556157
+      ],
+      [
+        112.0,
+        224.0,
+        0.06289116914073627
+      ],
+      [
+        112.0,
+        896.0,
+        0.10117589930693309
+      ]
+    ],
+    "coefficients": [
+      -4.406020768306657,
+      0.17108363092933573,
+      0.17493170535160021
+    ]
+  },
+  "predictions_made_before_heldout_training": {
+    "7x2": {
+      "stage1_terms": 448,
+      "stage2_terms": 56,
+      "predicted_mae": 0.07012829419975589
+    },
+    "14x4": {
+      "stage1_terms": 224,
+      "stage2_terms": 224,
+      "predicted_mae": 0.07938004697603275
+    },
+    "28x4": {
+      "stage1_terms": 112,
+      "stage2_terms": 448,
+      "predicted_mae": 0.07959205856308445
+    },
+    "49x2": {
+      "stage1_terms": 64,
+      "stage2_terms": 392,
+      "predicted_mae": 0.07065538633468381
+    }
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "hierarchical_7x2_g4",
+      "groups": 7,
+      "features_per_group": 2,
+      "parameter_count": 13688,
+      "reference_accuracy": 0.814,
+      "qant_accuracy": 0.8146,
+      "prediction_disagreements": 133,
+      "predicted_end_to_end_logit_mae": 0.07012829419975589,
+      "observed_end_to_end_logit_mae": 0.07559485733509064,
+      "absolute_prediction_error": 0.005466563135334751
+    },
+    {
+      "seed": 11,
+      "candidate_id": "hierarchical_14x4_g4",
+      "groups": 14,
+      "features_per_group": 4,
+      "parameter_count": 29634,
+      "reference_accuracy": 0.8389,
+      "qant_accuracy": 0.837,
+      "prediction_disagreements": 152,
+      "predicted_end_to_end_logit_mae": 0.07938004697603275,
+      "observed_end_to_end_logit_mae": 0.07520215958356857,
+      "absolute_prediction_error": 0.004177887392464177
+    },
+    {
+      "seed": 11,
+      "candidate_id": "hierarchical_28x4_g4",
+      "groups": 28,
+      "features_per_group": 4,
+      "parameter_count": 34170,
+      "reference_accuracy": 0.8465,
+      "qant_accuracy": 0.8454,
+      "prediction_disagreements": 121,
+      "predicted_end_to_end_logit_mae": 0.07959205856308445,
+      "observed_end_to_end_logit_mae": 0.08026143908500671,
+      "absolute_prediction_error": 0.0006693805219222665
+    },
+    {
+      "seed": 11,
+      "candidate_id": "hierarchical_49x2_g4",
+      "groups": 49,
+      "features_per_group": 2,
+      "parameter_count": 20492,
+      "reference_accuracy": 0.8475,
+      "qant_accuracy": 0.8479,
+      "prediction_disagreements": 138,
+      "predicted_end_to_end_logit_mae": 0.07065538633468381,
+      "observed_end_to_end_logit_mae": 0.0701320543885231,
+      "absolute_prediction_error": 0.0005233319461607072
+    },
+    {
+      "seed": 22,
+      "candidate_id": "hierarchical_7x2_g4",
+      "groups": 7,
+      "features_per_group": 2,
+      "parameter_count": 13688,
+      "reference_accuracy": 0.8168,
+      "qant_accuracy": 0.8151,
+      "prediction_disagreements": 150,
+      "predicted_end_to_end_logit_mae": 0.07012829419975589,
+      "observed_end_to_end_logit_mae": 0.0854094922542572,
+      "absolute_prediction_error": 0.015281198054501316
+    },
+    {
+      "seed": 22,
+      "candidate_id": "hierarchical_14x4_g4",
+      "groups": 14,
+      "features_per_group": 4,
+      "parameter_count": 29634,
+      "reference_accuracy": 0.8504,
+      "qant_accuracy": 0.8505,
+      "prediction_disagreements": 111,
+      "predicted_end_to_end_logit_mae": 0.07938004697603275,
+      "observed_end_to_end_logit_mae": 0.07169775664806366,
+      "absolute_prediction_error": 0.007682290327969091
+    },
+    {
+      "seed": 22,
+      "candidate_id": "hierarchical_28x4_g4",
+      "groups": 28,
+      "features_per_group": 4,
+      "parameter_count": 34170,
+      "reference_accuracy": 0.853,
+      "qant_accuracy": 0.8526,
+      "prediction_disagreements": 110,
+      "predicted_end_to_end_logit_mae": 0.07959205856308445,
+      "observed_end_to_end_logit_mae": 0.07564065605401993,
+      "absolute_prediction_error": 0.003951402509064519
+    },
+    {
+      "seed": 22,
+      "candidate_id": "hierarchical_49x2_g4",
+      "groups": 49,
+      "features_per_group": 2,
+      "parameter_count": 20492,
+      "reference_accuracy": 0.8451,
+      "qant_accuracy": 0.846,
+      "prediction_disagreements": 127,
+      "predicted_end_to_end_logit_mae": 0.07065538633468381,
+      "observed_end_to_end_logit_mae": 0.07157666236162186,
+      "absolute_prediction_error": 0.0009212760269380477
+    },
+    {
+      "seed": 33,
+      "candidate_id": "hierarchical_7x2_g4",
+      "groups": 7,
+      "features_per_group": 2,
+      "parameter_count": 13688,
+      "reference_accuracy": 0.8124,
+      "qant_accuracy": 0.8112,
+      "prediction_disagreements": 175,
+      "predicted_end_to_end_logit_mae": 0.07012829419975589,
+      "observed_end_to_end_logit_mae": 0.11535992473363876,
+      "absolute_prediction_error": 0.04523163053388288
+    },
+    {
+      "seed": 33,
+      "candidate_id": "hierarchical_14x4_g4",
+      "groups": 14,
+      "features_per_group": 4,
+      "parameter_count": 29634,
+      "reference_accuracy": 0.8469,
+      "qant_accuracy": 0.8476,
+      "prediction_disagreements": 97,
+      "predicted_end_to_end_logit_mae": 0.07938004697603275,
+      "observed_end_to_end_logit_mae": 0.07846660912036896,
+      "absolute_prediction_error": 0.0009134378556637929
+    },
+    {
+      "seed": 33,
+      "candidate_id": "hierarchical_28x4_g4",
+      "groups": 28,
+      "features_per_group": 4,
+      "parameter_count": 34170,
+      "reference_accuracy": 0.8465,
+      "qant_accuracy": 0.8462,
+      "prediction_disagreements": 142,
+      "predicted_end_to_end_logit_mae": 0.07959205856308445,
+      "observed_end_to_end_logit_mae": 0.07225852459669113,
+      "absolute_prediction_error": 0.007333533966393316
+    },
+    {
+      "seed": 33,
+      "candidate_id": "hierarchical_49x2_g4",
+      "groups": 49,
+      "features_per_group": 2,
+      "parameter_count": 20492,
+      "reference_accuracy": 0.8482,
+      "qant_accuracy": 0.8491,
+      "prediction_disagreements": 129,
+      "predicted_end_to_end_logit_mae": 0.07065538633468381,
+      "observed_end_to_end_logit_mae": 0.0676703155040741,
+      "absolute_prediction_error": 0.0029850708306097123
+    }
+  ],
+  "summary": {
+    "7x2": {
+      "predicted": 0.07012829419975589,
+      "observed_mean": 0.09212142477432887,
+      "mean_absolute_prediction_error": 0.021993130574572983,
+      "mean_reference_accuracy": 0.8144,
+      "mean_qant_accuracy": 0.8136333333333333
+    },
+    "14x4": {
+      "predicted": 0.07938004697603275,
+      "observed_mean": 0.07512217511733373,
+      "mean_absolute_prediction_error": 0.004257871858699021,
+      "mean_reference_accuracy": 0.8454,
+      "mean_qant_accuracy": 0.8450333333333333
+    },
+    "28x4": {
+      "predicted": 0.07959205856308445,
+      "observed_mean": 0.07605353991190593,
+      "mean_absolute_prediction_error": 0.003984772332460034,
+      "mean_reference_accuracy": 0.8486666666666668,
+      "mean_qant_accuracy": 0.8480666666666666
+    },
+    "49x2": {
+      "predicted": 0.07065538633468381,
+      "observed_mean": 0.06979301075140636,
+      "mean_absolute_prediction_error": 0.0014765596012361558,
+      "mean_reference_accuracy": 0.8469333333333333,
+      "mean_qant_accuracy": 0.8476666666666667
+    },
+    "ranking": {
+      "candidate_order": [
+        "7x2",
+        "14x4",
+        "28x4",
+        "49x2"
+      ],
+      "predicted": [
+        0,
+        2,
+        3,
+        1
+      ],
+      "observed": [
+        3,
+        1,
+        2,
+        0
+      ]
+    },
+    "overall_mean_absolute_prediction_error": 0.007928083591742048
+  },
+  "notes": "Two-variable model calibrated only on Exp027 and frozen before held-out training. CPU backend only."
+}
