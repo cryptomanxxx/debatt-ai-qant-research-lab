@@ -1,0 +1,15 @@
+{
+  "job_id": "exp027-qant-factorial-accumulation-map",
+  "status": "approved",
+  "experiment": "experiments/027_qant_factorial_accumulation_map/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-022-qant-factorial-accumulation-map",
+  "budget": {
+    "max_parameters": 70000,
+    "max_candidates": 18,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-022-qant-factorial-accumulation-map"
+}
