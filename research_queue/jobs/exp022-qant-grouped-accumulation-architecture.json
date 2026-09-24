@@ -1,0 +1,15 @@
+{
+  "job_id": "exp022-qant-grouped-accumulation-architecture",
+  "status": "approved",
+  "experiment": "experiments/022_qant_grouped_accumulation_architecture/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-017-qant-grouped-accumulation-architecture",
+  "budget": {
+    "max_parameters": 63000,
+    "max_candidates": 9,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-017-qant-grouped-accumulation-architecture"
+}
