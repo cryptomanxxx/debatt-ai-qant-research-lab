@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at_utc": "2026-09-24T19:50:44.824663+00:00",
+  "generated_at_utc": "2026-09-24T20:02:09.286495+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -8,8 +8,8 @@
     "backend_disclaimer": "Q.ANT CPU-backend results validate software execution and numerical behavior. They are not measurements of photonic hardware latency, energy efficiency, throughput, or optical behavior."
   },
   "status": {
-    "completed_experiments": 23,
-    "latest_completed_experiment": "exp023_qant_hierarchical_low_fanin",
+    "completed_experiments": 24,
+    "latest_completed_experiment": "exp024_qant_hierarchical_architecture_search",
     "current_research_direction": "Q.ANT-specific architecture research: investigating whether hardware-supported nonlinearities and KAN-style operations can produce more parameter-efficient neural architectures than conventional ReLU networks."
   },
   "experiments": [
@@ -468,13 +468,58 @@
         "epochs": 3,
         "planned_runs": 6
       }
+    },
+    {
+      "id": "exp024_qant_hierarchical_architecture_search",
+      "experiment_type": "architecture_search",
+      "completed": true,
+      "result_count": 18,
+      "summary_count": 6,
+      "dataset": "FashionMNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-24T20:02:08.687536+00:00",
+      "pareto_front": [
+        "hierarchical_16x2_g4",
+        "hierarchical_8x4_g4",
+        "hierarchical_16x4_g4",
+        "hierarchical_28x4_g4",
+        "hierarchical_16x8_g4"
+      ],
+      "pareto_applicable": true,
+      "configuration": {
+        "train_samples": 60000,
+        "test_samples": 10000,
+        "epochs": 3,
+        "planned_runs": 18
+      }
     }
   ],
   "featured_comparison": {
-    "experiment_id": "exp023_qant_hierarchical_low_fanin",
+    "experiment_id": "exp024_qant_hierarchical_architecture_search",
     "dataset": "FashionMNIST",
     "metric": "mean_qant_accuracy",
     "architectures": [
+      {
+        "architecture": "hierarchical_16x2_g4",
+        "parameters": 15146,
+        "mean_accuracy": 0.8312333333333332,
+        "std_accuracy": 0.003104119127152727,
+        "pareto": true
+      },
+      {
+        "architecture": "hierarchical_4x4_g4",
+        "parameters": 26394,
+        "mean_accuracy": 0.8207,
+        "std_accuracy": 0.009841070402485004,
+        "pareto": false
+      },
+      {
+        "architecture": "hierarchical_8x4_g4",
+        "parameters": 27690,
+        "mean_accuracy": 0.8364333333333334,
+        "std_accuracy": 0.0007717224601860324,
+        "pareto": true
+      },
       {
         "architecture": "hierarchical_16x4_g4",
         "parameters": 30282,
@@ -483,11 +528,18 @@
         "pareto": true
       },
       {
-        "architecture": "monolithic_g4",
-        "parameters": 62730,
-        "mean_accuracy": 0.8298666666666666,
-        "std_accuracy": 0.007972591938775128,
-        "pareto": false
+        "architecture": "hierarchical_28x4_g4",
+        "parameters": 34170,
+        "mean_accuracy": 0.8480666666666666,
+        "std_accuracy": 0.003222145592958562,
+        "pareto": true
+      },
+      {
+        "architecture": "hierarchical_16x8_g4",
+        "parameters": 60554,
+        "mean_accuracy": 0.8539333333333333,
+        "std_accuracy": 0.0017987650084309219,
+        "pareto": true
       }
     ]
   },
