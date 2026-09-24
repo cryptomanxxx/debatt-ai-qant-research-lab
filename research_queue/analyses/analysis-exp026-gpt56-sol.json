@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp026-gpt56-sol",
+  "experiment_id": "exp026_qant_predictive_compatibility_model",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "not_supported",
+  "findings": [
+    "The held-out combined model predicted MAE 0.09327, 0.08046 and 0.06160 for 7x4, 14x4 and 49x4, while observed means were 0.08815, 0.07511 and 0.09187.",
+    "The model predicted the wrong held-out ordering and substantially underestimated 49x4 error.",
+    "Stage-1-only, stage-2-only and combined regressions produced effectively identical held-out predictions.",
+    "With fixed width=4, stage1_terms and stage2_terms are structurally coupled, preventing independent identification of their effects."
+  ],
+  "interpretation": "Exp026 falsifies the proposed predictive model and reveals an identifiability problem in its calibration design. A factorial experiment that independently varies group count and feature width is required before fitting a genuine two-stage compatibility model.",
+  "next_research_direction": "Run a factorial group-count by feature-width diagnostic, measuring stage-local and end-to-end discrepancy, to break the stage-1/stage-2 accumulation coupling.",
+  "limitations": ["CPU backend only; no photonic hardware performance claim.","Only three held-out topologies were tested."]
+}
