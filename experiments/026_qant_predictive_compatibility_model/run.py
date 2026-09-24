@@ -18,7 +18,7 @@ SEEDS=[11,22,33]; HELD=[7,14,49]; WIDTH=4; K=[1,2,3,4]
 src=json.loads(Path("results/exp025_qant_hierarchical_error_localization.json").read_text())
 cal=[]
 for s in src["summary"].values():
- cal.append((float(s["stage1_terms_per_output"]),float(s["stage2_terms_per_output"]),float(s["end_to_end_logit_error"])))
+ cal.append([float(s["stage1_terms_per_output"]),float(s["stage2_terms_per_output"]),float(s["end_to_end_logit_error"])])
 x1=np.log(np.array([x[0] for x in cal])); x2=np.log(np.array([x[1] for x in cal])); y=np.log(np.array([x[2] for x in cal]))
 def fit(cols):
  X=np.column_stack([np.ones(len(y))]+cols); return np.linalg.lstsq(X,y,rcond=None)[0]
