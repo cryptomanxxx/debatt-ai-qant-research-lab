@@ -1,0 +1,15 @@
+{
+  "job_id": "exp020-qant-kan-additivity-ladder",
+  "status": "approved",
+  "experiment": "experiments/020_qant_kan_additivity_ladder/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-015-qant-kan-additivity-ladder",
+  "budget": {
+    "max_parameters": 10000,
+    "max_candidates": 18,
+    "max_epochs": 1,
+    "max_train_samples": 1,
+    "max_test_samples": 256
+  },
+  "source_proposal": "proposal-015-qant-kan-additivity-ladder"
+}
