@@ -1,0 +1,209 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp022_qant_grouped_accumulation_architecture",
+  "experiment_type": "architecture_search",
+  "timestamp_utc": "2026-09-24T19:19:27.138504+00:00",
+  "backend": "qant-cpu",
+  "dataset": "FashionMNIST",
+  "source_proposal": "proposal-017-qant-grouped-accumulation-architecture",
+  "job_id": "exp022-qant-grouped-accumulation-architecture",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "configuration": {
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "planned_runs": 9,
+    "frequencies": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "conditions": {
+      "monolithic_g4": 1,
+      "grouped_g4_4": 4,
+      "grouped_g4_16": 16
+    },
+    "shared_model_per_seed": true
+  },
+  "budget": {
+    "max_parameters": 63000,
+    "max_candidates": 9,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.5.3"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "monolithic_g4",
+      "groups": 1,
+      "max_inputs_per_qant_call": 784,
+      "terms_per_call_upper_bound": 3136,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8347,
+      "qant_accuracy": 0.8368,
+      "prediction_disagreements": 279,
+      "mean_absolute_logit_error": 0.23458150029182434,
+      "mean_max_absolute_logit_error_per_sample": 0.7381910085678101
+    },
+    {
+      "seed": 11,
+      "candidate_id": "grouped_g4_4",
+      "groups": 4,
+      "max_inputs_per_qant_call": 196,
+      "terms_per_call_upper_bound": 784,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8347,
+      "qant_accuracy": 0.8353,
+      "prediction_disagreements": 93,
+      "mean_absolute_logit_error": 0.08933093398809433,
+      "mean_max_absolute_logit_error_per_sample": 0.24572283029556274
+    },
+    {
+      "seed": 11,
+      "candidate_id": "grouped_g4_16",
+      "groups": 16,
+      "max_inputs_per_qant_call": 49,
+      "terms_per_call_upper_bound": 196,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8347,
+      "qant_accuracy": 0.8334,
+      "prediction_disagreements": 36,
+      "mean_absolute_logit_error": 0.03499849513173103,
+      "mean_max_absolute_logit_error_per_sample": 0.08742937445640564
+    },
+    {
+      "seed": 22,
+      "candidate_id": "monolithic_g4",
+      "groups": 1,
+      "max_inputs_per_qant_call": 784,
+      "terms_per_call_upper_bound": 3136,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8283,
+      "qant_accuracy": 0.8187,
+      "prediction_disagreements": 378,
+      "mean_absolute_logit_error": 0.23438887298107147,
+      "mean_max_absolute_logit_error_per_sample": 0.7008943557739258
+    },
+    {
+      "seed": 22,
+      "candidate_id": "grouped_g4_4",
+      "groups": 4,
+      "max_inputs_per_qant_call": 196,
+      "terms_per_call_upper_bound": 784,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8283,
+      "qant_accuracy": 0.8266,
+      "prediction_disagreements": 126,
+      "mean_absolute_logit_error": 0.09059298783540726,
+      "mean_max_absolute_logit_error_per_sample": 0.24646064639091492
+    },
+    {
+      "seed": 22,
+      "candidate_id": "grouped_g4_16",
+      "groups": 16,
+      "max_inputs_per_qant_call": 49,
+      "terms_per_call_upper_bound": 196,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8283,
+      "qant_accuracy": 0.8286,
+      "prediction_disagreements": 41,
+      "mean_absolute_logit_error": 0.030853569507598877,
+      "mean_max_absolute_logit_error_per_sample": 0.07753714919090271
+    },
+    {
+      "seed": 33,
+      "candidate_id": "monolithic_g4",
+      "groups": 1,
+      "max_inputs_per_qant_call": 784,
+      "terms_per_call_upper_bound": 3136,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8354,
+      "qant_accuracy": 0.8341,
+      "prediction_disagreements": 312,
+      "mean_absolute_logit_error": 0.21812765300273895,
+      "mean_max_absolute_logit_error_per_sample": 0.6601149439811707
+    },
+    {
+      "seed": 33,
+      "candidate_id": "grouped_g4_4",
+      "groups": 4,
+      "max_inputs_per_qant_call": 196,
+      "terms_per_call_upper_bound": 784,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8354,
+      "qant_accuracy": 0.8347,
+      "prediction_disagreements": 124,
+      "mean_absolute_logit_error": 0.09463085979223251,
+      "mean_max_absolute_logit_error_per_sample": 0.2585698366165161
+    },
+    {
+      "seed": 33,
+      "candidate_id": "grouped_g4_16",
+      "groups": 16,
+      "max_inputs_per_qant_call": 49,
+      "terms_per_call_upper_bound": 196,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8354,
+      "qant_accuracy": 0.8342,
+      "prediction_disagreements": 36,
+      "mean_absolute_logit_error": 0.03166412189602852,
+      "mean_max_absolute_logit_error_per_sample": 0.08009841293096542
+    }
+  ],
+  "summary": {
+    "monolithic_g4": {
+      "groups": 1,
+      "max_inputs_per_qant_call": 784,
+      "terms_per_call_upper_bound": 3136,
+      "parameter_count": 62730,
+      "mean_reference_accuracy": 0.8328000000000001,
+      "std_reference_accuracy": 0.0031947874212013873,
+      "mean_qant_accuracy": 0.8298666666666666,
+      "std_qant_accuracy": 0.007972591938775128,
+      "mean_prediction_disagreements": 323.0,
+      "mean_absolute_logit_error": 0.22903267542521158,
+      "mean_max_absolute_logit_error_per_sample": 0.6997334361076355
+    },
+    "grouped_g4_4": {
+      "groups": 4,
+      "max_inputs_per_qant_call": 196,
+      "terms_per_call_upper_bound": 784,
+      "parameter_count": 62730,
+      "mean_reference_accuracy": 0.8328000000000001,
+      "std_reference_accuracy": 0.0031947874212013873,
+      "mean_qant_accuracy": 0.8321999999999999,
+      "std_qant_accuracy": 0.003967366884975484,
+      "mean_prediction_disagreements": 114.33333333333333,
+      "mean_absolute_logit_error": 0.09151826053857803,
+      "mean_max_absolute_logit_error_per_sample": 0.25025110443433124
+    },
+    "grouped_g4_16": {
+      "groups": 16,
+      "max_inputs_per_qant_call": 49,
+      "terms_per_call_upper_bound": 196,
+      "parameter_count": 62730,
+      "mean_reference_accuracy": 0.8328000000000001,
+      "std_reference_accuracy": 0.0031947874212013873,
+      "mean_qant_accuracy": 0.8320666666666666,
+      "std_qant_accuracy": 0.0024729649321322067,
+      "mean_prediction_disagreements": 37.666666666666664,
+      "mean_absolute_logit_error": 0.03250539551178614,
+      "mean_max_absolute_logit_error_per_sample": 0.08168831219275792
+    }
+  },
+  "pareto_front": [
+    "grouped_g4_4"
+  ],
+  "notes": "Same trained g4 model is evaluated with 1, 4, or 16 Q.ANT KAN calls over disjoint input groups, then group logits are summed. This isolates accumulation/evaluation grouping without changing learned parameters or exact-cosine reference function. CPU backend only; no photonic hardware performance claim."
+}
