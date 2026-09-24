@@ -1,0 +1,15 @@
+{
+  "job_id": "exp030-qant-compatibility-model-v3",
+  "status": "approved",
+  "experiment": "experiments/030_qant_compatibility_model_v3/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-025-qant-compatibility-model-v3",
+  "budget": {
+    "max_parameters": 65000,
+    "max_candidates": 12,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-025-qant-compatibility-model-v3"
+}
