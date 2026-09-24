@@ -1,0 +1,15 @@
+{
+  "job_id": "exp017-qant-logit-margin-diagnostic",
+  "status": "approved",
+  "experiment": "experiments/017_qant_logit_margin_diagnostic/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-012-qant-logit-margin-diagnostic",
+  "budget": {
+    "max_parameters": 126000,
+    "max_candidates": 6,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-012-qant-logit-margin-diagnostic"
+}
