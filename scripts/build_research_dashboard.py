@@ -38,6 +38,7 @@ EXPERIMENT_TYPES = {
     "exp026_qant_predictive_compatibility_model": "diagnostic",
     "exp027_qant_factorial_accumulation_map": "diagnostic",
     "exp028_qant_predictive_compatibility_v2": "validation",
+    "exp029_qant_7x2_residual_localization": "diagnostic",
 }
 
 for p in sorted(RESULTS.glob("exp*.json")):
