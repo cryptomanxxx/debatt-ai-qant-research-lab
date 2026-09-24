@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp015-gpt56-sol",
+  "experiment_id": "exp015_qant_aligned_training_surrogate",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "not_supported",
+  "findings": [
+    "For g4, surrogate training reduced mean prediction disagreements from 323.33 to 311.0 (about 3.8%) while mean Q.ANT accuracy changed only from 0.82987 to 0.82950.",
+    "For g8, surrogate training increased mean prediction disagreements from 586.67 to 600.0 while mean Q.ANT accuracy changed only from 0.82103 to 0.82137.",
+    "The pre-registered criterion required disagreement reduction for both g4 and g8 without material Q.ANT accuracy loss, so the hypothesis is not supported.",
+    "The opposite g4/g8 behavior suggests that a global one-period response surrogate is insufficient to explain or correct deployment mismatch at higher Fourier frequency."
+  ],
+  "interpretation": "Exp015 rules out the simplest global response-alignment intervention. The next experiment should observe the actual arguments used by trained models and quantify how much weighted activation mass falls in high-residual regions identified by Exp014.",
+  "next_research_direction": "Instrument locked exact-cosine g4 and g8 models after training, collect k*x+phase modulo 2*pi on a fixed FashionMNIST test subset, and relate argument occupancy plus learned amplitude magnitude to a Q.ANT residual lookup table.",
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Three seeds and three epochs limit precision.",
+    "The surrogate was fitted globally at k=1, phase=0 and may not capture quantization interactions in learned multi-frequency models."
+  ]
+}
