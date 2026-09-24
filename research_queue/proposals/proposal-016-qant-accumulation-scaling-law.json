@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-016-qant-accumulation-scaling-law",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp020_qant_kan_additivity_ladder.json",
+  "research_question": "How does full-call Q.ANT CPU-backend numerical error scale with input-channel count and Fourier-component count when no split-call reconstruction is used?",
+  "observations": [
+    "Exp020 showed increasing full-call Q.ANT-versus-exact-cosine error as tensor size and component count increased.",
+    "At 32 inputs and 10 outputs, increasing from 4 to 8 Fourier components approximately doubled the measured error.",
+    "Split-call diagnostics themselves accumulate numerical differences, so Exp021 will use only one full Q.ANT call per condition."
+  ],
+  "hypothesis": "Mean absolute Q.ANT-versus-exact-cosine error will increase systematically with the number of accumulated terms, input_channels multiplied by components, and a simple power-law model will explain a substantial fraction of the variation.",
+  "falsification_criterion": "The hypothesis is weakened if error is not monotonically related to accumulated-term count across repeated seeds or if fitted scaling against term count has poor explanatory power relative to separate input/component effects.",
+  "proposed_method": {
+    "experiment_type": "diagnostic",
+    "dataset": "synthetic",
+    "input_channels": [1,4,16,32,64,128,256,512,784],
+    "components": [1,2,4,8],
+    "output_channels": 10,
+    "seeds": [11,22,33],
+    "samples_per_condition": 256,
+    "primary_metrics": [
+      "qant_mae_vs_exact_cosine",
+      "qant_rmse_vs_exact_cosine",
+      "qant_max_abs_vs_exact_cosine",
+      "accumulated_terms"
+    ],
+    "scaling_analysis": [
+      "log-log slope of MAE versus accumulated_terms",
+      "R2 for one-variable power-law fit",
+      "separate grouped summaries by input_channels and components"
+    ],
+    "planned_runs": 108
+  },
+  "requested_budget": {
+    "max_parameters": 130000,
+    "max_candidates": 108,
+    "max_epochs": 1,
+    "max_train_samples": 1,
+    "max_test_samples": 256
+  },
+  "approval_required": true,
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Synthetic random amplitudes/phases do not reproduce the learned parameter distribution of FashionMNIST models.",
+    "A fitted scaling law is descriptive over the tested range and should not be extrapolated beyond it without validation."
+  ]
+}
