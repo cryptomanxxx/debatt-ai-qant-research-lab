@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-09-24T00:09:36.144709+00:00",
+  "generated_at_utc": "2026-09-24T00:35:16.617330+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -8,8 +8,8 @@
     "backend_disclaimer": "Q.ANT CPU-backend results validate software execution and numerical behavior. They are not measurements of photonic hardware latency, energy efficiency, throughput, or optical behavior."
   },
   "status": {
-    "completed_experiments": 11,
-    "latest_completed_experiment": "exp011_qant_fourier_capacity",
+    "completed_experiments": 12,
+    "latest_completed_experiment": "exp012_qant_fourier_robust_training",
     "current_research_direction": "Q.ANT-specific architecture research: investigating whether hardware-supported nonlinearities and KAN-style operations can produce more parameter-efficient neural architectures than conventional ReLU networks."
   },
   "experiments": [
@@ -196,39 +196,45 @@
         "epochs": 3,
         "planned_runs": 12
       }
+    },
+    {
+      "id": "exp012_qant_fourier_robust_training",
+      "dataset": "FashionMNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-24T00:35:16.071254+00:00",
+      "pareto_front": [],
+      "configuration": {
+        "train_samples": 60000,
+        "test_samples": 10000,
+        "epochs": 3,
+        "planned_runs": 9
+      }
     }
   ],
   "featured_comparison": {
-    "experiment_id": "exp011_qant_fourier_capacity",
+    "experiment_id": "exp012_qant_fourier_robust_training",
     "dataset": "FashionMNIST",
     "metric": "mean_qant_accuracy",
     "architectures": [
       {
-        "architecture": "qfourier_g2",
-        "parameters": 31370,
-        "mean_accuracy": 0.8225333333333333,
-        "std_accuracy": 0.004249182927993998,
-        "pareto": true
-      },
-      {
-        "architecture": "qfourier_g4",
+        "architecture": "noise_0",
         "parameters": 62730,
         "mean_accuracy": 0.8298666666666666,
         "std_accuracy": 0.007972591938775128,
-        "pareto": true
+        "pareto": false
       },
       {
-        "architecture": "h64_512",
-        "parameters": 88650,
-        "mean_accuracy": 0.8582000000000001,
-        "std_accuracy": 0.005376492040974904,
-        "pareto": true
+        "architecture": "noise_002",
+        "parameters": 62730,
+        "mean_accuracy": 0.8301333333333334,
+        "std_accuracy": 0.008165510122188071,
+        "pareto": false
       },
       {
-        "architecture": "qfourier_g8",
-        "parameters": 125450,
-        "mean_accuracy": 0.8210333333333333,
-        "std_accuracy": 0.015877937173603158,
+        "architecture": "noise_004",
+        "parameters": 62730,
+        "mean_accuracy": 0.8304333333333332,
+        "std_accuracy": 0.008525386925073949,
         "pareto": false
       }
     ]
