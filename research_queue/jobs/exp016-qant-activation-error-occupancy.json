@@ -1,0 +1,15 @@
+{
+  "job_id": "exp016-qant-activation-error-occupancy",
+  "status": "approved",
+  "experiment": "experiments/016_qant_activation_error_occupancy/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-011-qant-activation-error-occupancy",
+  "budget": {
+    "max_parameters": 126000,
+    "max_candidates": 6,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-011-qant-activation-error-occupancy"
+}
