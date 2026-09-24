@@ -8,6 +8,8 @@ from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
 import qant_native_computing_toolkit.ai as q_ai
 from ml_dtypes import bfloat16
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from scripts.research_progress import ResearchProgress
 
 job_path=os.environ.get("QANT_JOB_CONFIG")
