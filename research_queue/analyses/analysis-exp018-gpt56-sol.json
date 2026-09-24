@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp018-gpt56-sol",
+  "experiment_id": "exp018_qant_frequency_controlled_g8",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "not_supported",
+  "findings": [
+    "Frequency-controlled g8 reduced mean prediction disagreements only modestly, from 586.67 to 558.67.",
+    "Frequency-controlled g8 did not reduce mean absolute logit error: it increased from 0.4558 for standard g8 to 0.4879.",
+    "Mean maximum absolute logit error per sample increased from 1.6193 to 1.7083.",
+    "Mean reference accuracy fell from 0.83647 for standard g8 to 0.82753 for repeated-low-frequency g8.",
+    "Mean Q.ANT accuracy fell from 0.82103 to 0.81417.",
+    "The g4 baseline remained the only Pareto point in this experiment at 62,730 parameters and mean Q.ANT accuracy 0.82987."
+  ],
+  "interpretation": "Removing frequencies 5-8 while holding the eight-component parameter count fixed did not solve the model-level reference-to-Q.ANT mismatch. Exp014 established that single-operation residual grows with frequency, but Exp018 shows that this fact alone is insufficient to explain the larger g8 deployment error. A more plausible next target is error accumulation across the weighted sum of Fourier components, including the scale and distribution of learned amplitudes.",
+  "next_research_direction": "Directly measure how learned amplitude magnitude and component-wise Q.ANT residual contributions accumulate into output-logit error for locked g4 and g8 models, then use those measurements to design a targeted regularization or normalization intervention.",
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Three seeds and three epochs limit precision.",
+    "Repeating frequencies 1-4 preserves parameter count but changes the representational function class relative to distinct frequencies 1-8.",
+    "The experiment does not isolate amplitude scale or cancellation between signed component errors."
+  ]
+}
