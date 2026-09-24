@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp017-gpt56-sol",
+  "experiment_id": "exp017_qant_logit_margin_diagnostic",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "supported_with_qualification",
+  "findings": [
+    "g8 mean absolute reference-to-Q.ANT logit error was 0.4558 versus 0.2289 for g4, about 1.99x larger.",
+    "g8 mean maximum absolute logit error per sample was 1.6193 versus 0.6997 for g4, about 2.31x larger.",
+    "Mean prediction disagreements increased from 323.33 for g4 to 586.67 for g8, about 1.81x.",
+    "For both architectures, disagreement was strongly enriched at small reference top-1/top-2 margins.",
+    "g8 remained more vulnerable than g4 at larger margins: across all three seeds g4 had zero disagreements above margin 2, while g8 retained non-zero disagreement above margin 2.",
+    "The mean error-to-margin ratio is unstable for examples with near-zero margins; the per-seed median ratio is a more robust descriptive statistic and was consistently higher for g8."
+  ],
+  "interpretation": "The preregistered hypothesis is supported with qualification. Exp017 provides evidence for a downstream mechanism in which g8 accumulates substantially larger reference-to-Q.ANT CPU-backend logit perturbations, and class flips are concentrated where those perturbations interact with limited decision margin. The experiment is observational and does not by itself prove which upstream Fourier components cause the extra logit error. Combined with Exp014's frequency-dependent residual, the next experiment should intervene on the frequency schedule while holding g8 parameter count fixed.",
+  "next_research_direction": "Compare g4 k=[1,2,3,4], standard g8 k=[1,2,3,4,5,6,7,8], and frequency-controlled g8 k=[1,2,3,4,1,2,3,4]. Test whether removing frequencies 5-8 while preserving eight trainable amplitude/phase components reduces accumulated logit error and prediction disagreement without collapsing reference accuracy.",
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Three seeds and three epochs limit precision.",
+    "Margin association does not prove the upstream source of every logit perturbation.",
+    "Mean error-to-margin ratios are sensitive to near-zero margins."
+  ]
+}
