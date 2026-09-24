@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp028-gpt56-sol",
+  "experiment_id": "exp028_qant_predictive_compatibility_v2",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "supported_with_qualification",
+  "findings": [
+    "Overall held-out mean absolute prediction error was 0.007928.",
+    "Predictions were close for 14x4, 28x4 and 49x2, with absolute mean errors 0.00426, 0.00398 and 0.00148.",
+    "7x2 was a strong residual: predicted MAE 0.07013 versus observed 0.09212.",
+    "The preregistered held-out ranking was not recovered because 7x2 was predicted as low-error but observed as the highest-error candidate."
+  ],
+  "interpretation": "Breaking the Exp026 confounding materially improved absolute prediction for most held-out architectures, but term counts alone are insufficient. The 7x2 residual motivates a controlled error-localization experiment.",
+  "next_research_direction": "Localize the 7x2 residual by comparing it with matched low-error architectures at stage 1, head-on-reference-input, and propagated-stage1-error levels.",
+  "limitations": ["Small calibration and held-out sets.","CPU backend only; no photonic hardware performance claim."]
+}
