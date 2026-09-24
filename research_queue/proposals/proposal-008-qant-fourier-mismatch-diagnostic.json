@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-008-qant-fourier-mismatch-diagnostic",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp012_qant_fourier_robust_training.json",
+  "research_question": "Where and how does Q.ANT calc_kan_layer_fprop diverge from the exact cosine reference as Fourier frequency and argument vary?",
+  "observations": [
+    "Exp011 showed disagreement increasing strongly at grid size 8 while Q.ANT accuracy deteriorated.",
+    "Exp012 showed that output-noise training did not reduce mean reference-to-Q.ANT disagreement.",
+    "The next useful step is therefore to characterize the numerical periodic-response mismatch directly rather than adding more model capacity or noise."
+  ],
+  "hypothesis": "The exact-cosine versus Q.ANT discrepancy is structured rather than uniform: absolute error will vary systematically with argument modulo 2*pi and will increase for at least some higher-frequency k values after bfloat16 conversion.",
+  "falsification_criterion": "The hypothesis is weakened if error is approximately uniform across phase bins and does not materially differ across the pre-registered k values 1, 2, 4 and 8.",
+  "proposed_method": {
+    "experiment_type": "diagnostic",
+    "operation": "qant.ai.calc_kan_layer_fprop",
+    "input_domain": [-3.141592653589793, 3.141592653589793],
+    "input_points": 4096,
+    "frequencies": [1, 2, 4, 8],
+    "phases": [-1.5707963267948966, -0.7853981633974483, 0.0, 0.7853981633974483, 1.5707963267948966],
+    "amplitude": 1.0,
+    "phase_bins": 32,
+    "primary_metrics": ["mean_absolute_error", "max_absolute_error", "rmse", "error_by_phase_bin", "error_by_frequency"],
+    "planned_runs": 20
+  },
+  "requested_budget": {
+    "max_parameters": 1,
+    "max_candidates": 20,
+    "max_epochs": 1,
+    "max_train_samples": 4096,
+    "max_test_samples": 4096
+  },
+  "approval_required": true,
+  "limitations": [
+    "This is a numerical diagnostic on the Q.ANT CPU backend, not a measurement of physical photonic hardware.",
+    "The scalar sweep isolates the periodic operation and does not reproduce the full distribution of arguments encountered inside a trained network.",
+    "bfloat16 conversion is part of the evaluated Q.ANT path, so the experiment does not by itself separate approximation error from quantization effects."
+  ]
+}
