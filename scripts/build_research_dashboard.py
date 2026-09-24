@@ -23,6 +23,7 @@ EXPERIMENT_TYPES = {
     "exp011_qant_fourier_capacity": "architecture_search",
     "exp012_qant_fourier_robust_training": "training_method",
     "exp013_qant_fourier_mismatch_diagnostic": "diagnostic",
+    "exp014_qant_fourier_error_decomposition": "diagnostic",
 }
 
 for p in sorted(RESULTS.glob("exp*.json")):
