@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp029-gpt56-sol",
+  "experiment_id": "exp029_qant_7x2_residual_localization",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "supported",
+  "findings": [
+    "7x2 had the smallest isolated stage-2 Q.ANT error (0.02130) but the largest stage-2 input-propagation error (0.09341) and end-to-end error (0.09212).",
+    "The amplitude-weighted sensitivity proxy was 0.16507 for 7x2, versus 0.05720 for 14x4 and 0.02540 for 49x2.",
+    "The high 7x2 residual is therefore consistent with amplification of upstream perturbations rather than unusually poor isolated Q.ANT approximation in the head.",
+    "Across 7x2 seeds, the largest sensitivity proxy coincided with the largest propagation and end-to-end errors."
+  ],
+  "interpretation": "Compatibility depends not only on local accumulation width but also on how strongly downstream learned structure amplifies upstream numerical perturbations.",
+  "next_research_direction": "Test a predictive model that adds a pre-Q.ANT head-sensitivity feature to stage-1 and stage-2 accumulation counts, with predictions frozen before held-out Q.ANT evaluation.",
+  "limitations": ["The sensitivity measure is a proxy, not a full Jacobian norm.","CPU backend only; no photonic hardware performance claim."]
+}
