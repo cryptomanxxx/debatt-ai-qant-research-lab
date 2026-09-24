@@ -1,0 +1,15 @@
+{
+  "job_id": "exp014-qant-fourier-error-decomposition",
+  "status": "approved",
+  "experiment": "experiments/014_qant_fourier_error_decomposition/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-009-qant-fourier-error-decomposition",
+  "budget": {
+    "max_parameters": 1,
+    "max_candidates": 20,
+    "max_epochs": 1,
+    "max_train_samples": 4096,
+    "max_test_samples": 4096
+  },
+  "source_proposal": "proposal-009-qant-fourier-error-decomposition"
+}
