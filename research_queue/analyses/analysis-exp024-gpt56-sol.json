@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp024-gpt56-sol",
+  "experiment_id": "exp024_qant_hierarchical_architecture_search",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "supported_with_qualification",
+  "findings": [
+    "At four features per group, increasing groups from 4 to 8 to 16 reduced mean logit MAE from 0.11062 to 0.08800 to 0.06984 while Q.ANT accuracy increased from 0.8207 to 0.83643 to 0.84670.",
+    "Increasing to 28 groups did not continue the numerical-error improvement: mean logit MAE rose to 0.07614 despite lower first-stage fan-in.",
+    "The 16x2 model used only 15146 parameters and reached 0.83123 mean Q.ANT accuracy.",
+    "The 16x8 model achieved the highest mean Q.ANT accuracy, 0.85393, but had higher logit MAE than 16x4.",
+    "Five of six candidates were non-dominated under the experiment's accuracy-versus-parameter Pareto objective."
+  ],
+  "interpretation": "The search supports a useful low-fan-in region but falsifies a simple monotonic rule that smaller first-stage fan-in always improves numerical agreement. Because increasing group count reduces stage-1 accumulation while increasing the dimensionality accumulated by the stage-2 head, the full hierarchy is a plausible explanatory variable.",
+  "next_research_direction": "Measure numerical discrepancy separately after stage 1 and after stage 2 across controlled group counts, and compare observed errors with each stage's accumulated term count.",
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "The search jointly changes first-stage fan-in and second-stage input width when group count changes.",
+    "Three seeds and FashionMNIST do not establish generality."
+  ]
+}
