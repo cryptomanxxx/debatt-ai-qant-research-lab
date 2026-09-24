@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-020-qant-hierarchical-error-localization",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp024_qant_hierarchical_architecture_search.json",
+  "research_question": "Is the non-monotonic numerical error across hierarchical QFourier architectures explained by a trade-off between accumulation in stage 1 and accumulation in the stage-2 head?",
+  "observations": [
+    "For width 4, logit MAE improved from 4 to 8 to 16 groups but worsened at 28 groups.",
+    "More groups reduce pixels per first-stage block while increasing the number of intermediate features consumed by the head."
+  ],
+  "hypothesis": "Stage-1 reference-to-Q.ANT error will generally fall as input groups become smaller, while stage-2 error contribution will eventually grow as the head receives more intermediate features; their combination will explain the observed minimum near the middle of the tested group-count range.",
+  "falsification_criterion": "The hypothesis is weakened if stage-local errors do not show the predicted opposing trends or if their measured behavior cannot account for the non-monotonic final-logit error.",
+  "proposed_method": {
+    "experiment_type": "diagnostic",
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "seeds": [11,22,33],
+    "grid_size": 4,
+    "features_per_group": 4,
+    "group_counts": [4,8,16,28],
+    "measurements": [
+      "stage1_mean_absolute_feature_error",
+      "stage1_mean_max_absolute_feature_error_per_sample",
+      "stage2_head_error_given_reference_stage1",
+      "stage2_head_error_given_qant_stage1",
+      "end_to_end_logit_error",
+      "prediction_disagreements",
+      "reference_accuracy",
+      "qant_accuracy"
+    ],
+    "planned_runs": 12
+  },
+  "requested_budget": {
+    "max_parameters": 35000,
+    "max_candidates": 12,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Stage-local error metrics are diagnostic decompositions and need not add linearly because the second stage is nonlinear."
+  ]
+}
