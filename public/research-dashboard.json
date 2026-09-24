@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at_utc": "2026-09-24T18:53:46.153509+00:00",
+  "generated_at_utc": "2026-09-24T18:57:23.999596+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -8,8 +8,8 @@
     "backend_disclaimer": "Q.ANT CPU-backend results validate software execution and numerical behavior. They are not measurements of photonic hardware latency, energy efficiency, throughput, or optical behavior."
   },
   "status": {
-    "completed_experiments": 20,
-    "latest_completed_experiment": "exp020_qant_kan_additivity_ladder",
+    "completed_experiments": 21,
+    "latest_completed_experiment": "exp021_qant_accumulation_scaling_law",
     "current_research_direction": "Q.ANT-specific architecture research: investigating whether hardware-supported nonlinearities and KAN-style operations can produce more parameter-efficient neural architectures than conventional ReLU networks."
   },
   "experiments": [
@@ -412,6 +412,21 @@
       "pareto_applicable": false,
       "configuration": {
         "planned_runs": 18
+      }
+    },
+    {
+      "id": "exp021_qant_accumulation_scaling_law",
+      "experiment_type": "diagnostic",
+      "completed": true,
+      "result_count": 108,
+      "summary_count": 36,
+      "dataset": "synthetic",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-24T18:57:23.892845+00:00",
+      "pareto_front": [],
+      "pareto_applicable": false,
+      "configuration": {
+        "planned_runs": 108
       }
     }
   ],
