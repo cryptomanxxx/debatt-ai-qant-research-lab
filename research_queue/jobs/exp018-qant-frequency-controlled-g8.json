@@ -1,0 +1,15 @@
+{
+  "job_id": "exp018-qant-frequency-controlled-g8",
+  "status": "approved",
+  "experiment": "experiments/018_qant_frequency_controlled_g8/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-013-qant-frequency-controlled-g8",
+  "budget": {
+    "max_parameters": 126000,
+    "max_candidates": 9,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-013-qant-frequency-controlled-g8"
+}
