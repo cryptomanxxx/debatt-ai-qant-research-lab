@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp023-gpt56-sol",
+  "experiment_id": "exp023_qant_hierarchical_low_fanin",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "supported",
+  "findings": [
+    "The hierarchical 16x4 g4 architecture used 30282 parameters versus 62730 for monolithic g4.",
+    "Mean reference accuracy increased from 0.8328 to 0.84663 and mean Q.ANT CPU-backend accuracy increased from 0.82987 to 0.84670.",
+    "Mean prediction disagreements fell from 323.33 to 109.67.",
+    "Mean absolute logit error fell from 0.22890 to 0.06984.",
+    "The hierarchical architecture dominated the monolithic baseline in the experiment's accuracy-versus-parameter Pareto comparison."
+  ],
+  "interpretation": "Exp023 supports making low fan-in a learned architectural property rather than only an evaluation-time decomposition. Under this FashionMNIST setup the tested hierarchy simultaneously improved parameter efficiency, reference accuracy, Q.ANT CPU-backend accuracy and numerical agreement.",
+  "next_research_direction": "Map the local architecture landscape around the successful hierarchy by varying the number of input groups and learned features per group while holding the Fourier grid at g4. Evaluate accuracy, parameter count and Q.ANT numerical agreement jointly.",
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Only one hierarchical topology was compared with the monolithic baseline.",
+    "FashionMNIST and three seeds do not establish generality."
+  ]
+}
