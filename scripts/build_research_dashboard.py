@@ -27,6 +27,7 @@ EXPERIMENT_TYPES = {
     "exp015_qant_aligned_training_surrogate": "training_method",
     "exp016_qant_activation_error_occupancy": "diagnostic",
     "exp017_qant_logit_margin_diagnostic": "diagnostic",
+    "exp018_qant_frequency_controlled_g8": "architecture_search",
 }
 
 for p in sorted(RESULTS.glob("exp*.json")):
