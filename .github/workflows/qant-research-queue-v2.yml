@@ -8,6 +8,10 @@ on:
         required: true
         default: "smoke-test-v2"
         type: string
+  push:
+    branches: [main]
+    paths:
+      - "research_queue/jobs/*.json"
 
 permissions:
   contents: write
@@ -31,13 +35,29 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install torch torchvision numpy ml_dtypes
+      - name: Resolve approved job
+        id: resolve
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            job_id="${{ inputs.job_id }}"
+          else
+            job_file="$(git diff-tree --no-commit-id --name-only -r "${{ github.sha }}" -- 'research_queue/jobs/*.json' | head -n 1)"
+            if [ -z "$job_file" ]; then
+              echo "No approved research job was added or changed in this commit."
+              exit 1
+            fi
+            job_id="$(basename "$job_file" .json)"
+          fi
+          echo "job_id=$job_id" >> "$GITHUB_OUTPUT"
+          echo "Resolved approved job: $job_id"
       - name: Validate and run approved job
-        run: python scripts/run_research_job_v2.py "${{ inputs.job_id }}"
+        run: python scripts/run_research_job_v2.py "${{ steps.resolve.outputs.job_id }}"
       - name: Write execution record
         if: success()
         run: |
           mkdir -p local_results/executions
-          printf '{"job_id":"%s","status":"completed","git_commit":"%s","runner":"github-actions","run_id":"%s"}\n'             "${{ inputs.job_id }}" "${{ github.sha }}" "${{ github.run_id }}"             > "local_results/executions/${{ inputs.job_id }}-${{ github.run_id }}.json"
+          printf '{"job_id":"%s","status":"completed","git_commit":"%s","runner":"github-actions","run_id":"%s"}\n'             "${{ steps.resolve.outputs.job_id }}" "${{ github.sha }}" "${{ github.run_id }}"             > "local_results/executions/${{ steps.resolve.outputs.job_id }}-${{ github.run_id }}.json"
       - name: Publish results and execution record
         if: success()
         run: |
@@ -52,5 +72,5 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add results/ executions/ public/research-dashboard.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "Complete guarded research job ${{ inputs.job_id }}"
+          git commit -m "Complete guarded research job ${{ steps.resolve.outputs.job_id }}"
           git push
