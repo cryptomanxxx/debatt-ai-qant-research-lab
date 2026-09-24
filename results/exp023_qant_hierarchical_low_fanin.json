@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp023_qant_hierarchical_low_fanin",
+  "experiment_type": "architecture_search",
+  "timestamp_utc": "2026-09-24T19:37:30.516658+00:00",
+  "backend": "qant-cpu",
+  "dataset": "FashionMNIST",
+  "source_proposal": "proposal-018-qant-hierarchical-low-fanin",
+  "job_id": "exp023-qant-hierarchical-low-fanin",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "configuration": {
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "planned_runs": 6,
+    "frequencies": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "hierarchical": {
+      "groups": 16,
+      "pixels_per_group": 49,
+      "features_per_group": 4,
+      "head_inputs": 64
+    }
+  },
+  "budget": {
+    "max_parameters": 63000,
+    "max_candidates": 6,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.5.3"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "monolithic_g4",
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8347,
+      "qant_accuracy": 0.8368,
+      "prediction_disagreements": 279,
+      "mean_absolute_logit_error": 0.23442979156970978,
+      "mean_max_absolute_logit_error_per_sample": 0.7381237149238586
+    },
+    {
+      "seed": 11,
+      "candidate_id": "hierarchical_16x4_g4",
+      "parameter_count": 30282,
+      "reference_accuracy": 0.8472,
+      "qant_accuracy": 0.847,
+      "prediction_disagreements": 127,
+      "mean_absolute_logit_error": 0.07294172048568726,
+      "mean_max_absolute_logit_error_per_sample": 0.18570561707019806
+    },
+    {
+      "seed": 22,
+      "candidate_id": "monolithic_g4",
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8283,
+      "qant_accuracy": 0.8187,
+      "prediction_disagreements": 379,
+      "mean_absolute_logit_error": 0.23426634073257446,
+      "mean_max_absolute_logit_error_per_sample": 0.7009074091911316
+    },
+    {
+      "seed": 22,
+      "candidate_id": "hierarchical_16x4_g4",
+      "parameter_count": 30282,
+      "reference_accuracy": 0.8469,
+      "qant_accuracy": 0.8472,
+      "prediction_disagreements": 100,
+      "mean_absolute_logit_error": 0.06685294955968857,
+      "mean_max_absolute_logit_error_per_sample": 0.17519943416118622
+    },
+    {
+      "seed": 33,
+      "candidate_id": "monolithic_g4",
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8354,
+      "qant_accuracy": 0.8341,
+      "prediction_disagreements": 312,
+      "mean_absolute_logit_error": 0.2180081605911255,
+      "mean_max_absolute_logit_error_per_sample": 0.6601291298866272
+    },
+    {
+      "seed": 33,
+      "candidate_id": "hierarchical_16x4_g4",
+      "parameter_count": 30282,
+      "reference_accuracy": 0.8458,
+      "qant_accuracy": 0.8459,
+      "prediction_disagreements": 102,
+      "mean_absolute_logit_error": 0.06971949338912964,
+      "mean_max_absolute_logit_error_per_sample": 0.18047356605529785
+    }
+  ],
+  "summary": {
+    "monolithic_g4": {
+      "parameter_count": 62730,
+      "mean_reference_accuracy": 0.8328000000000001,
+      "std_reference_accuracy": 0.0031947874212013873,
+      "mean_qant_accuracy": 0.8298666666666666,
+      "std_qant_accuracy": 0.007972591938775128,
+      "mean_prediction_disagreements": 323.3333333333333,
+      "mean_absolute_logit_error": 0.2289014309644699,
+      "mean_max_absolute_logit_error_per_sample": 0.6997200846672058
+    },
+    "hierarchical_16x4_g4": {
+      "parameter_count": 30282,
+      "mean_reference_accuracy": 0.8466333333333332,
+      "std_reference_accuracy": 0.0006018490028422446,
+      "mean_qant_accuracy": 0.8466999999999999,
+      "std_qant_accuracy": 0.0005715476066493971,
+      "mean_prediction_disagreements": 109.66666666666667,
+      "mean_absolute_logit_error": 0.06983805447816849,
+      "mean_max_absolute_logit_error_per_sample": 0.1804595390955607
+    }
+  },
+  "pareto_front": [
+    "hierarchical_16x4_g4"
+  ],
+  "notes": "Native two-stage low-fan-in Fourier/KAN architecture versus monolithic g4. CPU backend only; no photonic hardware performance claim."
+}
