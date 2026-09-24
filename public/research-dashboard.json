@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at_utc": "2026-09-24T08:24:20.657996+00:00",
+  "generated_at_utc": "2026-09-24T08:47:26.933612+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -17,7 +17,7 @@
       "id": "exp001_baseline",
       "experiment_type": "baseline",
       "completed": true,
-      "result_count": 0,
+      "result_count": 1,
       "summary_count": 0,
       "dataset": "MNIST",
       "backend": "qant-cpu",
