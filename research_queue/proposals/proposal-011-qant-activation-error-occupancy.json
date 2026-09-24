@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-011-qant-activation-error-occupancy",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp015_qant_aligned_training_surrogate.json",
+  "research_question": "Do trained g8 QFourier models place more amplitude-weighted computation than g4 models in periodic argument regions where the Q.ANT response has high residual error?",
+  "observations": [
+    "Exp014 found strong phase-dependent residual error after controlling for bfloat16.",
+    "Exp015 reduced disagreement for g4 but not g8 using a global response surrogate.",
+    "A model-level occupancy diagnostic can test whether learned phases, frequencies and amplitudes concentrate g8 computation in high-residual regions."
+  ],
+  "hypothesis": "Compared with g4, trained exact-cosine g8 models will have a larger amplitude-weighted fraction of activation arguments in the highest-residual phase bins, and this exposure will be positively associated with prediction disagreement across seeds.",
+  "falsification_criterion": "The hypothesis is weakened if g8 does not show greater amplitude-weighted high-error-bin exposure than g4, or if exposure does not track the observed g4/g8 disagreement difference across the pre-registered seeds.",
+  "proposed_method": {
+    "experiment_type": "diagnostic",
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "analysis_test_samples": 1000,
+    "epochs": 3,
+    "seeds": [11, 22, 33],
+    "architectures": ["qfourier_g4", "qfourier_g8"],
+    "training_condition": "exact_cosine",
+    "phase_bins": 32,
+    "residual_lookup_points": 4096,
+    "primary_metrics": [
+      "mean_prediction_disagreements",
+      "amplitude_weighted_mean_residual",
+      "amplitude_weighted_high_error_fraction",
+      "unweighted_high_error_fraction"
+    ],
+    "planned_runs": 6
+  },
+  "requested_budget": {
+    "max_parameters": 126000,
+    "max_candidates": 6,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Occupancy is observational and cannot by itself establish that high-error-region exposure causes classification disagreement.",
+    "The diagnostic test subset is fixed to 1000 examples to bound the large activation tensor analysis."
+  ]
+}
