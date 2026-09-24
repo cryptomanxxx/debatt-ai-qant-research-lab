@@ -60,7 +60,9 @@ MAPPINGS={
  "proposal-020-qant-hierarchical-error-localization":(
    "exp025-qant-hierarchical-error-localization","experiments/025_qant_hierarchical_error_localization/run.py"),
  "proposal-021-qant-predictive-compatibility-model":(
-   "exp026-qant-predictive-compatibility-model","experiments/026_qant_predictive_compatibility_model/run.py")
+   "exp026-qant-predictive-compatibility-model","experiments/026_qant_predictive_compatibility_model/run.py"),
+ "proposal-022-qant-factorial-accumulation-map":(
+   "exp027-qant-factorial-accumulation-map","experiments/027_qant_factorial_accumulation_map/run.py")
 }
 if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
