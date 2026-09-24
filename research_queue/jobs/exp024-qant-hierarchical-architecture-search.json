@@ -1,0 +1,15 @@
+{
+  "job_id": "exp024-qant-hierarchical-architecture-search",
+  "status": "approved",
+  "experiment": "experiments/024_qant_hierarchical_architecture_search/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-019-qant-hierarchical-architecture-search",
+  "budget": {
+    "max_parameters": 65000,
+    "max_candidates": 18,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-019-qant-hierarchical-architecture-search"
+}
