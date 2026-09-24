@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-022-qant-factorial-accumulation-map",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_results": ["results/exp025_qant_hierarchical_error_localization.json","results/exp026_qant_predictive_compatibility_model.json"],
+  "research_question": "When group count and features per group are varied independently, can stage-1 and stage-2 accumulation effects on Q.ANT numerical discrepancy be separately identified?",
+  "hypothesis": "A factorial design will reveal independently measurable stage-1 and stage-2 accumulation effects, resolving the confounding exposed by Exp026.",
+  "falsification_criterion": "The hypothesis is weakened if independently changing feature width does not alter stage-2 discrepancy in a reproducible way or if stage-local effects remain inseparable.",
+  "proposed_method": {
+    "experiment_type": "diagnostic",
+    "dataset": "FashionMNIST",
+    "group_counts": [8,16,28],
+    "features_per_group": [2,8],
+    "grid_size": 4,
+    "seeds": [11,22,33],
+    "epochs": 3,
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "planned_runs": 18,
+    "primary_metrics": ["stage1_mean_absolute_feature_error","stage2_head_error_given_reference_stage1","stage2_input_propagation_error","end_to_end_logit_error","reference_accuracy","qant_accuracy","prediction_disagreements"]
+  },
+  "requested_budget": {"max_parameters": 70000,"max_candidates": 18,"max_epochs": 3,"max_train_samples": 60000,"max_test_samples": 10000},
+  "approval_required": true,
+  "limitations": ["CPU backend only; no photonic hardware performance claim.","Factorial grid is bounded rather than exhaustive."]
+}
