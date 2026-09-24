@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at_utc": "2026-09-24T20:25:12.393256+00:00",
+  "generated_at_utc": "2026-09-24T21:01:42.043962+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -8,8 +8,8 @@
     "backend_disclaimer": "Q.ANT CPU-backend results validate software execution and numerical behavior. They are not measurements of photonic hardware latency, energy efficiency, throughput, or optical behavior."
   },
   "status": {
-    "completed_experiments": 25,
-    "latest_completed_experiment": "exp025_qant_hierarchical_error_localization",
+    "completed_experiments": 26,
+    "latest_completed_experiment": "exp026_qant_predictive_compatibility_model",
     "current_research_direction": "Q.ANT-specific architecture research: investigating whether hardware-supported nonlinearities and KAN-style operations can produce more parameter-efficient neural architectures than conventional ReLU networks."
   },
   "experiments": [
@@ -510,6 +510,18 @@
         "epochs": 3,
         "planned_runs": 12
       }
+    },
+    {
+      "id": "exp026_qant_predictive_compatibility_model",
+      "experiment_type": "diagnostic",
+      "completed": true,
+      "result_count": 9,
+      "summary_count": 4,
+      "dataset": "FashionMNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-24T21:01:41.347501+00:00",
+      "pareto_front": [],
+      "pareto_applicable": false
     }
   ],
   "featured_comparison": {

@@ -1,0 +1,271 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp026_qant_predictive_compatibility_model",
+  "experiment_type": "diagnostic",
+  "timestamp_utc": "2026-09-24T21:01:41.347501+00:00",
+  "backend": "qant-cpu",
+  "dataset": "FashionMNIST",
+  "source_proposal": "proposal-021-qant-predictive-compatibility-model",
+  "job_id": "exp026-qant-predictive-compatibility-model",
+  "calibration": {
+    "source": "exp025",
+    "points": [
+      [
+        784.0,
+        64.0,
+        0.11071198185284932
+      ],
+      [
+        392.0,
+        128.0,
+        0.08791885028282802
+      ],
+      [
+        196.0,
+        256.0,
+        0.06983551383018494
+      ],
+      [
+        112.0,
+        448.0,
+        0.07605581978956859
+      ]
+    ],
+    "coefficients": {
+      "stage1_only": [
+        -3.6734073828270737,
+        0.21312762125101972
+      ],
+      "stage2_only": [
+        -1.3666648826584014,
+        -0.21312762125101978
+      ],
+      "combined": [
+        -0.04230248261219251,
+        -0.12236225238642834,
+        -0.33548987363744787
+      ]
+    }
+  },
+  "predictions_made_before_heldout_training": {
+    "7": {
+      "stage1_terms": 448,
+      "stage2_terms": 112,
+      "stage1_only": 0.09326528469300972,
+      "stage2_only": 0.09326528469300956,
+      "combined": 0.09326528469300956
+    },
+    "14": {
+      "stage1_terms": 224,
+      "stage2_terms": 224,
+      "stage1_only": 0.08045669957578347,
+      "stage2_only": 0.08045669957578329,
+      "combined": 0.08045669957578333
+    },
+    "49": {
+      "stage1_terms": 64,
+      "stage2_terms": 784,
+      "stage1_only": 0.06160362737555814,
+      "stage2_only": 0.06160362737555801,
+      "combined": 0.06160362737555806
+    }
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "hierarchical_7x4_g4",
+      "groups": 7,
+      "parameter_count": 27366,
+      "reference_accuracy": 0.8429,
+      "qant_accuracy": 0.842,
+      "prediction_disagreements": 111,
+      "observed_end_to_end_logit_mae": 0.08299212157726288,
+      "predicted_stage1_only": 0.09326528469300972,
+      "predicted_stage2_only": 0.09326528469300956,
+      "predicted_combined": 0.09326528469300956,
+      "absolute_error_stage1_only": 0.010273163115746844,
+      "absolute_error_stage2_only": 0.010273163115746678,
+      "absolute_error_combined": 0.010273163115746678
+    },
+    {
+      "seed": 11,
+      "candidate_id": "hierarchical_14x4_g4",
+      "groups": 14,
+      "parameter_count": 29634,
+      "reference_accuracy": 0.8389,
+      "qant_accuracy": 0.837,
+      "prediction_disagreements": 152,
+      "observed_end_to_end_logit_mae": 0.07520219683647156,
+      "predicted_stage1_only": 0.08045669957578347,
+      "predicted_stage2_only": 0.08045669957578329,
+      "predicted_combined": 0.08045669957578333,
+      "absolute_error_stage1_only": 0.0052545027393119115,
+      "absolute_error_stage2_only": 0.005254502739311731,
+      "absolute_error_combined": 0.005254502739311773
+    },
+    {
+      "seed": 11,
+      "candidate_id": "hierarchical_49x4_g4",
+      "groups": 49,
+      "parameter_count": 40974,
+      "reference_accuracy": 0.8583,
+      "qant_accuracy": 0.8591,
+      "prediction_disagreements": 149,
+      "observed_end_to_end_logit_mae": 0.09000617265701294,
+      "predicted_stage1_only": 0.06160362737555814,
+      "predicted_stage2_only": 0.06160362737555801,
+      "predicted_combined": 0.06160362737555806,
+      "absolute_error_stage1_only": 0.028402545281454798,
+      "absolute_error_stage2_only": 0.02840254528145493,
+      "absolute_error_combined": 0.02840254528145488
+    },
+    {
+      "seed": 22,
+      "candidate_id": "hierarchical_7x4_g4",
+      "groups": 7,
+      "parameter_count": 27366,
+      "reference_accuracy": 0.8294,
+      "qant_accuracy": 0.8293,
+      "prediction_disagreements": 106,
+      "observed_end_to_end_logit_mae": 0.08735088258981705,
+      "predicted_stage1_only": 0.09326528469300972,
+      "predicted_stage2_only": 0.09326528469300956,
+      "predicted_combined": 0.09326528469300956,
+      "absolute_error_stage1_only": 0.005914402103192676,
+      "absolute_error_stage2_only": 0.005914402103192509,
+      "absolute_error_combined": 0.005914402103192509
+    },
+    {
+      "seed": 22,
+      "candidate_id": "hierarchical_14x4_g4",
+      "groups": 14,
+      "parameter_count": 29634,
+      "reference_accuracy": 0.8504,
+      "qant_accuracy": 0.8505,
+      "prediction_disagreements": 111,
+      "observed_end_to_end_logit_mae": 0.07169340550899506,
+      "predicted_stage1_only": 0.08045669957578347,
+      "predicted_stage2_only": 0.08045669957578329,
+      "predicted_combined": 0.08045669957578333,
+      "absolute_error_stage1_only": 0.008763294066788413,
+      "absolute_error_stage2_only": 0.008763294066788233,
+      "absolute_error_combined": 0.008763294066788274
+    },
+    {
+      "seed": 22,
+      "candidate_id": "hierarchical_49x4_g4",
+      "groups": 49,
+      "parameter_count": 40974,
+      "reference_accuracy": 0.8594,
+      "qant_accuracy": 0.8612,
+      "prediction_disagreements": 147,
+      "observed_end_to_end_logit_mae": 0.09377627074718475,
+      "predicted_stage1_only": 0.06160362737555814,
+      "predicted_stage2_only": 0.06160362737555801,
+      "predicted_combined": 0.06160362737555806,
+      "absolute_error_stage1_only": 0.03217264337162661,
+      "absolute_error_stage2_only": 0.032172643371626744,
+      "absolute_error_combined": 0.032172643371626695
+    },
+    {
+      "seed": 33,
+      "candidate_id": "hierarchical_7x4_g4",
+      "groups": 7,
+      "parameter_count": 27366,
+      "reference_accuracy": 0.8262,
+      "qant_accuracy": 0.827,
+      "prediction_disagreements": 131,
+      "observed_end_to_end_logit_mae": 0.09411083906888962,
+      "predicted_stage1_only": 0.09326528469300972,
+      "predicted_stage2_only": 0.09326528469300956,
+      "predicted_combined": 0.09326528469300956,
+      "absolute_error_stage1_only": 0.000845554375879895,
+      "absolute_error_stage2_only": 0.0008455543758800615,
+      "absolute_error_combined": 0.0008455543758800615
+    },
+    {
+      "seed": 33,
+      "candidate_id": "hierarchical_14x4_g4",
+      "groups": 14,
+      "parameter_count": 29634,
+      "reference_accuracy": 0.8469,
+      "qant_accuracy": 0.8477,
+      "prediction_disagreements": 98,
+      "observed_end_to_end_logit_mae": 0.07844790071249008,
+      "predicted_stage1_only": 0.08045669957578347,
+      "predicted_stage2_only": 0.08045669957578329,
+      "predicted_combined": 0.08045669957578333,
+      "absolute_error_stage1_only": 0.0020087988632933873,
+      "absolute_error_stage2_only": 0.002008798863293207,
+      "absolute_error_combined": 0.0020087988632932485
+    },
+    {
+      "seed": 33,
+      "candidate_id": "hierarchical_49x4_g4",
+      "groups": 49,
+      "parameter_count": 40974,
+      "reference_accuracy": 0.8569,
+      "qant_accuracy": 0.858,
+      "prediction_disagreements": 179,
+      "observed_end_to_end_logit_mae": 0.0918218195438385,
+      "predicted_stage1_only": 0.06160362737555814,
+      "predicted_stage2_only": 0.06160362737555801,
+      "predicted_combined": 0.06160362737555806,
+      "absolute_error_stage1_only": 0.03021819216828036,
+      "absolute_error_stage2_only": 0.03021819216828049,
+      "absolute_error_combined": 0.030218192168280443
+    }
+  ],
+  "summary": {
+    "7": {
+      "observed_mean": 0.08815128107865651,
+      "predicted_stage1_only": 0.09326528469300972,
+      "predicted_stage2_only": 0.09326528469300956,
+      "predicted_combined": 0.09326528469300956,
+      "mae_stage1_only": 0.005677706531606472,
+      "mae_stage2_only": 0.005677706531606416,
+      "mae_combined": 0.005677706531606416
+    },
+    "14": {
+      "observed_mean": 0.0751145010193189,
+      "predicted_stage1_only": 0.08045669957578347,
+      "predicted_stage2_only": 0.08045669957578329,
+      "predicted_combined": 0.08045669957578333,
+      "mae_stage1_only": 0.005342198556464571,
+      "mae_stage2_only": 0.0053421985564643905,
+      "mae_combined": 0.005342198556464432
+    },
+    "49": {
+      "observed_mean": 0.0918680876493454,
+      "predicted_stage1_only": 0.06160362737555814,
+      "predicted_stage2_only": 0.06160362737555801,
+      "predicted_combined": 0.06160362737555806,
+      "mae_stage1_only": 0.030264460273787253,
+      "mae_stage2_only": 0.03026446027378739,
+      "mae_combined": 0.030264460273787337
+    },
+    "heldout_rankings": {
+      "observed": [
+        1,
+        0,
+        2
+      ],
+      "stage1_only": [
+        2,
+        1,
+        0
+      ],
+      "stage2_only": [
+        2,
+        1,
+        0
+      ],
+      "combined": [
+        2,
+        1,
+        0
+      ]
+    }
+  },
+  "notes": "Predictions are calibrated only on Exp025 summaries and computed before held-out models are trained. CPU backend only."
+}
