@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp016_qant_activation_error_occupancy",
+  "experiment_type": "diagnostic",
+  "timestamp_utc": "2026-09-24T10:15:02.534983+00:00",
+  "backend": "qant-cpu",
+  "dataset": "FashionMNIST",
+  "source_proposal": "proposal-011-qant-activation-error-occupancy",
+  "job_id": "exp016-qant-activation-error-occupancy",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "configuration": {
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "analysis_test_samples": 1000,
+    "epochs": 3,
+    "planned_runs": 6,
+    "grid_sizes": [
+      4,
+      8
+    ],
+    "phase_bins": 32,
+    "residual_lookup_points": 4096
+  },
+  "residual_lookup": {
+    "bin_mean_residual": [
+      0.0009368192404508591,
+      0.0007901154458522797,
+      0.0012736101634800434,
+      0.0010183509439229965,
+      0.0007531777955591679,
+      0.0007286982145160437,
+      0.00038641702849417925,
+      0.00012443718151189387,
+      0.00012807664461433887,
+      0.00042331323493272066,
+      0.0006336064543575048,
+      0.0009936881251633167,
+      0.0009550075046718121,
+      0.0009812284260988235,
+      0.0009624715894460678,
+      0.000884749460965395,
+      0.000884749460965395,
+      0.0009624715894460678,
+      0.0009812284260988235,
+      0.0009550075046718121,
+      0.0009936881251633167,
+      0.0006336064543575048,
+      0.00042331323493272066,
+      0.00012807664461433887,
+      0.00012443718151189387,
+      0.00038641702849417925,
+      0.0007286982145160437,
+      0.0007531777955591679,
+      0.0010183509439229965,
+      0.0012736101634800434,
+      0.0007901154458522797,
+      0.0009368192404508591
+    ],
+    "high_error_threshold": 0.0009671607986092567,
+    "high_error_bins": [
+      2,
+      3,
+      11,
+      13,
+      18,
+      20,
+      28,
+      29
+    ]
+  },
+  "budget": {
+    "max_parameters": 126000,
+    "max_candidates": 6,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.5.3"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "condition_id": "qfourier_g4",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8347,
+      "qant_accuracy": 0.8368,
+      "prediction_disagreements": 279,
+      "analysis_samples": 1000,
+      "amplitude_weighted_mean_residual": 0.0007116068601484568,
+      "amplitude_weighted_high_error_fraction": 0.2356430361719663,
+      "unweighted_high_error_fraction": 0.2496045280612245
+    },
+    {
+      "seed": 11,
+      "condition_id": "qfourier_g8",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8403,
+      "qant_accuracy": 0.8314,
+      "prediction_disagreements": 566,
+      "analysis_samples": 1000,
+      "amplitude_weighted_mean_residual": 0.0007188183362001211,
+      "amplitude_weighted_high_error_fraction": 0.23639724006097243,
+      "unweighted_high_error_fraction": 0.2492100924744898
+    },
+    {
+      "seed": 22,
+      "condition_id": "qfourier_g4",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8283,
+      "qant_accuracy": 0.8187,
+      "prediction_disagreements": 378,
+      "analysis_samples": 1000,
+      "amplitude_weighted_mean_residual": 0.0007115337917325768,
+      "amplitude_weighted_high_error_fraction": 0.23673774622985322,
+      "unweighted_high_error_fraction": 0.25123463010204083
+    },
+    {
+      "seed": 22,
+      "condition_id": "qfourier_g8",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8289,
+      "qant_accuracy": 0.7986,
+      "prediction_disagreements": 733,
+      "analysis_samples": 1000,
+      "amplitude_weighted_mean_residual": 0.0007182879580176147,
+      "amplitude_weighted_high_error_fraction": 0.23910501473413795,
+      "unweighted_high_error_fraction": 0.25043113839285713
+    },
+    {
+      "seed": 33,
+      "condition_id": "qfourier_g4",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8354,
+      "qant_accuracy": 0.8341,
+      "prediction_disagreements": 312,
+      "analysis_samples": 1000,
+      "amplitude_weighted_mean_residual": 0.0007111375314561639,
+      "amplitude_weighted_high_error_fraction": 0.23614298440683715,
+      "unweighted_high_error_fraction": 0.25103919005102043
+    },
+    {
+      "seed": 33,
+      "condition_id": "qfourier_g8",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8402,
+      "qant_accuracy": 0.8331,
+      "prediction_disagreements": 461,
+      "analysis_samples": 1000,
+      "amplitude_weighted_mean_residual": 0.0007188515636411961,
+      "amplitude_weighted_high_error_fraction": 0.23751860507542996,
+      "unweighted_high_error_fraction": 0.24861251594387754
+    }
+  ],
+  "summary": {
+    "qfourier_g4": {
+      "grid_size": 4,
+      "mean_qant_accuracy": 0.8298666666666666,
+      "mean_prediction_disagreements": 323.0,
+      "mean_amplitude_weighted_residual": 0.0007114260611123992,
+      "mean_amplitude_weighted_high_error_fraction": 0.2361745889362189,
+      "mean_unweighted_high_error_fraction": 0.25062611607142854,
+      "parameter_count": 62730
+    },
+    "qfourier_g8": {
+      "grid_size": 8,
+      "mean_qant_accuracy": 0.8210333333333333,
+      "mean_prediction_disagreements": 586.6666666666666,
+      "mean_amplitude_weighted_residual": 0.0007186526192863107,
+      "mean_amplitude_weighted_high_error_fraction": 0.23767361995684677,
+      "mean_unweighted_high_error_fraction": 0.2494179156037415,
+      "parameter_count": 125450
+    }
+  },
+  "pareto_front": [],
+  "notes": "Observational diagnostic linking trained-model argument occupancy to Q.ANT CPU-backend residual regions. No photonic hardware performance claim."
+}
