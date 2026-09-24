@@ -17,7 +17,8 @@ def fail(msg):
 
 if len(sys.argv)!=2: fail("usage: <job_id>")
 job_id=sys.argv[1]
-if not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,63}",job_id): fail("invalid job_id")
+# Keep job IDs bounded, but allow descriptive experiment IDs longer than 64 chars.
+if not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,95}",job_id): fail("invalid job_id")
 path=Path("research_queue/jobs")/f"{job_id}.json"
 if not path.exists(): fail("unknown job")
 job=json.loads(path.read_text())
