@@ -75,7 +75,13 @@ for p in sorted(RESULTS.glob("exp*.json")):
         }
     experiments.append(item)
 
-    if o.get("summary") and item["timestamp_utc"]:
+    # The featured accuracy-vs-parameters chart is an architecture comparison,
+    # so only architecture-search experiments are eligible to replace it.
+    if (
+        experiment_type == "architecture_search"
+        and o.get("summary")
+        and item["timestamp_utc"]
+    ):
         latest_candidates.append(o)
 
 latest = max(
@@ -110,7 +116,14 @@ payload = {
     },
     "status": {
         "completed_experiments": len(experiments),
-        "latest_completed_experiment": latest.get("experiment_id") if latest else None,
+        "latest_completed_experiment": (
+            max(
+                (e for e in experiments if e.get("timestamp_utc")),
+                key=lambda e: e["timestamp_utc"],
+            )["id"]
+            if any(e.get("timestamp_utc") for e in experiments)
+            else None
+        ),
         "current_research_direction": (
             ("Q.ANT-specific architecture research: investigating whether hardware-supported "
             "nonlinearities and KAN-style operations can produce more parameter-efficient "
