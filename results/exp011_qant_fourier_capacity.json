@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp011_qant_fourier_capacity",
+  "timestamp_utc": "2026-09-24T00:09:35.579842+00:00",
+  "backend": "qant-cpu",
+  "dataset": "FashionMNIST",
+  "source_proposal": "proposal-006-qant-fourier-capacity",
+  "job_id": "exp011-qant-fourier-capacity",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "candidates": {
+    "qfourier_g2": {
+      "kind": "fourier",
+      "grid_size": 2
+    },
+    "qfourier_g4": {
+      "kind": "fourier",
+      "grid_size": 4
+    },
+    "qfourier_g8": {
+      "kind": "fourier",
+      "grid_size": 8
+    },
+    "h64_512": {
+      "kind": "relu",
+      "widths": [
+        64,
+        512
+      ]
+    }
+  },
+  "configuration": {
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "planned_runs": 12,
+    "architecture_search_on_dataset": false,
+    "training_noise_std": null
+  },
+  "budget": {
+    "max_parameters": 130000,
+    "max_candidates": 12,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "qfourier_g2",
+      "kind": "fourier",
+      "grid_size": 2,
+      "parameter_count": 31370,
+      "reference_accuracy": 0.8289,
+      "qant_accuracy": 0.8267,
+      "prediction_disagreements": 164
+    },
+    {
+      "seed": 11,
+      "candidate_id": "qfourier_g4",
+      "kind": "fourier",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8347,
+      "qant_accuracy": 0.8368,
+      "prediction_disagreements": 279
+    },
+    {
+      "seed": 11,
+      "candidate_id": "qfourier_g8",
+      "kind": "fourier",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8403,
+      "qant_accuracy": 0.8314,
+      "prediction_disagreements": 566
+    },
+    {
+      "seed": 11,
+      "candidate_id": "h64_512",
+      "kind": "relu",
+      "grid_size": null,
+      "parameter_count": 88650,
+      "reference_accuracy": 0.8619,
+      "qant_accuracy": 0.8622,
+      "prediction_disagreements": 6
+    },
+    {
+      "seed": 22,
+      "candidate_id": "qfourier_g2",
+      "kind": "fourier",
+      "grid_size": 2,
+      "parameter_count": 31370,
+      "reference_accuracy": 0.8171,
+      "qant_accuracy": 0.8167,
+      "prediction_disagreements": 268
+    },
+    {
+      "seed": 22,
+      "candidate_id": "qfourier_g4",
+      "kind": "fourier",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8283,
+      "qant_accuracy": 0.8187,
+      "prediction_disagreements": 378
+    },
+    {
+      "seed": 22,
+      "candidate_id": "qfourier_g8",
+      "kind": "fourier",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8289,
+      "qant_accuracy": 0.7986,
+      "prediction_disagreements": 733
+    },
+    {
+      "seed": 22,
+      "candidate_id": "h64_512",
+      "kind": "relu",
+      "grid_size": null,
+      "parameter_count": 88650,
+      "reference_accuracy": 0.8503,
+      "qant_accuracy": 0.8506,
+      "prediction_disagreements": 8
+    },
+    {
+      "seed": 33,
+      "candidate_id": "qfourier_g2",
+      "kind": "fourier",
+      "grid_size": 2,
+      "parameter_count": 31370,
+      "reference_accuracy": 0.8225,
+      "qant_accuracy": 0.8242,
+      "prediction_disagreements": 390
+    },
+    {
+      "seed": 33,
+      "candidate_id": "qfourier_g4",
+      "kind": "fourier",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8354,
+      "qant_accuracy": 0.8341,
+      "prediction_disagreements": 312
+    },
+    {
+      "seed": 33,
+      "candidate_id": "qfourier_g8",
+      "kind": "fourier",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8402,
+      "qant_accuracy": 0.8331,
+      "prediction_disagreements": 461
+    },
+    {
+      "seed": 33,
+      "candidate_id": "h64_512",
+      "kind": "relu",
+      "grid_size": null,
+      "parameter_count": 88650,
+      "reference_accuracy": 0.862,
+      "qant_accuracy": 0.8618,
+      "prediction_disagreements": 6
+    }
+  ],
+  "summary": {
+    "qfourier_g2": {
+      "mean_qant_accuracy": 0.8225333333333333,
+      "std_qant_accuracy": 0.004249182927993998,
+      "min_qant_accuracy": 0.8167,
+      "max_qant_accuracy": 0.8267,
+      "mean_prediction_disagreements": 274.0,
+      "parameter_count": 31370,
+      "kind": "fourier"
+    },
+    "qfourier_g4": {
+      "mean_qant_accuracy": 0.8298666666666666,
+      "std_qant_accuracy": 0.007972591938775128,
+      "min_qant_accuracy": 0.8187,
+      "max_qant_accuracy": 0.8368,
+      "mean_prediction_disagreements": 323.0,
+      "parameter_count": 62730,
+      "kind": "fourier"
+    },
+    "qfourier_g8": {
+      "mean_qant_accuracy": 0.8210333333333333,
+      "std_qant_accuracy": 0.015877937173603158,
+      "min_qant_accuracy": 0.7986,
+      "max_qant_accuracy": 0.8331,
+      "mean_prediction_disagreements": 586.6666666666666,
+      "parameter_count": 125450,
+      "kind": "fourier"
+    },
+    "h64_512": {
+      "mean_qant_accuracy": 0.8582000000000001,
+      "std_qant_accuracy": 0.005376492040974904,
+      "min_qant_accuracy": 0.8506,
+      "max_qant_accuracy": 0.8622,
+      "mean_prediction_disagreements": 6.666666666666667,
+      "parameter_count": 88650,
+      "kind": "relu"
+    }
+  },
+  "pareto_front": [
+    "qfourier_g2",
+    "qfourier_g4",
+    "h64_512"
+  ],
+  "notes": "Locked capacity study. QFourier trains with exact torch.cos and no injected noise, then evaluates with calc_kan_layer_fprop. Q.ANT CPU backend only; no photonic performance claim."
+}
