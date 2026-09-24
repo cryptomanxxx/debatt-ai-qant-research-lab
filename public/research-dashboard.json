@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at_utc": "2026-09-24T08:58:17.440494+00:00",
+  "generated_at_utc": "2026-09-24T09:09:02.880756+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -8,7 +8,7 @@
     "backend_disclaimer": "Q.ANT CPU-backend results validate software execution and numerical behavior. They are not measurements of photonic hardware latency, energy efficiency, throughput, or optical behavior."
   },
   "status": {
-    "completed_experiments": 12,
+    "completed_experiments": 13,
     "latest_completed_experiment": "exp012_qant_fourier_robust_training",
     "current_research_direction": "Q.ANT-specific architecture research: investigating whether hardware-supported nonlinearities and KAN-style operations can produce more parameter-efficient neural architectures than conventional ReLU networks."
   },
@@ -268,6 +268,21 @@
         "test_samples": 10000,
         "epochs": 3,
         "planned_runs": 9
+      }
+    },
+    {
+      "id": "exp013_qant_fourier_mismatch_diagnostic",
+      "experiment_type": "diagnostic",
+      "completed": true,
+      "result_count": 20,
+      "summary_count": 0,
+      "dataset": "synthetic_periodic_sweep",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-24T09:09:02.787459+00:00",
+      "pareto_front": [],
+      "pareto_applicable": false,
+      "configuration": {
+        "planned_runs": 20
       }
     }
   ],
