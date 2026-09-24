@@ -1,0 +1,15 @@
+{
+  "job_id": "exp028-qant-predictive-compatibility-v2",
+  "status": "approved",
+  "experiment": "experiments/028_qant_predictive_compatibility_v2/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-023-qant-predictive-compatibility-v2",
+  "budget": {
+    "max_parameters": 45000,
+    "max_candidates": 12,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-023-qant-predictive-compatibility-v2"
+}
