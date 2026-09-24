@@ -1,0 +1,380 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp020_qant_kan_additivity_ladder",
+  "experiment_type": "diagnostic",
+  "timestamp_utc": "2026-09-24T18:47:27.752472+00:00",
+  "backend": "qant-cpu",
+  "dataset": "synthetic",
+  "source_proposal": "proposal-015-qant-kan-additivity-ladder",
+  "job_id": "exp020-qant-kan-additivity-ladder",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "configuration": {
+    "samples_per_case": 256,
+    "cases": [
+      {
+        "input_channels": 1,
+        "output_channels": 1,
+        "components": 1
+      },
+      {
+        "input_channels": 1,
+        "output_channels": 1,
+        "components": 4
+      },
+      {
+        "input_channels": 4,
+        "output_channels": 1,
+        "components": 4
+      },
+      {
+        "input_channels": 4,
+        "output_channels": 3,
+        "components": 4
+      },
+      {
+        "input_channels": 32,
+        "output_channels": 10,
+        "components": 4
+      },
+      {
+        "input_channels": 32,
+        "output_channels": 10,
+        "components": 8
+      }
+    ],
+    "planned_runs": 18
+  },
+  "budget": {
+    "max_parameters": 10000,
+    "max_candidates": 18,
+    "max_epochs": 1,
+    "max_train_samples": 1,
+    "max_test_samples": 256
+  },
+  "environment": {
+    "python": "3.13.15",
+    "numpy": "2.5.3"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "case_id": "in1_out1_k1",
+      "samples": 256,
+      "input_channels": 1,
+      "output_channels": 1,
+      "components": 1,
+      "component_split_mae_vs_full_qant": 0.0,
+      "component_split_max_abs_vs_full_qant": 0.0,
+      "input_split_mae_vs_full_qant": 0.0,
+      "input_split_max_abs_vs_full_qant": 0.0,
+      "full_qant_mae_vs_exact_cosine": 8.423130930168554e-05,
+      "full_qant_max_abs_vs_exact_cosine": 0.00036557484418153763
+    },
+    {
+      "seed": 11,
+      "case_id": "in1_out1_k4",
+      "samples": 256,
+      "input_channels": 1,
+      "output_channels": 1,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 3.870576620101929e-05,
+      "component_split_max_abs_vs_full_qant": 0.000152587890625,
+      "input_split_mae_vs_full_qant": 0.0,
+      "input_split_max_abs_vs_full_qant": 0.0,
+      "full_qant_mae_vs_exact_cosine": 0.0002472681226208806,
+      "full_qant_max_abs_vs_exact_cosine": 0.001314537599682808
+    },
+    {
+      "seed": 11,
+      "case_id": "in4_out1_k4",
+      "samples": 256,
+      "input_channels": 4,
+      "output_channels": 1,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 0.000544913113117218,
+      "component_split_max_abs_vs_full_qant": 0.0029296875,
+      "input_split_mae_vs_full_qant": 0.0005135536193847656,
+      "input_split_max_abs_vs_full_qant": 0.003021240234375,
+      "full_qant_mae_vs_exact_cosine": 0.0007222333224490285,
+      "full_qant_max_abs_vs_exact_cosine": 0.003608107566833496
+    },
+    {
+      "seed": 11,
+      "case_id": "in4_out3_k4",
+      "samples": 256,
+      "input_channels": 4,
+      "output_channels": 3,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 0.0005415554041974247,
+      "component_split_max_abs_vs_full_qant": 0.0029296875,
+      "input_split_mae_vs_full_qant": 0.0004992510075680912,
+      "input_split_max_abs_vs_full_qant": 0.003173828125,
+      "full_qant_mae_vs_exact_cosine": 0.000780865375418216,
+      "full_qant_max_abs_vs_exact_cosine": 0.003646567463874817
+    },
+    {
+      "seed": 11,
+      "case_id": "in32_out10_k4",
+      "samples": 256,
+      "input_channels": 32,
+      "output_channels": 10,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 0.00434485450387001,
+      "component_split_max_abs_vs_full_qant": 0.039306640625,
+      "input_split_mae_vs_full_qant": 0.0038903350941836834,
+      "input_split_max_abs_vs_full_qant": 0.02984619140625,
+      "full_qant_mae_vs_exact_cosine": 0.0042474595829844475,
+      "full_qant_max_abs_vs_exact_cosine": 0.032253384590148926
+    },
+    {
+      "seed": 11,
+      "case_id": "in32_out10_k8",
+      "samples": 256,
+      "input_channels": 32,
+      "output_channels": 10,
+      "components": 8,
+      "component_split_mae_vs_full_qant": 0.008363017812371254,
+      "component_split_max_abs_vs_full_qant": 0.0732421875,
+      "input_split_mae_vs_full_qant": 0.008061595261096954,
+      "input_split_max_abs_vs_full_qant": 0.075439453125,
+      "full_qant_mae_vs_exact_cosine": 0.009034340269863605,
+      "full_qant_max_abs_vs_exact_cosine": 0.07331740856170654
+    },
+    {
+      "seed": 22,
+      "case_id": "in1_out1_k1",
+      "samples": 256,
+      "input_channels": 1,
+      "output_channels": 1,
+      "components": 1,
+      "component_split_mae_vs_full_qant": 0.0,
+      "component_split_max_abs_vs_full_qant": 0.0,
+      "input_split_mae_vs_full_qant": 0.0,
+      "input_split_max_abs_vs_full_qant": 0.0,
+      "full_qant_mae_vs_exact_cosine": 0.00011721460032276809,
+      "full_qant_max_abs_vs_exact_cosine": 0.0003205249086022377
+    },
+    {
+      "seed": 22,
+      "case_id": "in1_out1_k4",
+      "samples": 256,
+      "input_channels": 1,
+      "output_channels": 1,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 9.111408144235611e-05,
+      "component_split_max_abs_vs_full_qant": 0.00042724609375,
+      "input_split_mae_vs_full_qant": 0.0,
+      "input_split_max_abs_vs_full_qant": 0.0,
+      "full_qant_mae_vs_exact_cosine": 0.00021375568758230656,
+      "full_qant_max_abs_vs_exact_cosine": 0.000941447913646698
+    },
+    {
+      "seed": 22,
+      "case_id": "in4_out1_k4",
+      "samples": 256,
+      "input_channels": 4,
+      "output_channels": 1,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 0.0005350112915039062,
+      "component_split_max_abs_vs_full_qant": 0.0032958984375,
+      "input_split_mae_vs_full_qant": 0.00046890974044799805,
+      "input_split_max_abs_vs_full_qant": 0.003173828125,
+      "full_qant_mae_vs_exact_cosine": 0.0007104568067006767,
+      "full_qant_max_abs_vs_exact_cosine": 0.0030025988817214966
+    },
+    {
+      "seed": 22,
+      "case_id": "in4_out3_k4",
+      "samples": 256,
+      "input_channels": 4,
+      "output_channels": 3,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 0.0006667475099675357,
+      "component_split_max_abs_vs_full_qant": 0.004150390625,
+      "input_split_mae_vs_full_qant": 0.0005497733945958316,
+      "input_split_max_abs_vs_full_qant": 0.003173828125,
+      "full_qant_mae_vs_exact_cosine": 0.0008888946031220257,
+      "full_qant_max_abs_vs_exact_cosine": 0.0038710981607437134
+    },
+    {
+      "seed": 22,
+      "case_id": "in32_out10_k4",
+      "samples": 256,
+      "input_channels": 32,
+      "output_channels": 10,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 0.00419320585206151,
+      "component_split_max_abs_vs_full_qant": 0.03857421875,
+      "input_split_mae_vs_full_qant": 0.003791193012148142,
+      "input_split_max_abs_vs_full_qant": 0.0323486328125,
+      "full_qant_mae_vs_exact_cosine": 0.004164599813520908,
+      "full_qant_max_abs_vs_exact_cosine": 0.03341221809387207
+    },
+    {
+      "seed": 22,
+      "case_id": "in32_out10_k8",
+      "samples": 256,
+      "input_channels": 32,
+      "output_channels": 10,
+      "components": 8,
+      "component_split_mae_vs_full_qant": 0.007905438542366028,
+      "component_split_max_abs_vs_full_qant": 0.062255859375,
+      "input_split_mae_vs_full_qant": 0.00752968480810523,
+      "input_split_max_abs_vs_full_qant": 0.0623779296875,
+      "full_qant_mae_vs_exact_cosine": 0.00843737367540598,
+      "full_qant_max_abs_vs_exact_cosine": 0.06951653957366943
+    },
+    {
+      "seed": 33,
+      "case_id": "in1_out1_k1",
+      "samples": 256,
+      "input_channels": 1,
+      "output_channels": 1,
+      "components": 1,
+      "component_split_mae_vs_full_qant": 0.0,
+      "component_split_max_abs_vs_full_qant": 0.0,
+      "input_split_mae_vs_full_qant": 0.0,
+      "input_split_max_abs_vs_full_qant": 0.0,
+      "full_qant_mae_vs_exact_cosine": 5.5361164413625374e-05,
+      "full_qant_max_abs_vs_exact_cosine": 0.00018684472888708115
+    },
+    {
+      "seed": 33,
+      "case_id": "in1_out1_k4",
+      "samples": 256,
+      "input_channels": 1,
+      "output_channels": 1,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 0.0001414269208908081,
+      "component_split_max_abs_vs_full_qant": 0.00079345703125,
+      "input_split_mae_vs_full_qant": 0.0,
+      "input_split_max_abs_vs_full_qant": 0.0,
+      "full_qant_mae_vs_exact_cosine": 0.00032175963860936463,
+      "full_qant_max_abs_vs_exact_cosine": 0.0012948298826813698
+    },
+    {
+      "seed": 33,
+      "case_id": "in4_out1_k4",
+      "samples": 256,
+      "input_channels": 4,
+      "output_channels": 1,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 0.0003203153610229492,
+      "component_split_max_abs_vs_full_qant": 0.00146484375,
+      "input_split_mae_vs_full_qant": 0.0003065168857574463,
+      "input_split_max_abs_vs_full_qant": 0.00146484375,
+      "full_qant_mae_vs_exact_cosine": 0.000472086772788316,
+      "full_qant_max_abs_vs_exact_cosine": 0.0018082261085510254
+    },
+    {
+      "seed": 33,
+      "case_id": "in4_out3_k4",
+      "samples": 256,
+      "input_channels": 4,
+      "output_channels": 3,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 0.0005866785650141537,
+      "component_split_max_abs_vs_full_qant": 0.0045166015625,
+      "input_split_mae_vs_full_qant": 0.0005121231079101562,
+      "input_split_max_abs_vs_full_qant": 0.0035400390625,
+      "full_qant_mae_vs_exact_cosine": 0.0007679327973164618,
+      "full_qant_max_abs_vs_exact_cosine": 0.003936678171157837
+    },
+    {
+      "seed": 33,
+      "case_id": "in32_out10_k4",
+      "samples": 256,
+      "input_channels": 32,
+      "output_channels": 10,
+      "components": 4,
+      "component_split_mae_vs_full_qant": 0.0043757082894444466,
+      "component_split_max_abs_vs_full_qant": 0.0537109375,
+      "input_split_mae_vs_full_qant": 0.0038921094965189695,
+      "input_split_max_abs_vs_full_qant": 0.050994873046875,
+      "full_qant_mae_vs_exact_cosine": 0.004305542912334204,
+      "full_qant_max_abs_vs_exact_cosine": 0.055586040019989014
+    },
+    {
+      "seed": 33,
+      "case_id": "in32_out10_k8",
+      "samples": 256,
+      "input_channels": 32,
+      "output_channels": 10,
+      "components": 8,
+      "component_split_mae_vs_full_qant": 0.008460368029773235,
+      "component_split_max_abs_vs_full_qant": 0.063720703125,
+      "input_split_mae_vs_full_qant": 0.008015675470232964,
+      "input_split_max_abs_vs_full_qant": 0.060546875,
+      "full_qant_mae_vs_exact_cosine": 0.008855035528540611,
+      "full_qant_max_abs_vs_exact_cosine": 0.06419074535369873
+    }
+  ],
+  "summary": {
+    "in1_out1_k1": {
+      "input_channels": 1,
+      "output_channels": 1,
+      "components": 1,
+      "mean_component_split_mae": 0.0,
+      "max_component_split_abs": 0.0,
+      "mean_input_split_mae": 0.0,
+      "max_input_split_abs": 0.0,
+      "mean_full_qant_mae_vs_exact_cosine": 8.5602358012693e-05
+    },
+    "in1_out1_k4": {
+      "input_channels": 1,
+      "output_channels": 1,
+      "components": 4,
+      "mean_component_split_mae": 9.04155895113945e-05,
+      "max_component_split_abs": 0.00079345703125,
+      "mean_input_split_mae": 0.0,
+      "max_input_split_abs": 0.0,
+      "mean_full_qant_mae_vs_exact_cosine": 0.0002609278162708506
+    },
+    "in4_out1_k4": {
+      "input_channels": 4,
+      "output_channels": 1,
+      "components": 4,
+      "mean_component_split_mae": 0.0004667465885480245,
+      "max_component_split_abs": 0.0032958984375,
+      "mean_input_split_mae": 0.0004296600818634033,
+      "max_input_split_abs": 0.003173828125,
+      "mean_full_qant_mae_vs_exact_cosine": 0.0006349256339793404
+    },
+    "in4_out3_k4": {
+      "input_channels": 4,
+      "output_channels": 3,
+      "components": 4,
+      "mean_component_split_mae": 0.0005983271597263714,
+      "max_component_split_abs": 0.0045166015625,
+      "mean_input_split_mae": 0.0005203825033580264,
+      "max_input_split_abs": 0.0035400390625,
+      "mean_full_qant_mae_vs_exact_cosine": 0.0008125642586189011
+    },
+    "in32_out10_k4": {
+      "input_channels": 32,
+      "output_channels": 10,
+      "components": 4,
+      "mean_component_split_mae": 0.004304589548458655,
+      "max_component_split_abs": 0.0537109375,
+      "mean_input_split_mae": 0.003857879200950265,
+      "max_input_split_abs": 0.050994873046875,
+      "mean_full_qant_mae_vs_exact_cosine": 0.004239200769613187
+    },
+    "in32_out10_k8": {
+      "input_channels": 32,
+      "output_channels": 10,
+      "components": 8,
+      "mean_component_split_mae": 0.008242941461503506,
+      "max_component_split_abs": 0.0732421875,
+      "mean_input_split_mae": 0.007868985179811716,
+      "max_input_split_abs": 0.075439453125,
+      "mean_full_qant_mae_vs_exact_cosine": 0.008775583157936731
+    }
+  },
+  "pareto_front": [],
+  "notes": "Synthetic additivity diagnostic for calc_kan_layer_fprop. No photonic hardware performance claim."
+}
