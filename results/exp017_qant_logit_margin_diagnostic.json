@@ -1,0 +1,478 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp017_qant_logit_margin_diagnostic",
+  "experiment_type": "diagnostic",
+  "timestamp_utc": "2026-09-24T16:28:34.851592+00:00",
+  "backend": "qant-cpu",
+  "dataset": "FashionMNIST",
+  "source_proposal": "proposal-012-qant-logit-margin-diagnostic",
+  "job_id": "exp017-qant-logit-margin-diagnostic",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "configuration": {
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "planned_runs": 6,
+    "grid_sizes": [
+      4,
+      8
+    ],
+    "margin_bin_edges": [
+      "0",
+      "0.1",
+      "0.25",
+      "0.5",
+      "1.0",
+      "2.0",
+      "inf"
+    ]
+  },
+  "budget": {
+    "max_parameters": 126000,
+    "max_candidates": 6,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.5.3"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "condition_id": "qfourier_g4",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8347,
+      "qant_accuracy": 0.8368,
+      "prediction_disagreements": 279,
+      "mean_absolute_logit_error": 0.23442979156970978,
+      "mean_max_absolute_logit_error_per_sample": 0.7381237149238586,
+      "mean_reference_margin": 4.133684158325195,
+      "median_reference_margin": 3.702277660369873,
+      "mean_error_to_margin_ratio": 1.9618070125579834,
+      "median_error_to_margin_ratio": 0.1954425871372223,
+      "disagreement_mean_reference_margin": 0.2583785057067871,
+      "agreement_mean_reference_margin": 4.244908809661865,
+      "margin_bins": [
+        {
+          "lower": 0,
+          "upper": 0.1,
+          "samples": 161,
+          "disagreements": 83,
+          "disagreement_rate": 0.515527950310559,
+          "mean_max_logit_error": 0.7526388764381409
+        },
+        {
+          "lower": 0.1,
+          "upper": 0.25,
+          "samples": 264,
+          "disagreements": 94,
+          "disagreement_rate": 0.3560606060606061,
+          "mean_max_logit_error": 0.7193507552146912
+        },
+        {
+          "lower": 0.25,
+          "upper": 0.5,
+          "samples": 377,
+          "disagreements": 55,
+          "disagreement_rate": 0.14588859416445624,
+          "mean_max_logit_error": 0.7268879413604736
+        },
+        {
+          "lower": 0.5,
+          "upper": 1,
+          "samples": 795,
+          "disagreements": 43,
+          "disagreement_rate": 0.05408805031446541,
+          "mean_max_logit_error": 0.7378407120704651
+        },
+        {
+          "lower": 1,
+          "upper": 2,
+          "samples": 1416,
+          "disagreements": 4,
+          "disagreement_rate": 0.002824858757062147,
+          "mean_max_logit_error": 0.7223510146141052
+        },
+        {
+          "lower": 2,
+          "upper": null,
+          "samples": 6987,
+          "disagreements": 0,
+          "disagreement_rate": 0.0,
+          "mean_max_logit_error": 0.742333710193634
+        }
+      ]
+    },
+    {
+      "seed": 11,
+      "condition_id": "qfourier_g8",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8403,
+      "qant_accuracy": 0.8314,
+      "prediction_disagreements": 566,
+      "mean_absolute_logit_error": 0.47417694330215454,
+      "mean_max_absolute_logit_error_per_sample": 1.7042330503463745,
+      "mean_reference_margin": 5.274525165557861,
+      "median_reference_margin": 4.48380184173584,
+      "mean_error_to_margin_ratio": 1.5702277421951294,
+      "median_error_to_margin_ratio": 0.3384513258934021,
+      "disagreement_mean_reference_margin": 0.7549700140953064,
+      "agreement_mean_reference_margin": 5.545679569244385,
+      "margin_bins": [
+        {
+          "lower": 0,
+          "upper": 0.1,
+          "samples": 151,
+          "disagreements": 81,
+          "disagreement_rate": 0.5364238410596026,
+          "mean_max_logit_error": 1.27915358543396
+        },
+        {
+          "lower": 0.1,
+          "upper": 0.25,
+          "samples": 197,
+          "disagreements": 93,
+          "disagreement_rate": 0.4720812182741117,
+          "mean_max_logit_error": 1.2938145399093628
+        },
+        {
+          "lower": 0.25,
+          "upper": 0.5,
+          "samples": 294,
+          "disagreements": 114,
+          "disagreement_rate": 0.3877551020408163,
+          "mean_max_logit_error": 1.304263949394226
+        },
+        {
+          "lower": 0.5,
+          "upper": 1,
+          "samples": 615,
+          "disagreements": 122,
+          "disagreement_rate": 0.1983739837398374,
+          "mean_max_logit_error": 1.3032156229019165
+        },
+        {
+          "lower": 1,
+          "upper": 2,
+          "samples": 1167,
+          "disagreements": 105,
+          "disagreement_rate": 0.08997429305912596,
+          "mean_max_logit_error": 1.3740966320037842
+        },
+        {
+          "lower": 2,
+          "upper": null,
+          "samples": 7576,
+          "disagreements": 51,
+          "disagreement_rate": 0.0067317845828933475,
+          "mean_max_logit_error": 1.8223066329956055
+        }
+      ]
+    },
+    {
+      "seed": 22,
+      "condition_id": "qfourier_g4",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8283,
+      "qant_accuracy": 0.8187,
+      "prediction_disagreements": 379,
+      "mean_absolute_logit_error": 0.23426634073257446,
+      "mean_max_absolute_logit_error_per_sample": 0.7009074091911316,
+      "mean_reference_margin": 4.033584117889404,
+      "median_reference_margin": 3.2081520557403564,
+      "mean_error_to_margin_ratio": 1.0071978569030762,
+      "median_error_to_margin_ratio": 0.19809341430664062,
+      "disagreement_mean_reference_margin": 0.3146856725215912,
+      "agreement_mean_reference_margin": 4.18008279800415,
+      "margin_bins": [
+        {
+          "lower": 0,
+          "upper": 0.1,
+          "samples": 197,
+          "disagreements": 90,
+          "disagreement_rate": 0.45685279187817257,
+          "mean_max_logit_error": 0.7167332172393799
+        },
+        {
+          "lower": 0.1,
+          "upper": 0.25,
+          "samples": 305,
+          "disagreements": 109,
+          "disagreement_rate": 0.35737704918032787,
+          "mean_max_logit_error": 0.7121667265892029
+        },
+        {
+          "lower": 0.25,
+          "upper": 0.5,
+          "samples": 491,
+          "disagreements": 102,
+          "disagreement_rate": 0.20773930753564154,
+          "mean_max_logit_error": 0.7120527625083923
+        },
+        {
+          "lower": 0.5,
+          "upper": 1,
+          "samples": 838,
+          "disagreements": 65,
+          "disagreement_rate": 0.07756563245823389,
+          "mean_max_logit_error": 0.6928317546844482
+        },
+        {
+          "lower": 1,
+          "upper": 2,
+          "samples": 1587,
+          "disagreements": 13,
+          "disagreement_rate": 0.008191556395715185,
+          "mean_max_logit_error": 0.7142031788825989
+        },
+        {
+          "lower": 2,
+          "upper": null,
+          "samples": 6582,
+          "disagreements": 0,
+          "disagreement_rate": 0.0,
+          "mean_max_logit_error": 0.6969029903411865
+        }
+      ]
+    },
+    {
+      "seed": 22,
+      "condition_id": "qfourier_g8",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8289,
+      "qant_accuracy": 0.7986,
+      "prediction_disagreements": 733,
+      "mean_absolute_logit_error": 0.46216514706611633,
+      "mean_max_absolute_logit_error_per_sample": 1.6458042860031128,
+      "mean_reference_margin": 4.875622749328613,
+      "median_reference_margin": 4.0453081130981445,
+      "mean_error_to_margin_ratio": 2.3594954013824463,
+      "median_error_to_margin_ratio": 0.352607399225235,
+      "disagreement_mean_reference_margin": 0.7671387791633606,
+      "agreement_mean_reference_margin": 5.200594902038574,
+      "margin_bins": [
+        {
+          "lower": 0,
+          "upper": 0.1,
+          "samples": 183,
+          "disagreements": 83,
+          "disagreement_rate": 0.453551912568306,
+          "mean_max_logit_error": 1.433061957359314
+        },
+        {
+          "lower": 0.1,
+          "upper": 0.25,
+          "samples": 241,
+          "disagreements": 115,
+          "disagreement_rate": 0.47717842323651455,
+          "mean_max_logit_error": 1.4651509523391724
+        },
+        {
+          "lower": 0.25,
+          "upper": 0.5,
+          "samples": 374,
+          "disagreements": 140,
+          "disagreement_rate": 0.37433155080213903,
+          "mean_max_logit_error": 1.4614073038101196
+        },
+        {
+          "lower": 0.5,
+          "upper": 1,
+          "samples": 728,
+          "disagreements": 194,
+          "disagreement_rate": 0.2664835164835165,
+          "mean_max_logit_error": 1.4531720876693726
+        },
+        {
+          "lower": 1,
+          "upper": 2,
+          "samples": 1299,
+          "disagreements": 143,
+          "disagreement_rate": 0.1100846805234796,
+          "mean_max_logit_error": 1.5111596584320068
+        },
+        {
+          "lower": 2,
+          "upper": null,
+          "samples": 7175,
+          "disagreements": 58,
+          "disagreement_rate": 0.008083623693379791,
+          "mean_max_logit_error": 1.710832118988037
+        }
+      ]
+    },
+    {
+      "seed": 33,
+      "condition_id": "qfourier_g4",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8354,
+      "qant_accuracy": 0.8341,
+      "prediction_disagreements": 312,
+      "mean_absolute_logit_error": 0.2180081605911255,
+      "mean_max_absolute_logit_error_per_sample": 0.6601291298866272,
+      "mean_reference_margin": 3.909553050994873,
+      "median_reference_margin": 3.4202280044555664,
+      "mean_error_to_margin_ratio": 1.213783621788025,
+      "median_error_to_margin_ratio": 0.17593035101890564,
+      "disagreement_mean_reference_margin": 0.2873590588569641,
+      "agreement_mean_reference_margin": 4.026204586029053,
+      "margin_bins": [
+        {
+          "lower": 0,
+          "upper": 0.1,
+          "samples": 192,
+          "disagreements": 79,
+          "disagreement_rate": 0.4114583333333333,
+          "mean_max_logit_error": 0.6659147143363953
+        },
+        {
+          "lower": 0.1,
+          "upper": 0.25,
+          "samples": 269,
+          "disagreements": 99,
+          "disagreement_rate": 0.3680297397769517,
+          "mean_max_logit_error": 0.6830548644065857
+        },
+        {
+          "lower": 0.25,
+          "upper": 0.5,
+          "samples": 400,
+          "disagreements": 77,
+          "disagreement_rate": 0.1925,
+          "mean_max_logit_error": 0.6891967058181763
+        },
+        {
+          "lower": 0.5,
+          "upper": 1,
+          "samples": 862,
+          "disagreements": 50,
+          "disagreement_rate": 0.058004640371229696,
+          "mean_max_logit_error": 0.7126647233963013
+        },
+        {
+          "lower": 1,
+          "upper": 2,
+          "samples": 1498,
+          "disagreements": 7,
+          "disagreement_rate": 0.004672897196261682,
+          "mean_max_logit_error": 0.7023188471794128
+        },
+        {
+          "lower": 2,
+          "upper": null,
+          "samples": 6779,
+          "disagreements": 0,
+          "disagreement_rate": 0.0,
+          "mean_max_logit_error": 0.6413371562957764
+        }
+      ]
+    },
+    {
+      "seed": 33,
+      "condition_id": "qfourier_g8",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8402,
+      "qant_accuracy": 0.8331,
+      "prediction_disagreements": 461,
+      "mean_absolute_logit_error": 0.43098172545433044,
+      "mean_max_absolute_logit_error_per_sample": 1.5078257322311401,
+      "mean_reference_margin": 4.932756423950195,
+      "median_reference_margin": 4.29252815246582,
+      "mean_error_to_margin_ratio": 1.4896578788757324,
+      "median_error_to_margin_ratio": 0.32215356826782227,
+      "disagreement_mean_reference_margin": 0.5482105612754822,
+      "agreement_mean_reference_margin": 5.144652843475342,
+      "margin_bins": [
+        {
+          "lower": 0,
+          "upper": 0.1,
+          "samples": 124,
+          "disagreements": 62,
+          "disagreement_rate": 0.5,
+          "mean_max_logit_error": 1.3115473985671997
+        },
+        {
+          "lower": 0.1,
+          "upper": 0.25,
+          "samples": 232,
+          "disagreements": 96,
+          "disagreement_rate": 0.41379310344827586,
+          "mean_max_logit_error": 1.3105707168579102
+        },
+        {
+          "lower": 0.25,
+          "upper": 0.5,
+          "samples": 369,
+          "disagreements": 109,
+          "disagreement_rate": 0.2953929539295393,
+          "mean_max_logit_error": 1.2563165426254272
+        },
+        {
+          "lower": 0.5,
+          "upper": 1,
+          "samples": 695,
+          "disagreements": 129,
+          "disagreement_rate": 0.1856115107913669,
+          "mean_max_logit_error": 1.3086384534835815
+        },
+        {
+          "lower": 1,
+          "upper": 2,
+          "samples": 1253,
+          "disagreements": 55,
+          "disagreement_rate": 0.04389465283320032,
+          "mean_max_logit_error": 1.32193124294281
+        },
+        {
+          "lower": 2,
+          "upper": null,
+          "samples": 7327,
+          "disagreements": 10,
+          "disagreement_rate": 0.0013648150675583458,
+          "mean_max_logit_error": 1.5807435512542725
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "qfourier_g4": {
+      "grid_size": 4,
+      "mean_qant_accuracy": 0.8298666666666666,
+      "mean_prediction_disagreements": 323.3333333333333,
+      "mean_absolute_logit_error": 0.2289014309644699,
+      "mean_max_absolute_logit_error_per_sample": 0.6997200846672058,
+      "mean_reference_margin": 4.025607109069824,
+      "mean_error_to_margin_ratio": 1.3942628304163616,
+      "mean_disagreement_reference_margin": 0.28680774569511414,
+      "mean_agreement_reference_margin": 4.1503987312316895,
+      "parameter_count": 62730
+    },
+    "qfourier_g8": {
+      "grid_size": 8,
+      "mean_qant_accuracy": 0.8210333333333333,
+      "mean_prediction_disagreements": 586.6666666666666,
+      "mean_absolute_logit_error": 0.45577460527420044,
+      "mean_max_absolute_logit_error_per_sample": 1.6192876895268757,
+      "mean_reference_margin": 5.027634779612224,
+      "mean_error_to_margin_ratio": 1.8064603408177693,
+      "mean_disagreement_reference_margin": 0.6901064515113831,
+      "mean_agreement_reference_margin": 5.296975771586101,
+      "parameter_count": 125450
+    }
+  },
+  "pareto_front": [],
+  "notes": "Diagnostic of accumulated reference-to-Q.ANT CPU-backend logit error and reference decision margins. No photonic hardware performance claim."
+}
