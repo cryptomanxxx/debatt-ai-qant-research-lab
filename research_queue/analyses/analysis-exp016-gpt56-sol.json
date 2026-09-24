@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp016-gpt56-sol",
+  "experiment_id": "exp016_qant_activation_error_occupancy",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "not_supported",
+  "findings": [
+    "Mean prediction disagreements increased from 323.0 for g4 to 586.67 for g8.",
+    "Amplitude-weighted mean residual was nearly unchanged: 0.000711 for g4 versus 0.000719 for g8.",
+    "Amplitude-weighted high-error exposure was nearly unchanged: 0.2362 for g4 versus 0.2377 for g8.",
+    "Unweighted high-error exposure was also nearly unchanged: 0.2506 for g4 versus 0.2494 for g8."
+  ],
+  "interpretation": "The much larger g8 prediction disagreement is not explained by materially greater occupancy of the high-residual phase bins identified by the scalar diagnostic. The next test should move downstream to accumulated logit error and decision margins.",
+  "next_research_direction": "Measure reference-versus-Q.ANT logit error, top-1/top-2 reference margin, and disagreement conditional on margin for locked g4 and g8 models.",
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Occupancy analysis is observational.",
+    "Only 1000 test examples were used for activation occupancy, although classification disagreement used the full test set."
+  ]
+}
