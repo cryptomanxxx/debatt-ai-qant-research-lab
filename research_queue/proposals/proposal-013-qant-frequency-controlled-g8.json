@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-013-qant-frequency-controlled-g8",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp017_qant_logit_margin_diagnostic.json",
+  "research_question": "Do the higher Fourier frequencies in standard g8, rather than the number of trainable Fourier components alone, drive its larger reference-to-Q.ANT logit error and prediction disagreement?",
+  "observations": [
+    "Exp014 found the Q.ANT-specific residual increased strongly with frequency.",
+    "Exp017 found g8 had about 1.99x the mean absolute logit error and about 1.81x the prediction disagreements of g4.",
+    "A frequency-controlled g8 can retain eight trainable amplitude/phase components and the same parameter count as standard g8 while replacing frequencies 5-8 with a second copy of frequencies 1-4."
+  ],
+  "hypothesis": "Compared with standard g8 k=[1..8], frequency-controlled g8 k=[1,2,3,4,1,2,3,4] will reduce reference-to-Q.ANT logit error and prediction disagreement while retaining reference accuracy closer to standard g8 than to a capacity-reduced g4 baseline.",
+  "falsification_criterion": "The frequency hypothesis is not supported if frequency-controlled g8 fails to reduce both mean absolute logit error and prediction disagreement versus standard g8, or if any reduction is accompanied by a material loss of reference accuracy that removes the intended capacity control.",
+  "proposed_method": {
+    "experiment_type": "architecture_search",
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "seeds": [11,22,33],
+    "conditions": {
+      "qfourier_g4_k1_4": [1,2,3,4],
+      "qfourier_g8_k1_8": [1,2,3,4,5,6,7,8],
+      "qfourier_g8_repeat_k1_4": [1,2,3,4,1,2,3,4]
+    },
+    "primary_metrics": [
+      "reference_accuracy",
+      "qant_accuracy",
+      "prediction_disagreements",
+      "mean_absolute_logit_error",
+      "mean_max_absolute_logit_error_per_sample"
+    ],
+    "planned_runs": 9
+  },
+  "requested_budget": {
+    "max_parameters": 126000,
+    "max_candidates": 9,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Three seeds and three epochs limit precision.",
+    "Repeated low frequencies preserve parameter count but do not guarantee the same representational function class as distinct frequencies 1-8."
+  ]
+}
