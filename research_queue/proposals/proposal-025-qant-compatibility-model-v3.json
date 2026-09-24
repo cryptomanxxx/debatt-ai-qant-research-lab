@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-025-qant-compatibility-model-v3",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_results": ["results/exp027_qant_factorial_accumulation_map.json","results/exp029_qant_7x2_residual_localization.json"],
+  "research_question": "Does adding learned downstream sensitivity improve prospective prediction of Q.ANT CPU-backend numerical compatibility beyond accumulation term counts alone?",
+  "hypothesis": "A model using stage-1 terms, stage-2 terms, and a sensitivity proxy measured from exact-reference activations plus trained head amplitudes will predict held-out end-to-end Q.ANT error better than a term-count-only baseline.",
+  "falsification_criterion": "Not supported if the sensitivity-augmented model does not achieve lower held-out mean absolute prediction error than the term-count-only baseline.",
+  "proposed_method": {
+    "experiment_type": "validation",
+    "dataset": "FashionMNIST",
+    "held_out_topologies": ["7x4","14x2","28x6","49x3"],
+    "seeds": [11,22,33],
+    "epochs": 3,
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "planned_runs": 12,
+    "protocol": "Train held-out architectures first. Measure sensitivity proxy using exact-reference stage-1 perturbation proxy derived from trained weights/activations before any Q.ANT end-to-end evaluation. Freeze predictions from both baseline and augmented models, then evaluate Q.ANT outputs.",
+    "primary_metric": "heldout_mean_absolute_prediction_error",
+    "comparison": "three-feature augmented model versus two-term baseline"
+  },
+  "requested_budget": {"max_parameters": 65000,"max_candidates": 12,"max_epochs": 3,"max_train_samples": 60000,"max_test_samples": 10000},
+  "approval_required": true,
+  "limitations": ["Calibration data remain small.","Sensitivity proxy is not a full Jacobian norm.","CPU backend only; no photonic hardware performance claim."]
+}
