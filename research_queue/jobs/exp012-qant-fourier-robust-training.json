@@ -1,0 +1,15 @@
+{
+  "job_id": "exp012-qant-fourier-robust-training",
+  "status": "approved",
+  "experiment": "experiments/012_qant_fourier_robust_training/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-007-qant-fourier-robust-training",
+  "budget": {
+    "max_parameters": 63000,
+    "max_candidates": 9,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-007-qant-fourier-robust-training"
+}
