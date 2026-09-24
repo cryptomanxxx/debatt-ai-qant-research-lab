@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-007-qant-fourier-robust-training",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp011_qant_fourier_capacity.json",
+  "research_question": "Can Q.ANT-style training noise improve the robustness of a fixed QFourier g4 model to the toolkit's periodic Q.ANT evaluation, reducing reference-to-Q.ANT disagreement without sacrificing useful Fashion-MNIST accuracy?",
+  "observations": [
+    "Exp011 found qfourier_g4 to be the strongest tested Fourier capacity point: mean Q.ANT accuracy 0.82987 with 62,730 parameters.",
+    "Increasing capacity further to g8 reduced mean Q.ANT accuracy to 0.82103 and increased mean prediction disagreement to about 586.7 of 10,000.",
+    "For g4, mean prediction disagreement remained high at 323 of 10,000 compared with about 6.7 for the h64_512 ReLU control.",
+    "Q.ANT's official QFourier example supports injected training noise; Exp010 and Exp011 intentionally used no training noise."
+  ],
+  "hypothesis": "For a locked QFourier g4 architecture, training with Q.ANT-style Gaussian noise will reduce reference-to-Q.ANT prediction disagreement relative to the no-noise baseline while preserving or improving mean Q.ANT-backend accuracy.",
+  "falsification_criterion": "The hypothesis is weakened if neither pre-registered noise condition reduces mean prediction disagreement relative to the no-noise g4 baseline, or if any disagreement reduction is accompanied by a material loss of mean Q.ANT accuracy that removes the model's useful accuracy-versus-parameter trade-off.",
+  "proposed_method": {
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "architecture": {
+      "id": "qfourier_g4",
+      "architecture": "QFourier 784->10",
+      "grid_size": 4,
+      "parameter_count": 62730
+    },
+    "training_conditions": [
+      {
+        "id": "noise_0",
+        "noise_std": 0,
+        "role": "locked Exp011 replication baseline"
+      },
+      {
+        "id": "noise_002",
+        "noise_std": 0.02
+      },
+      {
+        "id": "noise_004",
+        "noise_std": 0.04,
+        "role": "Q.ANT official-example default noise level"
+      }
+    ],
+    "architecture_search_on_dataset": false,
+    "training_rule": "During training, add zero-mean Gaussian noise with the pre-registered standard deviation to the exact-cosine Fourier response, following the robustness mechanism exposed by Q.ANT's QFourier example. Evaluate every trained model both with the exact PyTorch reference and qant.ai.calc_kan_layer_fprop.",
+    "primary_metrics": [
+      "qant_accuracy",
+      "reference_accuracy",
+      "prediction_disagreements",
+      "parameter_count"
+    ],
+    "planned_runs": 9
+  },
+  "requested_budget": {
+    "max_parameters": 63000,
+    "max_candidates": 9,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "Q.ANT CPU backend only; this does not measure photonic hardware performance.",
+    "The experiment tests training noise as a robustness intervention; it does not prove the same optimum will hold on physical Q.ANT hardware.",
+    "Fashion-MNIST, three seeds, and three epochs limit precision and generality.",
+    "Noise levels are locked before execution to avoid post-hoc tuning."
+  ]
+}
