@@ -8,10 +8,12 @@ on:
         required: true
         default: "smoke-test-v2"
         type: string
-  push:
-    branches: [main]
-    paths:
-      - "research_queue/jobs/*.json"
+  workflow_call:
+    inputs:
+      job_id:
+        description: "Approved research job ID"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -39,16 +41,7 @@ jobs:
         id: resolve
         shell: bash
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            job_id="${{ inputs.job_id }}"
-          else
-            job_file="$(git diff-tree --no-commit-id --name-only -r "${{ github.sha }}" -- 'research_queue/jobs/*.json' | head -n 1)"
-            if [ -z "$job_file" ]; then
-              echo "No approved research job was added or changed in this commit."
-              exit 1
-            fi
-            job_id="$(basename "$job_file" .json)"
-          fi
+          job_id="${{ inputs.job_id }}"
           echo "job_id=$job_id" >> "$GITHUB_OUTPUT"
           echo "Resolved approved job: $job_id"
       - name: Validate and run approved job
