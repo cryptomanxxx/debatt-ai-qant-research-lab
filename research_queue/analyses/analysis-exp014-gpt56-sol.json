@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp014-gpt56-sol",
+  "experiment_id": "exp014_qant_fourier_error_decomposition",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "supported",
+  "findings": [
+    "bfloat16 quantization explains a substantial but incomplete part of the exact-cosine versus Q.ANT discrepancy.",
+    "Mean Q.ANT residual MAE increases from 0.001908 at k=1 to 0.011982 at k=8, about 6.28x.",
+    "The residual remains strongly phase-position dependent after controlling for bfloat16.",
+    "At k=8 the mean residual MAE is 0.011982 versus total MAE 0.015967, so a large structured discrepancy remains after the quantization control.",
+    "At phase zero the Q.ANT residual stays near 0.00075-0.00077 across k, while nonzero phases can produce much larger residuals; phase representation is therefore an important target for aligned training."
+  ],
+  "interpretation": "Exp014 supports moving from robustness-by-noise to function-aligned training. The next intervention should preserve the locked QFourier architecture and change only the differentiable training response so that it approximates the measured Q.ANT periodic response.",
+  "next_research_direction": "Fit a fixed differentiable periodic surrogate to Q.ANT CPU-backend response samples, then compare exact-cosine training against surrogate-aligned training on locked QFourier g4 and g8 models.",
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Synthetic scalar sweep rather than learned activation distributions.",
+    "MAE components are not additive because quantization and Q.ANT residual errors can partially cancel."
+  ]
+}
