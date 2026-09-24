@@ -33,6 +33,7 @@ EXPERIMENT_TYPES = {
     "exp021_qant_accumulation_scaling_law": "diagnostic",
     "exp022_qant_grouped_accumulation_architecture": "architecture_search",
     "exp023_qant_hierarchical_low_fanin": "architecture_search",
+    "exp024_qant_hierarchical_architecture_search": "architecture_search",
 }
 
 for p in sorted(RESULTS.glob("exp*.json")):
