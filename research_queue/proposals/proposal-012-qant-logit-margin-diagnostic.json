@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-012-qant-logit-margin-diagnostic",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp016_qant_activation_error_occupancy.json",
+  "research_question": "Is the larger Q.ANT prediction disagreement of g8 explained by larger accumulated logit error interacting with small reference decision margins?",
+  "observations": [
+    "Exp016 found nearly identical high-residual phase-bin occupancy for g4 and g8 despite much higher disagreement for g8.",
+    "A classification can flip when accumulated deployment error exceeds the reference top-1/top-2 margin even if individual activation errors are small."
+  ],
+  "hypothesis": "Compared with g4, g8 will show larger reference-to-Q.ANT logit error, and disagreement cases will be concentrated among samples whose reference top-1/top-2 margin is small relative to the induced logit perturbation.",
+  "falsification_criterion": "The hypothesis is weakened if g8 does not show larger logit error than g4, or if disagreement is not strongly enriched among low-margin samples.",
+  "proposed_method": {
+    "experiment_type": "diagnostic",
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "seeds": [11,22,33],
+    "architectures": ["qfourier_g4","qfourier_g8"],
+    "training_condition": "exact_cosine",
+    "margin_bins": [0.0,0.1,0.25,0.5,1.0,2.0,"inf"],
+    "primary_metrics": [
+      "mean_absolute_logit_error",
+      "mean_max_absolute_logit_error_per_sample",
+      "reference_top1_top2_margin",
+      "disagreement_rate_by_margin_bin",
+      "error_to_margin_ratio"
+    ],
+    "planned_runs": 6
+  },
+  "requested_budget": {
+    "max_parameters": 126000,
+    "max_candidates": 6,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Three seeds and three epochs limit precision.",
+    "Margin association can explain sensitivity but does not by itself identify the upstream numerical source of every logit error."
+  ]
+}
