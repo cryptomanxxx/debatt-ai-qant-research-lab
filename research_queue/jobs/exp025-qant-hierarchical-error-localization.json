@@ -1,0 +1,15 @@
+{
+  "job_id": "exp025-qant-hierarchical-error-localization",
+  "status": "approved",
+  "experiment": "experiments/025_qant_hierarchical_error_localization/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-020-qant-hierarchical-error-localization",
+  "budget": {
+    "max_parameters": 35000,
+    "max_candidates": 12,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-020-qant-hierarchical-error-localization"
+}
