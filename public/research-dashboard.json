@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at_utc": "2026-09-24T09:27:46.680170+00:00",
+  "generated_at_utc": "2026-09-24T09:50:07.359710+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -8,8 +8,8 @@
     "backend_disclaimer": "Q.ANT CPU-backend results validate software execution and numerical behavior. They are not measurements of photonic hardware latency, energy efficiency, throughput, or optical behavior."
   },
   "status": {
-    "completed_experiments": 14,
-    "latest_completed_experiment": "exp012_qant_fourier_robust_training",
+    "completed_experiments": 15,
+    "latest_completed_experiment": "exp015_qant_aligned_training_surrogate",
     "current_research_direction": "Q.ANT-specific architecture research: investigating whether hardware-supported nonlinearities and KAN-style operations can produce more parameter-efficient neural architectures than conventional ReLU networks."
   },
   "experiments": [
@@ -299,32 +299,57 @@
       "configuration": {
         "planned_runs": 20
       }
+    },
+    {
+      "id": "exp015_qant_aligned_training_surrogate",
+      "experiment_type": "training_method",
+      "completed": true,
+      "result_count": 12,
+      "summary_count": 4,
+      "dataset": "FashionMNIST",
+      "backend": "qant-cpu",
+      "timestamp_utc": "2026-09-24T09:50:06.526424+00:00",
+      "pareto_front": [],
+      "pareto_applicable": false,
+      "configuration": {
+        "train_samples": 60000,
+        "test_samples": 10000,
+        "epochs": 3,
+        "planned_runs": 12
+      }
     }
   ],
   "featured_comparison": {
-    "experiment_id": "exp012_qant_fourier_robust_training",
+    "experiment_id": "exp015_qant_aligned_training_surrogate",
     "dataset": "FashionMNIST",
     "metric": "mean_qant_accuracy",
     "architectures": [
       {
-        "architecture": "noise_0",
+        "architecture": "qfourier_g4_exact_cosine",
         "parameters": 62730,
         "mean_accuracy": 0.8298666666666666,
         "std_accuracy": 0.007972591938775128,
         "pareto": false
       },
       {
-        "architecture": "noise_002",
+        "architecture": "qfourier_g4_qant_fitted_surrogate",
         "parameters": 62730,
-        "mean_accuracy": 0.8301333333333334,
-        "std_accuracy": 0.008165510122188071,
+        "mean_accuracy": 0.8295,
+        "std_accuracy": 0.006771016664184679,
         "pareto": false
       },
       {
-        "architecture": "noise_004",
-        "parameters": 62730,
-        "mean_accuracy": 0.8304333333333332,
-        "std_accuracy": 0.008525386925073949,
+        "architecture": "qfourier_g8_exact_cosine",
+        "parameters": 125450,
+        "mean_accuracy": 0.8210333333333333,
+        "std_accuracy": 0.015877937173603158,
+        "pareto": false
+      },
+      {
+        "architecture": "qfourier_g8_qant_fitted_surrogate",
+        "parameters": 125450,
+        "mean_accuracy": 0.8213666666666666,
+        "std_accuracy": 0.013881722595637152,
         "pareto": false
       }
     ]

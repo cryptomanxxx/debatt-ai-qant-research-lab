@@ -1,0 +1,205 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp015_qant_aligned_training_surrogate",
+  "experiment_type": "training_method",
+  "timestamp_utc": "2026-09-24T09:50:06.526424+00:00",
+  "backend": "qant-cpu",
+  "dataset": "FashionMNIST",
+  "source_proposal": "proposal-010-qant-aligned-training-surrogate",
+  "job_id": "exp015-qant-aligned-training-surrogate",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "configuration": {
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "planned_runs": 12,
+    "grid_sizes": [
+      4,
+      8
+    ],
+    "training_conditions": [
+      "exact_cosine",
+      "qant_fitted_surrogate"
+    ],
+    "surrogate_table_points": 4096,
+    "architecture_search_on_dataset": false
+  },
+  "budget": {
+    "max_parameters": 126000,
+    "max_candidates": 12,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.5.3"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "condition_id": "qfourier_g4_exact_cosine",
+      "training_condition": "exact_cosine",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8347,
+      "qant_accuracy": 0.8368,
+      "prediction_disagreements": 279
+    },
+    {
+      "seed": 11,
+      "condition_id": "qfourier_g4_qant_fitted_surrogate",
+      "training_condition": "qant_fitted_surrogate",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8346,
+      "qant_accuracy": 0.8364,
+      "prediction_disagreements": 252
+    },
+    {
+      "seed": 11,
+      "condition_id": "qfourier_g8_exact_cosine",
+      "training_condition": "exact_cosine",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8403,
+      "qant_accuracy": 0.8314,
+      "prediction_disagreements": 566
+    },
+    {
+      "seed": 11,
+      "condition_id": "qfourier_g8_qant_fitted_surrogate",
+      "training_condition": "qant_fitted_surrogate",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.843,
+      "qant_accuracy": 0.8289,
+      "prediction_disagreements": 589
+    },
+    {
+      "seed": 22,
+      "condition_id": "qfourier_g4_exact_cosine",
+      "training_condition": "exact_cosine",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8283,
+      "qant_accuracy": 0.8187,
+      "prediction_disagreements": 379
+    },
+    {
+      "seed": 22,
+      "condition_id": "qfourier_g4_qant_fitted_surrogate",
+      "training_condition": "qant_fitted_surrogate",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.829,
+      "qant_accuracy": 0.8203,
+      "prediction_disagreements": 350
+    },
+    {
+      "seed": 22,
+      "condition_id": "qfourier_g8_exact_cosine",
+      "training_condition": "exact_cosine",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8289,
+      "qant_accuracy": 0.7986,
+      "prediction_disagreements": 733
+    },
+    {
+      "seed": 22,
+      "condition_id": "qfourier_g8_qant_fitted_surrogate",
+      "training_condition": "qant_fitted_surrogate",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.829,
+      "qant_accuracy": 0.8019,
+      "prediction_disagreements": 724
+    },
+    {
+      "seed": 33,
+      "condition_id": "qfourier_g4_exact_cosine",
+      "training_condition": "exact_cosine",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.8354,
+      "qant_accuracy": 0.8341,
+      "prediction_disagreements": 312
+    },
+    {
+      "seed": 33,
+      "condition_id": "qfourier_g4_qant_fitted_surrogate",
+      "training_condition": "qant_fitted_surrogate",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "reference_accuracy": 0.835,
+      "qant_accuracy": 0.8318,
+      "prediction_disagreements": 331
+    },
+    {
+      "seed": 33,
+      "condition_id": "qfourier_g8_exact_cosine",
+      "training_condition": "exact_cosine",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8402,
+      "qant_accuracy": 0.8331,
+      "prediction_disagreements": 461
+    },
+    {
+      "seed": 33,
+      "condition_id": "qfourier_g8_qant_fitted_surrogate",
+      "training_condition": "qant_fitted_surrogate",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "reference_accuracy": 0.8404,
+      "qant_accuracy": 0.8333,
+      "prediction_disagreements": 487
+    }
+  ],
+  "summary": {
+    "qfourier_g4_exact_cosine": {
+      "grid_size": 4,
+      "training_condition": "exact_cosine",
+      "mean_qant_accuracy": 0.8298666666666666,
+      "std_qant_accuracy": 0.007972591938775128,
+      "mean_reference_accuracy": 0.8328000000000001,
+      "mean_prediction_disagreements": 323.3333333333333,
+      "parameter_count": 62730
+    },
+    "qfourier_g4_qant_fitted_surrogate": {
+      "grid_size": 4,
+      "training_condition": "qant_fitted_surrogate",
+      "mean_qant_accuracy": 0.8295,
+      "std_qant_accuracy": 0.006771016664184679,
+      "mean_reference_accuracy": 0.8328666666666665,
+      "mean_prediction_disagreements": 311.0,
+      "parameter_count": 62730
+    },
+    "qfourier_g8_exact_cosine": {
+      "grid_size": 8,
+      "training_condition": "exact_cosine",
+      "mean_qant_accuracy": 0.8210333333333333,
+      "std_qant_accuracy": 0.015877937173603158,
+      "mean_reference_accuracy": 0.8364666666666666,
+      "mean_prediction_disagreements": 586.6666666666666,
+      "parameter_count": 125450
+    },
+    "qfourier_g8_qant_fitted_surrogate": {
+      "grid_size": 8,
+      "training_condition": "qant_fitted_surrogate",
+      "mean_qant_accuracy": 0.8213666666666666,
+      "std_qant_accuracy": 0.013881722595637152,
+      "mean_reference_accuracy": 0.8374666666666667,
+      "mean_prediction_disagreements": 600.0,
+      "parameter_count": 125450
+    }
+  },
+  "pareto_front": [],
+  "notes": "Locked g4/g8 training-method comparison. Surrogate is a fixed differentiable periodic lookup/interpolation table sampled from calc_kan_layer_fprop on Q.ANT CPU backend. No photonic hardware performance claim."
+}
