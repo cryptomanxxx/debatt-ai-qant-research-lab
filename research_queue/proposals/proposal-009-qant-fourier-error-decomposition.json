@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-009-qant-fourier-error-decomposition",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp013_qant_fourier_mismatch_diagnostic.json",
+  "research_question": "How much of the exact-cosine versus Q.ANT periodic-response error is explained by bfloat16 quantization alone, and how much remains after a bfloat16 exact-cosine control?",
+  "observations": [
+    "Exp013 found monotonic frequency-dependent mismatch: mean absolute error rose from 0.002459 at k=1 to 0.015967 at k=8.",
+    "Exp013 also found a strongly structured phase-bin error profile.",
+    "Exp013 intentionally combined bfloat16 conversion with calc_kan_layer_fprop, so it cannot yet isolate quantization from the toolkit periodic approximation."
+  ],
+  "hypothesis": "bfloat16 quantization explains only part of the Exp013 discrepancy; after comparing Q.ANT output against an exact-cosine control computed from the same bfloat16-quantized inputs and parameters, a structured residual error will remain and increase with frequency.",
+  "falsification_criterion": "The hypothesis is weakened if the Q.ANT-versus-bfloat16-control residual is small relative to the original exact-float-versus-Q.ANT error across all pre-registered frequencies, or if its frequency dependence largely disappears.",
+  "proposed_method": {
+    "experiment_type": "diagnostic",
+    "input_points": 4096,
+    "frequencies": [1, 2, 4, 8],
+    "phases": [-1.5707963267948966, -0.7853981633974483, 0.0, 0.7853981633974483, 1.5707963267948966],
+    "phase_bins": 32,
+    "comparisons": [
+      "float32 exact cosine vs Q.ANT",
+      "float32 exact cosine vs exact cosine after bfloat16 quantization",
+      "exact cosine after bfloat16 quantization vs Q.ANT"
+    ],
+    "primary_metrics": ["mae_total", "mae_quantization_control", "mae_qant_residual", "rmse_qant_residual", "residual_by_frequency", "residual_by_phase_bin"],
+    "planned_runs": 20
+  },
+  "requested_budget": {
+    "max_parameters": 1,
+    "max_candidates": 20,
+    "max_epochs": 1,
+    "max_train_samples": 4096,
+    "max_test_samples": 4096
+  },
+  "approval_required": true,
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Synthetic scalar sweep does not reproduce learned activation distributions.",
+    "The bfloat16 control approximates the numerical conversion path and does not claim to reproduce physical hardware effects."
+  ]
+}
