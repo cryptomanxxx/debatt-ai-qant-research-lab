@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-023-qant-predictive-compatibility-v2",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_results": ["results/exp027_qant_factorial_accumulation_map.json"],
+  "research_question": "Can independently identified stage-1 and stage-2 accumulation variables predict numerical Q.ANT compatibility for unseen hierarchical architectures?",
+  "hypothesis": "A log-linear model fitted only to Exp027 using log(stage1_terms) and log(stage2_terms) will predict held-out end-to-end logit MAE better than the failed confounded Exp026 model and correctly identify the lower-error region among preregistered unseen architectures.",
+  "falsification_criterion": "Not supported if the model predicts the wrong held-out ordering and mean absolute prediction error is not improved relative to Exp026's held-out mean absolute prediction error.",
+  "proposed_method": {
+    "experiment_type": "validation",
+    "dataset": "FashionMNIST",
+    "calibration_source": "Exp027 six architecture means",
+    "model": "log(end_to_end_MAE) = b0 + b1*log(stage1_terms) + b2*log(stage2_terms)",
+    "held_out_topologies": [
+      {"groups":7,"features_per_group":2},
+      {"groups":14,"features_per_group":4},
+      {"groups":28,"features_per_group":4},
+      {"groups":49,"features_per_group":2}
+    ],
+    "seeds": [11,22,33],
+    "epochs": 3,
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "planned_runs": 12,
+    "primary_metrics": ["predicted_end_to_end_logit_mae","observed_end_to_end_logit_mae","absolute_prediction_error","heldout_rank_agreement"]
+  },
+  "requested_budget": {"max_parameters": 45000,"max_candidates": 12,"max_epochs": 3,"max_train_samples": 60000,"max_test_samples": 10000},
+  "approval_required": true,
+  "limitations": ["Small calibration set.","CPU backend only; no photonic hardware performance claim."]
+}
