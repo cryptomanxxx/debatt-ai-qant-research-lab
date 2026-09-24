@@ -48,7 +48,9 @@ MAPPINGS={
  "proposal-014-qant-amplitude-error-accumulation":(
    "exp019-qant-amplitude-error-accumulation","experiments/019_qant_amplitude_error_accumulation/run.py"),
  "proposal-015-qant-kan-additivity-ladder":(
-   "exp020-qant-kan-additivity-ladder","experiments/020_qant_kan_additivity_ladder/run.py")
+   "exp020-qant-kan-additivity-ladder","experiments/020_qant_kan_additivity_ladder/run.py"),
+ "proposal-016-qant-accumulation-scaling-law":(
+   "exp021-qant-accumulation-scaling-law","experiments/021_qant_accumulation_scaling_law/run.py")
 }
 if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
