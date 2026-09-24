@@ -35,5 +35,22 @@ jobs:
           git add research_queue/jobs/
           git commit -m "Approve research proposal ${{ inputs.proposal_id }}"
           git push
-      - name: Explain automatic handoff
-        run: echo "Approval committed. The guarded research queue will start automatically from the approved job commit."
+      - name: Resolve approved job ID
+        id: approved
+        shell: bash
+        run: |
+          job_file="$(git diff-tree --no-commit-id --name-only -r HEAD -- 'research_queue/jobs/*.json' | head -n 1)"
+          if [ -z "$job_file" ]; then
+            echo "No approved job file found in approval commit."
+            exit 1
+          fi
+          echo "job_id=$(basename "$job_file" .json)" >> "$GITHUB_OUTPUT"
+    outputs:
+      job_id: ${{ steps.approved.outputs.job_id }}
+
+  run-approved-job:
+    needs: approve
+    uses: ./.github/workflows/qant-research-queue-v2.yml
+    with:
+      job_id: ${{ needs.approve.outputs.job_id }}
+    secrets: inherit
