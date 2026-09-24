@@ -40,7 +40,9 @@ MAPPINGS={
  "proposal-010-qant-aligned-training-surrogate":(
    "exp015-qant-aligned-training-surrogate","experiments/015_qant_aligned_training_surrogate/run.py"),
  "proposal-011-qant-activation-error-occupancy":(
-   "exp016-qant-activation-error-occupancy","experiments/016_qant_activation_error_occupancy/run.py")
+   "exp016-qant-activation-error-occupancy","experiments/016_qant_activation_error_occupancy/run.py"),
+ "proposal-012-qant-logit-margin-diagnostic":(
+   "exp017-qant-logit-margin-diagnostic","experiments/017_qant_logit_margin_diagnostic/run.py")
 }
 if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
