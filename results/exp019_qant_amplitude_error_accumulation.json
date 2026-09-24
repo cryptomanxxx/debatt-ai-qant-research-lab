@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "experiment_id": "exp019_qant_amplitude_error_accumulation",
+  "experiment_type": "diagnostic",
+  "timestamp_utc": "2026-09-24T18:38:01.279966+00:00",
+  "backend": "qant-cpu",
+  "dataset": "FashionMNIST",
+  "source_proposal": "proposal-014-qant-amplitude-error-accumulation",
+  "job_id": "exp019-qant-amplitude-error-accumulation",
+  "seeds": [
+    11,
+    22,
+    33
+  ],
+  "configuration": {
+    "train_samples": 60000,
+    "test_samples": 1000,
+    "epochs": 3,
+    "planned_runs": 6,
+    "grid_sizes": [
+      4,
+      8
+    ]
+  },
+  "budget": {
+    "max_parameters": 126000,
+    "max_candidates": 6,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 1000
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.5.3"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "condition_id": "qfourier_g4",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "mean_absolute_observed_logit_error": 0.23798739910125732,
+      "mean_absolute_reconstructed_component_residual": 0.08647219091653824,
+      "reconstruction_mae": 0.25111886858940125,
+      "mean_absolute_component_residual_before_cancellation": 0.15394136309623718,
+      "component_residual_cancellation_ratio": 0.44076821208000183,
+      "mean_absolute_amplitude": 0.02885848842561245,
+      "amplitude_l1_per_output": 90.5002212524414
+    },
+    {
+      "seed": 11,
+      "condition_id": "qfourier_g8",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "mean_absolute_observed_logit_error": 0.4742784798145294,
+      "mean_absolute_reconstructed_component_residual": 0.08269133418798447,
+      "reconstruction_mae": 0.47357773780822754,
+      "mean_absolute_component_residual_before_cancellation": 0.20761647820472717,
+      "component_residual_cancellation_ratio": 0.6037091016769409,
+      "mean_absolute_amplitude": 0.021114690229296684,
+      "amplitude_l1_per_output": 132.43133544921875
+    },
+    {
+      "seed": 22,
+      "condition_id": "qfourier_g4",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "mean_absolute_observed_logit_error": 0.23831894993782043,
+      "mean_absolute_reconstructed_component_residual": 0.08660772442817688,
+      "reconstruction_mae": 0.260907918214798,
+      "mean_absolute_component_residual_before_cancellation": 0.16132907569408417,
+      "component_residual_cancellation_ratio": 0.4587080478668213,
+      "mean_absolute_amplitude": 0.028878415003418922,
+      "amplitude_l1_per_output": 90.56270599365234
+    },
+    {
+      "seed": 22,
+      "condition_id": "qfourier_g8",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "mean_absolute_observed_logit_error": 0.46794769167900085,
+      "mean_absolute_reconstructed_component_residual": 0.08380922675132751,
+      "reconstruction_mae": 0.47256192564964294,
+      "mean_absolute_component_residual_before_cancellation": 0.20597907900810242,
+      "component_residual_cancellation_ratio": 0.6007865071296692,
+      "mean_absolute_amplitude": 0.021019717678427696,
+      "amplitude_l1_per_output": 131.83566284179688
+    },
+    {
+      "seed": 33,
+      "condition_id": "qfourier_g4",
+      "grid_size": 4,
+      "parameter_count": 62730,
+      "mean_absolute_observed_logit_error": 0.21513471007347107,
+      "mean_absolute_reconstructed_component_residual": 0.08566027134656906,
+      "reconstruction_mae": 0.22647817432880402,
+      "mean_absolute_component_residual_before_cancellation": 0.1542111039161682,
+      "component_residual_cancellation_ratio": 0.4556769132614136,
+      "mean_absolute_amplitude": 0.0286483783274889,
+      "amplitude_l1_per_output": 89.84130859375
+    },
+    {
+      "seed": 33,
+      "condition_id": "qfourier_g8",
+      "grid_size": 8,
+      "parameter_count": 125450,
+      "mean_absolute_observed_logit_error": 0.42858827114105225,
+      "mean_absolute_reconstructed_component_residual": 0.08004157990217209,
+      "reconstruction_mae": 0.4357496201992035,
+      "mean_absolute_component_residual_before_cancellation": 0.20403766632080078,
+      "component_residual_cancellation_ratio": 0.607779324054718,
+      "mean_absolute_amplitude": 0.021186325699090958,
+      "amplitude_l1_per_output": 132.88063049316406
+    }
+  ],
+  "summary": {
+    "qfourier_g4": {
+      "mean_absolute_observed_logit_error": 0.23048035303751627,
+      "mean_absolute_reconstructed_component_residual": 0.08624672889709473,
+      "reconstruction_mae": 0.24616832037766775,
+      "mean_absolute_component_residual_before_cancellation": 0.15649384756882986,
+      "component_residual_cancellation_ratio": 0.45171772440274555,
+      "mean_absolute_amplitude": 0.02879509391884009,
+      "amplitude_l1_per_output": 90.30141194661458,
+      "parameter_count": 62730
+    },
+    "qfourier_g8": {
+      "mean_absolute_observed_logit_error": 0.45693814754486084,
+      "mean_absolute_reconstructed_component_residual": 0.08218071361382802,
+      "reconstruction_mae": 0.46062976121902466,
+      "mean_absolute_component_residual_before_cancellation": 0.2058777411778768,
+      "component_residual_cancellation_ratio": 0.6040916442871094,
+      "mean_absolute_amplitude": 0.021106911202271778,
+      "amplitude_l1_per_output": 132.3825429280599,
+      "parameter_count": 125450
+    }
+  },
+  "pareto_front": [],
+  "notes": "Component-level decomposition of amplitude-weighted reference-to-Q.ANT CPU-backend residual and signed cancellation. No photonic hardware performance claim."
+}
