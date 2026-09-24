@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp013-gpt56-sol",
+  "experiment_id": "exp013_qant_fourier_mismatch_diagnostic",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "supported",
+  "findings": [
+    "Mean absolute error rises monotonically with frequency: k=1 0.002459, k=2 0.003882, k=4 0.007595, k=8 0.015967.",
+    "The k=8 mean absolute error is about 6.49 times the k=1 value, while maximum absolute error rises from 0.01580 to 0.11500.",
+    "Error is strongly phase-position dependent rather than uniform. Across all conditions, mean phase-bin error ranges from about 0.00153 to 0.01184.",
+    "The phase-bin profile is approximately symmetric, with low error near periodic boundary/zero-crossing regions and larger error in specific interior regions.",
+    "These numerical results provide a mechanism consistent with Exp011: adding higher Fourier frequencies can amplify exact-cosine versus Q.ANT evaluation mismatch."
+  ],
+  "interpretation": "The pre-registered hypothesis is supported on the Q.ANT CPU backend. Frequency and periodic argument location both structure the discrepancy. This makes simply increasing Fourier grid size a poor default strategy when training uses exact cosine but evaluation uses calc_kan_layer_fprop.",
+  "next_research_direction": "Separate bfloat16 argument/parameter quantization from the toolkit periodic-function approximation, then use the measured Q.ANT response to design a training surrogate that is aligned with calc_kan_layer_fprop rather than exact cosine.",
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Synthetic scalar sweep rather than activation distributions from trained models.",
+    "The current experiment combines bfloat16 conversion and the Q.ANT periodic implementation, so it cannot attribute the error to either component separately."
+  ]
+}
