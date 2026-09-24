@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp022-gpt56-sol",
+  "experiment_id": "exp022_qant_grouped_accumulation_architecture",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "supported",
+  "findings": [
+    "All conditions used the same trained g4 model per seed, with identical 62730 parameters and mean reference accuracy 0.8328.",
+    "Reducing the per-call accumulation bound from 3136 terms to 784 terms reduced mean logit MAE from 0.22903 to 0.09152 and mean prediction disagreements from 323 to 114.33.",
+    "Reducing the bound further to 196 terms reduced mean logit MAE to 0.03251 and disagreements to 37.67.",
+    "The direction of the disagreement reduction was consistent for seeds 11, 22 and 33.",
+    "Mean Q.ANT accuracy was 0.82987 monolithic, 0.83220 with 4 groups, and 0.83207 with 16 groups."
+  ],
+  "interpretation": "The intervention strongly supports accumulation width as a controllable source of numerical reference-to-Q.ANT CPU-backend discrepancy. Because the exact-cosine model, learned parameters and parameter count were held fixed, the result isolates evaluation grouping rather than increased model capacity. It motivates training architectures whose internal representations are natively organized into low-fan-in Q.ANT blocks instead of only partitioning a monolithic layer at evaluation time.",
+  "next_research_direction": "Train a genuinely hierarchical Q.ANT-aware model: partition the 784 inputs into low-fan-in groups, map each group through a small QFourier/KAN block to learned intermediate features, then combine those features with a second low-fan-in QFourier/KAN stage. Compare against the monolithic g4 baseline on accuracy, parameter count, disagreements and logit error.",
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Exp022 changed execution grouping at evaluation time rather than the learned architecture itself.",
+    "The small difference in mean Q.ANT accuracy between 4 and 16 groups is not evidence that one grouping is generally optimal."
+  ]
+}
