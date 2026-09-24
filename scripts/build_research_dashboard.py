@@ -29,6 +29,7 @@ EXPERIMENT_TYPES = {
     "exp017_qant_logit_margin_diagnostic": "diagnostic",
     "exp018_qant_frequency_controlled_g8": "architecture_search",
     "exp019_qant_amplitude_error_accumulation": "diagnostic",
+    "exp020_qant_kan_additivity_ladder": "diagnostic",
 }
 
 for p in sorted(RESULTS.glob("exp*.json")):
