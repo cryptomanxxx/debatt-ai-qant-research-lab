@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-021-qant-predictive-compatibility-model",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_results": [
+    "results/exp021_qant_accumulation_scaling_law.json",
+    "results/exp025_qant_hierarchical_error_localization.json"
+  ],
+  "research_question": "Can a simple accumulation-based compatibility model predict the relative numerical Q.ANT error of unseen hierarchical g4 architectures before they are trained?",
+  "hypothesis": "A model using stage-1 and stage-2 accumulated term counts can predict the ordering and approximate scale of end-to-end Q.ANT numerical discrepancy for held-out hierarchical topologies better than either stage term count alone.",
+  "falsification_criterion": "The hypothesis is weakened if the combined model fails to improve held-out ranking/absolute prediction over single-stage baselines or predicts the wrong low-error region.",
+  "proposed_method": {
+    "experiment_type": "diagnostic",
+    "dataset": "FashionMNIST",
+    "training_data": "Exp025 stage-local summaries plus Exp021 accumulation scaling exponent as a prior candidate feature transform",
+    "held_out_topologies": [
+      {"id":"hierarchical_7x4_g4","groups":7,"features_per_group":4},
+      {"id":"hierarchical_14x4_g4","groups":14,"features_per_group":4},
+      {"id":"hierarchical_49x4_g4","groups":49,"features_per_group":4}
+    ],
+    "seeds": [11,22,33],
+    "epochs": 3,
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "models_to_compare": [
+      "stage1_terms_only_power_model",
+      "stage2_terms_only_power_model",
+      "combined_two_stage_power_model"
+    ],
+    "primary_metrics": [
+      "predicted_end_to_end_logit_mae",
+      "observed_end_to_end_logit_mae",
+      "absolute_prediction_error",
+      "heldout_rank_agreement"
+    ],
+    "planned_runs": 9
+  },
+  "requested_budget": {
+    "max_parameters": 50000,
+    "max_candidates": 9,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "The calibration set is very small, so this is a proof-of-concept predictive test rather than a general model.",
+    "CPU backend only; no photonic hardware performance claim."
+  ]
+}
