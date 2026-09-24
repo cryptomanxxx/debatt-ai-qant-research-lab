@@ -1,0 +1,15 @@
+{
+  "job_id": "exp026-qant-predictive-compatibility-model",
+  "status": "approved",
+  "experiment": "experiments/026_qant_predictive_compatibility_model/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-021-qant-predictive-compatibility-model",
+  "budget": {
+    "max_parameters": 50000,
+    "max_candidates": 9,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-021-qant-predictive-compatibility-model"
+}
