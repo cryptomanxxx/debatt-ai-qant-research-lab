@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "analysis_id": "analysis-exp021-gpt56-sol",
+  "experiment_id": "exp021_qant_accumulation_scaling_law",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "hypothesis_assessment": "supported",
+  "findings": [
+    "Across 108 synthetic full-call conditions, the fitted log-log scaling exponent for MAE versus accumulated terms was 0.36413.",
+    "The one-variable power-law fit achieved log-log R2 = 0.95262.",
+    "Mean MAE increased from 0.00168 at 1 accumulated term to 0.04449 at 6272 accumulated terms.",
+    "At 32 input channels, increasing Fourier components from 4 to 8 increased mean MAE from 0.00722 to 0.01039.",
+    "At 784 input channels, increasing Fourier components from 1 to 8 increased mean MAE from 0.01600 to 0.04449."
+  ],
+  "interpretation": "Within this synthetic Q.ANT CPU-backend experiment, accumulated-term count is a strong descriptive predictor of reference-to-backend numerical error. This motivates an architecture intervention that reduces the fan-in seen by each Q.ANT KAN call. The exponent is empirical for the tested random parameter distribution and is not a universal Q.ANT or photonic scaling law.",
+  "next_research_direction": "Compare a monolithic FashionMNIST QFourier classifier with grouped low-fan-in QFourier classifiers that preserve the same Fourier grid while partitioning the 784 input pixels across multiple Q.ANT calls, then combine group logits additively.",
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "Synthetic amplitudes and phases differ from learned FashionMNIST parameters.",
+    "The power-law fit is descriptive over the tested range and should not be extrapolated beyond it without validation."
+  ]
+}
