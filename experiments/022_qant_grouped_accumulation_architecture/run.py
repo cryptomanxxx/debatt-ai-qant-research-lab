@@ -41,7 +41,7 @@ def qant_logits(x,m,groups):
    m.k.numpy().astype(bfloat16))
   arr=np.asarray(out,dtype=np.float32)
   total=arr if total is None else total+arr
- total=q_ai.add_bias_fprop(total,m.bias.detach().numpy().astype(bfloat16))
+ # Group outputs were accumulated in float32; Q.ANT add_bias_fprop requires bfloat16 features.\n total=q_ai.add_bias_fprop(total.astype(bfloat16),m.bias.detach().numpy().astype(bfloat16))
  return np.asarray(total,dtype=np.float32)
 
 def nparams(): return 2*10*784*len(KS)+10
