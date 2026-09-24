@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-010-qant-aligned-training-surrogate",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp014_qant_fourier_error_decomposition.json",
+  "research_question": "Can training QFourier models with a fixed differentiable surrogate fitted to the Q.ANT periodic response reduce reference-to-Q.ANT prediction disagreement and improve Q.ANT accuracy compared with exact-cosine training?",
+  "observations": [
+    "Exp012 output-noise training did not reduce disagreement.",
+    "Exp013 found structured mismatch that increased with Fourier frequency.",
+    "Exp014 showed that bfloat16 explains only part of the mismatch and that a structured Q.ANT residual remains, especially at higher frequency and nonzero phase."
+  ],
+  "hypothesis": "A fixed differentiable periodic surrogate fitted to Q.ANT calc_kan_layer_fprop will reduce prediction disagreement versus exact-cosine training on locked QFourier architectures, with the largest benefit expected for g8.",
+  "falsification_criterion": "The hypothesis is not supported if surrogate-aligned training fails to reduce mean prediction disagreement for both g4 and g8, or if any disagreement reduction is accompanied by a material decrease in mean Q.ANT accuracy.",
+  "proposed_method": {
+    "experiment_type": "training_method",
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "epochs": 3,
+    "seeds": [11, 22, 33],
+    "architectures": ["qfourier_g4", "qfourier_g8"],
+    "training_conditions": ["exact_cosine", "qant_fitted_surrogate"],
+    "surrogate": "fixed periodic lookup/interpolation response fitted before model training from Q.ANT CPU-backend scalar samples; differentiable linear interpolation during training; no trainable surrogate parameters",
+    "primary_metrics": ["mean_qant_accuracy", "mean_reference_accuracy", "mean_prediction_disagreements"],
+    "planned_runs": 12
+  },
+  "requested_budget": {
+    "max_parameters": 126000,
+    "max_candidates": 12,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "approval_required": true,
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "The surrogate is fitted to numerical CPU-backend behavior and should not be interpreted as a physical optical model.",
+    "The experiment tests whether response alignment improves deployment agreement, not whether the surrogate is the unique or optimal approximation."
+  ]
+}
