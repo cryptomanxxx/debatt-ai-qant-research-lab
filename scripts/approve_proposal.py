@@ -52,7 +52,9 @@ MAPPINGS={
  "proposal-016-qant-accumulation-scaling-law":(
    "exp021-qant-accumulation-scaling-law","experiments/021_qant_accumulation_scaling_law/run.py"),
  "proposal-017-qant-grouped-accumulation-architecture":(
-   "exp022-qant-grouped-accumulation-architecture","experiments/022_qant_grouped_accumulation_architecture/run.py")
+   "exp022-qant-grouped-accumulation-architecture","experiments/022_qant_grouped_accumulation_architecture/run.py"),
+ "proposal-018-qant-hierarchical-low-fanin":(
+   "exp023-qant-hierarchical-low-fanin","experiments/023_qant_hierarchical_low_fanin/run.py")
 }
 if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
