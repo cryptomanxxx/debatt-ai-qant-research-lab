@@ -1,0 +1,15 @@
+{
+  "job_id": "exp015-qant-aligned-training-surrogate",
+  "status": "approved",
+  "experiment": "experiments/015_qant_aligned_training_surrogate/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of proposal-010-qant-aligned-training-surrogate",
+  "budget": {
+    "max_parameters": 126000,
+    "max_candidates": 12,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 10000
+  },
+  "source_proposal": "proposal-010-qant-aligned-training-surrogate"
+}
