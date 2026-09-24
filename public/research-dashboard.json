@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "generated_at_utc": "2026-09-24T09:53:31.338055+00:00",
+  "generated_at_utc": "2026-09-24T09:58:45.114528+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -39,7 +39,14 @@
       "dataset": "MNIST",
       "backend": "qant-cpu",
       "timestamp_utc": "2026-09-23T17:11:00+00:00",
-      "pareto_front": [],
+      "pareto_front": [
+        "h16",
+        "h32",
+        "h64",
+        "h128",
+        "h256",
+        "h512"
+      ],
       "pareto_applicable": true,
       "configuration": {
         "train_samples": 10000,
