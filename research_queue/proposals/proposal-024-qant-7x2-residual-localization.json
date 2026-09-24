@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-024-qant-7x2-residual-localization",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_results": ["results/exp028_qant_predictive_compatibility_v2.json"],
+  "research_question": "Why does hierarchical 7x2 show substantially larger end-to-end Q.ANT discrepancy than the term-count model predicts?",
+  "hypothesis": "The 7x2 residual is primarily caused by stronger propagation of stage-1 perturbations through the trained head rather than by the head's isolated Q.ANT approximation error.",
+  "falsification_criterion": "Not supported if 7x2 does not show a reproducibly larger stage2_input_propagation_error relative to its predicted/observed residual than the comparison architectures.",
+  "proposed_method": {
+    "experiment_type": "diagnostic",
+    "dataset": "FashionMNIST",
+    "architectures": ["7x2","14x4","49x2"],
+    "seeds": [11,22,33],
+    "epochs": 3,
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "planned_runs": 9,
+    "measurements": ["stage1_mean_absolute_feature_error","stage2_head_error_given_reference_stage1","stage2_input_propagation_error","end_to_end_logit_error","stage1_feature_rms","head_input_weighted_sensitivity_proxy"]
+  },
+  "requested_budget": {"max_parameters": 45000,"max_candidates": 9,"max_epochs": 3,"max_train_samples": 60000,"max_test_samples": 10000},
+  "approval_required": true,
+  "limitations": ["Diagnostic proxy for sensitivity is not a full Jacobian analysis.","CPU backend only; no photonic hardware performance claim."]
+}
