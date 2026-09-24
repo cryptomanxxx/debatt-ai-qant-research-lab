@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
 import qant_native_computing_toolkit.ai as q_ai
 from ml_dtypes import bfloat16
+from scripts.research_progress import ResearchProgress
 
 job_path=os.environ.get("QANT_JOB_CONFIG")
 if not job_path: raise SystemExit("QANT_JOB_CONFIG is required")
@@ -76,25 +77,29 @@ train=Subset(datasets.FashionMNIST("data",train=True,download=True,transform=tf)
 test=Subset(datasets.FashionMNIST("data",train=False,download=True,transform=tf),range(TEST))
 test_loader=DataLoader(test,batch_size=128,shuffle=False)
 rows=[]
+progress=ResearchProgress("Exp011",planned)
 for seed in SEEDS:
  for cid,cfg in CANDIDATES.items():
-  print(f"seed={seed} candidate={cid}")
+  progress.start_run(cid,seed)
   torch.manual_seed(seed); np.random.seed(seed)
   loader=DataLoader(train,batch_size=128,shuffle=True,generator=torch.Generator().manual_seed(seed))
   m=QFourier(784,10,cfg["grid_size"]) if cfg["kind"]=="fourier" else ReLUNet(cfg["widths"])
   opt=torch.optim.Adam(m.parameters(),lr=1e-3); lossfn=nn.CrossEntropyLoss()
   m.train()
-  for _ in range(EPOCHS):
+  for epoch in range(1,EPOCHS+1):
    for x,y in loader:
     opt.zero_grad(); loss=lossfn(m(x),y); loss.backward(); opt.step()
+   progress.epoch(epoch,EPOCHS,cid,seed)
   m.eval(); rc=qc=dis=n=0
   with torch.no_grad():
    for x,y in test_loader:
     rp=m(x).argmax(1).numpy()
     qp=qfourier_pred(x,m) if cfg["kind"]=="fourier" else qrelu_pred(x,m)
     yy=y.numpy(); rc+=int((rp==yy).sum()); qc+=int((qp==yy).sum()); dis+=int((rp!=qp).sum()); n+=len(yy)
+  qacc=qc/n
   rows.append({"seed":seed,"candidate_id":cid,"kind":cfg["kind"],"grid_size":cfg.get("grid_size"),
-   "parameter_count":nparams(cid),"reference_accuracy":rc/n,"qant_accuracy":qc/n,"prediction_disagreements":dis})
+   "parameter_count":nparams(cid),"reference_accuracy":rc/n,"qant_accuracy":qacc,"prediction_disagreements":dis})
+  progress.finish_run(cid,seed,qacc)
 
 summary={}
 for cid in CANDIDATES:
