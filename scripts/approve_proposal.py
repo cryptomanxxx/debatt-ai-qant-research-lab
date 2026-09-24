@@ -32,7 +32,9 @@ MAPPINGS={
  "proposal-006-qant-fourier-capacity":(
    "exp011-qant-fourier-capacity","experiments/011_qant_fourier_capacity/run.py"),
  "proposal-007-qant-fourier-robust-training":(
-   "exp012-qant-fourier-robust-training","experiments/012_qant_fourier_robust_training/run.py")
+   "exp012-qant-fourier-robust-training","experiments/012_qant_fourier_robust_training/run.py"),
+ "proposal-008-qant-fourier-mismatch-diagnostic":(
+   "exp013-qant-fourier-mismatch-diagnostic","experiments/013_qant_fourier_mismatch_diagnostic/run.py")
 }
 if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
