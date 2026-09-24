@@ -33,11 +33,19 @@ for p in sorted(RESULTS.glob("exp*.json")):
     experiment_id = o.get("experiment_id")
     experiment_type = EXPERIMENT_TYPES.get(experiment_id, "other")
     summary = o.get("summary") or {}
+    results = o.get("results")
+    if isinstance(results, list):
+        result_count = len(results)
+    elif experiment_type == "baseline" and o.get("metrics"):
+        # Legacy baseline files store one completed run in metrics instead of results[].
+        result_count = 1
+    else:
+        result_count = 0
     item = {
         "id": experiment_id,
         "experiment_type": experiment_type,
         "completed": True,
-        "result_count": len(o.get("results") or []),
+        "result_count": result_count,
         "summary_count": len(summary),
         "dataset": o.get("dataset"),
         "backend": o.get("backend"),
