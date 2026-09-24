@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "proposal_id": "proposal-014-qant-amplitude-error-accumulation",
+  "researcher": "GPT-5.6 Sol via ChatGPT",
+  "status": "proposed",
+  "source_result": "results/exp018_qant_frequency_controlled_g8.json",
+  "research_question": "Is the larger g8 reference-to-Q.ANT logit error explained by accumulation of amplitude-weighted component residuals rather than by high Fourier frequencies alone?",
+  "observations": [
+    "Exp018 falsified the simple high-frequency explanation: replacing frequencies 5-8 with repeated frequencies 1-4 did not reduce logit MAE.",
+    "Q.ANT KAN output is a sum of amplitude-weighted periodic components, so deployment residuals can accumulate or cancel according to learned amplitude magnitude and sign.",
+    "g8 has twice as many trainable Fourier components as g4 and Exp017 measured substantially larger model-level logit error."
+  ],
+  "hypothesis": "Compared with g4, standard g8 will exhibit larger amplitude-weighted accumulated component residual at the output, and this accumulated residual will explain its larger reference-to-Q.ANT logit error better than frequency identity alone.",
+  "falsification_criterion": "The hypothesis is weakened if g8 does not have larger accumulated amplitude-weighted component residual than g4, or if the reconstructed component-residual sum does not closely track the observed reference-to-Q.ANT logit error.",
+  "proposed_method": {
+    "experiment_type": "diagnostic",
+    "dataset": "FashionMNIST",
+    "train_samples": 60000,
+    "test_samples": 1000,
+    "epochs": 3,
+    "seeds": [11,22,33],
+    "architectures": ["qfourier_g4","qfourier_g8"],
+    "training_condition": "exact_cosine",
+    "primary_metrics": [
+      "mean_absolute_observed_logit_error",
+      "mean_absolute_reconstructed_component_residual",
+      "reconstruction_mae",
+      "mean_absolute_amplitude",
+      "amplitude_l1_per_output",
+      "component_residual_cancellation_ratio"
+    ],
+    "planned_runs": 6
+  },
+  "requested_budget": {
+    "max_parameters": 126000,
+    "max_candidates": 6,
+    "max_epochs": 3,
+    "max_train_samples": 60000,
+    "max_test_samples": 1000
+  },
+  "approval_required": true,
+  "limitations": [
+    "CPU backend only; no photonic hardware performance claim.",
+    "The component decomposition is diagnostic and does not itself prove that amplitude regularization will improve accuracy.",
+    "The test subset is limited to 1000 examples to keep component-level Q.ANT evaluation tractable."
+  ]
+}
