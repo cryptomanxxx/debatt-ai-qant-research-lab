@@ -68,4 +68,7 @@ jobs:
           git add results/ executions/ public/research-dashboard.json
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Complete guarded research job ${{ steps.resolve.outputs.job_id }}"
+          # main may have advanced while the experiment was running (for example,
+          # dashboard/research commits). Replay this result commit on latest main.
+          git pull --rebase origin main
           git push
