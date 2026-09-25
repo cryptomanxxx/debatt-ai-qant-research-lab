@@ -1,0 +1,61 @@
+{
+  "proposal_id": "pnn-v1-proposal014",
+  "id": "PNN-v1-Proposal014",
+  "experiment_id": "PNN-v1-Exp014",
+  "title": "TwoLeadECG Q.ANT disagreement localization",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Why does frozen Alpha4 retain >0.80 Q.ANT accuracy on TwoLeadECG while reference/Q.ANT prediction disagreements rise?",
+  "hypothesis": "Reference/Q.ANT prediction disagreements will concentrate on low-margin TEST examples, and the ratio of absolute Q.ANT logit perturbation to reference classification margin will be substantially larger for disagreement cases than agreement cases.",
+  "scientific_boundary": "Diagnostic only. The frozen Exp013 TwoLeadECG architecture and training protocol are unchanged. No architecture selection or TEST-driven tuning.",
+  "dataset": {
+    "name": "TwoLeadECG",
+    "canonical_length": 82,
+    "input_adaptation": "deterministic center crop 82→80",
+    "train_split": "canonical TRAIN",
+    "test_split": "canonical TEST"
+  },
+  "frozen_model": {
+    "windows": 5,
+    "local_block": "16→16",
+    "head": "80→2",
+    "frequencies": [
+      1,
+      2
+    ]
+  },
+  "protocol": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32
+  },
+  "diagnostics": [
+    "reference top1-minus-top2 absolute logit margin for every TEST example",
+    "maximum absolute Q.ANT-minus-reference logit perturbation per example",
+    "perturbation-to-margin ratio with epsilon guard",
+    "agreement/disagreement flag",
+    "aggregate median margin and ratio for agreement versus disagreement cases"
+  ],
+  "success_criteria": "Supported if disagreement cases have both a lower median reference margin and a higher median perturbation-to-margin ratio than agreement cases when pooled across all seeds.",
+  "promotion_rule": "No model promotion. Result determines whether the next intervention should target decision-margin robustness or another compatibility mechanism.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 1,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 1200
+  },
+  "hardware_boundary": "Q.ANT CPU/software simulation only; no physical photonic hardware performance claim."
+}
