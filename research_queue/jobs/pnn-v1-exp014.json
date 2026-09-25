@@ -1,0 +1,15 @@
+{
+  "job_id": "pnn-v1-exp014",
+  "status": "approved",
+  "experiment": "pnn-v1/experiments/exp014/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved compilation of pnn-v1-proposal014",
+  "budget": {
+    "max_parameters": 10000,
+    "max_candidates": 1,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 1200
+  },
+  "source_proposal": "pnn-v1-proposal014"
+}
