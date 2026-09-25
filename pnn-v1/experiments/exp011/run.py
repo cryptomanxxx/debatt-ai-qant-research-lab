@@ -33,7 +33,7 @@ class PNN(nn.Module):
   a=x.detach().numpy(); h=np.concatenate([b.qant(a[:,i*8:(i+1)*8]) for i,b in enumerate(self.blocks)],1); return self.head.qant(h)
 def nparams(m):return sum(p.numel() for p in m.parameters())
 def train(seed,spec):
- torch.manual_seed(seed); np.random.seed(seed); m=PNN(*spec); opt=torch.optim.Adam(m.parameters(),lr=LR); lossfn=nn.CrossEntropyLoss(); tx=torch.from_numpy(Xtr); ty=torch.from_numpy(ytr); g=torch.Generator().manual_seed(seed)
+ torch.manual_seed(seed); np.random.seed(seed); m=PNN(spec); opt=torch.optim.Adam(m.parameters(),lr=LR); lossfn=nn.CrossEntropyLoss(); tx=torch.from_numpy(Xtr); ty=torch.from_numpy(ytr); g=torch.Generator().manual_seed(seed)
  for _ in range(EPOCHS):
   order=torch.randperm(len(tx),generator=g)
   for st in range(0,len(tx),32):
