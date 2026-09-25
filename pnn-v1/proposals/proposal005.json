@@ -1,0 +1,56 @@
+{
+  "proposal_id": "pnn-v1-proposal005",
+  "id": "PNN-v1-Proposal005",
+  "experiment_id": "PNN-v1-Exp005",
+  "title": "Local representation width for PNN-v1",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Does alpha1 lose useful ECG information by compressing each eight-sample local window to only four Fourier/KAN features?",
+  "evidence_from_exp004": {
+    "alpha1_validation_qant_accuracy": 0.685,
+    "alpha1_validation_std": 0.050249378105604446,
+    "hierarchical_mixer_validation_qant_accuracy": 0.635,
+    "hierarchical_mixer_validation_std": 0.08958236433584457,
+    "hierarchical_mixer_supported": false
+  },
+  "hypothesis": "The 8->4 local mapping is an information bottleneck. Increasing only the number of learned local Fourier/KAN features can improve validation accuracy without the instability introduced by additional depth.",
+  "frozen_candidates": [
+    "alpha1_w4: 12 local 8->4 blocks, concatenate 48, Fourier/KAN 48->2 head",
+    "alpha1_w6: 12 local 8->6 blocks, concatenate 72, Fourier/KAN 72->2 head",
+    "alpha1_w8: 12 local 8->8 blocks, concatenate 96, Fourier/KAN 96->2 head"
+  ],
+  "data_protocol": {
+    "dataset": "ECG200",
+    "canonical_train_samples": 100,
+    "canonical_test_samples": 100,
+    "selection_rule": "Reuse the exact deterministic stratified TRAIN/validation boundary from Exp003 and Exp004. Compare the three frozen widths across the same 10 fixed seeds. Select by highest mean validation Q.ANT accuracy; if tied, choose lower validation standard deviation; if still tied, choose fewer parameters. Freeze selection before canonical TEST evaluation.",
+    "test_boundary": "Canonical TEST must not influence width selection."
+  },
+  "design_constraints": [
+    "Keep 12 contiguous eight-sample input windows.",
+    "Keep a single local Fourier/KAN stage followed directly by one Fourier/KAN classifier head.",
+    "Keep k=[1,2,3,4].",
+    "Use raw ECG200 values.",
+    "Change only local feature width: 4, 6, or 8.",
+    "No residual path and no second mixer stage.",
+    "Keep total parameter count below 10,000."
+  ],
+  "primary_metric": "Mean validation Q.ANT accuracy across the 10 fixed seeds.",
+  "secondary_metrics": [
+    "validation Q.ANT accuracy standard deviation",
+    "canonical TEST accuracy after selection is frozen",
+    "parameter count",
+    "reference-vs-Q.ANT prediction disagreements",
+    "mean absolute logit error"
+  ],
+  "success_criteria": "The selected wider candidate (w6 or w8) must exceed alpha1_w4 mean validation Q.ANT accuracy by at least 0.02 absolute and have validation Q.ANT standard deviation no more than 0.01 absolute above alpha1_w4. Otherwise alpha1_w4 remains the active architecture.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 3,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim.",
+  "next_gate": "Implement and review PNN-v1 Exp005, then add it to the guarded approval allowlist."
+}
