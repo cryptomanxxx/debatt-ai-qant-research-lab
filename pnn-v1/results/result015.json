@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal015",
+  "experiment_id": "PNN-v1-Exp015",
+  "timestamp_utc": "2026-09-25T18:04:34.023421+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "TwoLeadECG",
+    "train_shape": [
+      23,
+      80
+    ],
+    "test_shape": [
+      1139,
+      80
+    ]
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "lambda": 0.1,
+    "target_margin": 1.0,
+    "selection": "none; preregistered loss intervention"
+  },
+  "rows": [
+    {
+      "candidate": "control",
+      "seed": 11,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8121158911325724,
+      "qant_accuracy": 0.810359964881475,
+      "prediction_disagreements": 8,
+      "mean_absolute_logit_error": 0.020856574177742004,
+      "median_reference_margin": 1.4707454442977905
+    },
+    {
+      "candidate": "control",
+      "seed": 22,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8516242317822651,
+      "qant_accuracy": 0.8507462686567164,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.021416205912828445,
+      "median_reference_margin": 2.3748362064361572
+    },
+    {
+      "candidate": "control",
+      "seed": 33,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8156277436347673,
+      "qant_accuracy": 0.8121158911325724,
+      "prediction_disagreements": 6,
+      "mean_absolute_logit_error": 0.021820127964019775,
+      "median_reference_margin": 1.6705093383789062
+    },
+    {
+      "candidate": "control",
+      "seed": 44,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8516242317822651,
+      "qant_accuracy": 0.8516242317822651,
+      "prediction_disagreements": 6,
+      "mean_absolute_logit_error": 0.019156480208039284,
+      "median_reference_margin": 2.214846134185791
+    },
+    {
+      "candidate": "control",
+      "seed": 55,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.7875329236172081,
+      "qant_accuracy": 0.7840210711150132,
+      "prediction_disagreements": 4,
+      "mean_absolute_logit_error": 0.017282266169786453,
+      "median_reference_margin": 1.9323372840881348
+    },
+    {
+      "candidate": "control",
+      "seed": 66,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8314310798946444,
+      "qant_accuracy": 0.8314310798946444,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.021002748981118202,
+      "median_reference_margin": 2.157085657119751
+    },
+    {
+      "candidate": "control",
+      "seed": 77,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8726953467954346,
+      "qant_accuracy": 0.8726953467954346,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.022069547325372696,
+      "median_reference_margin": 2.5818400382995605
+    },
+    {
+      "candidate": "control",
+      "seed": 88,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8217734855136084,
+      "qant_accuracy": 0.8235294117647058,
+      "prediction_disagreements": 4,
+      "mean_absolute_logit_error": 0.020479990169405937,
+      "median_reference_margin": 2.2538247108459473
+    },
+    {
+      "candidate": "control",
+      "seed": 99,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8305531167690957,
+      "qant_accuracy": 0.8314310798946444,
+      "prediction_disagreements": 5,
+      "mean_absolute_logit_error": 0.025328412652015686,
+      "median_reference_margin": 2.022913694381714
+    },
+    {
+      "candidate": "control",
+      "seed": 111,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8305531167690957,
+      "qant_accuracy": 0.8305531167690957,
+      "prediction_disagreements": 4,
+      "mean_absolute_logit_error": 0.018822843208909035,
+      "median_reference_margin": 1.83646821975708
+    },
+    {
+      "candidate": "margin_regularized",
+      "seed": 11,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8296751536435469,
+      "qant_accuracy": 0.8261633011413521,
+      "prediction_disagreements": 8,
+      "mean_absolute_logit_error": 0.018784858286380768,
+      "median_reference_margin": 1.4171416759490967
+    },
+    {
+      "candidate": "margin_regularized",
+      "seed": 22,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8498683055311677,
+      "qant_accuracy": 0.8463564530289728,
+      "prediction_disagreements": 6,
+      "mean_absolute_logit_error": 0.021544115617871284,
+      "median_reference_margin": 2.248216390609741
+    },
+    {
+      "candidate": "margin_regularized",
+      "seed": 33,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8244073748902546,
+      "qant_accuracy": 0.8235294117647058,
+      "prediction_disagreements": 3,
+      "mean_absolute_logit_error": 0.02060670405626297,
+      "median_reference_margin": 1.6050426959991455
+    },
+    {
+      "candidate": "margin_regularized",
+      "seed": 44,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8507462686567164,
+      "qant_accuracy": 0.8516242317822651,
+      "prediction_disagreements": 3,
+      "mean_absolute_logit_error": 0.018930278718471527,
+      "median_reference_margin": 2.1666555404663086
+    },
+    {
+      "candidate": "margin_regularized",
+      "seed": 55,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.7857769973661106,
+      "qant_accuracy": 0.7840210711150132,
+      "prediction_disagreements": 4,
+      "mean_absolute_logit_error": 0.016888992860913277,
+      "median_reference_margin": 1.870271921157837
+    },
+    {
+      "candidate": "margin_regularized",
+      "seed": 66,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8305531167690957,
+      "qant_accuracy": 0.8296751536435469,
+      "prediction_disagreements": 5,
+      "mean_absolute_logit_error": 0.021373895928263664,
+      "median_reference_margin": 2.09224534034729
+    },
+    {
+      "candidate": "margin_regularized",
+      "seed": 77,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8726953467954346,
+      "qant_accuracy": 0.8709394205443372,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.024063773453235626,
+      "median_reference_margin": 2.494384527206421
+    },
+    {
+      "candidate": "margin_regularized",
+      "seed": 88,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.820017559262511,
+      "qant_accuracy": 0.8208955223880597,
+      "prediction_disagreements": 3,
+      "mean_absolute_logit_error": 0.0193247739225626,
+      "median_reference_margin": 2.1833367347717285
+    },
+    {
+      "candidate": "margin_regularized",
+      "seed": 99,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8287971905179983,
+      "qant_accuracy": 0.8252853380158033,
+      "prediction_disagreements": 4,
+      "mean_absolute_logit_error": 0.024355024099349976,
+      "median_reference_margin": 1.9509705305099487
+    },
+    {
+      "candidate": "margin_regularized",
+      "seed": 111,
+      "parameter_count": 5842,
+      "reference_accuracy": 0.8287971905179983,
+      "qant_accuracy": 0.8323090430201932,
+      "prediction_disagreements": 4,
+      "mean_absolute_logit_error": 0.018379220739006996,
+      "median_reference_margin": 1.7756320238113403
+    }
+  ],
+  "summary": {
+    "control": {
+      "parameter_count": 5842,
+      "mean_reference_accuracy": 0.8305531167690956,
+      "mean_qant_accuracy": 0.8298507462686567,
+      "std_qant_accuracy": 0.02363596749663375,
+      "mean_prediction_disagreements": 4.2,
+      "mean_absolute_logit_error": 0.020823519676923752,
+      "median_reference_margin_across_seeds": 2.0899996757507324
+    },
+    "margin_regularized": {
+      "parameter_count": 5842,
+      "mean_reference_accuracy": 0.8321334503950835,
+      "mean_qant_accuracy": 0.8310798946444249,
+      "std_qant_accuracy": 0.021634978189559013,
+      "mean_prediction_disagreements": 4.2,
+      "mean_absolute_logit_error": 0.02042516376823187,
+      "median_reference_margin_across_seeds": 2.0216079354286194
+    }
+  },
+  "success_criteria_met": false,
+  "intervention_decision": "not_supported",
+  "notes": "Architecture and inference frozen; only training loss differs. TEST does not select lambda or target margin. Software/simulation backend only.",
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cpu",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  }
+}
