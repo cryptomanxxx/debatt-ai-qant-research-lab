@@ -11,9 +11,8 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --de
 ENV PATH="/root/.cargo/bin:${PATH}"
 
 RUN rustc --version && cargo --version \
- && LIBCLANG_FILE="$(find /usr/lib -name 'libclang.so*' -type f 2>/dev/null | head -n 1)" \
- && test -n "$LIBCLANG_FILE" \
- && echo "libclang found at $LIBCLANG_FILE"
+ && test -d /usr/lib/llvm-19/lib \
+ && ls -l /usr/lib/llvm-19/lib/libclang*
 
 ENV LIBCLANG_PATH=/usr/lib/llvm-19/lib
 
