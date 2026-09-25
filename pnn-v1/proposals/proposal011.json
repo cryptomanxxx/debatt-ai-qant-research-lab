@@ -1,0 +1,69 @@
+{
+  "proposal_id": "pnn-v1-proposal011",
+  "id": "PNN-v1-Proposal011",
+  "experiment_id": "PNN-v1-Exp011",
+  "title": "w16 full-TRAIN confirmation against Alpha3",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Does the frozen 6×16 local-window candidate retain its Exp010 advantage when both it and active Alpha3 are trained on the full canonical ECG200 TRAIN split?",
+  "hypothesis": "The 6×16 candidate will improve Q.ANT TEST accuracy over active Alpha3 while maintaining stable reference/Q.ANT behavior.",
+  "frozen_candidates": [
+    {
+      "id": "alpha3_w8",
+      "windows": 12,
+      "input_width": 8,
+      "local_output_width": 8,
+      "head_input": 96,
+      "frequencies": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "w16_candidate",
+      "windows": 6,
+      "input_width": 16,
+      "local_output_width": 16,
+      "head_input": 96,
+      "frequencies": [
+        1,
+        2
+      ]
+    }
+  ],
+  "data_protocol": {
+    "dataset": "ECG200",
+    "train_samples": 100,
+    "test_samples": 100,
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "rule": "Train both frozen candidates on all canonical TRAIN cases. No architecture or hyperparameter selection from TEST."
+  },
+  "training_protocol": {
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "preprocessing": "raw archive values"
+  },
+  "primary_metric": "Aggregate integer correct Q.ANT TEST predictions across 1,000 predictions per model.",
+  "success_criteria": "w16_candidate must produce at least 10 more correct Q.ANT TEST classifications than alpha3_w8 across 1,000 predictions, and its across-seed Q.ANT accuracy standard deviation must be no more than 0.01 absolute above Alpha3.",
+  "promotion_rule": "If both criteria are met, promote the frozen 6×16 k=[1,2] candidate as PNN-v1 Alpha4. Otherwise retain Alpha3.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim."
+}
