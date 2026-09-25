@@ -8,7 +8,7 @@ from aeon.datasets import load_classification
 import aeon
 import qant_native_computing_toolkit.ai as q_ai
 from ml_dtypes import bfloat16
-SEEDS=[11,22,33,44,55,66,77,88,99,111]; EPOCHS=100; LR=1e-3
+SEEDS=[11,22,33,44,55,66,77,88,99,111]; EPOCHS=100; LR=1e-3; K=[1,2]
 CANDIDATES={"alpha3_w8":(12,8,8),"w16_candidate":(6,16,16)}
 def as2d(X):
  x=np.asarray(X,dtype=np.float32)
