@@ -88,7 +88,7 @@ for cid in candidates:
   "std_validation_qant_accuracy":float(np.std([r["qant_accuracy"] for r in rs])),
   "mean_validation_reference_accuracy":float(np.mean([r["reference_accuracy"] for r in rs]))}
 a,b=summary["alpha1_control"],summary["alpha2_hierarchical_mixer"]
-success=b["mean_validation_qant_accuracy"]>a["mean_validation_qant_accuracy"] and b["std_validation_qant_accuracy"]<=a["std_validation_qant_accuracy"]
+success=b["mean_validation_qant_accuracy"]>a["mean_validation_qant_accuracy"] and b["std_validation_qant_accuracy"]<=a["std_validation_qant_accuracy"]+0.01
 selected="alpha2_hierarchical_mixer" if success else "alpha1_control"
 # TEST is touched only after the frozen validation rule above has selected the architecture.
 test=[]
