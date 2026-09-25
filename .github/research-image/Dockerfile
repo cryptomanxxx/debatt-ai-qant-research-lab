@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LIBCLANG_PATH=/usr/lib/llvm-18/lib
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git curl clang libclang-dev build-essential ca-certificates \
+ && apt-get install -y --no-install-recommends git curl clang libclang-dev build-essential ca-certificates cargo rustc \
  && rm -rf /var/lib/apt/lists/*
 
 RUN python -m pip install --upgrade pip \
