@@ -9,7 +9,7 @@ proposal_id=sys.argv[1]
 if not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,95}",proposal_id):
     raise SystemExit("Invalid proposal id")
 
-p=Path("research_queue/proposals")/f"{proposal_id}.json"
+p=(Path("pnn-v1/proposals")/f"{proposal_id.replace('pnn-v1-','')}.json") if proposal_id.startswith("pnn-v1-") else (Path("research_queue/proposals")/f"{proposal_id}.json")
 if not p.exists(): raise SystemExit(f"Unknown proposal: {proposal_id}")
 proposal=json.loads(p.read_text())
 if proposal.get("proposal_id")!=proposal_id or proposal.get("status")!="proposed":
@@ -19,6 +19,8 @@ if proposal.get("approval_required") is not True:
 
 # Explicit allowlist: proposals cannot inject executable paths or commands.
 MAPPINGS={
+ "pnn-v1-proposal001":(
+   "pnn-v1-exp001","pnn-v1/experiments/exp001/run.py"),
  "proposal-001-replicate-expanding-topologies":(
    "exp006-multiseed-replication","experiments/006_multiseed_replication/run.py"),
  "proposal-002-expansion-ratio":(
