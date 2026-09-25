@@ -1,0 +1,64 @@
+{
+  "proposal_id": "pnn-v1-proposal016",
+  "id": "PNN-v1-Proposal016",
+  "experiment_id": "PNN-v1-Exp016",
+  "title": "TwoLeadECG stagewise Q.ANT perturbation decomposition",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "On TwoLeadECG disagreement cases, how much of the final reference/Q.ANT logit perturbation originates in the local Fourier/KAN blocks versus the final Q.ANT head and downstream propagation?",
+  "hypothesis": "Disagreement cases will show substantially larger perturbation already in the concatenated local representation, and propagation of that local perturbation through the reference head will explain more of the end-to-end logit difference than the head's own isolated Q.ANT evaluation error.",
+  "scientific_boundary": "Diagnostic only. Use the ordinary cross-entropy control from the frozen Exp015/Exp014 architecture and protocol. No architecture, loss, frequency, or TEST-driven tuning.",
+  "dataset": {
+    "name": "TwoLeadECG",
+    "input_adaptation": "deterministic center crop 82→80",
+    "split": "canonical TRAIN/TEST"
+  },
+  "frozen_model": {
+    "windows": 5,
+    "local_block": "16→16",
+    "head": "80→2",
+    "frequencies": [
+      1,
+      2
+    ],
+    "loss": "cross_entropy"
+  },
+  "protocol": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32
+  },
+  "diagnostics": [
+    "reference local representation versus Q.ANT local representation",
+    "reference head on reference local representation",
+    "reference head on Q.ANT local representation",
+    "Q.ANT head on Q.ANT local representation",
+    "local representation MAE",
+    "propagation-only logit perturbation",
+    "isolated head Q.ANT logit perturbation",
+    "end-to-end logit perturbation",
+    "agreement versus disagreement pooled summaries"
+  ],
+  "success_criteria": "Supported if disagreement cases have higher median local-representation MAE than agreement cases and higher median propagation-only logit perturbation than isolated-head Q.ANT logit perturbation.",
+  "promotion_rule": "No promotion. The dominant stage determines the next compatibility intervention.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 1,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 1200
+  },
+  "hardware_boundary": "Q.ANT CPU/software simulation only; no physical photonic hardware performance claim."
+}
