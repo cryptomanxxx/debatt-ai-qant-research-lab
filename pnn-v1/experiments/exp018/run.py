@@ -52,7 +52,8 @@ def train(seed,Xtr,ytr,nheads):
  return m
 
 Xtr,ytr0=load_classification("GunPoint",split="TRAIN"); Xte,yte0=load_classification("GunPoint",split="TEST")
-Xtr0,Xte0=as2d(Xtr),as2d(Xte)\nXtr,Xte=Xtr0[:,3:147],Xte0[:,3:147]
+Xtr0,Xte0=as2d(Xtr),as2d(Xte)
+Xtr,Xte=Xtr0[:,3:147],Xte0[:,3:147]
 labels=sorted(set(np.asarray(ytr0).astype(str))|set(np.asarray(yte0).astype(str))); lm={v:i for i,v in enumerate(labels)}
 ytr=np.asarray([lm[str(v)] for v in ytr0],dtype=np.int64); yte=np.asarray([lm[str(v)] for v in yte0],dtype=np.int64)
 rows=[]
