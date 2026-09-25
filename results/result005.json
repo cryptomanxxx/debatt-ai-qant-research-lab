@@ -1,0 +1,451 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal005",
+  "experiment_id": "PNN-v1-Exp005",
+  "timestamp_utc": "2026-09-25T13:49:13.316955+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "ECG200",
+    "canonical_train_shape": [
+      100,
+      96
+    ],
+    "canonical_test_shape": [
+      100,
+      96
+    ],
+    "selection_train_samples": 80,
+    "validation_samples": 20
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "frequencies": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "validation_rule": "first 10 examples per class in canonical TRAIN",
+    "candidates": [
+      "alpha1_w4",
+      "alpha1_w6",
+      "alpha1_w8"
+    ],
+    "test_selection_boundary": "candidate frozen from validation before TEST evaluation"
+  },
+  "validation_results": [
+    {
+      "reference_accuracy": 0.7,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.04009336978197098,
+      "seed": 11,
+      "candidate_id": "alpha1_w4",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.75,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.034297697246074677,
+      "seed": 11,
+      "candidate_id": "alpha1_w6",
+      "parameter_count": 5834
+    },
+    {
+      "reference_accuracy": 0.75,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03222479671239853,
+      "seed": 11,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03737610578536987,
+      "seed": 22,
+      "candidate_id": "alpha1_w4",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.6,
+      "qant_accuracy": 0.6,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.033755868673324585,
+      "seed": 22,
+      "candidate_id": "alpha1_w6",
+      "parameter_count": 5834
+    },
+    {
+      "reference_accuracy": 0.7,
+      "qant_accuracy": 0.7,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03173895552754402,
+      "seed": 22,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.035713814198970795,
+      "seed": 33,
+      "candidate_id": "alpha1_w4",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.027931833639740944,
+      "seed": 33,
+      "candidate_id": "alpha1_w6",
+      "parameter_count": 5834
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03737090900540352,
+      "seed": 33,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.8,
+      "qant_accuracy": 0.8,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03539394214749336,
+      "seed": 44,
+      "candidate_id": "alpha1_w4",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.55,
+      "qant_accuracy": 0.55,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03479083627462387,
+      "seed": 44,
+      "candidate_id": "alpha1_w6",
+      "parameter_count": 5834
+    },
+    {
+      "reference_accuracy": 0.75,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.04141492396593094,
+      "seed": 44,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03128204494714737,
+      "seed": 55,
+      "candidate_id": "alpha1_w4",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.6,
+      "qant_accuracy": 0.6,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03525279089808464,
+      "seed": 55,
+      "candidate_id": "alpha1_w6",
+      "parameter_count": 5834
+    },
+    {
+      "reference_accuracy": 0.75,
+      "qant_accuracy": 0.8,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.0435907244682312,
+      "seed": 55,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03243514522910118,
+      "seed": 66,
+      "candidate_id": "alpha1_w4",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.75,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.04354554042220116,
+      "seed": 66,
+      "candidate_id": "alpha1_w6",
+      "parameter_count": 5834
+    },
+    {
+      "reference_accuracy": 0.7,
+      "qant_accuracy": 0.7,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.051635872572660446,
+      "seed": 66,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.035413265228271484,
+      "seed": 77,
+      "candidate_id": "alpha1_w4",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.6,
+      "qant_accuracy": 0.6,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.031106244772672653,
+      "seed": 77,
+      "candidate_id": "alpha1_w6",
+      "parameter_count": 5834
+    },
+    {
+      "reference_accuracy": 0.75,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03826146572828293,
+      "seed": 77,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03471099212765694,
+      "seed": 88,
+      "candidate_id": "alpha1_w4",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.6,
+      "qant_accuracy": 0.6,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03518376871943474,
+      "seed": 88,
+      "candidate_id": "alpha1_w6",
+      "parameter_count": 5834
+    },
+    {
+      "reference_accuracy": 0.75,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.043952059000730515,
+      "seed": 88,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.7,
+      "qant_accuracy": 0.7,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.032065365463495255,
+      "seed": 99,
+      "candidate_id": "alpha1_w4",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.85,
+      "qant_accuracy": 0.85,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.042130738496780396,
+      "seed": 99,
+      "candidate_id": "alpha1_w6",
+      "parameter_count": 5834
+    },
+    {
+      "reference_accuracy": 0.75,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.032123465090990067,
+      "seed": 99,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.7,
+      "qant_accuracy": 0.7,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.032592810690402985,
+      "seed": 111,
+      "candidate_id": "alpha1_w4",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.75,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.034468650817871094,
+      "seed": 111,
+      "candidate_id": "alpha1_w6",
+      "parameter_count": 5834
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03869514912366867,
+      "seed": 111,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    }
+  ],
+  "validation_summary": {
+    "alpha1_w4": {
+      "parameter_count": 3890,
+      "mean_validation_qant_accuracy": 0.685,
+      "std_validation_qant_accuracy": 0.050249378105604446,
+      "mean_validation_reference_accuracy": 0.68
+    },
+    "alpha1_w6": {
+      "parameter_count": 5834,
+      "mean_validation_qant_accuracy": 0.6699999999999999,
+      "std_validation_qant_accuracy": 0.09273618495495704,
+      "mean_validation_reference_accuracy": 0.6699999999999999
+    },
+    "alpha1_w8": {
+      "parameter_count": 7778,
+      "mean_validation_qant_accuracy": 0.725,
+      "std_validation_qant_accuracy": 0.04609772228646444,
+      "mean_validation_reference_accuracy": 0.72
+    }
+  },
+  "success_criteria_met": true,
+  "selected_candidate": "alpha1_w8",
+  "test_results": [
+    {
+      "reference_accuracy": 0.79,
+      "qant_accuracy": 0.81,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.04696621373295784,
+      "seed": 11,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.76,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.042482051998376846,
+      "seed": 22,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.84,
+      "qant_accuracy": 0.84,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.04727231338620186,
+      "seed": 33,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.83,
+      "qant_accuracy": 0.82,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.042772695422172546,
+      "seed": 44,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.82,
+      "qant_accuracy": 0.83,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.043560437858104706,
+      "seed": 55,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.83,
+      "qant_accuracy": 0.83,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.04763279855251312,
+      "seed": 66,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.81,
+      "qant_accuracy": 0.81,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.04358617961406708,
+      "seed": 77,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.88,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.04237833991646767,
+      "seed": 88,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.82,
+      "qant_accuracy": 0.82,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03931618109345436,
+      "seed": 99,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    },
+    {
+      "reference_accuracy": 0.8,
+      "qant_accuracy": 0.8,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.044428810477256775,
+      "seed": 111,
+      "candidate_id": "alpha1_w8",
+      "parameter_count": 7778
+    }
+  ],
+  "test_summary": {
+    "selected_candidate": "alpha1_w8",
+    "mean_qant_accuracy": 0.819,
+    "std_qant_accuracy": 0.031128764832546747,
+    "mean_reference_accuracy": 0.818,
+    "mean_prediction_disagreements": 0.5,
+    "mean_absolute_logit_error": 0.04403960220515728
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  },
+  "notes": "Local representation width test: 8->4 versus 8->6 versus 8->8 local Fourier/KAN blocks. Canonical TEST is confirmatory only and is evaluated after validation-based selection. Software/simulation backend only."
+}
