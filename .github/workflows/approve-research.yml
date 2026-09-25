@@ -26,6 +26,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+      - name: Cheap research-flow smoke tests
+        run: python scripts/smoke_test_research_flow.py
       - name: Compile proposal into approved job
         run: python scripts/approve_proposal.py "${{ inputs.proposal_id }}"
       - name: Publish approved job
