@@ -54,6 +54,7 @@ jobs:
       - name: Publish results and execution record
         if: success()
         shell: bash
+        working-directory: ${{ github.workspace }}
         run: |
           mkdir -p results executions
           shopt -s nullglob
