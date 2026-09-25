@@ -64,6 +64,12 @@ for seed in SEEDS:
  m=train_mlp(seed); vx=torch.from_numpy(Xte); m.eval()
  with torch.no_grad(): pred=m(vx).argmax(1).numpy()
  mlp_rows.append({"seed":seed,"parameter_count":nparams(m),"accuracy":float((pred==yte).mean())})
+mlp_rows=[]
+for seed in SEEDS:
+ m=train_mlp(seed); vx=torch.from_numpy(Xte); m.eval()
+ with torch.no_grad(): pred=m(vx).argmax(1).numpy()
+ mlp_rows.append({"seed":seed,"parameter_count":nparams(m),"accuracy":float((pred==yte).mean())})
+mlp_summary={"parameter_count":mlp_rows[0]["parameter_count"],"mean_accuracy":float(np.mean([r["accuracy"] for r in mlp_rows])),"std_accuracy":float(np.std([r["accuracy"] for r in mlp_rows]))}
 summary={}
 for cid in CANDIDATES:
  rs=[r for r in rows if r["candidate_id"]==cid]; summary[cid]={"geometry":CANDIDATES[cid],"frequencies":[1,2],"parameter_count":rs[0]["parameter_count"],"mean_reference_accuracy":float(np.mean([r["reference_accuracy"] for r in rs])),"mean_qant_accuracy":float(np.mean([r["qant_accuracy"] for r in rs])),"std_qant_accuracy":float(np.std([r["qant_accuracy"] for r in rs])),"total_qant_correct_count":int(sum(r["qant_correct_count"] for r in rs)),"mean_prediction_disagreements":float(np.mean([r["prediction_disagreements"] for r in rs])),"mean_absolute_logit_error":float(np.mean([r["mean_absolute_logit_error"] for r in rs]))}
