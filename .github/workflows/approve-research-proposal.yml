@@ -6,7 +6,7 @@ on:
       proposal_id:
         description: "Proposal to approve"
         required: true
-        default: "proposal-001-replicate-expanding-topologies"
+        default: "pnn-v1-proposal002"
         type: string
       confirm:
         description: "I reviewed this proposal and approve its compute budget"
