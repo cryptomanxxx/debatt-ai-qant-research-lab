@@ -1,0 +1,538 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal013",
+  "experiment_id": "PNN-v1-Exp013",
+  "timestamp_utc": "2026-09-25T17:45:05.574124+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "Multi-dataset transfer",
+    "datasets": [
+      "ItalyPowerDemand",
+      "SonyAIBORobotSurface1",
+      "TwoLeadECG"
+    ]
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "local_block": "16\u219216",
+    "selection": "none; frozen transfer benchmark"
+  },
+  "dataset_results": [
+    {
+      "dataset": "ItalyPowerDemand",
+      "crop": [
+        4,
+        20
+      ],
+      "rows": [
+        {
+          "seed": 11,
+          "parameter_count": 1170,
+          "reference_accuracy": 0.9465500485908649,
+          "qant_accuracy": 0.9475218658892128,
+          "prediction_disagreements": 1,
+          "mean_absolute_logit_error": 0.01719469018280506
+        },
+        {
+          "seed": 22,
+          "parameter_count": 1170,
+          "reference_accuracy": 0.9582118561710399,
+          "qant_accuracy": 0.9582118561710399,
+          "prediction_disagreements": 0,
+          "mean_absolute_logit_error": 0.015808790922164917
+        },
+        {
+          "seed": 33,
+          "parameter_count": 1170,
+          "reference_accuracy": 0.966958211856171,
+          "qant_accuracy": 0.967930029154519,
+          "prediction_disagreements": 1,
+          "mean_absolute_logit_error": 0.014676538296043873
+        },
+        {
+          "seed": 44,
+          "parameter_count": 1170,
+          "reference_accuracy": 0.9455782312925171,
+          "qant_accuracy": 0.9455782312925171,
+          "prediction_disagreements": 0,
+          "mean_absolute_logit_error": 0.016985634341835976
+        },
+        {
+          "seed": 55,
+          "parameter_count": 1170,
+          "reference_accuracy": 0.9572400388726919,
+          "qant_accuracy": 0.9572400388726919,
+          "prediction_disagreements": 0,
+          "mean_absolute_logit_error": 0.014465865679085255
+        },
+        {
+          "seed": 66,
+          "parameter_count": 1170,
+          "reference_accuracy": 0.9620991253644315,
+          "qant_accuracy": 0.9611273080660836,
+          "prediction_disagreements": 3,
+          "mean_absolute_logit_error": 0.01421100553125143
+        },
+        {
+          "seed": 77,
+          "parameter_count": 1170,
+          "reference_accuracy": 0.9601554907677357,
+          "qant_accuracy": 0.9591836734693877,
+          "prediction_disagreements": 1,
+          "mean_absolute_logit_error": 0.01582799293100834
+        },
+        {
+          "seed": 88,
+          "parameter_count": 1170,
+          "reference_accuracy": 0.9650145772594753,
+          "qant_accuracy": 0.9650145772594753,
+          "prediction_disagreements": 0,
+          "mean_absolute_logit_error": 0.01534610241651535
+        },
+        {
+          "seed": 99,
+          "parameter_count": 1170,
+          "reference_accuracy": 0.967930029154519,
+          "qant_accuracy": 0.9689018464528668,
+          "prediction_disagreements": 1,
+          "mean_absolute_logit_error": 0.013717494904994965
+        },
+        {
+          "seed": 111,
+          "parameter_count": 1170,
+          "reference_accuracy": 0.967930029154519,
+          "qant_accuracy": 0.967930029154519,
+          "prediction_disagreements": 2,
+          "mean_absolute_logit_error": 0.014427951537072659
+        }
+      ],
+      "mlp_rows": [
+        {
+          "seed": 11,
+          "parameter_count": 3234,
+          "accuracy": 0.967930029154519
+        },
+        {
+          "seed": 22,
+          "parameter_count": 3234,
+          "accuracy": 0.9718172983479106
+        },
+        {
+          "seed": 33,
+          "parameter_count": 3234,
+          "accuracy": 0.9689018464528668
+        },
+        {
+          "seed": 44,
+          "parameter_count": 3234,
+          "accuracy": 0.967930029154519
+        },
+        {
+          "seed": 55,
+          "parameter_count": 3234,
+          "accuracy": 0.967930029154519
+        },
+        {
+          "seed": 66,
+          "parameter_count": 3234,
+          "accuracy": 0.9708454810495627
+        },
+        {
+          "seed": 77,
+          "parameter_count": 3234,
+          "accuracy": 0.9630709426627794
+        },
+        {
+          "seed": 88,
+          "parameter_count": 3234,
+          "accuracy": 0.966958211856171
+        },
+        {
+          "seed": 99,
+          "parameter_count": 3234,
+          "accuracy": 0.9698736637512148
+        },
+        {
+          "seed": 111,
+          "parameter_count": 3234,
+          "accuracy": 0.967930029154519
+        }
+      ],
+      "summary": {
+        "dataset": "ItalyPowerDemand",
+        "train_shape": [
+          67,
+          16
+        ],
+        "test_shape": [
+          1029,
+          16
+        ],
+        "n_classes": 2,
+        "pnn_parameter_count": 1170,
+        "mean_reference_accuracy": 0.9597667638483965,
+        "mean_qant_accuracy": 0.9598639455782314,
+        "std_qant_accuracy": 0.007787283042785466,
+        "mean_prediction_disagreements": 0.9,
+        "mean_absolute_logit_error": 0.015266206674277782,
+        "mlp_parameter_count": 3234,
+        "mlp_mean_accuracy": 0.9683187560738583,
+        "mlp_std_accuracy": 0.002266647966898087
+      }
+    },
+    {
+      "dataset": "SonyAIBORobotSurface1",
+      "crop": [
+        3,
+        67
+      ],
+      "rows": [
+        {
+          "seed": 11,
+          "parameter_count": 4674,
+          "reference_accuracy": 0.653910149750416,
+          "qant_accuracy": 0.6505823627287853,
+          "prediction_disagreements": 2,
+          "mean_absolute_logit_error": 0.017677567899227142
+        },
+        {
+          "seed": 22,
+          "parameter_count": 4674,
+          "reference_accuracy": 0.6173044925124792,
+          "qant_accuracy": 0.6189683860232945,
+          "prediction_disagreements": 3,
+          "mean_absolute_logit_error": 0.01581685245037079
+        },
+        {
+          "seed": 33,
+          "parameter_count": 4674,
+          "reference_accuracy": 0.6722129783693843,
+          "qant_accuracy": 0.6738768718801996,
+          "prediction_disagreements": 1,
+          "mean_absolute_logit_error": 0.014571696519851685
+        },
+        {
+          "seed": 44,
+          "parameter_count": 4674,
+          "reference_accuracy": 0.6289517470881864,
+          "qant_accuracy": 0.6306156405990017,
+          "prediction_disagreements": 3,
+          "mean_absolute_logit_error": 0.01869802176952362
+        },
+        {
+          "seed": 55,
+          "parameter_count": 4674,
+          "reference_accuracy": 0.6405990016638935,
+          "qant_accuracy": 0.6405990016638935,
+          "prediction_disagreements": 0,
+          "mean_absolute_logit_error": 0.018161339685320854
+        },
+        {
+          "seed": 66,
+          "parameter_count": 4674,
+          "reference_accuracy": 0.6256239600665557,
+          "qant_accuracy": 0.6256239600665557,
+          "prediction_disagreements": 2,
+          "mean_absolute_logit_error": 0.016201099380850792
+        },
+        {
+          "seed": 77,
+          "parameter_count": 4674,
+          "reference_accuracy": 0.7237936772046589,
+          "qant_accuracy": 0.7254575707154742,
+          "prediction_disagreements": 1,
+          "mean_absolute_logit_error": 0.0170401930809021
+        },
+        {
+          "seed": 88,
+          "parameter_count": 4674,
+          "reference_accuracy": 0.7021630615640599,
+          "qant_accuracy": 0.7004991680532446,
+          "prediction_disagreements": 1,
+          "mean_absolute_logit_error": 0.014611084014177322
+        },
+        {
+          "seed": 99,
+          "parameter_count": 4674,
+          "reference_accuracy": 0.7021630615640599,
+          "qant_accuracy": 0.7021630615640599,
+          "prediction_disagreements": 0,
+          "mean_absolute_logit_error": 0.01443533506244421
+        },
+        {
+          "seed": 111,
+          "parameter_count": 4674,
+          "reference_accuracy": 0.6306156405990017,
+          "qant_accuracy": 0.6306156405990017,
+          "prediction_disagreements": 2,
+          "mean_absolute_logit_error": 0.017182644456624985
+        }
+      ],
+      "mlp_rows": [
+        {
+          "seed": 11,
+          "parameter_count": 6306,
+          "accuracy": 0.64891846921797
+        },
+        {
+          "seed": 22,
+          "parameter_count": 6306,
+          "accuracy": 0.627287853577371
+        },
+        {
+          "seed": 33,
+          "parameter_count": 6306,
+          "accuracy": 0.627287853577371
+        },
+        {
+          "seed": 44,
+          "parameter_count": 6306,
+          "accuracy": 0.6572379367720466
+        },
+        {
+          "seed": 55,
+          "parameter_count": 6306,
+          "accuracy": 0.6722129783693843
+        },
+        {
+          "seed": 66,
+          "parameter_count": 6306,
+          "accuracy": 0.6339434276206323
+        },
+        {
+          "seed": 77,
+          "parameter_count": 6306,
+          "accuracy": 0.6289517470881864
+        },
+        {
+          "seed": 88,
+          "parameter_count": 6306,
+          "accuracy": 0.6289517470881864
+        },
+        {
+          "seed": 99,
+          "parameter_count": 6306,
+          "accuracy": 0.6605657237936772
+        },
+        {
+          "seed": 111,
+          "parameter_count": 6306,
+          "accuracy": 0.6505823627287853
+        }
+      ],
+      "summary": {
+        "dataset": "SonyAIBORobotSurface1",
+        "train_shape": [
+          20,
+          64
+        ],
+        "test_shape": [
+          601,
+          64
+        ],
+        "n_classes": 2,
+        "pnn_parameter_count": 4674,
+        "mean_reference_accuracy": 0.6597337770382696,
+        "mean_qant_accuracy": 0.6599001663893511,
+        "std_qant_accuracy": 0.03598936661456447,
+        "mean_prediction_disagreements": 1.5,
+        "mean_absolute_logit_error": 0.01643958343192935,
+        "mlp_parameter_count": 6306,
+        "mlp_mean_accuracy": 0.6435940099833611,
+        "mlp_std_accuracy": 0.01556963403033554
+      }
+    },
+    {
+      "dataset": "TwoLeadECG",
+      "crop": [
+        1,
+        81
+      ],
+      "rows": [
+        {
+          "seed": 11,
+          "parameter_count": 5842,
+          "reference_accuracy": 0.8121158911325724,
+          "qant_accuracy": 0.810359964881475,
+          "prediction_disagreements": 8,
+          "mean_absolute_logit_error": 0.020856574177742004
+        },
+        {
+          "seed": 22,
+          "parameter_count": 5842,
+          "reference_accuracy": 0.8516242317822651,
+          "qant_accuracy": 0.8507462686567164,
+          "prediction_disagreements": 1,
+          "mean_absolute_logit_error": 0.021416205912828445
+        },
+        {
+          "seed": 33,
+          "parameter_count": 5842,
+          "reference_accuracy": 0.8156277436347673,
+          "qant_accuracy": 0.8121158911325724,
+          "prediction_disagreements": 6,
+          "mean_absolute_logit_error": 0.021820127964019775
+        },
+        {
+          "seed": 44,
+          "parameter_count": 5842,
+          "reference_accuracy": 0.8516242317822651,
+          "qant_accuracy": 0.8516242317822651,
+          "prediction_disagreements": 6,
+          "mean_absolute_logit_error": 0.019156480208039284
+        },
+        {
+          "seed": 55,
+          "parameter_count": 5842,
+          "reference_accuracy": 0.7875329236172081,
+          "qant_accuracy": 0.7840210711150132,
+          "prediction_disagreements": 4,
+          "mean_absolute_logit_error": 0.017282266169786453
+        },
+        {
+          "seed": 66,
+          "parameter_count": 5842,
+          "reference_accuracy": 0.8314310798946444,
+          "qant_accuracy": 0.8314310798946444,
+          "prediction_disagreements": 2,
+          "mean_absolute_logit_error": 0.021002748981118202
+        },
+        {
+          "seed": 77,
+          "parameter_count": 5842,
+          "reference_accuracy": 0.8726953467954346,
+          "qant_accuracy": 0.8726953467954346,
+          "prediction_disagreements": 2,
+          "mean_absolute_logit_error": 0.022069547325372696
+        },
+        {
+          "seed": 88,
+          "parameter_count": 5842,
+          "reference_accuracy": 0.8217734855136084,
+          "qant_accuracy": 0.8235294117647058,
+          "prediction_disagreements": 4,
+          "mean_absolute_logit_error": 0.020479990169405937
+        },
+        {
+          "seed": 99,
+          "parameter_count": 5842,
+          "reference_accuracy": 0.8305531167690957,
+          "qant_accuracy": 0.8314310798946444,
+          "prediction_disagreements": 5,
+          "mean_absolute_logit_error": 0.025328412652015686
+        },
+        {
+          "seed": 111,
+          "parameter_count": 5842,
+          "reference_accuracy": 0.8305531167690957,
+          "qant_accuracy": 0.8305531167690957,
+          "prediction_disagreements": 4,
+          "mean_absolute_logit_error": 0.018822843208909035
+        }
+      ],
+      "mlp_rows": [
+        {
+          "seed": 11,
+          "parameter_count": 7330,
+          "accuracy": 0.8990342405618964
+        },
+        {
+          "seed": 22,
+          "parameter_count": 7330,
+          "accuracy": 0.874451273046532
+        },
+        {
+          "seed": 33,
+          "parameter_count": 7330,
+          "accuracy": 0.845478489903424
+        },
+        {
+          "seed": 44,
+          "parameter_count": 7330,
+          "accuracy": 0.9034240561896401
+        },
+        {
+          "seed": 55,
+          "parameter_count": 7330,
+          "accuracy": 0.884108867427568
+        },
+        {
+          "seed": 66,
+          "parameter_count": 7330,
+          "accuracy": 0.8902546093064091
+        },
+        {
+          "seed": 77,
+          "parameter_count": 7330,
+          "accuracy": 0.8832309043020193
+        },
+        {
+          "seed": 88,
+          "parameter_count": 7330,
+          "accuracy": 0.8981562774363476
+        },
+        {
+          "seed": 99,
+          "parameter_count": 7330,
+          "accuracy": 0.8920105355575065
+        },
+        {
+          "seed": 111,
+          "parameter_count": 7330,
+          "accuracy": 0.8928884986830553
+        }
+      ],
+      "summary": {
+        "dataset": "TwoLeadECG",
+        "train_shape": [
+          23,
+          80
+        ],
+        "test_shape": [
+          1139,
+          80
+        ],
+        "n_classes": 2,
+        "pnn_parameter_count": 5842,
+        "mean_reference_accuracy": 0.8305531167690956,
+        "mean_qant_accuracy": 0.8298507462686567,
+        "std_qant_accuracy": 0.02363596749663375,
+        "mean_prediction_disagreements": 4.2,
+        "mean_absolute_logit_error": 0.020823519676923752,
+        "mlp_parameter_count": 7330,
+        "mlp_mean_accuracy": 0.8863037752414398,
+        "mlp_std_accuracy": 0.015838659187411983
+      }
+    }
+  ],
+  "accuracy_pass_count": 2,
+  "agreement_pass": false,
+  "success_criteria_met": false,
+  "transfer_decision": "not_supported",
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  },
+  "notes": "Preregistered multi-dataset Alpha4-principle transfer benchmark. No TEST-driven architecture selection. Software/simulation backend only."
+}
