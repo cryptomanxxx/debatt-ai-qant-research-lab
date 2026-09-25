@@ -45,5 +45,12 @@
   "success_criteria": "Alpha2 must produce at least 10 more correct Q.ANT classifications than Alpha1 across 1,000 aggregate TEST predictions, and Alpha2 Q.ANT accuracy standard deviation must be no more than 0.01 absolute above Alpha1.",
   "arithmetic_rule": "Primary improvement gate MUST use integer correct-count difference >= 10, not floating-point mean accuracy arithmetic.",
   "promotion_rule": "If both frozen criteria are met, promote 8->8 to active PNN-v1 Alpha2; otherwise retain Alpha1.",
-  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim."
+  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  }
 }
