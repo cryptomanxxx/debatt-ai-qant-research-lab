@@ -1,0 +1,58 @@
+{
+  "proposal_id": "pnn-v1-proposal012",
+  "id": "PNN-v1-Proposal012",
+  "experiment_id": "PNN-v1-Exp012",
+  "title": "Alpha4 cross-dataset transfer test",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Do the architecture principles promoted on ECG200 transfer to a second time-series classification problem without retuning Alpha4?",
+  "hypothesis": "Frozen Alpha4 will remain competitive with the same fixed MLP calibration baseline on a second small univariate UCR/UEA time-series dataset, providing evidence that its compact k=[1,2] basis and 16-sample local receptive-field principle are not specific to ECG200.",
+  "scientific_boundary": "This is a transfer test, not a new architecture search. Alpha4 topology, k=[1,2], optimizer, epochs and seed set are frozen before observing target TEST results.",
+  "transfer_design": {
+    "target_dataset": "GunPoint",
+    "rationale": "Small canonical univariate UCR/UEA classification dataset with length 150, suitable for an inexpensive transfer test while differing from ECG morphology.",
+    "pnn_input_handling": "Deterministically center-crop the 150-sample series to 144 samples so it divides into nine contiguous 16-sample windows. No learned or TEST-dependent preprocessing.",
+    "alpha4_transfer": "9 contiguous windows × 16 samples; each Q.ANT Fourier/KAN 16→16; concatenate 144 features; Q.ANT Fourier/KAN 144→2; k=[1,2]. The local block design and frequency basis are frozen; only the number of repeated windows and head input dimension adapt mechanically to input length.",
+    "mlp_calibration": "Fixed two-hidden-layer MLP scaled mechanically to input length: 144→64→32→2."
+  },
+  "data_protocol": {
+    "dataset": "GunPoint",
+    "split": "canonical TRAIN/TEST",
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "test_usage": "No candidate selection or hyperparameter tuning from TEST."
+  },
+  "training_protocol": {
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "preprocessing": "raw archive values after deterministic center crop 150→144"
+  },
+  "primary_outputs": [
+    "mean Q.ANT TEST accuracy",
+    "across-seed Q.ANT accuracy std",
+    "reference/Q.ANT disagreements",
+    "mean absolute logit error",
+    "fixed MLP TEST calibration"
+  ],
+  "success_criteria": "Transfer is supported if frozen Alpha4-transfer mean Q.ANT TEST accuracy is at least 0.90 and mean reference/Q.ANT prediction disagreements are <=1.0 per TEST set across seeds. MLP is calibration only and does not determine success.",
+  "promotion_rule": "No architecture promotion occurs in Exp012. A successful result supports cross-dataset transfer and motivates a broader multi-dataset benchmark.",
+  "requested_budget": {
+    "max_parameters": 15000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 200
+  },
+  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim."
+}
