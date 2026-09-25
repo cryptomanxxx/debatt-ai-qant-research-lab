@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at_utc": "2026-09-25T20:02:43.943042+00:00",
+  "generated_at_utc": "2026-09-25T20:10:26.664907+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -635,8 +635,8 @@
     "name": "Debatt-AI Photonic Neural Network v1",
     "phase": "development",
     "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
-    "completed_experiments": 19,
-    "latest_completed_experiment": "PNN-v1-Exp019",
+    "completed_experiments": 20,
+    "latest_completed_experiment": "PNN-v1-Exp020",
     "experiments": [
       {
         "id": "PNN-v1-Exp001",
@@ -1056,6 +1056,37 @@
             "std_qant_accuracy": 0.02313051376781671,
             "mean_prediction_disagreements": 1.2,
             "mean_absolute_logit_error": 0.011338623333722353
+          }
+        ]
+      },
+      {
+        "id": "PNN-v1-Exp020",
+        "proposal_id": "PNN-v1-Proposal020",
+        "completed": true,
+        "dataset": "ECG200",
+        "backend": "qant-cpu/software-simulation",
+        "timestamp_utc": "2026-09-25T20:10:25.816952+00:00",
+        "success_criteria_met": true,
+        "architectures": [
+          {
+            "architecture": "alpha4",
+            "parameters": 7010,
+            "mean_reference_accuracy": 0.8960000000000001,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.893,
+            "std_qant_accuracy": 0.014177446878757837,
+            "mean_prediction_disagreements": 0.3,
+            "mean_absolute_logit_error": 0.03264079298824072
+          },
+          {
+            "architecture": "alpha5_candidate",
+            "parameters": 8550,
+            "mean_reference_accuracy": 0.897,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.897,
+            "std_qant_accuracy": 0.02451530134426255,
+            "mean_prediction_disagreements": 0.0,
+            "mean_absolute_logit_error": 0.020006656460464
           }
         ]
       }

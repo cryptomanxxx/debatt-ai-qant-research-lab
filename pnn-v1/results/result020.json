@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal020",
+  "experiment_id": "PNN-v1-Exp020",
+  "timestamp_utc": "2026-09-25T20:10:25.816952+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "ECG200",
+    "train_shape": [
+      100,
+      96
+    ],
+    "test_shape": [
+      100,
+      96
+    ]
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "candidates": {
+      "alpha4": 1,
+      "alpha5_candidate": 3
+    },
+    "selection": "preregistered Alpha4 versus Alpha5 promotion gate"
+  },
+  "rows": [
+    {
+      "candidate": "alpha4",
+      "seed": 11,
+      "parameter_count": 7010,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.032595351338386536
+    },
+    {
+      "candidate": "alpha4",
+      "seed": 22,
+      "parameter_count": 7010,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.88,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03318897634744644
+    },
+    {
+      "candidate": "alpha4",
+      "seed": 33,
+      "parameter_count": 7010,
+      "reference_accuracy": 0.9,
+      "qant_accuracy": 0.9,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.027996448799967766
+    },
+    {
+      "candidate": "alpha4",
+      "seed": 44,
+      "parameter_count": 7010,
+      "reference_accuracy": 0.91,
+      "qant_accuracy": 0.91,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.030344121158123016
+    },
+    {
+      "candidate": "alpha4",
+      "seed": 55,
+      "parameter_count": 7010,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03404443338513374
+    },
+    {
+      "candidate": "alpha4",
+      "seed": 66,
+      "parameter_count": 7010,
+      "reference_accuracy": 0.91,
+      "qant_accuracy": 0.9,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03289702534675598
+    },
+    {
+      "candidate": "alpha4",
+      "seed": 77,
+      "parameter_count": 7010,
+      "reference_accuracy": 0.9,
+      "qant_accuracy": 0.9,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03062918409705162
+    },
+    {
+      "candidate": "alpha4",
+      "seed": 88,
+      "parameter_count": 7010,
+      "reference_accuracy": 0.86,
+      "qant_accuracy": 0.86,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03625619038939476
+    },
+    {
+      "candidate": "alpha4",
+      "seed": 99,
+      "parameter_count": 7010,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03214684873819351
+    },
+    {
+      "candidate": "alpha4",
+      "seed": 111,
+      "parameter_count": 7010,
+      "reference_accuracy": 0.92,
+      "qant_accuracy": 0.91,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03630935028195381
+    },
+    {
+      "candidate": "alpha5_candidate",
+      "seed": 11,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.02338460646569729
+    },
+    {
+      "candidate": "alpha5_candidate",
+      "seed": 22,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.9,
+      "qant_accuracy": 0.9,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.017085077241063118
+    },
+    {
+      "candidate": "alpha5_candidate",
+      "seed": 33,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.02061309851706028
+    },
+    {
+      "candidate": "alpha5_candidate",
+      "seed": 44,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.91,
+      "qant_accuracy": 0.91,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.019699232652783394
+    },
+    {
+      "candidate": "alpha5_candidate",
+      "seed": 55,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.93,
+      "qant_accuracy": 0.93,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.019846156239509583
+    },
+    {
+      "candidate": "alpha5_candidate",
+      "seed": 66,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.86,
+      "qant_accuracy": 0.86,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.02156047336757183
+    },
+    {
+      "candidate": "alpha5_candidate",
+      "seed": 77,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.93,
+      "qant_accuracy": 0.93,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.019656090065836906
+    },
+    {
+      "candidate": "alpha5_candidate",
+      "seed": 88,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.86,
+      "qant_accuracy": 0.86,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.020526818931102753
+    },
+    {
+      "candidate": "alpha5_candidate",
+      "seed": 99,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.92,
+      "qant_accuracy": 0.92,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01822187379002571
+    },
+    {
+      "candidate": "alpha5_candidate",
+      "seed": 111,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.88,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.019473137333989143
+    }
+  ],
+  "summary": {
+    "alpha4": {
+      "parameter_count": 7010,
+      "mean_reference_accuracy": 0.8960000000000001,
+      "mean_qant_accuracy": 0.893,
+      "std_qant_accuracy": 0.014177446878757837,
+      "mean_prediction_disagreements": 0.3,
+      "mean_absolute_logit_error": 0.03264079298824072,
+      "aggregate_qant_correct": 893
+    },
+    "alpha5_candidate": {
+      "parameter_count": 8550,
+      "mean_reference_accuracy": 0.897,
+      "mean_qant_accuracy": 0.897,
+      "std_qant_accuracy": 0.02451530134426255,
+      "mean_prediction_disagreements": 0.0,
+      "mean_absolute_logit_error": 0.020006656460464,
+      "aggregate_qant_correct": 897
+    }
+  },
+  "success_criteria_met": true,
+  "promotion_decision": "promote_alpha5",
+  "notes": "Alpha5 candidate changes only Alpha4 final readout redundancy. Promotion requires lower logit MAE, no more than 10 aggregate Q.ANT correct predictions lost out of 1000, and <=10000 parameters. Software/simulation backend only.",
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cpu",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  }
+}
