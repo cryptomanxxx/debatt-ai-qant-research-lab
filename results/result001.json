@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal001",
+  "experiment_id": "PNN-v1-Exp001",
+  "timestamp_utc": "2026-09-25T11:24:38.607203+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "ECG200",
+    "train_shape": [
+      100,
+      96
+    ],
+    "test_shape": [
+      100,
+      96
+    ],
+    "labels": [
+      "-1",
+      "1"
+    ],
+    "split": "canonical TRAIN/TEST"
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "baseline": "96-64-32-2 ReLU MLP",
+    "pnn_v1_alpha1": {
+      "groups": 12,
+      "samples_per_group": 8,
+      "features_per_group": 4,
+      "head_inputs": 48,
+      "head_outputs": 2
+    }
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "mlp_relu_96_64_32_2",
+      "parameter_count": 8354,
+      "reference_accuracy": 0.87
+    },
+    {
+      "seed": 11,
+      "candidate_id": "pnn_v1_alpha1_12x4_g4",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.88,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03857222944498062,
+      "mean_max_absolute_logit_error_per_sample": 0.054002389311790466
+    },
+    {
+      "seed": 22,
+      "candidate_id": "mlp_relu_96_64_32_2",
+      "parameter_count": 8354,
+      "reference_accuracy": 0.88
+    },
+    {
+      "seed": 22,
+      "candidate_id": "pnn_v1_alpha1_12x4_g4",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.8,
+      "qant_accuracy": 0.8,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03947802260518074,
+      "mean_max_absolute_logit_error_per_sample": 0.05626566708087921
+    },
+    {
+      "seed": 33,
+      "candidate_id": "mlp_relu_96_64_32_2",
+      "parameter_count": 8354,
+      "reference_accuracy": 0.88
+    },
+    {
+      "seed": 33,
+      "candidate_id": "pnn_v1_alpha1_12x4_g4",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.81,
+      "qant_accuracy": 0.82,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03731635957956314,
+      "mean_max_absolute_logit_error_per_sample": 0.05409548804163933
+    }
+  ],
+  "summary": {
+    "mlp_relu_96_64_32_2": {
+      "parameter_count": 8354,
+      "mean_reference_accuracy": 0.8766666666666666,
+      "std_reference_accuracy": 0.004714045207910321
+    },
+    "pnn_v1_alpha1_12x4_g4": {
+      "parameter_count": 3890,
+      "mean_reference_accuracy": 0.8300000000000001,
+      "std_reference_accuracy": 0.03559026084010435,
+      "mean_qant_accuracy": 0.8333333333333334,
+      "std_qant_accuracy": 0.033993463423951896,
+      "mean_prediction_disagreements": 0.3333333333333333,
+      "mean_absolute_logit_error": 0.038455537209908165
+    }
+  },
+  "notes": "First practical PNN-v1 benchmark. Canonical ECG200 split. Q.ANT software/simulation backend only; no real photonic hardware performance claim."
+}
