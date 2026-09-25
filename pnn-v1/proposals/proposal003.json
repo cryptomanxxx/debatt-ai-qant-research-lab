@@ -1,0 +1,54 @@
+{
+  "proposal_id": "pnn-v1-proposal003",
+  "id": "PNN-v1-Proposal003",
+  "experiment_id": "PNN-v1-Exp003",
+  "title": "Residual bypass for PNN-v1-alpha1",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Can a small residual linear bypass improve PNN-v1 task accuracy and stability while preserving the compact Q.ANT-native Fourier/KAN hierarchy?",
+  "evidence_from_exp002": {
+    "raw_mean_qant_accuracy": 0.824,
+    "raw_std_qant_accuracy": 0.031685959035509706,
+    "zscore_mean_qant_accuracy": 0.819,
+    "zscore_std_qant_accuracy": 0.029478805945967333,
+    "raw_parameters": 3890,
+    "interpretation": "The preregistered normalization intervention produced only a small stability reduction and slightly lower mean accuracy; reference/Q.ANT disagreement remained low."
+  },
+  "hypothesis": "Alpha1 is constrained more by representation/task fit than by Q.ANT numerical mismatch. Adding a low-parameter linear residual path from the 48-dimensional hierarchical representation to the two logits can improve classification without replacing the Q.ANT Fourier/KAN nonlinear path.",
+  "frozen_candidates": [
+    "alpha1 unchanged control",
+    "alpha2 residual-head: Fourier/KAN 48->2 logits plus trainable linear 48->2 residual logits"
+  ],
+  "data_protocol": {
+    "dataset": "ECG200",
+    "canonical_train_samples": 100,
+    "canonical_test_samples": 100,
+    "selection_rule": "Create one deterministic stratified validation split from canonical TRAIN only. Compare the two frozen candidates on validation across fixed seeds. Freeze the selected architecture before evaluating canonical TEST.",
+    "test_boundary": "Do not use canonical TEST accuracy to select between alpha1 and alpha2."
+  },
+  "design_constraints": [
+    "Keep the 12 local 8->4 Fourier/KAN blocks unchanged.",
+    "Keep k=[1,2,3,4].",
+    "Use raw ECG200 values so Exp003 changes architecture rather than preprocessing.",
+    "Change exactly one architectural dimension: the residual linear classifier path.",
+    "Keep total parameter count below 5,000.",
+    "Report reference and Q.ANT evaluation separately."
+  ],
+  "primary_metric": "Validation mean accuracy across fixed seeds, with validation standard deviation reported alongside it.",
+  "secondary_metrics": [
+    "canonical TEST accuracy after candidate selection is frozen",
+    "parameter count",
+    "reference-vs-Q.ANT prediction disagreements",
+    "mean absolute logit error"
+  ],
+  "success_criteria": "Alpha2 must have higher mean validation accuracy than alpha1 and no worse validation accuracy standard deviation. Canonical TEST results are confirmatory and do not determine whether the preregistered architecture-selection criterion was met.",
+  "requested_budget": {
+    "max_parameters": 5000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim.",
+  "next_gate": "Implement and review PNN-v1 Exp003, then add it to the guarded approval allowlist."
+}
