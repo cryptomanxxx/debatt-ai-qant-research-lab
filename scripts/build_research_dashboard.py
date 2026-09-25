@@ -125,6 +125,19 @@ for p in sorted(Path("pnn-v1/results").glob("result*.json")):
         continue
     summary = o.get("summary") or {}
     architectures = []
+    dataset_raw = o.get("dataset")
+    if isinstance(dataset_raw, dict):
+        dataset_name = dataset_raw.get("name")
+        dataset_members = dataset_raw.get("datasets") or []
+    else:
+        dataset_name = dataset_raw
+        dataset_members = []
+    decision = (
+        o.get("promotion_decision")
+        or o.get("intervention_decision")
+        or o.get("diagnostic_decision")
+        or o.get("decision")
+    )
     for name, s in summary.items():
         if not isinstance(s, dict):
             continue
@@ -137,15 +150,20 @@ for p in sorted(Path("pnn-v1/results").glob("result*.json")):
             "std_qant_accuracy": s.get("std_qant_accuracy"),
             "mean_prediction_disagreements": s.get("mean_prediction_disagreements"),
             "mean_absolute_logit_error": s.get("mean_absolute_logit_error"),
+            "aggregate_qant_correct": s.get("aggregate_qant_correct"),
         })
     pnn_experiments.append({
         "id": o.get("experiment_id"),
         "proposal_id": o.get("proposal_id"),
         "completed": True,
-        "dataset": (o.get("dataset") or {}).get("name") if isinstance(o.get("dataset"), dict) else o.get("dataset"),
+        "dataset": dataset_name,
+        "datasets": dataset_members,
         "backend": o.get("backend"),
         "timestamp_utc": o.get("timestamp_utc"),
         "success_criteria_met": o.get("success_criteria_met"),
+        "decision": decision,
+        "selected_candidate": o.get("selected_candidate"),
+        "eligible_candidates": o.get("eligible_candidates"),
         "architectures": architectures,
     })
 
@@ -188,9 +206,20 @@ payload = {
     "pnn_v1": {
         "name": "Debatt-AI Photonic Neural Network v1",
         "phase": "development",
+        "active_model": {
+            "name": "Alpha5",
+            "architecture": "96 → 6× Q.ANT Fourier/KAN 16→16 → concat96 → 3× Q.ANT Fourier/KAN 96→2 → mean logits",
+            "frequencies": [1, 2],
+            "ecg200_parameter_count": 8550,
+            "promoted_by": "PNN-v1-Exp020"
+        },
         "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
         "completed_experiments": len(pnn_experiments),
-        "latest_completed_experiment": pnn_experiments[-1]["id"] if pnn_experiments else None,
+        "latest_completed_experiment": max(
+            (e for e in pnn_experiments if e.get("timestamp_utc")),
+            key=lambda e: e["timestamp_utc"],
+            default={}
+        ).get("id"),
         "experiments": pnn_experiments,
     },
     "research_loop": [
