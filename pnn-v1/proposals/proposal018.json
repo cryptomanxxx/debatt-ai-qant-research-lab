@@ -1,0 +1,66 @@
+{
+  "proposal_id": "pnn-v1-proposal018",
+  "id": "PNN-v1-Proposal018",
+  "experiment_id": "PNN-v1-Exp018",
+  "title": "GunPoint cross-dataset validation of redundant Q.ANT readout",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Does the three-head redundant Q.ANT readout improvement from TwoLeadECG transfer to GunPoint without target-specific architecture search?",
+  "hypothesis": "On the frozen GunPoint adaptation used in Exp012, averaging three independently parameterized Q.ANT-compatible readout heads will reduce mean reference/Q.ANT disagreements relative to a single head while retaining Q.ANT TEST accuracy.",
+  "rationale": "Exp017 supported redundant readout on TwoLeadECG. Exp012 already established a frozen Alpha4-style GunPoint adaptation, allowing a clean cross-dataset intervention test without searching GunPoint TEST for a new topology.",
+  "dataset": {
+    "name": "GunPoint",
+    "canonical_length": 150,
+    "input_adaptation": "deterministic center crop 150→144 (drop 3 samples from each end)",
+    "split": "canonical TRAIN/TEST"
+  },
+  "frozen_shared_representation": {
+    "windows": 9,
+    "window_width": 16,
+    "local_block": "16→16",
+    "concatenated_width": 144,
+    "frequencies": [
+      1,
+      2
+    ]
+  },
+  "candidates": {
+    "control": "single Q.ANT Fourier/KAN head 144→2",
+    "redundant3": "three independently parameterized Q.ANT Fourier/KAN heads 144→2; arithmetic mean of logits in reference and Q.ANT inference"
+  },
+  "protocol": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "loss": "cross_entropy"
+  },
+  "primary_outputs": [
+    "mean Q.ANT TEST accuracy",
+    "mean reference/Q.ANT prediction disagreements",
+    "mean reference accuracy",
+    "mean absolute logit error",
+    "Q.ANT accuracy standard deviation"
+  ],
+  "success_criteria": "Supported if redundant3 has strictly fewer mean reference/Q.ANT disagreements than control and mean Q.ANT accuracy >= control - 0.01.",
+  "promotion_rule": "If supported, redundant readout becomes a validated cross-dataset PNN-v1 compatibility principle; architectural promotion still requires an explicit model revision proposal.",
+  "requested_budget": {
+    "max_parameters": 20000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 50,
+    "max_test_samples": 150
+  },
+  "hardware_boundary": "Q.ANT CPU/software simulation only; no physical photonic hardware performance claim."
+}
