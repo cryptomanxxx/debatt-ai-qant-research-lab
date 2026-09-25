@@ -3,9 +3,11 @@ name: Build Q.ANT Research Image
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
       - ".github/research-image/Dockerfile"
+      - ".github/workflows/build-research-image.yml"
 
 permissions:
   contents: read
