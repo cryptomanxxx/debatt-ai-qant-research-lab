@@ -1,0 +1,71 @@
+{
+  "proposal_id": "pnn-v1-proposal013",
+  "id": "PNN-v1-Proposal013",
+  "experiment_id": "PNN-v1-Exp013",
+  "title": "Alpha4 principle multi-dataset validation",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Do Alpha4's frozen local-design principles transfer beyond ECG200 and GunPoint across several additional small univariate time-series classification datasets?",
+  "hypothesis": "The frozen Alpha4 principle—contiguous 16-sample local Fourier/KAN blocks with local output width 16 and k=[1,2], followed by one Fourier/KAN classification head—will achieve >=0.80 mean Q.ANT TEST accuracy on at least two of three preregistered transfer datasets while maintaining <=1.0 mean reference/Q.ANT prediction disagreements per TEST set.",
+  "scientific_boundary": "This is a preregistered transfer benchmark, not architecture search. No dataset-specific topology, frequency, optimizer, epoch, or TEST-driven tuning is permitted.",
+  "datasets": [
+    {
+      "name": "ItalyPowerDemand",
+      "canonical_length": 24,
+      "input_adaptation": "deterministic center crop 24→16",
+      "windows": 1
+    },
+    {
+      "name": "SonyAIBORobotSurface1",
+      "canonical_length": 70,
+      "input_adaptation": "deterministic center crop 70→64",
+      "windows": 4
+    },
+    {
+      "name": "TwoLeadECG",
+      "canonical_length": 82,
+      "input_adaptation": "deterministic center crop 82→80",
+      "windows": 5
+    }
+  ],
+  "frozen_model_rule": "For adapted length L divisible by 16: L/16 contiguous windows; each Q.ANT Fourier/KAN 16→16; concatenate L features; Q.ANT Fourier/KAN L→n_classes; k=[1,2]. Only mechanically required input/head dimensions vary.",
+  "data_protocol": {
+    "source": "aeon/UCR-UEA canonical TRAIN/TEST splits",
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "test_usage": "No selection or tuning from TEST."
+  },
+  "training_protocol": {
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "preprocessing": "raw archive values after preregistered deterministic center crop"
+  },
+  "primary_outputs": [
+    "per-dataset mean Q.ANT TEST accuracy",
+    "per-dataset Q.ANT std",
+    "reference/Q.ANT disagreements",
+    "mean absolute logit error",
+    "fixed mechanically scaled MLP calibration"
+  ],
+  "success_criteria": "Supported if at least 2 of 3 datasets have mean Q.ANT TEST accuracy >=0.80 and every dataset has mean reference/Q.ANT prediction disagreements <=1.0 per TEST set.",
+  "promotion_rule": "No architecture promotion. Success motivates a broader benchmark; failure localizes where the Alpha4 principle stops transferring.",
+  "requested_budget": {
+    "max_parameters": 20000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 1000,
+    "max_test_samples": 1000
+  },
+  "hardware_boundary": "Q.ANT CPU/software simulation only; no physical photonic hardware performance claim."
+}
