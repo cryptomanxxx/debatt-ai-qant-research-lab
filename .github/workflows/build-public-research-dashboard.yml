@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - "results/exp*.json"
+      - "pnn-v1/results/result*.json"
       - "scripts/build_research_dashboard.py"
 
 permissions:
