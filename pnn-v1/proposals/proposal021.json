@@ -1,0 +1,71 @@
+{
+  "proposal_id": "pnn-v1-proposal021",
+  "id": "PNN-v1-Proposal021",
+  "experiment_id": "PNN-v1-Exp021",
+  "title": "Alpha5 local-width compression search",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Can Alpha5 preserve its promoted three-head readout while using a narrower local Q.ANT representation?",
+  "hypothesis": "At least one narrower local width will reduce parameter count by at least 20% relative to Alpha5 while retaining Q.ANT TEST accuracy within one percentage point of the width-16 control and retaining lower mean logit MAE than the historical Alpha4 value from Exp020.",
+  "rationale": "Alpha5 promoted redundant readout. The next independent architecture dimension is local representation width. Exp005 showed local width is non-monotonic, so the search is deliberately small and preregistered.",
+  "dataset": {
+    "name": "ECG200",
+    "input_length": 96,
+    "split": "canonical TRAIN 100 / TEST 100"
+  },
+  "frozen_design": {
+    "windows": 6,
+    "window_width": 16,
+    "frequencies": [
+      1,
+      2
+    ],
+    "readout": "three independent Q.ANT Fourier/KAN heads with averaged logits"
+  },
+  "candidates": [
+    {
+      "name": "alpha5_w8",
+      "local_block": "16→8",
+      "concat_width": 48,
+      "readout": "3×48→2"
+    },
+    {
+      "name": "alpha5_w12",
+      "local_block": "16→12",
+      "concat_width": 72,
+      "readout": "3×72→2"
+    },
+    {
+      "name": "alpha5_w16_control",
+      "local_block": "16→16",
+      "concat_width": 96,
+      "readout": "3×96→2"
+    }
+  ],
+  "protocol": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "loss": "cross_entropy"
+  },
+  "selection_rule": "Among candidates meeting all gates, select the lowest parameter count; ties use higher aggregate Q.ANT correct predictions.",
+  "gates": [
+    "parameter_count <= 6840 (at least 20% below Alpha5 8550)",
+    "mean Q.ANT accuracy >= alpha5_w16_control mean Q.ANT accuracy - 0.01",
+    "mean absolute reference/Q.ANT logit error < 0.03264079298824072 (historical Alpha4 Exp020)"
+  ],
+  "promotion_rule": "This experiment selects a compression candidate only. Any selected candidate requires a separate confirmation experiment before replacing Alpha5.",
+  "hardware_boundary": "Q.ANT CPU/software simulation only; no physical photonic hardware performance claim."
+}
