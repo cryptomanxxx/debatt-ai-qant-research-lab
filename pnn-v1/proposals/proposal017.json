@@ -1,0 +1,62 @@
+{
+  "proposal_id": "pnn-v1-proposal017",
+  "id": "PNN-v1-Proposal017",
+  "experiment_id": "PNN-v1-Exp017",
+  "title": "TwoLeadECG redundant Q.ANT readout robustness test",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Can redundant independent Q.ANT Fourier/KAN readout heads reduce reference/Q.ANT prediction disagreements on TwoLeadECG without materially reducing Q.ANT accuracy?",
+  "hypothesis": "Averaging three independently parameterized Q.ANT-compatible 80→2 Fourier/KAN heads during both training and inference will reduce sensitivity to small distributed numerical perturbations compared with the single-head control.",
+  "rationale": "Exp014 localized disagreements near tiny decision margins, Exp015 found a generic margin penalty ineffective, and Exp016 found no dominant local error source. Redundant readout tests whether averaging multiple Q.ANT-native decision paths can suppress distributed numerical perturbations.",
+  "dataset": {
+    "name": "TwoLeadECG",
+    "input_adaptation": "deterministic center crop 82→80",
+    "split": "canonical TRAIN/TEST"
+  },
+  "frozen_shared_representation": {
+    "windows": 5,
+    "local_block": "16→16",
+    "frequencies": [
+      1,
+      2
+    ]
+  },
+  "candidates": {
+    "control": "single Q.ANT Fourier/KAN head 80→2",
+    "redundant3": "three independently parameterized Q.ANT Fourier/KAN heads 80→2; arithmetic mean of logits in reference and Q.ANT inference"
+  },
+  "protocol": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "loss": "cross_entropy"
+  },
+  "primary_outputs": [
+    "mean Q.ANT TEST accuracy",
+    "mean reference/Q.ANT prediction disagreements",
+    "mean reference accuracy",
+    "mean absolute logit error"
+  ],
+  "success_criteria": "Supported if redundant3 has strictly fewer mean reference/Q.ANT disagreements than control and mean Q.ANT accuracy >= control - 0.01.",
+  "promotion_rule": "No automatic PNN-v1 promotion. If supported, validate redundant readout on another transfer dataset before architectural promotion.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 1200
+  },
+  "hardware_boundary": "Q.ANT CPU/software simulation only; no physical photonic hardware performance claim."
+}
