@@ -1,0 +1,367 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal021",
+  "experiment_id": "PNN-v1-Exp021",
+  "timestamp_utc": "2026-09-25T20:23:06.255326+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "ECG200",
+    "train_shape": [
+      100,
+      96
+    ],
+    "test_shape": [
+      100,
+      96
+    ]
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "candidates": {
+      "alpha5_w8": [
+        8,
+        3
+      ],
+      "alpha5_w12": [
+        12,
+        3
+      ],
+      "alpha5_w16_control": [
+        16,
+        3
+      ]
+    },
+    "selection": "lowest-parameter eligible candidate; separate confirmation required"
+  },
+  "rows": [
+    {
+      "candidate": "alpha5_w8",
+      "seed": 11,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.92,
+      "qant_accuracy": 0.93,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.01466895081102848
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 22,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.014942497946321964
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 33,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01383567787706852
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 44,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.88,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.014460766687989235
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 55,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.87,
+      "qant_accuracy": 0.87,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.013145959004759789
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 66,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.88,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.013426053337752819
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 77,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.013849277049303055
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 88,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.015432414598762989
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 99,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.88,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.013376781716942787
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 111,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.87,
+      "qant_accuracy": 0.87,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01618915982544422
+    },
+    {
+      "candidate": "alpha5_w12",
+      "seed": 11,
+      "parameter_count": 6414,
+      "reference_accuracy": 0.9,
+      "qant_accuracy": 0.9,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.017476344481110573
+    },
+    {
+      "candidate": "alpha5_w12",
+      "seed": 22,
+      "parameter_count": 6414,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.88,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.017279542982578278
+    },
+    {
+      "candidate": "alpha5_w12",
+      "seed": 33,
+      "parameter_count": 6414,
+      "reference_accuracy": 0.92,
+      "qant_accuracy": 0.92,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.015445874072611332
+    },
+    {
+      "candidate": "alpha5_w12",
+      "seed": 44,
+      "parameter_count": 6414,
+      "reference_accuracy": 0.87,
+      "qant_accuracy": 0.87,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.016837680712342262
+    },
+    {
+      "candidate": "alpha5_w12",
+      "seed": 55,
+      "parameter_count": 6414,
+      "reference_accuracy": 0.9,
+      "qant_accuracy": 0.91,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.01975940726697445
+    },
+    {
+      "candidate": "alpha5_w12",
+      "seed": 66,
+      "parameter_count": 6414,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.015887824818491936
+    },
+    {
+      "candidate": "alpha5_w12",
+      "seed": 77,
+      "parameter_count": 6414,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01648392714560032
+    },
+    {
+      "candidate": "alpha5_w12",
+      "seed": 88,
+      "parameter_count": 6414,
+      "reference_accuracy": 0.87,
+      "qant_accuracy": 0.87,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.018484480679035187
+    },
+    {
+      "candidate": "alpha5_w12",
+      "seed": 99,
+      "parameter_count": 6414,
+      "reference_accuracy": 0.84,
+      "qant_accuracy": 0.85,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.015524625778198242
+    },
+    {
+      "candidate": "alpha5_w12",
+      "seed": 111,
+      "parameter_count": 6414,
+      "reference_accuracy": 0.86,
+      "qant_accuracy": 0.86,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.015805639326572418
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 11,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.02338460646569729
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 22,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.9,
+      "qant_accuracy": 0.9,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.017085077241063118
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 33,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.02061309851706028
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 44,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.91,
+      "qant_accuracy": 0.91,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.019699232652783394
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 55,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.93,
+      "qant_accuracy": 0.93,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.019846156239509583
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 66,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.86,
+      "qant_accuracy": 0.86,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.02156047336757183
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 77,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.93,
+      "qant_accuracy": 0.93,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.019656090065836906
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 88,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.86,
+      "qant_accuracy": 0.86,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.020526818931102753
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 99,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.92,
+      "qant_accuracy": 0.92,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01822187379002571
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 111,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.88,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.019473137333989143
+    }
+  ],
+  "summary": {
+    "alpha5_w8": {
+      "parameter_count": 4278,
+      "mean_reference_accuracy": 0.885,
+      "mean_qant_accuracy": 0.8869999999999999,
+      "std_qant_accuracy": 0.016155494421403526,
+      "mean_prediction_disagreements": 0.2,
+      "mean_absolute_logit_error": 0.014332753885537387,
+      "aggregate_qant_correct": 887
+    },
+    "alpha5_w12": {
+      "parameter_count": 6414,
+      "mean_reference_accuracy": 0.882,
+      "mean_qant_accuracy": 0.884,
+      "std_qant_accuracy": 0.021071307505705496,
+      "mean_prediction_disagreements": 0.2,
+      "mean_absolute_logit_error": 0.0168985347263515,
+      "aggregate_qant_correct": 884
+    },
+    "alpha5_w16_control": {
+      "parameter_count": 8550,
+      "mean_reference_accuracy": 0.897,
+      "mean_qant_accuracy": 0.897,
+      "std_qant_accuracy": 0.02451530134426255,
+      "mean_prediction_disagreements": 0.0,
+      "mean_absolute_logit_error": 0.020006656460464,
+      "aggregate_qant_correct": 897
+    }
+  },
+  "eligible_candidates": [],
+  "selected_candidate": null,
+  "success_criteria_met": false,
+  "decision": "retain_alpha5",
+  "notes": "Alpha5 three-head readout and k=[1,2] frozen; local width only. Software/simulation backend only.",
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cpu",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  }
+}

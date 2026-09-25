@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at_utc": "2026-09-25T20:10:26.664907+00:00",
+  "generated_at_utc": "2026-09-25T20:23:07.012901+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -635,8 +635,8 @@
     "name": "Debatt-AI Photonic Neural Network v1",
     "phase": "development",
     "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
-    "completed_experiments": 20,
-    "latest_completed_experiment": "PNN-v1-Exp020",
+    "completed_experiments": 21,
+    "latest_completed_experiment": "PNN-v1-Exp021",
     "experiments": [
       {
         "id": "PNN-v1-Exp001",
@@ -1080,6 +1080,47 @@
           },
           {
             "architecture": "alpha5_candidate",
+            "parameters": 8550,
+            "mean_reference_accuracy": 0.897,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.897,
+            "std_qant_accuracy": 0.02451530134426255,
+            "mean_prediction_disagreements": 0.0,
+            "mean_absolute_logit_error": 0.020006656460464
+          }
+        ]
+      },
+      {
+        "id": "PNN-v1-Exp021",
+        "proposal_id": "PNN-v1-Proposal021",
+        "completed": true,
+        "dataset": "ECG200",
+        "backend": "qant-cpu/software-simulation",
+        "timestamp_utc": "2026-09-25T20:23:06.255326+00:00",
+        "success_criteria_met": false,
+        "architectures": [
+          {
+            "architecture": "alpha5_w8",
+            "parameters": 4278,
+            "mean_reference_accuracy": 0.885,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.8869999999999999,
+            "std_qant_accuracy": 0.016155494421403526,
+            "mean_prediction_disagreements": 0.2,
+            "mean_absolute_logit_error": 0.014332753885537387
+          },
+          {
+            "architecture": "alpha5_w12",
+            "parameters": 6414,
+            "mean_reference_accuracy": 0.882,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.884,
+            "std_qant_accuracy": 0.021071307505705496,
+            "mean_prediction_disagreements": 0.2,
+            "mean_absolute_logit_error": 0.0168985347263515
+          },
+          {
+            "architecture": "alpha5_w16_control",
             "parameters": 8550,
             "mean_reference_accuracy": 0.897,
             "std_reference_accuracy": null,
