@@ -57,6 +57,8 @@ MAPPINGS={
    "pnn-v1-exp018","pnn-v1/experiments/exp018/run.py"),
  "pnn-v1-proposal019":(
    "pnn-v1-exp019","pnn-v1/experiments/exp019/run.py"),
+ "pnn-v1-proposal020":(
+   "pnn-v1-exp020","pnn-v1/experiments/exp020/run.py"),
  "pnn-v1-proposal003":(
    "pnn-v1-exp003","pnn-v1/experiments/exp003/run.py"),
  "proposal-001-replicate-expanding-topologies":(
