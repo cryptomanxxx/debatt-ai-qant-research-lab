@@ -1,0 +1,44 @@
+{
+  "proposal_id": "pnn-v1-proposal002",
+  "id": "PNN-v1-Proposal002",
+  "experiment_id": "PNN-v1-Exp002",
+  "title": "Stabilize PNN-v1-alpha1 across initializations",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Can a controlled stabilization change reduce PNN-v1 seed sensitivity on ECG200 without abandoning the Q.ANT-native hierarchical low-fan-in design?",
+  "evidence_from_exp001": {
+    "baseline_mean_accuracy": 0.8766666666666666,
+    "alpha1_qant_mean_accuracy": 0.8333333333333334,
+    "alpha1_qant_std_accuracy": 0.033993463423951896,
+    "alpha1_parameters": 3890,
+    "baseline_parameters": 8354,
+    "mean_reference_qant_disagreements": 0.3333333333333333
+  },
+  "hypothesis": "The main near-term limitation is learned-model instability rather than Q.ANT/reference mismatch. A preregistered stabilization intervention should reduce across-seed variance while preserving compactness and Q.ANT-native execution.",
+  "design_constraints": [
+    "Keep ECG200 canonical TRAIN/TEST split.",
+    "Keep the hierarchical low-fan-in Q.ANT Fourier/KAN structure.",
+    "Compare alpha1 unchanged against exactly one stabilization intervention.",
+    "Use more fixed seeds than Exp001.",
+    "Do not tune candidates against TEST accuracy during the run.",
+    "Keep parameter count close to alpha1 unless the intervention explicitly requires otherwise."
+  ],
+  "primary_metric": "Across-seed Q.ANT accuracy stability (standard deviation), interpreted together with mean Q.ANT accuracy.",
+  "secondary_metrics": [
+    "reference accuracy",
+    "Q.ANT accuracy",
+    "parameter count",
+    "reference-vs-Q.ANT prediction disagreements",
+    "mean absolute logit error"
+  ],
+  "success_criteria": "The stabilized condition must reduce Q.ANT accuracy standard deviation versus alpha1 without a material loss in mean Q.ANT accuracy. Exact intervention and tolerance must be frozen in the Exp002 implementation before execution.",
+  "requested_budget": {
+    "max_parameters": 100000,
+    "max_candidates": 20,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim.",
+  "next_gate": "Implement and review PNN-v1 Exp002 before adding it to the guarded approval allowlist."
+}
