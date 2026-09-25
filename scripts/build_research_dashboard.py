@@ -115,8 +115,42 @@ if latest:
         })
     featured.sort(key=lambda x: x["parameters"])
 
+# PNN-v1 is a separate development series. Keep it separate from the historical
+# toolkit experiments so the website can render independent tabs without mixing IDs.
+pnn_experiments = []
+for p in sorted(Path("pnn-v1/results").glob("result*.json")):
+    try:
+        o = json.loads(p.read_text())
+    except Exception:
+        continue
+    summary = o.get("summary") or {}
+    architectures = []
+    for name, s in summary.items():
+        if not isinstance(s, dict):
+            continue
+        architectures.append({
+            "architecture": name,
+            "parameters": s.get("parameter_count"),
+            "mean_reference_accuracy": s.get("mean_reference_accuracy"),
+            "std_reference_accuracy": s.get("std_reference_accuracy"),
+            "mean_qant_accuracy": s.get("mean_qant_accuracy"),
+            "std_qant_accuracy": s.get("std_qant_accuracy"),
+            "mean_prediction_disagreements": s.get("mean_prediction_disagreements"),
+            "mean_absolute_logit_error": s.get("mean_absolute_logit_error"),
+        })
+    pnn_experiments.append({
+        "id": o.get("experiment_id"),
+        "proposal_id": o.get("proposal_id"),
+        "completed": True,
+        "dataset": (o.get("dataset") or {}).get("name") if isinstance(o.get("dataset"), dict) else o.get("dataset"),
+        "backend": o.get("backend"),
+        "timestamp_utc": o.get("timestamp_utc"),
+        "success_criteria_met": o.get("success_criteria_met"),
+        "architectures": architectures,
+    })
+
 payload = {
-    "schema_version": 2,
+    "schema_version": 3,
     "generated_at_utc": datetime.now(timezone.utc).isoformat(),
     "project": {
         "name": "Debatt-AI Q.ANT Research Lab",
@@ -150,6 +184,14 @@ payload = {
         "dataset": latest.get("dataset") if latest else None,
         "metric": "mean_qant_accuracy",
         "architectures": featured,
+    },
+    "pnn_v1": {
+        "name": "Debatt-AI Photonic Neural Network v1",
+        "phase": "development",
+        "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
+        "completed_experiments": len(pnn_experiments),
+        "latest_completed_experiment": pnn_experiments[-1]["id"] if pnn_experiments else None,
+        "experiments": pnn_experiments,
     },
     "research_loop": [
         "results",
