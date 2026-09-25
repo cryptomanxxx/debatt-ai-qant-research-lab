@@ -44,6 +44,30 @@ jobs:
           job_id="${{ inputs.job_id }}"
           echo "job_id=$job_id" >> "$GITHUB_OUTPUT"
           echo "Resolved approved job: $job_id"
+      - name: Preflight compile approved experiment
+        shell: bash
+        run: |
+          job_id="${{ steps.resolve.outputs.job_id }}"
+          experiment_path="$(python - "$job_id" <<'PY'
+import json, sys
+from pathlib import Path
+job_id=sys.argv[1]
+for p in Path("research_queue/approved").glob("*.json"):
+    try:
+        d=json.loads(p.read_text())
+    except Exception:
+        continue
+    if d.get("job_id")==job_id or d.get("experiment_id","").lower()==job_id:
+        print(d.get("experiment_path") or d.get("entrypoint") or "")
+        break
+PY
+)"
+          if [ -n "$experiment_path" ] && [ -f "$experiment_path" ]; then
+            python -m py_compile "$experiment_path"
+          else
+            echo "Approved experiment path is resolved by guarded runner; compiling all PNN experiment entrypoints as fallback."
+            python -m compileall -q pnn-v1/experiments
+          fi
       - name: Validate and run approved job
         run: python scripts/run_research_job_v2.py "${{ steps.resolve.outputs.job_id }}"
       - name: Write execution record
