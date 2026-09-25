@@ -1,8 +1,7 @@
 FROM python:3.13-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    LIBCLANG_PATH=/usr/lib/llvm-18/lib
+    PIP_DISABLE_PIP_VERSION_CHECK=1
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends git curl clang libclang-dev build-essential ca-certificates \
@@ -11,7 +10,12 @@ RUN apt-get update \
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.93.0
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-RUN rustc --version && cargo --version
+RUN rustc --version && cargo --version \
+ && LIBCLANG_FILE="$(find /usr/lib -name 'libclang.so*' -type f 2>/dev/null | head -n 1)" \
+ && test -n "$LIBCLANG_FILE" \
+ && echo "libclang found at $LIBCLANG_FILE"
+
+ENV LIBCLANG_PATH=/usr/lib/llvm-19/lib
 
 RUN python -m pip install --upgrade pip \
  && python -m pip install --index-url https://download.pytorch.org/whl/cpu torch \
