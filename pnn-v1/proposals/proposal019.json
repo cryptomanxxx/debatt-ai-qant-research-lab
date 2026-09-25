@@ -1,0 +1,66 @@
+{
+  "proposal_id": "pnn-v1-proposal019",
+  "id": "PNN-v1-Proposal019",
+  "experiment_id": "PNN-v1-Exp019",
+  "title": "SonyAIBORobotSurface1 validation of redundant-readout numerical robustness",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Does three-head Q.ANT readout averaging reduce reference/Q.ANT logit error on a non-floor transfer dataset while retaining Q.ANT classification accuracy?",
+  "hypothesis": "On the frozen SonyAIBORobotSurface1 adaptation from Exp013, redundant3 will have lower mean absolute reference/Q.ANT logit error than the single-head control and Q.ANT TEST accuracy no more than one percentage point lower.",
+  "rationale": "Exp017 and Exp018 both showed lower logit MAE, higher mean Q.ANT accuracy, and lower accuracy variance with three-head averaging, but Exp018 falsified the broader disagreement-reduction criterion. Exp019 preregisters the narrower numerical-robustness signal on a dataset with more compatibility disagreements than GunPoint.",
+  "dataset": {
+    "name": "SonyAIBORobotSurface1",
+    "canonical_length": 70,
+    "input_adaptation": "deterministic center crop 70→64 (drop 3 samples from each end)",
+    "split": "canonical TRAIN/TEST"
+  },
+  "frozen_shared_representation": {
+    "windows": 4,
+    "window_width": 16,
+    "local_block": "16→16",
+    "concatenated_width": 64,
+    "frequencies": [
+      1,
+      2
+    ]
+  },
+  "candidates": {
+    "control": "single Q.ANT Fourier/KAN head 64→2",
+    "redundant3": "three independently parameterized Q.ANT Fourier/KAN heads 64→2; arithmetic mean of logits in reference and Q.ANT inference"
+  },
+  "protocol": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "loss": "cross_entropy"
+  },
+  "primary_outputs": [
+    "mean absolute reference/Q.ANT logit error",
+    "mean Q.ANT TEST accuracy",
+    "mean reference/Q.ANT prediction disagreements",
+    "Q.ANT accuracy standard deviation"
+  ],
+  "success_criteria": "Supported if redundant3 mean absolute logit error is strictly lower than control and redundant3 mean Q.ANT accuracy >= control - 0.01.",
+  "secondary_non_gating_observation": "Report disagreement count and Q.ANT accuracy standard deviation, but do not use them to redefine success.",
+  "promotion_rule": "No automatic PNN-v1 promotion. A supported result establishes cross-dataset evidence for numerical-error reduction, not universal disagreement reduction.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 20,
+    "max_test_samples": 601
+  },
+  "hardware_boundary": "Q.ANT CPU/software simulation only; no physical photonic hardware performance claim."
+}
