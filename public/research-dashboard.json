@@ -1,6 +1,6 @@
 {
-  "schema_version": 2,
-  "generated_at_utc": "2026-09-25T11:42:17.587637+00:00",
+  "schema_version": 3,
+  "generated_at_utc": "2026-09-25T11:47:11.730153+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -628,6 +628,77 @@
         "mean_accuracy": 0.8539333333333333,
         "std_accuracy": 0.0017987650084309219,
         "pareto": true
+      }
+    ]
+  },
+  "pnn_v1": {
+    "name": "Debatt-AI Photonic Neural Network v1",
+    "phase": "development",
+    "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
+    "completed_experiments": 2,
+    "latest_completed_experiment": "PNN-v1-Exp002",
+    "experiments": [
+      {
+        "id": "PNN-v1-Exp001",
+        "proposal_id": "PNN-v1-Proposal001",
+        "completed": true,
+        "dataset": "ECG200",
+        "backend": "qant-cpu/software-simulation",
+        "timestamp_utc": "2026-09-25T11:24:38.607203+00:00",
+        "success_criteria_met": null,
+        "architectures": [
+          {
+            "architecture": "mlp_relu_96_64_32_2",
+            "parameters": 8354,
+            "mean_reference_accuracy": 0.8766666666666666,
+            "std_reference_accuracy": 0.004714045207910321,
+            "mean_qant_accuracy": null,
+            "std_qant_accuracy": null,
+            "mean_prediction_disagreements": null,
+            "mean_absolute_logit_error": null
+          },
+          {
+            "architecture": "pnn_v1_alpha1_12x4_g4",
+            "parameters": 3890,
+            "mean_reference_accuracy": 0.8300000000000001,
+            "std_reference_accuracy": 0.03559026084010435,
+            "mean_qant_accuracy": 0.8333333333333334,
+            "std_qant_accuracy": 0.033993463423951896,
+            "mean_prediction_disagreements": 0.3333333333333333,
+            "mean_absolute_logit_error": 0.038455537209908165
+          }
+        ]
+      },
+      {
+        "id": "PNN-v1-Exp002",
+        "proposal_id": "PNN-v1-Proposal002",
+        "completed": true,
+        "dataset": "ECG200",
+        "backend": "qant-cpu/software-simulation",
+        "timestamp_utc": "2026-09-25T11:42:16.647688+00:00",
+        "success_criteria_met": true,
+        "architectures": [
+          {
+            "architecture": "alpha1_raw_control",
+            "parameters": 3890,
+            "mean_reference_accuracy": 0.8230000000000001,
+            "std_reference_accuracy": 0.030999999999999982,
+            "mean_qant_accuracy": 0.8240000000000001,
+            "std_qant_accuracy": 0.031685959035509706,
+            "mean_prediction_disagreements": 0.3,
+            "mean_absolute_logit_error": 0.03713339064270258
+          },
+          {
+            "architecture": "alpha1_per_case_zscore",
+            "parameters": 3890,
+            "mean_reference_accuracy": 0.82,
+            "std_reference_accuracy": 0.028284271247461884,
+            "mean_qant_accuracy": 0.819,
+            "std_qant_accuracy": 0.029478805945967333,
+            "mean_prediction_disagreements": 0.5,
+            "mean_absolute_logit_error": 0.03763062097132206
+          }
+        ]
       }
     ]
   },
