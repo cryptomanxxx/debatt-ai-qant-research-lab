@@ -1,0 +1,49 @@
+{
+  "proposal_id": "pnn-v1-proposal009",
+  "id": "PNN-v1-Proposal009",
+  "experiment_id": "PNN-v1-Exp009",
+  "title": "Compact k12 Alpha2 confirmation",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Does the compact Alpha2 k=[1,2] candidate retain useful performance when retrained on the full canonical ECG200 TRAIN split?",
+  "hypothesis": "The frozen k=[1,2] candidate will retain accuracy comparable to active Alpha2 k=[1,2,3,4] while using substantially fewer parameters.",
+  "frozen_models": [
+    "active_alpha2_k1234: frozen Alpha2 topology with k=[1,2,3,4]",
+    "compact_alpha2_k12: same topology with k=[1,2]"
+  ],
+  "data_protocol": {
+    "dataset": "ECG200",
+    "train_samples": 100,
+    "test_samples": 100,
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "rule": "Train both frozen models on all canonical TRAIN cases. No architecture/frequency selection or tuning from TEST."
+  },
+  "training_protocol": {
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "preprocessing": "raw archive values"
+  },
+  "primary_metric": "Aggregate integer correct Q.ANT TEST predictions across 1,000 predictions per model.",
+  "success_criteria": "Compact k12 must be within 10 correct predictions of active Alpha2 k1234 across 1,000 predictions (compact_correct >= control_correct - 10), and its across-seed Q.ANT accuracy standard deviation must be no more than 0.015 absolute above control.",
+  "promotion_rule": "If both criteria are met, promote k12 as the compact Alpha2 frequency basis because it uses substantially fewer parameters. Otherwise retain active Alpha2 k1234.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim."
+}
