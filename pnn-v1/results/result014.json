@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal014",
+  "experiment_id": "PNN-v1-Exp014",
+  "timestamp_utc": "2026-09-25T17:56:57.888135+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "TwoLeadECG",
+    "train_shape": [
+      23,
+      80
+    ],
+    "test_shape": [
+      1139,
+      80
+    ]
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "architecture": "5\u00d7(16\u219216) local Fourier/KAN; concat80; 80\u21922 Fourier/KAN head",
+    "parameter_count": 5842
+  },
+  "seed_rows": [
+    {
+      "seed": 11,
+      "reference_accuracy": 0.8121158911325724,
+      "qant_accuracy": 0.810359964881475,
+      "prediction_disagreements": 8,
+      "mean_absolute_logit_error": 0.02085660770535469
+    },
+    {
+      "seed": 22,
+      "reference_accuracy": 0.8516242317822651,
+      "qant_accuracy": 0.8507462686567164,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.021416231989860535
+    },
+    {
+      "seed": 33,
+      "reference_accuracy": 0.8156277436347673,
+      "qant_accuracy": 0.8121158911325724,
+      "prediction_disagreements": 6,
+      "mean_absolute_logit_error": 0.021820126101374626
+    },
+    {
+      "seed": 44,
+      "reference_accuracy": 0.8516242317822651,
+      "qant_accuracy": 0.8516242317822651,
+      "prediction_disagreements": 6,
+      "mean_absolute_logit_error": 0.019156428053975105
+    },
+    {
+      "seed": 55,
+      "reference_accuracy": 0.7875329236172081,
+      "qant_accuracy": 0.7840210711150132,
+      "prediction_disagreements": 4,
+      "mean_absolute_logit_error": 0.017282256856560707
+    },
+    {
+      "seed": 66,
+      "reference_accuracy": 0.8314310798946444,
+      "qant_accuracy": 0.8314310798946444,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.021002760156989098
+    },
+    {
+      "seed": 77,
+      "reference_accuracy": 0.8726953467954346,
+      "qant_accuracy": 0.8726953467954346,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.022069493308663368
+    },
+    {
+      "seed": 88,
+      "reference_accuracy": 0.8217734855136084,
+      "qant_accuracy": 0.8235294117647058,
+      "prediction_disagreements": 4,
+      "mean_absolute_logit_error": 0.020479971542954445
+    },
+    {
+      "seed": 99,
+      "reference_accuracy": 0.8305531167690957,
+      "qant_accuracy": 0.8314310798946444,
+      "prediction_disagreements": 5,
+      "mean_absolute_logit_error": 0.025328436866402626
+    },
+    {
+      "seed": 111,
+      "reference_accuracy": 0.8305531167690957,
+      "qant_accuracy": 0.8305531167690957,
+      "prediction_disagreements": 4,
+      "mean_absolute_logit_error": 0.01882292702794075
+    }
+  ],
+  "aggregate": {
+    "total_predictions": 11390,
+    "agreement_count": 11348,
+    "disagreement_count": 42,
+    "median_reference_margin_agreement": 2.019479751586914,
+    "median_reference_margin_disagreement": 0.016683876514434814,
+    "median_ratio_agreement": 0.014017555246082346,
+    "median_ratio_disagreement": 1.739028965832171,
+    "mean_qant_accuracy": 0.8298507462686567,
+    "mean_prediction_disagreements": 4.2
+  },
+  "success_criteria_met": true,
+  "diagnostic_decision": "margin_sensitivity_supported",
+  "notes": "Diagnostic only; frozen Exp013 TwoLeadECG model/protocol. No architecture selection or TEST-driven tuning. Software/simulation backend only.",
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cpu",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at_utc": "2026-09-25T17:45:06.434344+00:00",
+  "generated_at_utc": "2026-09-25T17:56:58.678003+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -635,8 +635,8 @@
     "name": "Debatt-AI Photonic Neural Network v1",
     "phase": "development",
     "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
-    "completed_experiments": 13,
-    "latest_completed_experiment": "PNN-v1-Exp013",
+    "completed_experiments": 14,
+    "latest_completed_experiment": "PNN-v1-Exp014",
     "experiments": [
       {
         "id": "PNN-v1-Exp001",
@@ -913,6 +913,16 @@
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T17:45:05.574124+00:00",
         "success_criteria_met": false,
+        "architectures": []
+      },
+      {
+        "id": "PNN-v1-Exp014",
+        "proposal_id": "PNN-v1-Proposal014",
+        "completed": true,
+        "dataset": "TwoLeadECG",
+        "backend": "qant-cpu/software-simulation",
+        "timestamp_utc": "2026-09-25T17:56:57.888135+00:00",
+        "success_criteria_met": true,
         "architectures": []
       }
     ]
