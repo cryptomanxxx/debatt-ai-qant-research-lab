@@ -1,0 +1,83 @@
+{
+  "proposal_id": "pnn-v1-proposal010",
+  "id": "PNN-v1-Proposal010",
+  "experiment_id": "PNN-v1-Exp010",
+  "title": "Alpha3 local-window geometry search",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Can Alpha3 close its remaining ECG200 accuracy gap to the MLP by changing how the 96-sample signal is partitioned, while retaining the compact k=[1,2] basis?",
+  "hypothesis": "The fixed 8-sample local receptive field may limit temporal representation. A different contiguous window geometry can improve TRAIN-only validation accuracy without sacrificing compactness or stability.",
+  "frozen_frequency_basis": [
+    1,
+    2
+  ],
+  "frozen_candidates": [
+    {
+      "id": "w6",
+      "windows": 16,
+      "input_width": 6,
+      "local_output_width": 6,
+      "head_input": 96
+    },
+    {
+      "id": "w8_control",
+      "windows": 12,
+      "input_width": 8,
+      "local_output_width": 8,
+      "head_input": 96
+    },
+    {
+      "id": "w12",
+      "windows": 8,
+      "input_width": 12,
+      "local_output_width": 12,
+      "head_input": 96
+    },
+    {
+      "id": "w16",
+      "windows": 6,
+      "input_width": 16,
+      "local_output_width": 16,
+      "head_input": 96
+    }
+  ],
+  "design_note": "All candidates preserve a 96-feature concatenated representation before the 96->2 Q.ANT Fourier/KAN head. This changes temporal receptive-field geometry rather than downstream feature dimensionality.",
+  "data_protocol": {
+    "dataset": "ECG200",
+    "canonical_train_samples": 100,
+    "canonical_test_samples": 100,
+    "selection_train_samples": 80,
+    "validation_samples": 20,
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "rule": "Reuse the deterministic TRAIN-only validation boundary from prior selection experiments. Canonical TEST remains untouched until a candidate is frozen."
+  },
+  "training_protocol": {
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "preprocessing": "raw archive values"
+  },
+  "primary_metric": "Mean validation Q.ANT accuracy across 10 seeds.",
+  "selection_rule": "Highest mean validation Q.ANT accuracy; tie-break by lower standard deviation, then fewer parameters.",
+  "success_criteria": "A non-control geometry must exceed w8_control by at least 0.02 absolute mean validation Q.ANT accuracy and have standard deviation no more than 0.01 absolute above control.",
+  "promotion_scope": "Success selects a candidate for a separate full-TRAIN confirmation; Exp010 alone does not replace Alpha3.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 4,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim."
+}
