@@ -1,0 +1,69 @@
+{
+  "proposal_id": "pnn-v1-proposal015",
+  "id": "PNN-v1-Proposal015",
+  "experiment_id": "PNN-v1-Exp015",
+  "title": "TwoLeadECG decision-margin robustness intervention",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Can a training-only decision-margin penalty reduce TwoLeadECG reference/Q.ANT disagreements without materially reducing Q.ANT TEST accuracy?",
+  "hypothesis": "A preregistered margin-regularized training objective will reduce mean reference/Q.ANT disagreements relative to the ordinary cross-entropy control while keeping mean Q.ANT TEST accuracy within 1 percentage point of control.",
+  "scientific_boundary": "Architecture and inference are frozen. This experiment changes only the training loss. TEST data are used only for the final comparison and do not select the penalty strength.",
+  "dataset": {
+    "name": "TwoLeadECG",
+    "input_adaptation": "deterministic center crop 82→80",
+    "split": "canonical TRAIN/TEST"
+  },
+  "frozen_model": {
+    "windows": 5,
+    "local_block": "16→16",
+    "head": "80→2",
+    "frequencies": [
+      1,
+      2
+    ]
+  },
+  "candidates": {
+    "control": {
+      "loss": "cross_entropy"
+    },
+    "margin_regularized": {
+      "loss": "cross_entropy + lambda * relu(target_margin - (true_class_logit - highest_other_logit))",
+      "lambda": 0.1,
+      "target_margin": 1
+    }
+  },
+  "protocol": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32
+  },
+  "primary_outputs": [
+    "mean Q.ANT TEST accuracy",
+    "mean reference/Q.ANT prediction disagreements",
+    "reference accuracy",
+    "mean absolute logit error",
+    "median reference decision margin"
+  ],
+  "success_criteria": "Supported if margin_regularized has strictly fewer mean reference/Q.ANT disagreements than control and mean Q.ANT TEST accuracy is >= control minus 0.01.",
+  "promotion_rule": "No architecture promotion. A supported result identifies margin-aware training as a compatibility intervention to validate on additional datasets.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 1200
+  },
+  "hardware_boundary": "Q.ANT CPU/software simulation only; no physical photonic hardware performance claim."
+}
