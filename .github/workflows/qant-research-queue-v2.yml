@@ -26,37 +26,17 @@ jobs:
   run-job:
     runs-on: ubuntu-latest
     timeout-minutes: 360
+    container:
+      image: ghcr.io/cryptomanxxx/debatt-ai-qant-research-lab:research-py313-v1
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-      - name: Cache Q.ANT CPU wheel
-        id: qant-cache
-        uses: actions/cache@v4
-        with:
-          path: .cache/qant-wheel
-          key: qant-cpu-wheel-${{ runner.os }}-py313-sdk231-v1
-      - name: Install Q.ANT CPU backend
-        env:
-          QANT_WHEEL_CACHE_DIR: ${{ github.workspace }}/.cache/qant-wheel
-        run: bash scripts/setup_qant_cpu.sh
-      - name: Cache Python packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: pip-${{ runner.os }}-py313-cpu-torch-numpy235-ml-dtypes054-aeon160-v2
-          restore-keys: |
-            pip-${{ runner.os }}-py313-
-      - name: Install experiment dependencies
-        run: |
-          python -m pip install --upgrade pip
-          # CPU-only PyTorch: research jobs do not use CUDA/NVIDIA libraries.
-          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch
-          # Pin the numerical stack used by the Q.ANT experiments for reproducibility.
-          python -m pip install "numpy==2.3.5" "ml_dtypes==0.5.4" "aeon==1.6.0"
+      - name: Verify prebuilt research environment
+        run: python -c "import torch, numpy, ml_dtypes, aeon, qant_native_computing_toolkit; print('Q.ANT research environment ready')"
       - name: Resolve approved job
         id: resolve
         shell: bash
