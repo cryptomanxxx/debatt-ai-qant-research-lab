@@ -32,8 +32,8 @@ class FourierBlock(nn.Module):
   return np.asarray(o,dtype=np.float32)
 
 class PNN(nn.Module):
- def __init__(self,nheads):
-  super().__init__(); self.blocks=nn.ModuleList([FourierBlock(16,16) for _ in range(6)]); self.heads=nn.ModuleList([FourierBlock(96,2) for _ in range(nheads)])
+ def __init__(self,local_width,nheads):
+  super().__init__(); self.blocks=nn.ModuleList([FourierBlock(16,local_width) for _ in range(6)]); self.heads=nn.ModuleList([FourierBlock(6*local_width,2) for _ in range(nheads)])
  def local_ref(self,x):return torch.cat([b(x[:,i*16:(i+1)*16]) for i,b in enumerate(self.blocks)],1)
  def forward(self,x):
   h=self.local_ref(x); return torch.stack([head(h) for head in self.heads],0).mean(0)
@@ -43,8 +43,8 @@ class PNN(nn.Module):
 
 def nparams(m):return sum(p.numel() for p in m.parameters())
 
-def train(seed,Xtr,ytr,nheads):
- torch.manual_seed(seed); np.random.seed(seed); m=PNN(nheads); opt=torch.optim.Adam(m.parameters(),lr=LR); tx=torch.from_numpy(Xtr); ty=torch.from_numpy(ytr); g=torch.Generator().manual_seed(seed)
+def train(seed,Xtr,ytr,local_width,nheads):
+ torch.manual_seed(seed); np.random.seed(seed); m=PNN(local_width,nheads); opt=torch.optim.Adam(m.parameters(),lr=LR); tx=torch.from_numpy(Xtr); ty=torch.from_numpy(ytr); g=torch.Generator().manual_seed(seed)
  for _ in range(EPOCHS):
   order=torch.randperm(len(tx),generator=g)
   for st in range(0,len(tx),32):
@@ -56,9 +56,9 @@ Xtr,Xte=as2d(Xtr),as2d(Xte)
 labels=sorted(set(np.asarray(ytr0).astype(str))|set(np.asarray(yte0).astype(str))); lm={v:i for i,v in enumerate(labels)}
 ytr=np.asarray([lm[str(v)] for v in ytr0],dtype=np.int64); yte=np.asarray([lm[str(v)] for v in yte0],dtype=np.int64)
 rows=[]
-for cid,nheads in CANDIDATES.items():
+for cid,(local_width,nheads) in CANDIDATES.items():
  for seed in SEEDS:
-  m=train(seed,Xtr,ytr,nheads); m.eval(); vx=torch.from_numpy(Xte)
+  m=train(seed,Xtr,ytr,local_width,nheads); m.eval(); vx=torch.from_numpy(Xte)
   with torch.no_grad():ref=m(vx).numpy()
   q=m.qant(vx); rp=ref.argmax(1); qp=q.argmax(1)
   rows.append({"candidate":cid,"seed":seed,"parameter_count":nparams(m),"reference_accuracy":float((rp==yte).mean()),"qant_accuracy":float((qp==yte).mean()),"prediction_disagreements":int((rp!=qp).sum()),"mean_absolute_logit_error":float(np.abs(q-ref).mean())})
