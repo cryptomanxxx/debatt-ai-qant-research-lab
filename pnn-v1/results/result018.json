@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal018",
+  "experiment_id": "PNN-v1-Exp018",
+  "timestamp_utc": "2026-09-25T19:38:31.919261+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "GunPoint",
+    "train_shape": [
+      50,
+      144
+    ],
+    "test_shape": [
+      150,
+      144
+    ]
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "candidates": {
+      "control": 1,
+      "redundant3": 3
+    },
+    "selection": "none; preregistered cross-dataset redundant-readout validation"
+  },
+  "rows": [
+    {
+      "candidate": "control",
+      "seed": 11,
+      "parameter_count": 10514,
+      "reference_accuracy": 0.94,
+      "qant_accuracy": 0.94,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03183148428797722
+    },
+    {
+      "candidate": "control",
+      "seed": 22,
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9466666666666667,
+      "qant_accuracy": 0.9466666666666667,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03694465011358261
+    },
+    {
+      "candidate": "control",
+      "seed": 33,
+      "parameter_count": 10514,
+      "reference_accuracy": 0.96,
+      "qant_accuracy": 0.96,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03166331723332405
+    },
+    {
+      "candidate": "control",
+      "seed": 44,
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9533333333333334,
+      "qant_accuracy": 0.9466666666666667,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03833949193358421
+    },
+    {
+      "candidate": "control",
+      "seed": 55,
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9666666666666667,
+      "qant_accuracy": 0.9733333333333334,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03368339687585831
+    },
+    {
+      "candidate": "control",
+      "seed": 66,
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9266666666666666,
+      "qant_accuracy": 0.9266666666666666,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.031657055020332336
+    },
+    {
+      "candidate": "control",
+      "seed": 77,
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9533333333333334,
+      "qant_accuracy": 0.9533333333333334,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03063536249101162
+    },
+    {
+      "candidate": "control",
+      "seed": 88,
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9466666666666667,
+      "qant_accuracy": 0.9466666666666667,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.033594246953725815
+    },
+    {
+      "candidate": "control",
+      "seed": 99,
+      "parameter_count": 10514,
+      "reference_accuracy": 0.94,
+      "qant_accuracy": 0.94,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03344404697418213
+    },
+    {
+      "candidate": "control",
+      "seed": 111,
+      "parameter_count": 10514,
+      "reference_accuracy": 0.96,
+      "qant_accuracy": 0.96,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.031331125646829605
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 11,
+      "parameter_count": 12822,
+      "reference_accuracy": 0.94,
+      "qant_accuracy": 0.94,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01940574310719967
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 22,
+      "parameter_count": 12822,
+      "reference_accuracy": 0.96,
+      "qant_accuracy": 0.96,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.02128448709845543
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 33,
+      "parameter_count": 12822,
+      "reference_accuracy": 0.9533333333333334,
+      "qant_accuracy": 0.96,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.019077042117714882
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 44,
+      "parameter_count": 12822,
+      "reference_accuracy": 0.9466666666666667,
+      "qant_accuracy": 0.9466666666666667,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.022396335378289223
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 55,
+      "parameter_count": 12822,
+      "reference_accuracy": 0.9666666666666667,
+      "qant_accuracy": 0.9666666666666667,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.019091907888650894
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 66,
+      "parameter_count": 12822,
+      "reference_accuracy": 0.9533333333333334,
+      "qant_accuracy": 0.9533333333333334,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01869460754096508
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 77,
+      "parameter_count": 12822,
+      "reference_accuracy": 0.9466666666666667,
+      "qant_accuracy": 0.9533333333333334,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.019693225622177124
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 88,
+      "parameter_count": 12822,
+      "reference_accuracy": 0.9666666666666667,
+      "qant_accuracy": 0.9733333333333334,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.019870128482580185
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 99,
+      "parameter_count": 12822,
+      "reference_accuracy": 0.94,
+      "qant_accuracy": 0.94,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.020487084984779358
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 111,
+      "parameter_count": 12822,
+      "reference_accuracy": 0.9533333333333334,
+      "qant_accuracy": 0.9533333333333334,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.020600134506821632
+    }
+  ],
+  "summary": {
+    "control": {
+      "parameter_count": 10514,
+      "mean_reference_accuracy": 0.9493333333333333,
+      "mean_qant_accuracy": 0.9493333333333333,
+      "std_qant_accuracy": 0.012364824660660955,
+      "mean_prediction_disagreements": 0.2,
+      "mean_absolute_logit_error": 0.03331241775304079
+    },
+    "redundant3": {
+      "parameter_count": 12822,
+      "mean_reference_accuracy": 0.9526666666666666,
+      "mean_qant_accuracy": 0.9546666666666667,
+      "std_qant_accuracy": 0.010241527663824832,
+      "mean_prediction_disagreements": 0.3,
+      "mean_absolute_logit_error": 0.02006006967276335
+    }
+  },
+  "success_criteria_met": false,
+  "intervention_decision": "not_supported",
+  "notes": "Frozen Exp012 GunPoint adaptation; only readout redundancy differs. Redundant candidate averages three independently parameterized Q.ANT-compatible heads in reference and Q.ANT inference. Software/simulation backend only.",
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cpu",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  }
+}

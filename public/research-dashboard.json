@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at_utc": "2026-09-25T19:03:06.891311+00:00",
+  "generated_at_utc": "2026-09-25T19:38:32.635936+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -635,8 +635,8 @@
     "name": "Debatt-AI Photonic Neural Network v1",
     "phase": "development",
     "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
-    "completed_experiments": 17,
-    "latest_completed_experiment": "PNN-v1-Exp017",
+    "completed_experiments": 18,
+    "latest_completed_experiment": "PNN-v1-Exp018",
     "experiments": [
       {
         "id": "PNN-v1-Exp001",
@@ -994,6 +994,37 @@
             "std_qant_accuracy": 0.01544815975271134,
             "mean_prediction_disagreements": 3.3,
             "mean_absolute_logit_error": 0.014194451086223126
+          }
+        ]
+      },
+      {
+        "id": "PNN-v1-Exp018",
+        "proposal_id": "PNN-v1-Proposal018",
+        "completed": true,
+        "dataset": "GunPoint",
+        "backend": "qant-cpu/software-simulation",
+        "timestamp_utc": "2026-09-25T19:38:31.919261+00:00",
+        "success_criteria_met": false,
+        "architectures": [
+          {
+            "architecture": "control",
+            "parameters": 10514,
+            "mean_reference_accuracy": 0.9493333333333333,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.9493333333333333,
+            "std_qant_accuracy": 0.012364824660660955,
+            "mean_prediction_disagreements": 0.2,
+            "mean_absolute_logit_error": 0.03331241775304079
+          },
+          {
+            "architecture": "redundant3",
+            "parameters": 12822,
+            "mean_reference_accuracy": 0.9526666666666666,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.9546666666666667,
+            "std_qant_accuracy": 0.010241527663824832,
+            "mean_prediction_disagreements": 0.3,
+            "mean_absolute_logit_error": 0.02006006967276335
           }
         ]
       }
