@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal002",
+  "experiment_id": "PNN-v1-Exp002",
+  "timestamp_utc": "2026-09-25T11:42:16.647688+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "ECG200",
+    "train_shape": [
+      100,
+      96
+    ],
+    "test_shape": [
+      100,
+      96
+    ],
+    "split": "canonical TRAIN/TEST"
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "frozen_intervention": "per-case z-score normalization",
+    "epsilon": 1e-06,
+    "material_accuracy_loss_tolerance": 0.01,
+    "architecture": {
+      "groups": 12,
+      "samples_per_group": 8,
+      "features_per_group": 4,
+      "head_inputs": 48,
+      "head_outputs": 2
+    }
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "alpha1_raw_control",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.88,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03857222944498062,
+      "mean_max_absolute_logit_error_per_sample": 0.054002389311790466
+    },
+    {
+      "seed": 11,
+      "candidate_id": "alpha1_per_case_zscore",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.87,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.04158877208828926,
+      "mean_max_absolute_logit_error_per_sample": 0.06004898622632027
+    },
+    {
+      "seed": 22,
+      "candidate_id": "alpha1_raw_control",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.8,
+      "qant_accuracy": 0.8,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03947802260518074,
+      "mean_max_absolute_logit_error_per_sample": 0.05626566708087921
+    },
+    {
+      "seed": 22,
+      "candidate_id": "alpha1_per_case_zscore",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.8,
+      "qant_accuracy": 0.8,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03967847675085068,
+      "mean_max_absolute_logit_error_per_sample": 0.05547933652997017
+    },
+    {
+      "seed": 33,
+      "candidate_id": "alpha1_raw_control",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.81,
+      "qant_accuracy": 0.82,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03731635957956314,
+      "mean_max_absolute_logit_error_per_sample": 0.05409548804163933
+    },
+    {
+      "seed": 33,
+      "candidate_id": "alpha1_per_case_zscore",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.82,
+      "qant_accuracy": 0.82,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03604016453027725,
+      "mean_max_absolute_logit_error_per_sample": 0.052319593727588654
+    },
+    {
+      "seed": 44,
+      "candidate_id": "alpha1_raw_control",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.84,
+      "qant_accuracy": 0.84,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.035441186279058456,
+      "mean_max_absolute_logit_error_per_sample": 0.05190476402640343
+    },
+    {
+      "seed": 44,
+      "candidate_id": "alpha1_per_case_zscore",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.84,
+      "qant_accuracy": 0.84,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.031977295875549316,
+      "mean_max_absolute_logit_error_per_sample": 0.045252371579408646
+    },
+    {
+      "seed": 55,
+      "candidate_id": "alpha1_raw_control",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.84,
+      "qant_accuracy": 0.83,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03108706884086132,
+      "mean_max_absolute_logit_error_per_sample": 0.043898094445466995
+    },
+    {
+      "seed": 55,
+      "candidate_id": "alpha1_per_case_zscore",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.81,
+      "qant_accuracy": 0.8,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03423670679330826,
+      "mean_max_absolute_logit_error_per_sample": 0.048184704035520554
+    },
+    {
+      "seed": 66,
+      "candidate_id": "alpha1_raw_control",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.82,
+      "qant_accuracy": 0.82,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.041994623839855194,
+      "mean_max_absolute_logit_error_per_sample": 0.059425998479127884
+    },
+    {
+      "seed": 66,
+      "candidate_id": "alpha1_per_case_zscore",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.81,
+      "qant_accuracy": 0.82,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03654990345239639,
+      "mean_max_absolute_logit_error_per_sample": 0.05225687846541405
+    },
+    {
+      "seed": 77,
+      "candidate_id": "alpha1_raw_control",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.82,
+      "qant_accuracy": 0.82,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03621041774749756,
+      "mean_max_absolute_logit_error_per_sample": 0.05209698528051376
+    },
+    {
+      "seed": 77,
+      "candidate_id": "alpha1_per_case_zscore",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.82,
+      "qant_accuracy": 0.82,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03965635225176811,
+      "mean_max_absolute_logit_error_per_sample": 0.05453035235404968
+    },
+    {
+      "seed": 88,
+      "candidate_id": "alpha1_raw_control",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.86,
+      "qant_accuracy": 0.87,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03746217116713524,
+      "mean_max_absolute_logit_error_per_sample": 0.053581997752189636
+    },
+    {
+      "seed": 88,
+      "candidate_id": "alpha1_per_case_zscore",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.85,
+      "qant_accuracy": 0.86,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.039655398577451706,
+      "mean_max_absolute_logit_error_per_sample": 0.05641043558716774
+    },
+    {
+      "seed": 99,
+      "candidate_id": "alpha1_raw_control",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.78,
+      "qant_accuracy": 0.78,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.037795063108205795,
+      "mean_max_absolute_logit_error_per_sample": 0.0550021156668663
+    },
+    {
+      "seed": 99,
+      "candidate_id": "alpha1_per_case_zscore",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.79,
+      "qant_accuracy": 0.79,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.040686119347810745,
+      "mean_max_absolute_logit_error_per_sample": 0.05830053985118866
+    },
+    {
+      "seed": 111,
+      "candidate_id": "alpha1_raw_control",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.78,
+      "qant_accuracy": 0.78,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03597676381468773,
+      "mean_max_absolute_logit_error_per_sample": 0.05126537010073662
+    },
+    {
+      "seed": 111,
+      "candidate_id": "alpha1_per_case_zscore",
+      "parameter_count": 3890,
+      "reference_accuracy": 0.78,
+      "qant_accuracy": 0.77,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.036237020045518875,
+      "mean_max_absolute_logit_error_per_sample": 0.05163989216089249
+    }
+  ],
+  "summary": {
+    "alpha1_raw_control": {
+      "parameter_count": 3890,
+      "mean_reference_accuracy": 0.8230000000000001,
+      "std_reference_accuracy": 0.030999999999999982,
+      "mean_qant_accuracy": 0.8240000000000001,
+      "std_qant_accuracy": 0.031685959035509706,
+      "mean_prediction_disagreements": 0.3,
+      "mean_absolute_logit_error": 0.03713339064270258
+    },
+    "alpha1_per_case_zscore": {
+      "parameter_count": 3890,
+      "mean_reference_accuracy": 0.82,
+      "std_reference_accuracy": 0.028284271247461884,
+      "mean_qant_accuracy": 0.819,
+      "std_qant_accuracy": 0.029478805945967333,
+      "mean_prediction_disagreements": 0.5,
+      "mean_absolute_logit_error": 0.03763062097132206
+    }
+  },
+  "success_criteria_met": true,
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  },
+  "notes": "Controlled stabilization experiment: unchanged alpha1 versus per-case z-score preprocessing, 10 fixed seeds. TEST is evaluated only after each fixed training run; no candidate selection during execution. Software/simulation backend only."
+}
