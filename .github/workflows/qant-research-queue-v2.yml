@@ -47,13 +47,16 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: pip-${{ runner.os }}-py313-torch-numpy-ml-dtypes-aeon-v1
+          key: pip-${{ runner.os }}-py313-cpu-torch-numpy235-ml-dtypes053-aeon160-v2
           restore-keys: |
             pip-${{ runner.os }}-py313-
       - name: Install experiment dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install torch torchvision numpy ml_dtypes aeon
+          # CPU-only PyTorch: research jobs do not use CUDA/NVIDIA libraries.
+          python -m pip install --index-url https://download.pytorch.org/whl/cpu torch
+          # Pin the numerical stack used by the Q.ANT experiments for reproducibility.
+          python -m pip install "numpy==2.3.5" "ml_dtypes==0.5.3" "aeon==1.6.0"
       - name: Resolve approved job
         id: resolve
         shell: bash
