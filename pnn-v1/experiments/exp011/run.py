@@ -18,19 +18,19 @@ Xtr,ytr0=load_classification("ECG200",split="TRAIN"); Xte,yte0=load_classificati
 labels=sorted(set(np.asarray(ytr0).astype(str))|set(np.asarray(yte0).astype(str))); lm={v:i for i,v in enumerate(labels)}
 ytr=np.asarray([lm[str(v)] for v in ytr0],dtype=np.int64); yte=np.asarray([lm[str(v)] for v in yte0],dtype=np.int64)
 class FourierBlock(nn.Module):
- def __init__(self,ni,no,kvals):
-  super().__init__(); g=len(kvals); std=(2/((ni+no)*g))**0.5
-  self.amplitude=nn.Parameter(torch.randn(no,ni,g)*std); self.phase=nn.Parameter(torch.empty(no,ni,g).uniform_(-np.pi/2,np.pi/2)); self.bias=nn.Parameter(torch.zeros(no)); self.register_buffer("k",torch.tensor(kvals,dtype=torch.float32))
+ def __init__(self,ni,no):
+  super().__init__(); g=len(K); std=(2/((ni+no)*g))**0.5
+  self.amplitude=nn.Parameter(torch.randn(no,ni,g)*std); self.phase=nn.Parameter(torch.empty(no,ni,g).uniform_(-np.pi/2,np.pi/2)); self.bias=nn.Parameter(torch.zeros(no)); self.register_buffer("k",torch.tensor(K,dtype=torch.float32))
  def forward(self,x):
   z=x[:,None,:,None]*self.k[None,None,None,:]+self.phase[None,:,:,:]; return torch.sum(self.amplitude[None,:,:,:]*torch.cos(z),dim=(2,3))+self.bias[None,:]
  def qant(self,x):
   o=q_ai.calc_kan_layer_fprop(x.astype(bfloat16),self.phase.detach().numpy().astype(bfloat16),self.amplitude.detach().numpy().astype(bfloat16),self.k.numpy().astype(bfloat16)); o=q_ai.add_bias_fprop(o,self.bias.detach().numpy().astype(bfloat16)); return np.asarray(o,dtype=np.float32)
 class PNN(nn.Module):
- def __init__(self,kvals):
-  super().__init__(); self.blocks=nn.ModuleList([FourierBlock(8,8,kvals) for _ in range(12)]); self.head=FourierBlock(96,2,kvals)
- def forward(self,x): return self.head(torch.cat([b(x[:,i*8:(i+1)*8]) for i,b in enumerate(self.blocks)],1))
+ def __init__(self,nwin,win,out):
+  super().__init__(); self.nwin=nwin; self.win=win; self.blocks=nn.ModuleList([FourierBlock(win,out) for _ in range(nwin)]); self.head=FourierBlock(nwin*out,2)
+ def forward(self,x):return self.head(torch.cat([b(x[:,i*self.win:(i+1)*self.win]) for i,b in enumerate(self.blocks)],1))
  def qant(self,x):
-  a=x.detach().numpy(); h=np.concatenate([b.qant(a[:,i*8:(i+1)*8]) for i,b in enumerate(self.blocks)],1); return self.head.qant(h)
+  a=x.detach().numpy(); h=np.concatenate([b.qant(a[:,i*self.win:(i+1)*self.win]) for i,b in enumerate(self.blocks)],1); return self.head.qant(h)
 def nparams(m):return sum(p.numel() for p in m.parameters())
 def train(seed,spec):
  torch.manual_seed(seed); np.random.seed(seed); m=PNN(spec); opt=torch.optim.Adam(m.parameters(),lr=LR); lossfn=nn.CrossEntropyLoss(); tx=torch.from_numpy(Xtr); ty=torch.from_numpy(ytr); g=torch.Generator().manual_seed(seed)
