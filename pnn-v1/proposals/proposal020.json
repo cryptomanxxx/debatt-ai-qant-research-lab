@@ -1,0 +1,69 @@
+{
+  "proposal_id": "pnn-v1-proposal020",
+  "id": "PNN-v1-Proposal020",
+  "experiment_id": "PNN-v1-Exp020",
+  "title": "Alpha5 model-revision promotion test on ECG200",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Should redundant three-head Q.ANT-native readout averaging be promoted from a validated intervention into the PNN-v1 architecture?",
+  "hypothesis": "On ECG200, candidate Alpha5 will reduce mean absolute reference/Q.ANT logit error relative to active Alpha4 while retaining Q.ANT accuracy and keeping the parameter increase within the preregistered budget.",
+  "rationale": "Exp017–019 produced cross-dataset evidence that three-head averaging reduces reference/Q.ANT logit MAE without a demonstrated accuracy penalty. Exp020 returns to the original ECG200 benchmark for an explicit architecture revision test rather than silently modifying Alpha4.",
+  "dataset": {
+    "name": "ECG200",
+    "input_length": 96,
+    "split": "canonical TRAIN 100 / TEST 100"
+  },
+  "candidates": {
+    "alpha4": {
+      "architecture": "96 → 6 contiguous windows×16 → 6× Q.ANT Fourier/KAN 16→16 → concat96 → single Q.ANT Fourier/KAN 96→2",
+      "frequencies": [
+        1,
+        2
+      ]
+    },
+    "alpha5_candidate": {
+      "architecture": "same Alpha4 local representation → three independent Q.ANT Fourier/KAN 96→2 readout heads → arithmetic mean of logits",
+      "frequencies": [
+        1,
+        2
+      ]
+    }
+  },
+  "protocol": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "loss": "cross_entropy",
+    "training_data": "full canonical TRAIN only",
+    "test_usage": "final evaluation only"
+  },
+  "primary_outputs": [
+    "mean absolute reference/Q.ANT logit error",
+    "mean Q.ANT TEST accuracy",
+    "aggregate Q.ANT correct predictions",
+    "mean reference/Q.ANT disagreements",
+    "parameter count"
+  ],
+  "promotion_criteria": "Promote Alpha5 only if (1) mean logit MAE is strictly lower than Alpha4, (2) aggregate Q.ANT correct predictions are at least Alpha4 total minus 10 out of 1000, and (3) Alpha5 parameter count <= 10000.",
+  "secondary_non_gating_observation": "Report mean disagreements and accuracy standard deviation but do not redefine promotion from them.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "hardware_boundary": "Q.ANT CPU/software simulation only; no physical photonic hardware performance claim."
+}
