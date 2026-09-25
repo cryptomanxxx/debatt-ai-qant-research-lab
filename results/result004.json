@@ -1,0 +1,354 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal004",
+  "experiment_id": "PNN-v1-Exp004",
+  "timestamp_utc": "2026-09-25T13:41:07.673090+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "ECG200",
+    "canonical_train_shape": [
+      100,
+      96
+    ],
+    "canonical_test_shape": [
+      100,
+      96
+    ],
+    "selection_train_samples": 80,
+    "validation_samples": 20
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "frequencies": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "validation_rule": "first 10 examples per class in canonical TRAIN",
+    "candidates": [
+      "alpha1_control",
+      "alpha2_hierarchical_mixer"
+    ],
+    "test_selection_boundary": "candidate frozen from validation before TEST evaluation"
+  },
+  "validation_results": [
+    {
+      "reference_accuracy": 0.7,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.04009328410029411,
+      "seed": 11,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.75,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.072195865213871,
+      "seed": 11,
+      "candidate_id": "alpha2_hierarchical_mixer",
+      "parameter_count": 5066
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03737615793943405,
+      "seed": 22,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.07859806716442108,
+      "seed": 22,
+      "candidate_id": "alpha2_hierarchical_mixer",
+      "parameter_count": 5066
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03571378439664841,
+      "seed": 33,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.057647693902254105,
+      "seed": 33,
+      "candidate_id": "alpha2_hierarchical_mixer",
+      "parameter_count": 5066
+    },
+    {
+      "reference_accuracy": 0.8,
+      "qant_accuracy": 0.8,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03539391607046127,
+      "seed": 44,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.5,
+      "qant_accuracy": 0.5,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.06462109088897705,
+      "seed": 44,
+      "candidate_id": "alpha2_hierarchical_mixer",
+      "parameter_count": 5066
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03128201887011528,
+      "seed": 55,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.6,
+      "qant_accuracy": 0.6,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.05119587108492851,
+      "seed": 55,
+      "candidate_id": "alpha2_hierarchical_mixer",
+      "parameter_count": 5066
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.032435089349746704,
+      "seed": 66,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.55,
+      "qant_accuracy": 0.5,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.06295962631702423,
+      "seed": 66,
+      "candidate_id": "alpha2_hierarchical_mixer",
+      "parameter_count": 5066
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.035413261502981186,
+      "seed": 77,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.7,
+      "qant_accuracy": 0.75,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.05950772762298584,
+      "seed": 77,
+      "candidate_id": "alpha2_hierarchical_mixer",
+      "parameter_count": 5066
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.65,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03471095860004425,
+      "seed": 88,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.7,
+      "qant_accuracy": 0.7,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.06666823476552963,
+      "seed": 88,
+      "candidate_id": "alpha2_hierarchical_mixer",
+      "parameter_count": 5066
+    },
+    {
+      "reference_accuracy": 0.7,
+      "qant_accuracy": 0.7,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03206535801291466,
+      "seed": 99,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.65,
+      "qant_accuracy": 0.7,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.07429981231689453,
+      "seed": 99,
+      "candidate_id": "alpha2_hierarchical_mixer",
+      "parameter_count": 5066
+    },
+    {
+      "reference_accuracy": 0.7,
+      "qant_accuracy": 0.7,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03259272500872612,
+      "seed": 111,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.55,
+      "qant_accuracy": 0.55,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.0408393032848835,
+      "seed": 111,
+      "candidate_id": "alpha2_hierarchical_mixer",
+      "parameter_count": 5066
+    }
+  ],
+  "validation_summary": {
+    "alpha1_control": {
+      "parameter_count": 3890,
+      "mean_validation_qant_accuracy": 0.685,
+      "std_validation_qant_accuracy": 0.050249378105604446,
+      "mean_validation_reference_accuracy": 0.68
+    },
+    "alpha2_hierarchical_mixer": {
+      "parameter_count": 5066,
+      "mean_validation_qant_accuracy": 0.635,
+      "std_validation_qant_accuracy": 0.08958236433584457,
+      "mean_validation_reference_accuracy": 0.63
+    }
+  },
+  "success_criteria_met": false,
+  "selected_candidate": "alpha1_control",
+  "test_results": [
+    {
+      "reference_accuracy": 0.85,
+      "qant_accuracy": 0.85,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03719834238290787,
+      "seed": 11,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.78,
+      "qant_accuracy": 0.78,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.0399203822016716,
+      "seed": 22,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.8,
+      "qant_accuracy": 0.79,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.0328725129365921,
+      "seed": 33,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.83,
+      "qant_accuracy": 0.83,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03774646669626236,
+      "seed": 44,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.78,
+      "qant_accuracy": 0.78,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03592512011528015,
+      "seed": 55,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.79,
+      "qant_accuracy": 0.78,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03967208415269852,
+      "seed": 66,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.81,
+      "qant_accuracy": 0.8,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.039503712207078934,
+      "seed": 77,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.84,
+      "qant_accuracy": 0.84,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03743117302656174,
+      "seed": 88,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.8,
+      "qant_accuracy": 0.8,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03766611963510513,
+      "seed": 99,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    },
+    {
+      "reference_accuracy": 0.77,
+      "qant_accuracy": 0.77,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.03965502604842186,
+      "seed": 111,
+      "candidate_id": "alpha1_control",
+      "parameter_count": 3890
+    }
+  ],
+  "test_summary": {
+    "selected_candidate": "alpha1_control",
+    "mean_qant_accuracy": 0.8019999999999999,
+    "std_qant_accuracy": 0.02675817632051928,
+    "mean_reference_accuracy": 0.8049999999999999,
+    "mean_prediction_disagreements": 0.5,
+    "mean_absolute_logit_error": 0.037759093940258025
+  },
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  },
+  "notes": "Architecture-level hierarchical cross-window mixer test. Canonical TEST is confirmatory only and is evaluated after validation-based selection. Software/simulation backend only."
+}
