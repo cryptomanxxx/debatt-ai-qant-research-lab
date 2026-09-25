@@ -2,7 +2,7 @@
 import json, os, re, subprocess, sys
 from pathlib import Path
 
-ALLOWED_ROOTS=("experiments/","scripts/")
+ALLOWED_ROOTS=("experiments/","scripts/","pnn-v1/experiments/")
 ALLOWED_STATUSES={"approved"}
 MAX={
  "max_parameters":10_000_000,
