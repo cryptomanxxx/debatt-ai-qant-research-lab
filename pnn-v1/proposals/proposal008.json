@@ -1,0 +1,56 @@
+{
+  "proposal_id": "pnn-v1-proposal008",
+  "id": "PNN-v1-Proposal008",
+  "experiment_id": "PNN-v1-Exp008",
+  "title": "Alpha2 frequency-basis search",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Can Alpha2 close part of its accuracy gap to the MLP by changing the Q.ANT Fourier/KAN frequency basis without changing topology?",
+  "hypothesis": "Alpha2 task fit is partly limited by the fixed k=[1,2,3,4] basis. A frozen alternative basis can improve TRAIN-only validation Q.ANT accuracy while preserving stability.",
+  "frozen_architecture": "PNN-v1 Alpha2: 12 local 8->8 Fourier/KAN blocks, concatenate 96, Fourier/KAN 96->2 head.",
+  "frozen_candidates": [
+    "k1234: [1,2,3,4] control",
+    "k123: [1,2,3]",
+    "k12: [1,2]",
+    "k124: [1,2,4]",
+    "k135: [1,3,5]"
+  ],
+  "data_protocol": {
+    "dataset": "ECG200",
+    "canonical_train_samples": 100,
+    "canonical_test_samples": 100,
+    "selection_train_samples": 80,
+    "validation_samples": 20,
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "rule": "Reuse exact deterministic TRAIN/validation boundary from Exp003-005. Select frequency basis only from validation. Canonical TEST remains untouched until selection is frozen."
+  },
+  "training_protocol": {
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "preprocessing": "raw archive values"
+  },
+  "primary_metric": "Mean validation Q.ANT accuracy across 10 seeds.",
+  "selection_rule": "Highest mean validation Q.ANT accuracy; tie-break by lower validation standard deviation; then fewer parameters.",
+  "success_criteria": "Selected non-control basis must exceed k1234 mean validation Q.ANT accuracy by at least 0.02 absolute and have validation Q.ANT standard deviation no more than 0.01 absolute above control. Otherwise retain k1234.",
+  "promotion_scope": "A successful result promotes only the frequency basis of Alpha2; topology remains frozen.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 5,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim."
+}
