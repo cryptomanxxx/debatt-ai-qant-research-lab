@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at_utc": "2026-09-25T18:12:47.852629+00:00",
+  "generated_at_utc": "2026-09-25T19:03:06.891311+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -635,8 +635,8 @@
     "name": "Debatt-AI Photonic Neural Network v1",
     "phase": "development",
     "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
-    "completed_experiments": 16,
-    "latest_completed_experiment": "PNN-v1-Exp016",
+    "completed_experiments": 17,
+    "latest_completed_experiment": "PNN-v1-Exp017",
     "experiments": [
       {
         "id": "PNN-v1-Exp001",
@@ -965,6 +965,37 @@
         "timestamp_utc": "2026-09-25T18:12:47.132524+00:00",
         "success_criteria_met": false,
         "architectures": []
+      },
+      {
+        "id": "PNN-v1-Exp017",
+        "proposal_id": "PNN-v1-Proposal017",
+        "completed": true,
+        "dataset": "TwoLeadECG",
+        "backend": "qant-cpu/software-simulation",
+        "timestamp_utc": "2026-09-25T19:03:06.059299+00:00",
+        "success_criteria_met": true,
+        "architectures": [
+          {
+            "architecture": "control",
+            "parameters": 5842,
+            "mean_reference_accuracy": 0.8305531167690956,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.8298507462686567,
+            "std_qant_accuracy": 0.02363596749663375,
+            "mean_prediction_disagreements": 4.2,
+            "mean_absolute_logit_error": 0.020823519676923752
+          },
+          {
+            "architecture": "redundant3",
+            "parameters": 7126,
+            "mean_reference_accuracy": 0.8369622475856013,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.8384547848990342,
+            "std_qant_accuracy": 0.01544815975271134,
+            "mean_prediction_disagreements": 3.3,
+            "mean_absolute_logit_error": 0.014194451086223126
+          }
+        ]
       }
     ]
   },
