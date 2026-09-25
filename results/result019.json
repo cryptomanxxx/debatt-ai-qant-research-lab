@@ -1,0 +1,254 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal019",
+  "experiment_id": "PNN-v1-Exp019",
+  "timestamp_utc": "2026-09-25T20:02:42.878867+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "SonyAIBORobotSurface1",
+    "train_shape": [
+      20,
+      64
+    ],
+    "test_shape": [
+      601,
+      64
+    ]
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "candidates": {
+      "control": 1,
+      "redundant3": 3
+    },
+    "selection": "none; preregistered SonyAIBO redundant-readout numerical-robustness validation"
+  },
+  "rows": [
+    {
+      "candidate": "control",
+      "seed": 11,
+      "parameter_count": 4674,
+      "reference_accuracy": 0.653910149750416,
+      "qant_accuracy": 0.6505823627287853,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.017677567899227142
+    },
+    {
+      "candidate": "control",
+      "seed": 22,
+      "parameter_count": 4674,
+      "reference_accuracy": 0.6173044925124792,
+      "qant_accuracy": 0.6189683860232945,
+      "prediction_disagreements": 3,
+      "mean_absolute_logit_error": 0.01581685245037079
+    },
+    {
+      "candidate": "control",
+      "seed": 33,
+      "parameter_count": 4674,
+      "reference_accuracy": 0.6722129783693843,
+      "qant_accuracy": 0.6738768718801996,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.014571696519851685
+    },
+    {
+      "candidate": "control",
+      "seed": 44,
+      "parameter_count": 4674,
+      "reference_accuracy": 0.6289517470881864,
+      "qant_accuracy": 0.6306156405990017,
+      "prediction_disagreements": 3,
+      "mean_absolute_logit_error": 0.01869802176952362
+    },
+    {
+      "candidate": "control",
+      "seed": 55,
+      "parameter_count": 4674,
+      "reference_accuracy": 0.6405990016638935,
+      "qant_accuracy": 0.6405990016638935,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.018161339685320854
+    },
+    {
+      "candidate": "control",
+      "seed": 66,
+      "parameter_count": 4674,
+      "reference_accuracy": 0.6256239600665557,
+      "qant_accuracy": 0.6256239600665557,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.016201099380850792
+    },
+    {
+      "candidate": "control",
+      "seed": 77,
+      "parameter_count": 4674,
+      "reference_accuracy": 0.7237936772046589,
+      "qant_accuracy": 0.7254575707154742,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.0170401930809021
+    },
+    {
+      "candidate": "control",
+      "seed": 88,
+      "parameter_count": 4674,
+      "reference_accuracy": 0.7021630615640599,
+      "qant_accuracy": 0.7004991680532446,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.014611084014177322
+    },
+    {
+      "candidate": "control",
+      "seed": 99,
+      "parameter_count": 4674,
+      "reference_accuracy": 0.7021630615640599,
+      "qant_accuracy": 0.7021630615640599,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01443533506244421
+    },
+    {
+      "candidate": "control",
+      "seed": 111,
+      "parameter_count": 4674,
+      "reference_accuracy": 0.6306156405990017,
+      "qant_accuracy": 0.6306156405990017,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.017182644456624985
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 11,
+      "parameter_count": 5702,
+      "reference_accuracy": 0.6871880199667221,
+      "qant_accuracy": 0.6855241264559068,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.011215860955417156
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 22,
+      "parameter_count": 5702,
+      "reference_accuracy": 0.6372712146422629,
+      "qant_accuracy": 0.6372712146422629,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.011556756682693958
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 33,
+      "parameter_count": 5702,
+      "reference_accuracy": 0.6988352745424293,
+      "qant_accuracy": 0.697171381031614,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.009427203796803951
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 44,
+      "parameter_count": 5702,
+      "reference_accuracy": 0.6821963394342762,
+      "qant_accuracy": 0.6821963394342762,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01296919770538807
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 55,
+      "parameter_count": 5702,
+      "reference_accuracy": 0.6372712146422629,
+      "qant_accuracy": 0.6356073211314476,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.012063353322446346
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 66,
+      "parameter_count": 5702,
+      "reference_accuracy": 0.6356073211314476,
+      "qant_accuracy": 0.6356073211314476,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.012013223953545094
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 77,
+      "parameter_count": 5702,
+      "reference_accuracy": 0.6572379367720466,
+      "qant_accuracy": 0.6555740432612313,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.010668865405023098
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 88,
+      "parameter_count": 5702,
+      "reference_accuracy": 0.6522462562396006,
+      "qant_accuracy": 0.6472545757071547,
+      "prediction_disagreements": 3,
+      "mean_absolute_logit_error": 0.011607574298977852
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 99,
+      "parameter_count": 5702,
+      "reference_accuracy": 0.6788685524126455,
+      "qant_accuracy": 0.6821963394342762,
+      "prediction_disagreements": 2,
+      "mean_absolute_logit_error": 0.010926470160484314
+    },
+    {
+      "candidate": "redundant3",
+      "seed": 111,
+      "parameter_count": 5702,
+      "reference_accuracy": 0.6405990016638935,
+      "qant_accuracy": 0.6389351081530782,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.010937727056443691
+    }
+  ],
+  "summary": {
+    "control": {
+      "parameter_count": 4674,
+      "mean_reference_accuracy": 0.6597337770382696,
+      "mean_qant_accuracy": 0.6599001663893511,
+      "std_qant_accuracy": 0.03598936661456447,
+      "mean_prediction_disagreements": 1.5,
+      "mean_absolute_logit_error": 0.01643958343192935
+    },
+    "redundant3": {
+      "parameter_count": 5702,
+      "mean_reference_accuracy": 0.6607321131447589,
+      "mean_qant_accuracy": 0.6597337770382696,
+      "std_qant_accuracy": 0.02313051376781671,
+      "mean_prediction_disagreements": 1.2,
+      "mean_absolute_logit_error": 0.011338623333722353
+    }
+  },
+  "success_criteria_met": true,
+  "intervention_decision": "supported",
+  "notes": "Frozen Exp013 SonyAIBORobotSurface1 adaptation; only readout redundancy differs. Primary criterion is lower logit MAE with Q.ANT accuracy within 1 pp of control. Software/simulation backend only.",
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cpu",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  }
+}
