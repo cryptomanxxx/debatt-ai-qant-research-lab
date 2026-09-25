@@ -1,0 +1,56 @@
+{
+  "proposal_id": "pnn-v1-proposal006",
+  "id": "PNN-v1-Proposal006",
+  "experiment_id": "PNN-v1-Exp006",
+  "title": "Full-TRAIN confirmation of PNN-v1 Alpha2 candidate",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Does the preregistered alpha1_w8 improvement persist when Alpha1, the Alpha2 candidate, and the conventional MLP baseline are trained under the same full ECG200 TRAIN protocol?",
+  "evidence_from_exp005": {
+    "alpha1_w4_validation_qant_accuracy": 0.685,
+    "alpha1_w4_validation_std": 0.050249378105604446,
+    "alpha1_w8_validation_qant_accuracy": 0.725,
+    "alpha1_w8_validation_std": 0.04609772228646444,
+    "alpha1_w8_confirmatory_test_qant_accuracy": 0.819,
+    "selection_success": true
+  },
+  "hypothesis": "The frozen 8->8 Alpha2 candidate will retain an accuracy advantage over original Alpha1 when both are retrained on all 100 canonical TRAIN cases, while remaining closely aligned between reference and Q.ANT evaluation.",
+  "frozen_models": [
+    "Alpha1: 12 local 8->4 Fourier/KAN blocks; 48->2 Fourier/KAN head",
+    "Alpha2 candidate: 12 local 8->8 Fourier/KAN blocks; 96->2 Fourier/KAN head",
+    "MLP baseline: 96->64->32->2 with ReLU"
+  ],
+  "data_protocol": {
+    "dataset": "ECG200",
+    "train_samples": 100,
+    "test_samples": 100,
+    "rule": "Train every frozen model on all canonical TRAIN cases and evaluate on canonical TEST. No model, hyperparameter, architecture, epoch count, preprocessing, or selection decision may be changed from TEST results."
+  },
+  "training_protocol": {
+    "seeds": [11,22,33,44,55,66,77,88,99,111],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "pnn_frequencies": [1,2,3,4],
+    "preprocessing": "raw archive values"
+  },
+  "primary_metric": "Mean canonical TEST Q.ANT accuracy of Alpha2 candidate versus Alpha1 across the 10 fixed seeds.",
+  "secondary_metrics": [
+    "accuracy standard deviation",
+    "MLP reference accuracy",
+    "parameter count",
+    "reference-vs-Q.ANT prediction disagreements for PNN models",
+    "mean absolute logit error for PNN models"
+  ],
+  "success_criteria": "Alpha2 candidate must exceed Alpha1 mean canonical TEST Q.ANT accuracy by at least 0.01 absolute, with Q.ANT accuracy standard deviation no more than 0.01 absolute above Alpha1. This confirmation criterion is frozen before execution. MLP is a calibration baseline and does not determine Alpha2 promotion.",
+  "promotion_rule": "If the success criterion is met, promote the frozen 8->8 architecture to active PNN-v1 Alpha2. Otherwise retain Alpha1 as the active architecture and record the Exp005 width result as not confirmed under full-TRAIN comparison.",
+  "requested_budget": {
+    "max_parameters": 10000,
+    "max_candidates": 3,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim.",
+  "next_gate": "Implement and review PNN-v1 Exp006, then add it to the guarded approval allowlist."
+}
