@@ -1,6 +1,7 @@
 """Compile a reviewed AI Researcher proposal into an approved guarded job."""
 import json, re, sys
 from pathlib import Path
+from validate_research_proposal import validate
 
 if len(sys.argv)!=2:
     raise SystemExit("Usage: python scripts/approve_proposal.py <proposal_id>")
@@ -118,6 +119,7 @@ if proposal_id not in MAPPINGS:
     raise SystemExit("No reviewed compiler mapping exists for this proposal")
 
 job_id,experiment=MAPPINGS[proposal_id]
+validate(proposal_id, experiment)
 job={
  "job_id":job_id,
  "status":"approved",
