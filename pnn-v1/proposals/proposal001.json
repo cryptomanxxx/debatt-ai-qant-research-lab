@@ -1,0 +1,41 @@
+{
+  "id": "PNN-v1-Proposal001",
+  "experiment_id": "PNN-v1-Exp001",
+  "title": "ECG200 practical baseline and first Q.ANT-native PNN architecture",
+  "status": "proposed",
+  "research_question": "Can a first Q.ANT-native PNN-v1 architecture learn a real ECG time-series classification task, and how does it compare with a conventional neural baseline under the same fixed data split?",
+  "dataset": {
+    "name": "ECG200",
+    "task": "univariate time-series classification",
+    "train_cases": 100,
+    "test_cases": 100,
+    "series_length": 96,
+    "classes": 2,
+    "split_policy": "Use the canonical TRAIN/TEST split without resplitting."
+  },
+  "hypothesis": "A compact hierarchical PNN-v1 candidate built around Q.ANT KAN/Fourier-style nonlinear operations can learn useful structure in ECG200 while retaining a low-fan-in hierarchy motivated by the Toolkit discovery phase.",
+  "baseline": {
+    "name": "MLP-ReLU",
+    "architecture": "96 -> 64 -> 32 -> 2",
+    "purpose": "Conventional neural baseline trained and evaluated on exactly the same ECG200 split."
+  },
+  "pnn_candidate": {
+    "name": "PNN-v1-alpha1",
+    "principles": [
+      "Q.ANT calc_kan_layer_fprop / Fourier-style nonlinear computation",
+      "hierarchical low-fan-in structure",
+      "compact parameter budget",
+      "same input data and test set as baseline"
+    ],
+    "note": "Exact layer widths, preprocessing and training hyperparameters must be frozen in the Exp001 implementation before evaluation."
+  },
+  "primary_metric": "test accuracy",
+  "secondary_metrics": [
+    "parameter count",
+    "reference-vs-Q.ANT prediction disagreement",
+    "reference-vs-Q.ANT output error where applicable"
+  ],
+  "success_interpretation": "Exp001 establishes whether the first PNN-v1 candidate can solve a real public time-series benchmark and provides a baseline for later architecture search. It is not designed to claim superiority from a single small dataset.",
+  "hardware_boundary": "Q.ANT software/simulation-backend results are compatibility/model results, not measurements of real photonic latency, throughput, energy use, or hardware noise.",
+  "next_gate": "Human review/approval before implementing and running PNN-v1 Exp001."
+}
