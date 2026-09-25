@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at_utc": "2026-09-25T20:23:07.012901+00:00",
+  "generated_at_utc": "2026-09-25T20:39:31.673940+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -634,6 +634,16 @@
   "pnn_v1": {
     "name": "Debatt-AI Photonic Neural Network v1",
     "phase": "development",
+    "active_model": {
+      "name": "Alpha5",
+      "architecture": "96 \u2192 6\u00d7 Q.ANT Fourier/KAN 16\u219216 \u2192 concat96 \u2192 3\u00d7 Q.ANT Fourier/KAN 96\u21922 \u2192 mean logits",
+      "frequencies": [
+        1,
+        2
+      ],
+      "ecg200_parameter_count": 8550,
+      "promoted_by": "PNN-v1-Exp020"
+    },
     "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
     "completed_experiments": 21,
     "latest_completed_experiment": "PNN-v1-Exp021",
@@ -643,9 +653,13 @@
         "proposal_id": "PNN-v1-Proposal001",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T11:24:38.607203+00:00",
         "success_criteria_met": null,
+        "decision": null,
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "mlp_relu_96_64_32_2",
@@ -655,7 +669,8 @@
             "mean_qant_accuracy": null,
             "std_qant_accuracy": null,
             "mean_prediction_disagreements": null,
-            "mean_absolute_logit_error": null
+            "mean_absolute_logit_error": null,
+            "aggregate_qant_correct": null
           },
           {
             "architecture": "pnn_v1_alpha1_12x4_g4",
@@ -665,7 +680,8 @@
             "mean_qant_accuracy": 0.8333333333333334,
             "std_qant_accuracy": 0.033993463423951896,
             "mean_prediction_disagreements": 0.3333333333333333,
-            "mean_absolute_logit_error": 0.038455537209908165
+            "mean_absolute_logit_error": 0.038455537209908165,
+            "aggregate_qant_correct": null
           }
         ]
       },
@@ -674,9 +690,13 @@
         "proposal_id": "PNN-v1-Proposal002",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T11:42:16.647688+00:00",
         "success_criteria_met": true,
+        "decision": null,
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "alpha1_raw_control",
@@ -686,7 +706,8 @@
             "mean_qant_accuracy": 0.8240000000000001,
             "std_qant_accuracy": 0.031685959035509706,
             "mean_prediction_disagreements": 0.3,
-            "mean_absolute_logit_error": 0.03713339064270258
+            "mean_absolute_logit_error": 0.03713339064270258,
+            "aggregate_qant_correct": null
           },
           {
             "architecture": "alpha1_per_case_zscore",
@@ -696,7 +717,8 @@
             "mean_qant_accuracy": 0.819,
             "std_qant_accuracy": 0.029478805945967333,
             "mean_prediction_disagreements": 0.5,
-            "mean_absolute_logit_error": 0.03763062097132206
+            "mean_absolute_logit_error": 0.03763062097132206,
+            "aggregate_qant_correct": null
           }
         ]
       },
@@ -705,9 +727,13 @@
         "proposal_id": "PNN-v1-Proposal003",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T13:20:56.131808+00:00",
         "success_criteria_met": false,
+        "decision": null,
+        "selected_candidate": "alpha1_control",
+        "eligible_candidates": null,
         "architectures": []
       },
       {
@@ -715,9 +741,13 @@
         "proposal_id": "PNN-v1-Proposal004",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T13:41:07.673090+00:00",
         "success_criteria_met": false,
+        "decision": null,
+        "selected_candidate": "alpha1_control",
+        "eligible_candidates": null,
         "architectures": []
       },
       {
@@ -725,9 +755,13 @@
         "proposal_id": "PNN-v1-Proposal005",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T13:49:13.316955+00:00",
         "success_criteria_met": true,
+        "decision": null,
+        "selected_candidate": "alpha1_w8",
+        "eligible_candidates": null,
         "architectures": []
       },
       {
@@ -735,9 +769,13 @@
         "proposal_id": "PNN-v1-Proposal006",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T13:59:11.064859+00:00",
         "success_criteria_met": false,
+        "decision": "retain_alpha1",
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "alpha1_w4",
@@ -747,7 +785,8 @@
             "mean_qant_accuracy": 0.8240000000000001,
             "std_qant_accuracy": 0.031685959035509706,
             "mean_prediction_disagreements": 0.3,
-            "mean_absolute_logit_error": 0.03713339064270258
+            "mean_absolute_logit_error": 0.03713339064270258,
+            "aggregate_qant_correct": null
           },
           {
             "architecture": "alpha2_w8",
@@ -757,7 +796,8 @@
             "mean_qant_accuracy": 0.834,
             "std_qant_accuracy": 0.02154065922853799,
             "mean_prediction_disagreements": 0.1,
-            "mean_absolute_logit_error": 0.045277418196201326
+            "mean_absolute_logit_error": 0.045277418196201326,
+            "aggregate_qant_correct": null
           },
           {
             "architecture": "mlp_relu_96_64_32_2",
@@ -767,7 +807,8 @@
             "mean_qant_accuracy": null,
             "std_qant_accuracy": null,
             "mean_prediction_disagreements": null,
-            "mean_absolute_logit_error": null
+            "mean_absolute_logit_error": null,
+            "aggregate_qant_correct": null
           }
         ]
       },
@@ -776,9 +817,13 @@
         "proposal_id": "PNN-v1-Proposal007",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T14:10:49.287261+00:00",
         "success_criteria_met": true,
+        "decision": "promote_alpha2",
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "alpha1_w4",
@@ -788,7 +833,8 @@
             "mean_qant_accuracy": 0.8240000000000001,
             "std_qant_accuracy": 0.031685959035509706,
             "mean_prediction_disagreements": 0.3,
-            "mean_absolute_logit_error": 0.03713339064270258
+            "mean_absolute_logit_error": 0.03713339064270258,
+            "aggregate_qant_correct": null
           },
           {
             "architecture": "alpha2_w8",
@@ -798,7 +844,8 @@
             "mean_qant_accuracy": 0.834,
             "std_qant_accuracy": 0.02154065922853799,
             "mean_prediction_disagreements": 0.1,
-            "mean_absolute_logit_error": 0.045277418196201326
+            "mean_absolute_logit_error": 0.045277418196201326,
+            "aggregate_qant_correct": null
           }
         ]
       },
@@ -807,9 +854,13 @@
         "proposal_id": "PNN-v1-Proposal008",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T14:20:46.758409+00:00",
         "success_criteria_met": false,
+        "decision": null,
+        "selected_candidate": "k1234",
+        "eligible_candidates": null,
         "architectures": []
       },
       {
@@ -817,9 +868,13 @@
         "proposal_id": "PNN-v1-Proposal009",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T14:28:08.557936+00:00",
         "success_criteria_met": true,
+        "decision": "promote_compact_k12",
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "active_alpha2_k1234",
@@ -829,7 +884,8 @@
             "mean_qant_accuracy": 0.834,
             "std_qant_accuracy": 0.02154065922853799,
             "mean_prediction_disagreements": 0.1,
-            "mean_absolute_logit_error": 0.045277418196201326
+            "mean_absolute_logit_error": 0.045277418196201326,
+            "aggregate_qant_correct": null
           },
           {
             "architecture": "compact_alpha2_k12",
@@ -839,7 +895,8 @@
             "mean_qant_accuracy": 0.852,
             "std_qant_accuracy": 0.016613247725836167,
             "mean_prediction_disagreements": 0.1,
-            "mean_absolute_logit_error": 0.02616795338690281
+            "mean_absolute_logit_error": 0.02616795338690281,
+            "aggregate_qant_correct": null
           }
         ]
       },
@@ -848,9 +905,13 @@
         "proposal_id": "PNN-v1-Proposal010",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T14:39:05.986287+00:00",
         "success_criteria_met": true,
+        "decision": null,
+        "selected_candidate": "w16",
+        "eligible_candidates": null,
         "architectures": []
       },
       {
@@ -858,9 +919,13 @@
         "proposal_id": "PNN-v1-Proposal011",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T15:44:15.516378+00:00",
         "success_criteria_met": true,
+        "decision": "promote_alpha4_w16",
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "alpha3_w8",
@@ -870,7 +935,8 @@
             "mean_qant_accuracy": 0.852,
             "std_qant_accuracy": 0.016613247725836167,
             "mean_prediction_disagreements": 0.1,
-            "mean_absolute_logit_error": 0.02616795338690281
+            "mean_absolute_logit_error": 0.02616795338690281,
+            "aggregate_qant_correct": null
           },
           {
             "architecture": "w16_candidate",
@@ -880,7 +946,8 @@
             "mean_qant_accuracy": 0.893,
             "std_qant_accuracy": 0.014177446878757837,
             "mean_prediction_disagreements": 0.3,
-            "mean_absolute_logit_error": 0.03264079298824072
+            "mean_absolute_logit_error": 0.03264079298824072,
+            "aggregate_qant_correct": null
           }
         ]
       },
@@ -889,9 +956,13 @@
         "proposal_id": "PNN-v1-Proposal012",
         "completed": true,
         "dataset": "GunPoint",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T17:32:12.681973+00:00",
         "success_criteria_met": true,
+        "decision": null,
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "alpha4_transfer",
@@ -901,7 +972,8 @@
             "mean_qant_accuracy": 0.9493333333333333,
             "std_qant_accuracy": 0.012364824660660955,
             "mean_prediction_disagreements": 0.2,
-            "mean_absolute_logit_error": 0.03331241775304079
+            "mean_absolute_logit_error": 0.03331241775304079,
+            "aggregate_qant_correct": null
           }
         ]
       },
@@ -910,9 +982,17 @@
         "proposal_id": "PNN-v1-Proposal013",
         "completed": true,
         "dataset": "Multi-dataset transfer",
+        "datasets": [
+          "ItalyPowerDemand",
+          "SonyAIBORobotSurface1",
+          "TwoLeadECG"
+        ],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T17:45:05.574124+00:00",
         "success_criteria_met": false,
+        "decision": null,
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": []
       },
       {
@@ -920,9 +1000,13 @@
         "proposal_id": "PNN-v1-Proposal014",
         "completed": true,
         "dataset": "TwoLeadECG",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T17:56:57.888135+00:00",
         "success_criteria_met": true,
+        "decision": "margin_sensitivity_supported",
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": []
       },
       {
@@ -930,9 +1014,13 @@
         "proposal_id": "PNN-v1-Proposal015",
         "completed": true,
         "dataset": "TwoLeadECG",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T18:04:34.023421+00:00",
         "success_criteria_met": false,
+        "decision": "not_supported",
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "control",
@@ -942,7 +1030,8 @@
             "mean_qant_accuracy": 0.8298507462686567,
             "std_qant_accuracy": 0.02363596749663375,
             "mean_prediction_disagreements": 4.2,
-            "mean_absolute_logit_error": 0.020823519676923752
+            "mean_absolute_logit_error": 0.020823519676923752,
+            "aggregate_qant_correct": null
           },
           {
             "architecture": "margin_regularized",
@@ -952,7 +1041,8 @@
             "mean_qant_accuracy": 0.8310798946444249,
             "std_qant_accuracy": 0.021634978189559013,
             "mean_prediction_disagreements": 4.2,
-            "mean_absolute_logit_error": 0.02042516376823187
+            "mean_absolute_logit_error": 0.02042516376823187,
+            "aggregate_qant_correct": null
           }
         ]
       },
@@ -961,9 +1051,13 @@
         "proposal_id": "PNN-v1-Proposal016",
         "completed": true,
         "dataset": "TwoLeadECG",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T18:12:47.132524+00:00",
         "success_criteria_met": false,
+        "decision": "not_supported",
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": []
       },
       {
@@ -971,9 +1065,13 @@
         "proposal_id": "PNN-v1-Proposal017",
         "completed": true,
         "dataset": "TwoLeadECG",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T19:03:06.059299+00:00",
         "success_criteria_met": true,
+        "decision": "supported",
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "control",
@@ -983,7 +1081,8 @@
             "mean_qant_accuracy": 0.8298507462686567,
             "std_qant_accuracy": 0.02363596749663375,
             "mean_prediction_disagreements": 4.2,
-            "mean_absolute_logit_error": 0.020823519676923752
+            "mean_absolute_logit_error": 0.020823519676923752,
+            "aggregate_qant_correct": null
           },
           {
             "architecture": "redundant3",
@@ -993,7 +1092,8 @@
             "mean_qant_accuracy": 0.8384547848990342,
             "std_qant_accuracy": 0.01544815975271134,
             "mean_prediction_disagreements": 3.3,
-            "mean_absolute_logit_error": 0.014194451086223126
+            "mean_absolute_logit_error": 0.014194451086223126,
+            "aggregate_qant_correct": null
           }
         ]
       },
@@ -1002,9 +1102,13 @@
         "proposal_id": "PNN-v1-Proposal018",
         "completed": true,
         "dataset": "GunPoint",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T19:38:31.919261+00:00",
         "success_criteria_met": false,
+        "decision": "not_supported",
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "control",
@@ -1014,7 +1118,8 @@
             "mean_qant_accuracy": 0.9493333333333333,
             "std_qant_accuracy": 0.012364824660660955,
             "mean_prediction_disagreements": 0.2,
-            "mean_absolute_logit_error": 0.03331241775304079
+            "mean_absolute_logit_error": 0.03331241775304079,
+            "aggregate_qant_correct": null
           },
           {
             "architecture": "redundant3",
@@ -1024,7 +1129,8 @@
             "mean_qant_accuracy": 0.9546666666666667,
             "std_qant_accuracy": 0.010241527663824832,
             "mean_prediction_disagreements": 0.3,
-            "mean_absolute_logit_error": 0.02006006967276335
+            "mean_absolute_logit_error": 0.02006006967276335,
+            "aggregate_qant_correct": null
           }
         ]
       },
@@ -1033,9 +1139,13 @@
         "proposal_id": "PNN-v1-Proposal019",
         "completed": true,
         "dataset": "SonyAIBORobotSurface1",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T20:02:42.878867+00:00",
         "success_criteria_met": true,
+        "decision": "supported",
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "control",
@@ -1045,7 +1155,8 @@
             "mean_qant_accuracy": 0.6599001663893511,
             "std_qant_accuracy": 0.03598936661456447,
             "mean_prediction_disagreements": 1.5,
-            "mean_absolute_logit_error": 0.01643958343192935
+            "mean_absolute_logit_error": 0.01643958343192935,
+            "aggregate_qant_correct": null
           },
           {
             "architecture": "redundant3",
@@ -1055,7 +1166,8 @@
             "mean_qant_accuracy": 0.6597337770382696,
             "std_qant_accuracy": 0.02313051376781671,
             "mean_prediction_disagreements": 1.2,
-            "mean_absolute_logit_error": 0.011338623333722353
+            "mean_absolute_logit_error": 0.011338623333722353,
+            "aggregate_qant_correct": null
           }
         ]
       },
@@ -1064,9 +1176,13 @@
         "proposal_id": "PNN-v1-Proposal020",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T20:10:25.816952+00:00",
         "success_criteria_met": true,
+        "decision": "promote_alpha5",
+        "selected_candidate": null,
+        "eligible_candidates": null,
         "architectures": [
           {
             "architecture": "alpha4",
@@ -1076,7 +1192,8 @@
             "mean_qant_accuracy": 0.893,
             "std_qant_accuracy": 0.014177446878757837,
             "mean_prediction_disagreements": 0.3,
-            "mean_absolute_logit_error": 0.03264079298824072
+            "mean_absolute_logit_error": 0.03264079298824072,
+            "aggregate_qant_correct": 893
           },
           {
             "architecture": "alpha5_candidate",
@@ -1086,7 +1203,8 @@
             "mean_qant_accuracy": 0.897,
             "std_qant_accuracy": 0.02451530134426255,
             "mean_prediction_disagreements": 0.0,
-            "mean_absolute_logit_error": 0.020006656460464
+            "mean_absolute_logit_error": 0.020006656460464,
+            "aggregate_qant_correct": 897
           }
         ]
       },
@@ -1095,9 +1213,13 @@
         "proposal_id": "PNN-v1-Proposal021",
         "completed": true,
         "dataset": "ECG200",
+        "datasets": [],
         "backend": "qant-cpu/software-simulation",
         "timestamp_utc": "2026-09-25T20:23:06.255326+00:00",
         "success_criteria_met": false,
+        "decision": "retain_alpha5",
+        "selected_candidate": null,
+        "eligible_candidates": [],
         "architectures": [
           {
             "architecture": "alpha5_w8",
@@ -1107,7 +1229,8 @@
             "mean_qant_accuracy": 0.8869999999999999,
             "std_qant_accuracy": 0.016155494421403526,
             "mean_prediction_disagreements": 0.2,
-            "mean_absolute_logit_error": 0.014332753885537387
+            "mean_absolute_logit_error": 0.014332753885537387,
+            "aggregate_qant_correct": 887
           },
           {
             "architecture": "alpha5_w12",
@@ -1117,7 +1240,8 @@
             "mean_qant_accuracy": 0.884,
             "std_qant_accuracy": 0.021071307505705496,
             "mean_prediction_disagreements": 0.2,
-            "mean_absolute_logit_error": 0.0168985347263515
+            "mean_absolute_logit_error": 0.0168985347263515,
+            "aggregate_qant_correct": 884
           },
           {
             "architecture": "alpha5_w16_control",
@@ -1127,7 +1251,8 @@
             "mean_qant_accuracy": 0.897,
             "std_qant_accuracy": 0.02451530134426255,
             "mean_prediction_disagreements": 0.0,
-            "mean_absolute_logit_error": 0.020006656460464
+            "mean_absolute_logit_error": 0.020006656460464,
+            "aggregate_qant_correct": 897
           }
         ]
       }
