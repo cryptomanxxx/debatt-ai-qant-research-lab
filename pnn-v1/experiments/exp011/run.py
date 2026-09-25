@@ -41,8 +41,8 @@ def train(seed,spec):
  return m
 rows=[]
 for seed in SEEDS:
- for cid,kvals in CANDIDATES.items():
-  m=train(seed,kvals); vx=torch.from_numpy(Xte); m.eval()
+ for cid,spec in CANDIDATES.items():
+  m=train(seed,spec); vx=torch.from_numpy(Xte); m.eval()
   with torch.no_grad(): ref=m(vx).numpy()
   q=m.qant(vx); rp=ref.argmax(1); qp=q.argmax(1)
   rows.append({"seed":seed,"candidate_id":cid,"frequencies":[1,2],"parameter_count":nparams(m),"reference_accuracy":float((rp==yte).mean()),"qant_accuracy":float((qp==yte).mean()),"qant_correct_count":int((qp==yte).sum()),"prediction_disagreements":int((rp!=qp).sum()),"mean_absolute_logit_error":float(np.abs(q-ref).mean())})
