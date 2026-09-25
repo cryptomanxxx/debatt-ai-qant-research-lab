@@ -23,6 +23,8 @@ MAPPINGS={
    "pnn-v1-exp001","pnn-v1/experiments/exp001/run.py"),
  "pnn-v1-proposal002":(
    "pnn-v1-exp002","pnn-v1/experiments/exp002/run.py"),
+ "pnn-v1-proposal003":(
+   "pnn-v1-exp003","pnn-v1/experiments/exp003/run.py"),
  "proposal-001-replicate-expanding-topologies":(
    "exp006-multiseed-replication","experiments/006_multiseed_replication/run.py"),
  "proposal-002-expansion-ratio":(
