@@ -1,0 +1,54 @@
+{
+  "proposal_id": "pnn-v1-proposal004",
+  "id": "PNN-v1-Proposal004",
+  "experiment_id": "PNN-v1-Exp004",
+  "title": "Hierarchical cross-window mixing for PNN-v1",
+  "status": "proposed",
+  "approval_required": true,
+  "research_question": "Can a second low-fan-in Q.ANT Fourier/KAN stage improve ECG200 validation accuracy by learning interactions between neighboring temporal windows?",
+  "evidence_from_exp003": {
+    "alpha1_validation_qant_accuracy": 0.685,
+    "alpha1_validation_std": 0.050249378105604446,
+    "residual_head_validation_qant_accuracy": 0.68,
+    "residual_head_validation_std": 0.05567764362830022,
+    "residual_head_supported": false
+  },
+  "hypothesis": "Alpha1 loses useful temporal information because its 12 local 8->4 blocks remain independent until the final global classifier. A second Q.ANT-native low-fan-in mixing stage over neighboring window representations can improve task performance while retaining a hierarchical photonic-native structure.",
+  "frozen_candidates": [
+    "alpha1 control: 12 local 8->4 blocks, concatenate 48, Fourier/KAN 48->2 head",
+    "alpha2 hierarchical mixer: 12 local 8->4 blocks; pair adjacent 4+4 features into 6 Fourier/KAN 8->4 mixer blocks; concatenate 24; Fourier/KAN 24->2 head"
+  ],
+  "data_protocol": {
+    "dataset": "ECG200",
+    "canonical_train_samples": 100,
+    "canonical_test_samples": 100,
+    "selection_rule": "Reuse the exact deterministic stratified TRAIN/validation boundary from Exp003. Compare only the two frozen candidates across the same fixed seeds. Freeze the selected architecture before canonical TEST evaluation.",
+    "test_boundary": "Canonical TEST must not influence architecture selection."
+  },
+  "design_constraints": [
+    "Keep the first-stage 12 local 8->4 Fourier/KAN blocks unchanged.",
+    "Keep k=[1,2,3,4].",
+    "Use raw ECG200 values.",
+    "Change exactly one architectural concept: add a neighboring-window Q.ANT-native mixing stage.",
+    "No linear residual bypass.",
+    "Keep total parameter count below 6,000.",
+    "Report reference and Q.ANT evaluation separately."
+  ],
+  "primary_metric": "Validation mean Q.ANT accuracy across the 10 fixed seeds, with standard deviation reported alongside it.",
+  "secondary_metrics": [
+    "canonical TEST accuracy after selection is frozen",
+    "parameter count",
+    "reference-vs-Q.ANT prediction disagreements",
+    "mean absolute logit error"
+  ],
+  "success_criteria": "Alpha2 hierarchical mixer must have higher mean validation Q.ANT accuracy than alpha1 and validation Q.ANT accuracy standard deviation no more than 0.01 absolute above alpha1.",
+  "requested_budget": {
+    "max_parameters": 6000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "hardware_boundary": "Software/simulation-backend experiment only; no real photonic hardware performance claim.",
+  "next_gate": "Implement and review PNN-v1 Exp004, then add it to the guarded approval allowlist."
+}
