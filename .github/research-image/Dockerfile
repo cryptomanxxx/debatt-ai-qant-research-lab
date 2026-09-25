@@ -5,8 +5,13 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LIBCLANG_PATH=/usr/lib/llvm-18/lib
 
 RUN apt-get update \
- && apt-get install -y --no-install-recommends git curl clang libclang-dev build-essential ca-certificates cargo rustc \
+ && apt-get install -y --no-install-recommends git curl clang libclang-dev build-essential ca-certificates \
  && rm -rf /var/lib/apt/lists/*
+
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.93.0
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+RUN rustc --version && cargo --version
 
 RUN python -m pip install --upgrade pip \
  && python -m pip install --index-url https://download.pytorch.org/whl/cpu torch \
