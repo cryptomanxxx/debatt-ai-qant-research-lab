@@ -37,5 +37,14 @@
   ],
   "success_interpretation": "Exp001 establishes whether the first PNN-v1 candidate can solve a real public time-series benchmark and provides a baseline for later architecture search. It is not designed to claim superiority from a single small dataset.",
   "hardware_boundary": "Q.ANT software/simulation-backend results are compatibility/model results, not measurements of real photonic latency, throughput, energy use, or hardware noise.",
-  "next_gate": "Human review/approval before implementing and running PNN-v1 Exp001."
+  "next_gate": "Human review/approval before implementing and running PNN-v1 Exp001.",
+  "proposal_id": "pnn-v1-proposal001",
+  "approval_required": true,
+  "requested_budget": {
+    "max_parameters": 100000,
+    "max_candidates": 6,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  }
 }
