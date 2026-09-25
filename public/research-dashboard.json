@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at_utc": "2026-09-25T15:44:16.640138+00:00",
+  "generated_at_utc": "2026-09-25T17:32:13.848102+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -635,8 +635,8 @@
     "name": "Debatt-AI Photonic Neural Network v1",
     "phase": "development",
     "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
-    "completed_experiments": 11,
-    "latest_completed_experiment": "PNN-v1-Exp011",
+    "completed_experiments": 12,
+    "latest_completed_experiment": "PNN-v1-Exp012",
     "experiments": [
       {
         "id": "PNN-v1-Exp001",
@@ -881,6 +881,27 @@
             "std_qant_accuracy": 0.014177446878757837,
             "mean_prediction_disagreements": 0.3,
             "mean_absolute_logit_error": 0.03264079298824072
+          }
+        ]
+      },
+      {
+        "id": "PNN-v1-Exp012",
+        "proposal_id": "PNN-v1-Proposal012",
+        "completed": true,
+        "dataset": "GunPoint",
+        "backend": "qant-cpu/software-simulation",
+        "timestamp_utc": "2026-09-25T17:32:12.681973+00:00",
+        "success_criteria_met": true,
+        "architectures": [
+          {
+            "architecture": "alpha4_transfer",
+            "parameters": 10514,
+            "mean_reference_accuracy": 0.9493333333333333,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.9493333333333333,
+            "std_qant_accuracy": 0.012364824660660955,
+            "mean_prediction_disagreements": 0.2,
+            "mean_absolute_logit_error": 0.03331241775304079
           }
         ]
       }

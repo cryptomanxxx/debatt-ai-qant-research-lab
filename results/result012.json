@@ -1,0 +1,226 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "PNN-v1-Proposal012",
+  "experiment_id": "PNN-v1-Exp012",
+  "timestamp_utc": "2026-09-25T17:32:12.681973+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "GunPoint",
+    "train_shape": [
+      50,
+      144
+    ],
+    "test_shape": [
+      150,
+      144
+    ],
+    "split": "canonical TRAIN/TEST"
+  },
+  "configuration": {
+    "seeds": [
+      11,
+      22,
+      33,
+      44,
+      55,
+      66,
+      77,
+      88,
+      99,
+      111
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "preprocessing": "raw archive values",
+    "candidates": {
+      "alpha4_transfer": [
+        9,
+        16,
+        16
+      ]
+    },
+    "frequencies": [
+      1,
+      2
+    ],
+    "selection": "none; frozen full-TRAIN confirmation"
+  },
+  "results": [
+    {
+      "seed": 11,
+      "candidate_id": "alpha4_transfer",
+      "frequencies": [
+        1,
+        2
+      ],
+      "parameter_count": 10514,
+      "reference_accuracy": 0.94,
+      "qant_accuracy": 0.94,
+      "qant_correct_count": 141,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03183148428797722
+    },
+    {
+      "seed": 22,
+      "candidate_id": "alpha4_transfer",
+      "frequencies": [
+        1,
+        2
+      ],
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9466666666666667,
+      "qant_accuracy": 0.9466666666666667,
+      "qant_correct_count": 142,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03694465011358261
+    },
+    {
+      "seed": 33,
+      "candidate_id": "alpha4_transfer",
+      "frequencies": [
+        1,
+        2
+      ],
+      "parameter_count": 10514,
+      "reference_accuracy": 0.96,
+      "qant_accuracy": 0.96,
+      "qant_correct_count": 144,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03166331723332405
+    },
+    {
+      "seed": 44,
+      "candidate_id": "alpha4_transfer",
+      "frequencies": [
+        1,
+        2
+      ],
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9533333333333334,
+      "qant_accuracy": 0.9466666666666667,
+      "qant_correct_count": 142,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03833949193358421
+    },
+    {
+      "seed": 55,
+      "candidate_id": "alpha4_transfer",
+      "frequencies": [
+        1,
+        2
+      ],
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9666666666666667,
+      "qant_accuracy": 0.9733333333333334,
+      "qant_correct_count": 146,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.03368339687585831
+    },
+    {
+      "seed": 66,
+      "candidate_id": "alpha4_transfer",
+      "frequencies": [
+        1,
+        2
+      ],
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9266666666666666,
+      "qant_accuracy": 0.9266666666666666,
+      "qant_correct_count": 139,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.031657055020332336
+    },
+    {
+      "seed": 77,
+      "candidate_id": "alpha4_transfer",
+      "frequencies": [
+        1,
+        2
+      ],
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9533333333333334,
+      "qant_accuracy": 0.9533333333333334,
+      "qant_correct_count": 143,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03063536249101162
+    },
+    {
+      "seed": 88,
+      "candidate_id": "alpha4_transfer",
+      "frequencies": [
+        1,
+        2
+      ],
+      "parameter_count": 10514,
+      "reference_accuracy": 0.9466666666666667,
+      "qant_accuracy": 0.9466666666666667,
+      "qant_correct_count": 142,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.033594246953725815
+    },
+    {
+      "seed": 99,
+      "candidate_id": "alpha4_transfer",
+      "frequencies": [
+        1,
+        2
+      ],
+      "parameter_count": 10514,
+      "reference_accuracy": 0.94,
+      "qant_accuracy": 0.94,
+      "qant_correct_count": 141,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.03344404697418213
+    },
+    {
+      "seed": 111,
+      "candidate_id": "alpha4_transfer",
+      "frequencies": [
+        1,
+        2
+      ],
+      "parameter_count": 10514,
+      "reference_accuracy": 0.96,
+      "qant_accuracy": 0.96,
+      "qant_correct_count": 144,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.031331125646829605
+    }
+  ],
+  "summary": {
+    "alpha4_transfer": {
+      "geometry": [
+        9,
+        16,
+        16
+      ],
+      "frequencies": [
+        1,
+        2
+      ],
+      "parameter_count": 10514,
+      "mean_reference_accuracy": 0.9493333333333333,
+      "mean_qant_accuracy": 0.9493333333333333,
+      "std_qant_accuracy": 0.012364824660660955,
+      "total_qant_correct_count": 1424,
+      "mean_prediction_disagreements": 0.2,
+      "mean_absolute_logit_error": 0.03331241775304079
+    }
+  },
+  "mlp_calibration": {
+    "parameter_count": 11426,
+    "mean_accuracy": 0.9253333333333333,
+    "std_accuracy": 0.010241527663824794
+  },
+  "success_criteria_met": true,
+  "transfer_decision": "supported",
+  "environment": {
+    "python": "3.13.15",
+    "torch": "2.14.0+cu130",
+    "numpy": "2.3.5",
+    "aeon": "1.6.0"
+  },
+  "notes": "Frozen Alpha4 transfer test on GunPoint. Deterministic center crop 150\u2192144. TEST does not tune or select architecture/hyperparameters. MLP is calibration only. Software/simulation backend only."
+}
