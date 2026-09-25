@@ -33,8 +33,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
+      - name: Cache Q.ANT CPU wheel
+        id: qant-cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/qant-wheel
+          key: qant-cpu-wheel-${{ runner.os }}-py313-sdk231-v1
       - name: Install Q.ANT CPU backend
+        env:
+          QANT_WHEEL_CACHE_DIR: ${{ github.workspace }}/.cache/qant-wheel
         run: bash scripts/setup_qant_cpu.sh
+      - name: Cache Python packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-py313-torch-numpy-ml-dtypes-aeon-v1
+          restore-keys: |
+            pip-${{ runner.os }}-py313-
       - name: Install experiment dependencies
         run: |
           python -m pip install --upgrade pip
