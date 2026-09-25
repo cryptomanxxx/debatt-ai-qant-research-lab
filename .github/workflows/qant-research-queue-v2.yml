@@ -1,13 +1,6 @@
 name: Q.ANT Guarded Research Queue
 
 on:
-  workflow_dispatch:
-    inputs:
-      job_id:
-        description: "Approved research job ID"
-        required: true
-        default: "smoke-test-v2"
-        type: string
   workflow_call:
     inputs:
       job_id:
