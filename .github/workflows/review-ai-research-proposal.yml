@@ -79,7 +79,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           AUTOMATION_GIT_NAME: "Debatt-AI Human Review"
-        run: python scripts/publish_via_pr.py "Record human research decision: ${{ github.event.inputs.decision }}" research_queue/human_review/
+          REVIEW_DECISION: ${{ github.event.inputs.decision }}
+        run: |
+          python scripts/publish_via_pr.py "Record human research decision: $REVIEW_DECISION" research_queue/human_review/
       - name: Rejection recorded
         if: ${{ github.event.inputs.decision == 'reject' }}
         id: rejection
