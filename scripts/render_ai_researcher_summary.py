@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 DRAFT = Path("research_queue/ai_researcher/latest.json")
+COMPILED = Path("research_queue/compiled/latest.json")
 
 def fmt(value):
     if isinstance(value, list):
@@ -60,9 +61,24 @@ def main():
     data = json.loads(DRAFT.read_text())
     proposal = data["proposal"]
     budget = proposal["requested_budget"]
+    review = json.loads(COMPILED.read_text()) if COMPILED.exists() else {}
+    checks = review.get("automated_checks", [])
+    checks_md = "\n".join(f"- {chr(9989) if c.get('status') == 'passed' else chr(10060)} **{c.get('check', 'Check')}**" for c in checks) or "- No automated review record available."
     summary = f"""# AI Researcher v2 — Research Proposal
 
 **Model:** {data.get("model", "openai/gpt-oss-120b")}
+
+## Human review
+
+**What you need to decide:** whether this research direction is worth using the requested compute budget on. You are **not** being asked to verify the mathematics, seed arithmetic, Q.ANT implementation, or experiment-code safety yourself.
+
+**Automated review status:** {review.get("approval_readiness", "UNKNOWN")}
+
+{checks_md}
+
+> Passing these checks does **not** prove that the hypothesis or methodology is scientifically correct. It means only that the automated checks shown above passed.
+
+**Compiler note:** {review.get("message", "No compiler note available.")}
 
 ## Evidence frontier
 {render_evidence(data.get("evidence_frontier", ""))}
@@ -93,7 +109,7 @@ def main():
 {fmt(proposal.get("risks", ""))}
 
 ---
-**Status: Awaiting human approval before Q.ANT compute.**
+**Status:** {review.get("human_decision", "Awaiting review.")}
 """
     Path(os.environ["GITHUB_STEP_SUMMARY"]).write_text(summary)
 
