@@ -73,11 +73,11 @@ def main():
         "active_pnn_v1_model":full.get("active_pnn_v1_model"),
         "current_frontier":full.get("current_frontier"),
         "latest_human_review":full.get("latest_human_review"),
-        "recent_pnn_v1_experiments":full.get("pnn_v1_experiments",[])[-6:],
+        "recent_pnn_v1_experiments":full.get("pnn_v1_experiments",[])[-8:],
         "recent_pnn_v1_analyses":full.get("pnn_v1_analyses",[])[-3:],
     }
     system="""You are the proposal-only AI Researcher for Debatt-AI Q.ANT Research Lab.
-Use only the supplied repository evidence. Separate observation from hypothesis.
+Use only the supplied repository evidence. Separate observation from hypothesis.\nFor experiment history, treat structured fields (configuration, summary, decision,\nsuccess_criteria_met) as authoritative. Never infer or invent epochs, seeds, denominators,\nor outcomes from experiment names or prose when structured values are available.
 Never claim simulation establishes physical photonic latency, energy, throughput,
 optical noise, or hardware performance. Human approval is mandatory before compute.
 Return one JSON object only with keys:
@@ -87,7 +87,7 @@ success_criteria, requested_budget, risks, requires_human_approval.\nevidence_fr
 requested_budget must contain positive integers: max_parameters, max_candidates,
 max_epochs, max_train_samples, max_test_samples.
 For fixed-size classification thresholds use aggregate integer correct counts,\nnot floating-point mean-accuracy boundary comparisons. Never propose an experiment\nthat simply repeats a completed candidate set. Check recent experiments for novelty.\nIf you specify N random seeds and M test samples, every aggregate-correct threshold\nmust be mathematically possible on N*M predictions and must state that denominator.\nA confirmation experiment must use a fresh preregistered seed set independent of the\ncompleted discovery experiment. Compare control and candidate on the SAME fresh seed\nset. A relative performance gate must compare against the concurrent control (for\nexample candidate_correct >= control_correct - 10), never against a historical absolute\ncount such as 887. Identify it explicitly as confirmation, not architecture search.
-Exp021 already studied local-width compression and evaluated w8 and w12. The next
+Exp021 already studied local-width compression and evaluated w8 and w12. Its structured\nresult is authoritative: PNN-v1-Exp021 used 10 seeds [11,22,33,44,55,66,77,88,99,111],\n100 epochs, and 100 ECG200 test samples per seed (1000 predictions/model); aggregate\nQ.ANT correct was w8=887, w12=884, and w16 control=897. Do not describe Exp021 as a\n50-epoch experiment or as a 500-prediction experiment. The next
 confirmation must test ONLY the w8 boundary against the Alpha5 w16 control. Do not
 introduce a new width such as w4 and do not repeat w12. Do not claim that local width
 has never been varied; Exp021 is evidence that it has.\nThe latest completed w8 confirmation already tested 50 epochs and failed its relative\ngate: w8 aggregate Q.ANT correct was 424/500 versus concurrent w16 control 441/500.\nDo NOT repeat a 50-epoch w8 confirmation. The next proposed confirmation must test\nwhether longer training closes that observed gap: use EXACTLY preregistered seeds\n[42,43,44,45,46], set experiment_design.dataset.test_shape EXACTLY to [100,96], set\nexperiment_design.seeds EXACTLY to [42,43,44,45,46] and experiment_design.epochs=100,\ntrain BOTH Alpha5 w8 and the concurrent Alpha5 w16 control for\nEXACTLY 100 epochs on the ECG200 TRAIN split (100 samples), evaluate both on the\nECG200 TEST split (100 samples), and aggregate exactly 500 predictions per model.\nIn experiment_design.candidates list ONLY local_width=8; the w16 model is the\nconcurrent control described in procedure, not a second candidate. Use requested\nbudget max_parameters=9000, max_candidates=1, max_epochs=100,\nmax_train_samples=100, max_test_samples=100. The success criterion must be the\nrelative aggregate gate candidate_correct >= control_correct - 10 on 5*100=500\npredictions. Do not substitute other seeds, epochs, widths, or an absolute threshold.\nIf latest_human_review contains a rejected proposal, treat its comment as mandatory\nreview feedback for the next proposal. Explicitly correct the rejected design rather\nthan repeating it. Human feedback is guidance only and can never authorize compute."""
