@@ -9,8 +9,13 @@ import aeon
 import qant_native_computing_toolkit.ai as q_ai
 from ml_dtypes import bfloat16
 
-SEEDS=[101,102,103,104,105]; EPOCHS=100; LR=1e-3; K=[1,2]
-CANDIDATES={"alpha5_w12":(12,3),"alpha5_w16_control":(16,3)}
+CONFIG_PATH=Path(__import__("os").environ["QANT_JOB_CONFIG"])
+JOB=json.loads(CONFIG_PATH.read_text())
+CFG=JOB["engine_config"]
+SEEDS=CFG["seeds"]; EPOCHS=CFG["epochs"]; LR=1e-3; K=[1,2]
+CANDIDATE_WIDTH=CFG["candidate_local_width"]; CONTROL_WIDTH=CFG["control_local_width"]
+CANDIDATE_ID=f"alpha5_w{CANDIDATE_WIDTH}"; CONTROL_ID=f"alpha5_w{CONTROL_WIDTH}_control"
+CANDIDATES={CANDIDATE_ID:(CANDIDATE_WIDTH,3),CONTROL_ID:(CONTROL_WIDTH,3)}
 
 def as2d(X):
  x=np.asarray(X,dtype=np.float32)
@@ -66,9 +71,9 @@ summary={}
 for cid in CANDIDATES:
  rr=[r for r in rows if r["candidate"]==cid]
  summary[cid]={"parameter_count":rr[0]["parameter_count"],"mean_reference_accuracy":float(np.mean([r["reference_accuracy"] for r in rr])),"mean_qant_accuracy":float(np.mean([r["qant_accuracy"] for r in rr])),"std_qant_accuracy":float(np.std([r["qant_accuracy"] for r in rr])),"mean_prediction_disagreements":float(np.mean([r["prediction_disagreements"] for r in rr])),"mean_absolute_logit_error":float(np.mean([r["mean_absolute_logit_error"] for r in rr])),"aggregate_qant_correct":sum(int(round(r["qant_accuracy"]*len(yte))) for r in rr)}
-control=summary["alpha5_w16_control"]
-candidate=summary["alpha5_w12"]
-gate_margin=10
+control=summary[CONTROL_ID]
+candidate=summary[CANDIDATE_ID]
+gate_margin=CFG["gate_margin_correct"]
 confirmed=candidate["aggregate_qant_correct"] >= control["aggregate_qant_correct"]-gate_margin
 payload={"schema_version":1,"project":"Debatt-AI Photonic Neural Network v1","proposal_id":JOB["job_id"],"experiment_id":f"PNN-v1-Engine-{CANDIDATE_ID}-{EPOCHS}Epoch","timestamp_utc":datetime.now(timezone.utc).isoformat(),"backend":"qant-cpu/software-simulation","dataset":{"name":"ECG200","train_shape":list(Xtr.shape),"test_shape":list(Xte.shape)},"configuration":{"seeds":SEEDS,"epochs":EPOCHS,"learning_rate":LR,"batch_size":32,"frequencies":K,"candidates":CANDIDATES,"preregistered_gate":JOB["gate"]},"rows":rows,"summary":summary,"success_criteria_met":confirmed,"decision":"local_width_confirmation_passed" if confirmed else "local_width_confirmation_failed","notes":"PNN Experiment Engine v1. Reviewed parameterized local-width confirmation family; same preregistered seeds for candidate and concurrent control. Software/simulation backend only."}
 Path("pnn-v1/results").mkdir(parents=True,exist_ok=True)
