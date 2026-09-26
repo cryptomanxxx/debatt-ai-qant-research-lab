@@ -3,6 +3,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+  pull-requests: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,11 +13,8 @@ jobs:
         with:
           python-version: "3.13"
       - run: python scripts/build_research_context.py
-      - name: Publish context
-        run: |
-          git config user.name "Debatt-AI Research Lab"
-          git config user.email "actions@users.noreply.github.com"
-          git add research_queue/context/latest.json
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m "Build AI Researcher evidence context"
-          git push
+      - name: Publish context via PR
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          AUTOMATION_GIT_NAME: "Debatt-AI Research Lab"
+        run: python scripts/publish_via_pr.py "Build AI Researcher evidence context" research_queue/context/latest.json
