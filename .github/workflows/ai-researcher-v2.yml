@@ -45,7 +45,9 @@ jobs:
           git push
 
   approval:
-    name: "2 - Human Approval"
+    # This Environment gate is compute authorization only. Scientific review and
+    # feedback are recorded by review-ai-research-proposal.yml.
+    name: "2 - Compute Authorization"
     needs: researcher
     runs-on: ubuntu-latest
     environment:
@@ -53,7 +55,7 @@ jobs:
     steps:
       - name: Approval received
         run: |
-          echo "Human approval received."
+          echo "Human compute authorization received."
 
   prepare-qant:
     name: "3 - Prepare Guarded Q.ANT Job"
