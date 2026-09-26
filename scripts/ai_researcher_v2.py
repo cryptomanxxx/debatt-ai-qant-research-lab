@@ -18,11 +18,11 @@ def groq(messages):
             "requested_budget":{"type":"object","properties":{
                 "max_parameters":{"type":"integer","minimum":1},"max_candidates":{"type":"integer","minimum":1},
                 "max_epochs":{"type":"integer","minimum":1},"max_train_samples":{"type":"integer","minimum":1},"max_test_samples":{"type":"integer","minimum":1}},
-                "required":["max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"],"additionalProperties":false},
-            "risks":{},"requires_human_approval":{"type":"boolean","const":true}},
+                "required":["max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"],"additionalProperties":False},
+            "risks":{},"requires_human_approval":{"type":"boolean","const":True}},
             "required":["title","research_question","rationale","experiment_design","success_criteria","requested_budget","risks","requires_human_approval"],
-            "additionalProperties":false}},
-        "required":["researcher","model","evidence_frontier","analysis","hypothesis","proposal"],"additionalProperties":false}
+            "additionalProperties":False}},
+        "required":["researcher","model","evidence_frontier","analysis","hypothesis","proposal"],"additionalProperties":False}
     payload={"model":MODEL,"messages":messages,"temperature":0,"max_completion_tokens":3000,
              "response_format":{"type":"json_schema","json_schema":{"name":"ai_researcher_proposal","strict":True,"schema":schema}}}
     for attempt in range(3):
