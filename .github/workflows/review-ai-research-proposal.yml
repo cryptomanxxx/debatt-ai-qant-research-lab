@@ -103,30 +103,6 @@ jobs:
           print("Automatic revision allowed:",allowed)
           print("Bound proposal workflow run:",proposal_run_id)
           PY
-      - name: Cancel rejected proposal workflow
-        if: inputs.decision == 'reject'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PROPOSAL_RUN_ID: ${{ steps.rejection.outputs.proposal_run_id }}
-        run: |
-          gh api --method POST "repos/${{ github.repository }}/actions/runs/$PROPOSAL_RUN_ID/cancel"
-          echo "Cancelled rejected AI Researcher run $PROPOSAL_RUN_ID."
-      - name: Wait for rejected run to release concurrency
-        if: inputs.decision == 'reject' && steps.rejection.outputs.auto_revision == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          PROPOSAL_RUN_ID: ${{ steps.rejection.outputs.proposal_run_id }}
-        run: |
-          for i in {1..30}; do
-            status="$(gh api "repos/${{ github.repository }}/actions/runs/$PROPOSAL_RUN_ID" --jq .status)"
-            echo "Rejected run status: $status"
-            if [ "$status" = "completed" ]; then
-              exit 0
-            fi
-            sleep 2
-          done
-          echo "Rejected run did not complete cancellation in time."
-          exit 1
       - name: Start one automatic revision
         if: inputs.decision == 'reject' && steps.rejection.outputs.auto_revision == 'true'
         env:
@@ -140,9 +116,21 @@ jobs:
         run: |
           echo "No new proposal started automatically."
           echo "The current proposal was already the automatic revision; a new cycle requires a manual AI Researcher v2 run."
-      - name: Scientific approval recorded
+      - name: Verify proposal is executable before compute authorization
         if: inputs.decision == 'approve'
         run: |
-          echo "Scientific review approved."
-          echo "This does NOT authorize compute."
-          echo "Compute still requires the separate qant-research-approval Environment gate."
+          python - <<'PY'
+          import json
+          d=json.load(open("research_queue/compiled/latest.json"))
+          if d.get("status")!="validated_executable_template" or d.get("approval_readiness")!="READY_FOR_HUMAN_COMPUTE_DECISION":
+              raise SystemExit("Scientific approval recorded, but compiler has not cleared this proposal for compute.")
+          print("Compiler cleared proposal for human compute authorization.")
+          PY
+      - name: Request separate compute authorization
+        if: inputs.decision == 'approve'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST repos/${{ github.repository }}/dispatches \
+            -f event_type=scientifically_approved_compute
+          echo "Scientific review approved. Separate Compute Authorization requested."
