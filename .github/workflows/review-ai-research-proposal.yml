@@ -14,6 +14,10 @@ on:
         description: "Scientific review feedback (AI Researcher reads this on the next iteration)"
         required: true
         type: string
+      expected_proposal_sha256:
+        description: "SHA-256 shown for the proposal being reviewed"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -34,6 +38,7 @@ jobs:
           COMMENT: ${{ github.event.inputs.comment }}
           ACTOR: ${{ github.actor }}
           RUN_ID: ${{ github.run_id }}
+          EXPECTED_PROPOSAL_SHA256: ${{ github.event.inputs.expected_proposal_sha256 }}
         run: |
           python - <<'PY'
           import hashlib, json, os
@@ -46,6 +51,12 @@ jobs:
               raise SystemExit("No AI Researcher proposal exists")
 
           raw=proposal_path.read_bytes()
+          actual_sha=hashlib.sha256(raw).hexdigest()
+          expected_sha=os.environ["EXPECTED_PROPOSAL_SHA256"].strip().lower()
+          if len(expected_sha)!=64 or any(ch not in "0123456789abcdef" for ch in expected_sha):
+              raise SystemExit("Invalid expected_proposal_sha256; refusing review")
+          if actual_sha!=expected_sha:
+              raise SystemExit("Proposal changed before review was recorded; refusing to attach feedback to a different proposal")
           p=json.loads(raw)
           cycle_path=Path("research_queue/cycle/latest.json")
           cycle=json.loads(cycle_path.read_text()) if cycle_path.exists() else {}
@@ -54,7 +65,7 @@ jobs:
           out={
               "proposal_title":p["proposal"]["title"],
               "proposal_status_at_review":p["status"],
-              "proposal_sha256":hashlib.sha256(raw).hexdigest(),
+              "proposal_sha256":actual_sha,
               "reviewed_proposal":p,
               "compiler_status":compiled.get("status") if compiled else None,
               "approval_readiness":compiled.get("approval_readiness") if compiled else None,
