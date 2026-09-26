@@ -1,0 +1,37 @@
+{
+  "job_id": "ai-local-width-w13-100epoch-301-302-303-304-305",
+  "status": "approved",
+  "experiment": "pnn-v1/experiments/local_width_confirmation/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved AI Researcher experiment using PNN Experiment Engine v1",
+  "budget": {
+    "max_parameters": 9000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "source_compilation": "research_queue/compiled/latest.json",
+  "preregistered_seeds": [
+    301,
+    302,
+    303,
+    304,
+    305
+  ],
+  "gate": "alpha5_w13.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
+  "engine_family": "pnn-local-width-confirmation-v1",
+  "engine_config": {
+    "candidate_local_width": 13,
+    "control_local_width": 16,
+    "seeds": [
+      301,
+      302,
+      303,
+      304,
+      305
+    ],
+    "epochs": 100,
+    "gate_margin_correct": 10
+  }
+}
