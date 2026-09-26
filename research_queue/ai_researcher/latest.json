@@ -1,16 +1,13 @@
 {
   "researcher": "AI Researcher v2",
   "model": "openai/gpt-oss-120b",
-  "evidence_frontier": {
-    "observation": "Exp021 evaluated two compressed variants of Alpha5 on ECG200: w8 (4,278 parameters) achieved 887 aggregate Q.ANT correct predictions out of 1000, while the w16 control achieved 897 correct. The w8 candidate was 10 predictions worse than control, meeting the preregistered retain_alpha5 gate but not exceeding it.",
-    "hypothesis": "A narrower local representation (w8) can consistently reproduce performance within ten correct predictions of the w16 control when evaluated on an independent seed set."
-  },
-  "analysis": "The prior discovery (Exp021) used a single seed set and reported a 10‑prediction gap between w8 and w16. To confirm reproducibility we must test the same w8 boundary on a fresh, preregistered seed set and compare directly against the unchanged w16 control on that same data. The integer‑count gate avoids floating‑point averaging and aligns with the next preregistered question.",
-  "hypothesis": "When evaluated on a fresh seed set, the w8 compression will achieve aggregate Q.ANT correct predictions no more than ten fewer than the w16 control on ECG200.",
+  "evidence_frontier": "Exp021 (PNN‑v1‑Exp021) evaluated a 4,278‑parameter w8 compression of Alpha5 on ECG200 and observed 887 aggregate Q.ANT correct predictions out of 1000, exactly 10 fewer than the Alpha5 w16 control (897 correct). This candidate failed the retention gate but defines a clear performance boundary for the w8 compression. No other experiments have tested the w8‑vs‑w16 comparison on a fresh seed set.",
+  "analysis": "Exp021 demonstrated that w8 compression reduces correct predictions by 10 relative to the w16 control on a single seed configuration. Because the gate was relative (candidate_correct >= control_correct - 10), the result sits exactly at the boundary, leaving open whether this difference is reproducible across independent seeds. A confirmation experiment with a preregistered seed set is required to validate the w8 boundary before any further compression attempts.",
+  "hypothesis": "When evaluated on five independent preregistered seeds, the w8‑compressed Alpha5 will achieve aggregate correct predictions no more than 10 fewer than the w16 control on ECG200, satisfying the relative gate candidate_correct ≥ control_correct − 10.",
   "proposal": {
     "title": "Confirmation of w8 Local‑Width Boundary on ECG200",
-    "research_question": "Does the w8 local‑width compression retain performance within ten correct predictions of the Alpha5 w16 control on a fresh seed set?",
-    "rationale": "Exp021 showed a marginal 10‑prediction deficit for w8 versus w16 on a single seed set. Confirming this boundary with an independent seed set is essential before considering further width reductions, ensuring that the observed gap is not a stochastic artifact.",
+    "research_question": "Is the w8 compression performance boundary (≤ 10 fewer correct predictions than w16) reproducible on a fresh set of seeds?",
+    "rationale": "Exp021 identified the w8 boundary but used a single seed configuration. Confirming this boundary with independent seeds validates the robustness of the w8 compression limit and informs future size‑reduction strategies for Alpha5.",
     "experiment_design": {
       "dataset": {
         "name": "ECG200",
@@ -22,34 +19,25 @@
       "candidates": [
         {
           "local_width": 8
-        },
-        {
-          "local_width": 16
         }
       ],
       "procedure": [
-        "Generate a fresh preregistered set of N random seeds (e.g., N=5) distinct from those used in Exp021.",
-        "For each seed, train the Alpha5 architecture with the specified local_width (8 or 16) on the ECG200 training split (100 samples).",
-        "Evaluate each trained model on the ECG200 test split (100 samples) and record the number of correct Q.ANT predictions per seed.",
-        "Aggregate correct counts across all seeds for each width to obtain total_correct_w8 and total_correct_w16.",
-        "Compare totals using the integer‑count gate: total_correct_w8 ≥ total_correct_w16 − 10."
+        "Initialize five preregistered seeds: 121, 131, 141, 151, 161",
+        "For each seed, train the candidate model with local_width = 8 for 50 epochs on the ECG200 training set",
+        "For each seed, evaluate both the candidate (w8) and the control (Alpha5 w16) on the ECG200 test set",
+        "Record aggregate correct predictions for candidate and control per seed",
+        "Accept the experiment if, for each seed, candidate_correct ≥ control_correct − 10"
       ]
     },
-    "success_criteria": {
-      "gate": "candidate_correct >= control_correct - 10",
-      "description": "The w8 candidate must achieve at least total_correct_w16 minus ten correct predictions on the combined fresh seed set."
-    },
+    "success_criteria": "For every of the five seeds, the candidate w8 model must achieve aggregate correct predictions that are at most 10 fewer than the w16 control (candidate_correct ≥ control_correct − 10).",
     "requested_budget": {
       "max_parameters": 9000,
-      "max_candidates": 2,
-      "max_epochs": 1,
+      "max_candidates": 1,
+      "max_epochs": 50,
       "max_train_samples": 100,
       "max_test_samples": 100
     },
-    "risks": {
-      "computational_variability": "Training on a small ECG200 dataset may exhibit high variance; using multiple seeds mitigates this but does not eliminate stochastic effects.",
-      "overfitting": "With limited training data, the w8 model could overfit to particular seeds, inflating performance; careful seed selection and aggregation are required."
-    },
+    "risks": "Potential risk that w8 fails the gate on one or more seeds, leading to a negative result and requiring a redesign of compression strategy. No hardware‑level claims are made; all measurements rely on Q.ANT CPU/software simulation.",
     "requires_human_approval": true
   },
   "status": "draft_requires_human_review"
