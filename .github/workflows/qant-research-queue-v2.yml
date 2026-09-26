@@ -71,6 +71,11 @@ jobs:
         run: |
           python -m compileall -q pnn-v1/experiments
           python -m py_compile scripts/run_research_job_v2.py scripts/approve_proposal.py
+      - name: Snapshot PNN results before execution
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/pnn-results-before"
+          cp -a pnn-v1/results/. "$RUNNER_TEMP/pnn-results-before/" 2>/dev/null || true
       - name: Validate and run approved job
         run: python scripts/run_research_job_v2.py "${{ steps.resolve.outputs.job_id }}"
       - name: Write execution record
@@ -93,16 +98,23 @@ jobs:
         run: |
           shopt -s nullglob
           result_files=(local_results/*.json local_results/*.csv)
-          pnn_result_files=(pnn-v1/results/*.json pnn-v1/results/*.csv)
           execution_files=(local_results/executions/*)
 
           # Preserve outputs from the pinned execution outside the Git worktree.
-          # Publication is then rebuilt from a coherent, current main checkout.
+          # Only PNN files created or changed by this run are carried forward;
+          # unchanged files from an older pinned checkout must never overwrite main.
           publish_tmp="$(mktemp -d)"
           mkdir -p "$publish_tmp/local_results" "$publish_tmp/pnn_results" "$publish_tmp/executions"
           [ ${#result_files[@]} -gt 0 ] && cp -f "${result_files[@]}" "$publish_tmp/local_results/"
-          [ ${#pnn_result_files[@]} -gt 0 ] && cp -f "${pnn_result_files[@]}" "$publish_tmp/pnn_results/"
           [ ${#execution_files[@]} -gt 0 ] && cp -f "${execution_files[@]}" "$publish_tmp/executions/"
+          for file in pnn-v1/results/*.json pnn-v1/results/*.csv; do
+            [ -e "$file" ] || continue
+            rel="${file#pnn-v1/results/}"
+            before="$RUNNER_TEMP/pnn-results-before/$rel"
+            if [ ! -e "$before" ] || ! cmp -s "$file" "$before"; then
+              cp -f "$file" "$publish_tmp/pnn_results/$rel"
+            fi
+          done
 
           git fetch origin main
           git reset --hard origin/main
