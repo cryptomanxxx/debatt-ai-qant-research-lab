@@ -8,9 +8,13 @@ permissions:
 
 jobs:
   test-groq:
+    name: "Groq chain: A → B → C → D → E"
     runs-on: ubuntu-latest
     steps:
-      - name: Verify secret is configured
+      - name: "A ✅ Start chain"
+        run: echo "A complete — GitHub runner started."
+
+      - name: "B ✅ Verify GROQ_API_KEY"
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
@@ -20,7 +24,7 @@ jobs:
           fi
           echo "GROQ_API_KEY is configured."
 
-      - name: Diagnose Groq API access
+      - name: "C → D → E | Authenticate, discover 120B, run inference"
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
@@ -45,7 +49,8 @@ jobs:
                   return e.code, e.headers.get("content-type", ""), e.read().decode(errors="replace")
 
           status, ctype, body = call("https://api.groq.com/openai/v1/models")
-          print(f"/models HTTP {status}; content-type={ctype}")
+          print("C: Authenticating with Groq and requesting /models ...")
+          print(f"C result: /models HTTP {status}; content-type={ctype}")
           if status != 200:
               print("Response preview:", body[:1000])
               raise SystemExit(
@@ -54,14 +59,17 @@ jobs:
 
           models = json.loads(body).get("data", [])
           ids = sorted(m.get("id", "") for m in models if m.get("id"))
-          print(f"Groq authenticated successfully. Accessible models: {len(ids)}")
-          target = "openai/gpt-oss-20b"
-          print(f"Target model {target!r} available:", target in ids)
+          print(f"C GREEN: Groq authenticated successfully. Accessible models: {len(ids)}")
+          target = "openai/gpt-oss-120b"
+          print("D: Checking GPT-OSS 120B availability ...")
+          print(f"D result: Target model {target!r} available:", target in ids)
 
           if target not in ids:
               print("First accessible model IDs:", ", ".join(ids[:20]))
               raise SystemExit(f"Authentication works, but {target} is not available to this Groq project/key.")
 
+          print("D GREEN: GPT-OSS 120B is available.")
+          print("E: Sending inference request to GPT-OSS 120B ...")
           payload = {
               "model": target,
               "messages": [{"role": "user", "content": "Reply with exactly: GROQ_OK"}],
@@ -71,7 +79,7 @@ jobs:
           status, ctype, body = call(
               "https://api.groq.com/openai/v1/chat/completions", "POST", payload
           )
-          print(f"/chat/completions HTTP {status}; content-type={ctype}")
+          print(f"E result: /chat/completions HTTP {status}; content-type={ctype}")
           if status != 200:
               print("Response preview:", body[:1000])
               raise SystemExit("Groq authentication/model discovery works, but the completion request was denied.")
@@ -84,9 +92,9 @@ jobs:
           print("Groq response:", answer if answer else "<empty content>")
           if not answer:
               print("Groq authenticated, model discovery succeeded, and /chat/completions returned HTTP 200.")
-              print("Smoke test passed; the tiny marker prompt produced no visible content.")
+              print("E GREEN: GPT-OSS 120B inference succeeded; the tiny marker prompt produced no visible content.")
           elif "GROQ_OK" in answer:
-              print("Groq API smoke test passed.")
+              print("E GREEN: GPT-OSS 120B inference succeeded.")
           else:
-              print("Groq API smoke test passed; model returned content different from the requested marker.")
+              print("E GREEN: GPT-OSS 120B inference succeeded; model returned content different from the requested marker.")
           PY
