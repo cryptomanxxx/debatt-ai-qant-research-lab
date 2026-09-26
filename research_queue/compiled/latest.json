@@ -2,7 +2,7 @@
   "status": "validated_not_executable",
   "approval_readiness": "NOT_READY_FOR_COMPUTE",
   "source": "research_queue/ai_researcher/latest.json",
-  "proposal_title": "100\u2011epoch w12 Confirmation on ECG200 with Fresh Seeds",
+  "proposal_title": "100\u2011epoch w12 Confirmation on ECG200",
   "automated_checks": [
     {
       "check": "Human approval required",
@@ -30,10 +30,6 @@
     },
     {
       "check": "Train/test protocol present",
-      "status": "passed"
-    },
-    {
-      "check": "Relative aggregate gate present",
       "status": "passed"
     }
   ],
