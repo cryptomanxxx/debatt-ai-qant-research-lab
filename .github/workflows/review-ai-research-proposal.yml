@@ -30,8 +30,8 @@ jobs:
           ref: main
       - name: Record versioned human feedback
         env:
-          DECISION: ${{ inputs.decision }}
-          COMMENT: ${{ inputs.comment }}
+          DECISION: ${{ github.event.inputs.decision }}
+          COMMENT: ${{ github.event.inputs.comment }}
           ACTOR: ${{ github.actor }}
           RUN_ID: ${{ github.run_id }}
         run: |
@@ -79,9 +79,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           AUTOMATION_GIT_NAME: "Debatt-AI Human Review"
-        run: python scripts/publish_via_pr.py "Record human research decision: ${{ inputs.decision }}" research_queue/human_review/
+        run: python scripts/publish_via_pr.py "Record human research decision: ${{ github.event.inputs.decision }}" research_queue/human_review/
       - name: Rejection recorded
-        if: inputs.decision == 'reject'
+        if: ${{ github.event.inputs.decision == 'reject' }}
         id: rejection
         run: |
           echo "Scientific proposal rejected."
@@ -102,7 +102,7 @@ jobs:
           print("Bound proposal workflow run:",proposal_run_id)
           PY
       - name: Start one automatic revision
-        if: inputs.decision == 'reject' && steps.rejection.outputs.auto_revision == 'true'
+        if: ${{ github.event.inputs.decision == 'reject' }} && steps.rejection.outputs.auto_revision == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -110,12 +110,12 @@ jobs:
             -f event_type=human_feedback_revision
           echo "Started the one permitted automatic revision."
       - name: Automatic revision limit reached
-        if: inputs.decision == 'reject' && steps.rejection.outputs.auto_revision != 'true'
+        if: ${{ github.event.inputs.decision == 'reject' }} && steps.rejection.outputs.auto_revision != 'true'
         run: |
           echo "No new proposal started automatically."
           echo "The current proposal was already the automatic revision; a new cycle requires a manual AI Researcher v2 run."
       - name: Verify proposal is executable before compute authorization
-        if: inputs.decision == 'approve'
+        if: ${{ github.event.inputs.decision == 'approve' }}
         run: |
           python - <<'PY'
           import json
@@ -125,7 +125,7 @@ jobs:
           print("Compiler cleared proposal for human compute authorization.")
           PY
       - name: Request separate compute authorization
-        if: inputs.decision == 'approve'
+        if: ${{ github.event.inputs.decision == 'approve' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
