@@ -56,15 +56,42 @@ requested_budget must contain positive integers: max_parameters, max_candidates,
 max_epochs, max_train_samples, max_test_samples.
 For fixed-size classification thresholds use aggregate integer correct counts,\nnot floating-point mean-accuracy boundary comparisons. Never propose an experiment\nthat simply repeats a completed candidate set. Check recent experiments for novelty.\nIf you specify N random seeds and M test samples, every aggregate-correct threshold\nmust be mathematically possible on N*M predictions and must state that denominator.\nA confirmation experiment must use an independent preregistered seed set and must be\nidentified explicitly as confirmation rather than a new architecture search."""
     user="Repository research context:\n"+json.dumps(context,ensure_ascii=False)
-    raw=groq([{"role":"system","content":system},{"role":"user","content":user}])
-    try: data=json.loads(raw)
-    except Exception:
-        m=re.search(r"\{.*\}",raw,re.S)
-        if not m: raise
-        data=json.loads(m.group(0))
+    messages=[{"role":"system","content":system},{"role":"user","content":user}]
+    raw=groq(messages)
+
+    def parse_json(text):
+        try:
+            return json.loads(text)
+        except Exception:
+            m=re.search(r"\{.*\}",text,re.S)
+            if not m:
+                raise
+            return json.loads(m.group(0))
+
+    data=parse_json(raw)
     required=("evidence_frontier","analysis","hypothesis","proposal")
     missing=[k for k in required if k not in data]
-    if missing: raise SystemExit("AI Researcher output missing: "+", ".join(missing))
+
+    # Models can occasionally return a structurally valid JSON object while
+    # omitting one required top-level field. Give the researcher one bounded
+    # repair attempt instead of publishing or silently inventing that field.
+    if missing:
+        repair=(
+            "Your previous JSON object omitted required top-level key(s): "
+            + ", ".join(missing)
+            + ". Return the COMPLETE corrected JSON object, not a patch. "
+              "It must contain exactly the requested top-level structure: "
+              "researcher, model, evidence_frontier, analysis, hypothesis, proposal. "
+              "Preserve claims only when supported by the repository context. "
+              "Do not add markdown or commentary.\n\nPrevious response:\n"
+            + raw
+        )
+        raw=groq(messages+[{"role":"assistant","content":raw},{"role":"user","content":repair}])
+        data=parse_json(raw)
+        missing=[k for k in required if k not in data]
+
+    if missing:
+        raise SystemExit("AI Researcher output missing after repair attempt: "+", ".join(missing))
     p=data["proposal"]
     for k in ("title","research_question","rationale","experiment_design","success_criteria","requested_budget","risks","requires_human_approval"):
         if k not in p: raise SystemExit("Proposal missing: "+k)
