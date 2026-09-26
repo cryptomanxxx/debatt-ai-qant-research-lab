@@ -91,11 +91,18 @@ def main():
         candidates=cfg.get("candidates")
         if candidates is None:
             candidates=exp.get("candidates")
+        # Keep a small allowlisted design fingerprint. Some historical
+        # experiments encode their intervention directly in configuration rather
+        # than in a candidate list, so candidates alone are not sufficient for
+        # novelty memory.
+        design_fields=("architecture","loss","lambda","target_margin","selection","frequencies")
+        design_details={key:cfg[key] for key in design_fields if key in cfg}
         experiment_signature={
             "dataset_name":dataset.get("name") if isinstance(dataset,dict) else None,
             "train_shape":dataset.get("train_shape") if isinstance(dataset,dict) else None,
             "test_shape":dataset.get("test_shape") if isinstance(dataset,dict) else None,
             "candidates":candidates,
+            "design_details":design_details or None,
         }
         # Preserve a compact design fingerprint so old experiments remain
         # recognizable for novelty checks without restoring their full payload.
