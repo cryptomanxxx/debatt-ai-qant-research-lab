@@ -1,5 +1,5 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "purpose": "Evidence packet for the next falsifiable research proposal.",
   "rules": [
     "Use repository results as experimental evidence.",
@@ -1748,6 +1748,30 @@
         ],
         "split": "canonical TRAIN/TEST"
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "baseline": "96-64-32-2 ReLU MLP",
+        "pnn_v1_alpha1": {
+          "groups": 12,
+          "samples_per_group": 8,
+          "features_per_group": 4,
+          "head_inputs": 48,
+          "head_outputs": 2
+        }
+      },
       "success_criteria_met": null,
       "decision": null,
       "selected_candidate": null,
@@ -1785,6 +1809,39 @@
           96
         ],
         "split": "canonical TRAIN/TEST"
+      },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "frozen_intervention": "per-case z-score normalization",
+        "epsilon": 1e-06,
+        "material_accuracy_loss_tolerance": 0.01,
+        "architecture": {
+          "groups": 12,
+          "samples_per_group": 8,
+          "features_per_group": 4,
+          "head_inputs": 48,
+          "head_outputs": 2
+        }
       },
       "success_criteria_met": true,
       "decision": null,
@@ -1829,6 +1886,34 @@
         "selection_train_samples": 80,
         "validation_samples": 20
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "validation_rule": "first 10 examples per class in canonical TRAIN",
+        "candidates": [
+          "alpha1_control",
+          "alpha2_residual_head"
+        ],
+        "test_selection_boundary": "candidate frozen from validation before TEST evaluation"
+      },
       "success_criteria_met": false,
       "decision": null,
       "selected_candidate": "alpha1_control",
@@ -1852,6 +1937,34 @@
         ],
         "selection_train_samples": 80,
         "validation_samples": 20
+      },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "validation_rule": "first 10 examples per class in canonical TRAIN",
+        "candidates": [
+          "alpha1_control",
+          "alpha2_hierarchical_mixer"
+        ],
+        "test_selection_boundary": "candidate frozen from validation before TEST evaluation"
       },
       "success_criteria_met": false,
       "decision": null,
@@ -1877,6 +1990,35 @@
         "selection_train_samples": 80,
         "validation_samples": 20
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "validation_rule": "first 10 examples per class in canonical TRAIN",
+        "candidates": [
+          "alpha1_w4",
+          "alpha1_w6",
+          "alpha1_w8"
+        ],
+        "test_selection_boundary": "candidate frozen from validation before TEST evaluation"
+      },
       "success_criteria_met": true,
       "decision": null,
       "selected_candidate": "alpha1_w8",
@@ -1899,6 +2041,36 @@
           96
         ],
         "split": "canonical TRAIN/TEST"
+      },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "preprocessing": "raw archive values",
+        "models": [
+          "alpha1_w4",
+          "alpha2_w8",
+          "mlp_relu_96_64_32_2"
+        ],
+        "selection": "none; frozen confirmation"
       },
       "success_criteria_met": false,
       "decision": "retain_alpha1",
@@ -1947,6 +2119,35 @@
         ],
         "split": "canonical TRAIN/TEST"
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "preprocessing": "raw archive values",
+        "models": [
+          "alpha1_w4",
+          "alpha2_w8"
+        ],
+        "selection": "none; frozen integer-count confirmation"
+      },
       "success_criteria_met": true,
       "decision": "promote_alpha2",
       "selected_candidate": null,
@@ -1992,6 +2193,52 @@
         "selection_train_samples": 80,
         "validation_samples": 20
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "validation_rule": "first 10 examples per class in canonical TRAIN",
+        "candidates": {
+          "k1234": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "k123": [
+            1,
+            2,
+            3
+          ],
+          "k12": [
+            1,
+            2
+          ],
+          "k124": [
+            1,
+            2,
+            4
+          ],
+          "k135": [
+            1,
+            3,
+            5
+          ]
+        },
+        "topology": "frozen Alpha2 12x(8->8), 96->2",
+        "test_selection_boundary": "frequency basis frozen from validation before TEST evaluation"
+      },
       "success_criteria_met": false,
       "decision": null,
       "selected_candidate": "k1234",
@@ -2014,6 +2261,38 @@
           96
         ],
         "split": "canonical TRAIN/TEST"
+      },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "preprocessing": "raw archive values",
+        "candidates": {
+          "active_alpha2_k1234": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "compact_alpha2_k12": [
+            1,
+            2
+          ]
+        },
+        "topology": "frozen Alpha2 12x(8->8), 96->2",
+        "selection": "none; frozen confirmation"
       },
       "success_criteria_met": true,
       "decision": "promote_compact_k12",
@@ -2068,6 +2347,51 @@
         "selection_train_samples": 80,
         "validation_samples": 20
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "candidates": {
+          "w6": [
+            16,
+            6,
+            6
+          ],
+          "w8_control": [
+            12,
+            8,
+            8
+          ],
+          "w12": [
+            8,
+            12,
+            12
+          ],
+          "w16": [
+            6,
+            16,
+            16
+          ]
+        },
+        "validation_rule": "first 10 examples per class in canonical TRAIN",
+        "test_selection_boundary": "candidate frozen from validation before TEST evaluation"
+      },
       "success_criteria_met": true,
       "decision": null,
       "selected_candidate": "w16",
@@ -2090,6 +2414,41 @@
           96
         ],
         "split": "canonical TRAIN/TEST"
+      },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "preprocessing": "raw archive values",
+        "candidates": {
+          "alpha3_w8": [
+            12,
+            8,
+            8
+          ],
+          "w16_candidate": [
+            6,
+            16,
+            16
+          ]
+        },
+        "frequencies": [
+          1,
+          2
+        ],
+        "selection": "none; frozen full-TRAIN confirmation"
       },
       "success_criteria_met": true,
       "decision": "promote_alpha4_w16",
@@ -2151,6 +2510,36 @@
         ],
         "split": "canonical TRAIN/TEST"
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "preprocessing": "raw archive values",
+        "candidates": {
+          "alpha4_transfer": [
+            9,
+            16,
+            16
+          ]
+        },
+        "frequencies": [
+          1,
+          2
+        ],
+        "selection": "none; frozen full-TRAIN confirmation"
+      },
       "success_criteria_met": true,
       "decision": null,
       "selected_candidate": null,
@@ -2189,6 +2578,29 @@
           "TwoLeadECG"
         ]
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "local_block": "16\u219216",
+        "selection": "none; frozen transfer benchmark"
+      },
       "success_criteria_met": false,
       "decision": null,
       "selected_candidate": null,
@@ -2211,6 +2623,29 @@
           80
         ]
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "architecture": "5\u00d7(16\u219216) local Fourier/KAN; concat80; 80\u21922 Fourier/KAN head",
+        "parameter_count": 5842
+      },
       "success_criteria_met": true,
       "decision": "margin_sensitivity_supported",
       "selected_candidate": null,
@@ -2232,6 +2667,30 @@
           1139,
           80
         ]
+      },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "lambda": 0.1,
+        "target_margin": 1.0,
+        "selection": "none; preregistered loss intervention"
       },
       "success_criteria_met": false,
       "decision": "not_supported",
@@ -2274,6 +2733,29 @@
           80
         ]
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "architecture": "5\u00d7(16\u219216); concat80; 80\u21922",
+        "loss": "cross_entropy"
+      },
       "success_criteria_met": false,
       "decision": "not_supported",
       "selected_candidate": null,
@@ -2295,6 +2777,32 @@
           1139,
           80
         ]
+      },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "candidates": {
+          "control": 1,
+          "redundant3": 3
+        },
+        "selection": "none; preregistered redundant-readout intervention"
       },
       "success_criteria_met": true,
       "decision": "supported",
@@ -2335,6 +2843,32 @@
           144
         ]
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "candidates": {
+          "control": 1,
+          "redundant3": 3
+        },
+        "selection": "none; preregistered cross-dataset redundant-readout validation"
+      },
       "success_criteria_met": false,
       "decision": "not_supported",
       "selected_candidate": null,
@@ -2374,6 +2908,32 @@
           64
         ]
       },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "candidates": {
+          "control": 1,
+          "redundant3": 3
+        },
+        "selection": "none; preregistered SonyAIBO redundant-readout numerical-robustness validation"
+      },
       "success_criteria_met": true,
       "decision": "supported",
       "selected_candidate": null,
@@ -2412,6 +2972,32 @@
           100,
           96
         ]
+      },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "candidates": {
+          "alpha4": 1,
+          "alpha5_candidate": 3
+        },
+        "selection": "preregistered Alpha4 versus Alpha5 promotion gate"
       },
       "success_criteria_met": true,
       "decision": "promote_alpha5",
@@ -2453,6 +3039,42 @@
           100,
           96
         ]
+      },
+      "configuration": {
+        "seeds": [
+          11,
+          22,
+          33,
+          44,
+          55,
+          66,
+          77,
+          88,
+          99,
+          111
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "candidates": {
+          "alpha5_w8": [
+            8,
+            3
+          ],
+          "alpha5_w12": [
+            12,
+            3
+          ],
+          "alpha5_w16_control": [
+            16,
+            3
+          ]
+        },
+        "selection": "lowest-parameter eligible candidate; separate confirmation required"
       },
       "success_criteria_met": false,
       "decision": "retain_alpha5",
@@ -2504,6 +3126,33 @@
           96
         ]
       },
+      "configuration": {
+        "seeds": [
+          42,
+          43,
+          44,
+          45,
+          46
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "candidates": {
+          "alpha5_w8": [
+            8,
+            3
+          ],
+          "alpha5_w16_control": [
+            16,
+            3
+          ]
+        },
+        "preregistered_gate": "alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
+      },
       "success_criteria_met": true,
       "decision": "w8_boundary_confirmed",
       "selected_candidate": null,
@@ -2544,6 +3193,33 @@
           100,
           96
         ]
+      },
+      "configuration": {
+        "seeds": [
+          121,
+          131,
+          141,
+          151,
+          161
+        ],
+        "epochs": 50,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "candidates": {
+          "alpha5_w8": [
+            8,
+            3
+          ],
+          "alpha5_w16_control": [
+            16,
+            3
+          ]
+        },
+        "preregistered_gate": "alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
       },
       "success_criteria_met": false,
       "decision": "w8_boundary_not_confirmed",
