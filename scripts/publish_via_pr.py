@@ -5,7 +5,7 @@ This keeps automation from pushing directly to protected main. The caller must
 stage only the explicitly supplied artifact paths; source/workflow changes are
 refused by this helper.
 """
-import hashlib, json, os, subprocess, sys, urllib.request
+import atexit, hashlib, json, os, subprocess, sys, time, urllib.request
 from pathlib import Path
 
 SAFE_PREFIXES=("research_queue/","results/","pnn-v1/results/","executions/","public/research-dashboard.json")
@@ -30,6 +30,17 @@ for p in changed:
 run("git","commit","-m",message)
 run_id=os.environ["GITHUB_RUN_ID"]; attempt=os.environ.get("GITHUB_RUN_ATTEMPT","1"); job=os.environ.get("GITHUB_JOB","job")
 branch=f"automation/artifacts-{run_id}-{attempt}-{job}".replace("_","-")
+lock_ref="refs/tags/automation-artifact-publish-lock"
+for lock_attempt in range(30):
+    acquired=subprocess.run(["git","push","origin",f"HEAD:{lock_ref}"],text=True,capture_output=True)
+    if acquired.returncode==0:
+        break
+    if lock_attempt==29:
+        raise SystemExit("Could not acquire artifact publication lock: "+acquired.stderr.strip())
+    time.sleep(2)
+def release_publish_lock():
+    subprocess.run(["git","push","origin","--delete",lock_ref],text=True,capture_output=True)
+atexit.register(release_publish_lock)
 run("git","fetch","origin","main")
 run("git","rebase","origin/main")
 expected_proposal_sha=os.environ.get("EXPECTED_CURRENT_PROPOSAL_SHA256","").strip().lower()
@@ -37,7 +48,7 @@ verified_base_sha=None
 if expected_proposal_sha:
     if len(expected_proposal_sha)!=64 or any(c not in "0123456789abcdef" for c in expected_proposal_sha):
         raise SystemExit("Invalid EXPECTED_CURRENT_PROPOSAL_SHA256")
-    proposal=run("git","show","origin/main:research_queue/ai_researcher/latest.json",capture=True).encode()
+    proposal=subprocess.run(["git","show","origin/main:research_queue/ai_researcher/latest.json"],check=True,capture_output=True).stdout
     actual=hashlib.sha256(proposal).hexdigest()
     if actual!=expected_proposal_sha:
         raise SystemExit(f"STALE REVIEW: current proposal SHA-256 is {actual}, reviewed proposal was {expected_proposal_sha}")
