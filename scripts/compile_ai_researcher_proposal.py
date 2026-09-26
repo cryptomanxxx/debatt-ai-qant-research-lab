@@ -180,7 +180,14 @@ def main():
 
     # PNN Experiment Engine v1: reviewed parameterized local-width confirmation family.
     engine_candidate_widths=[w for w in widths if w!=16]
-    if len(widths)==2 and widths[-1]==16 and len(engine_candidate_widths)==1:
+    # The reviewed engine contract has one proposed candidate and an implicit
+    # width-16 control. Accept either the canonical one-candidate draft emitted
+    # by AI Researcher v2 or the older explicit [candidate, 16] representation.
+    engine_shape=(
+        (len(widths)==1 and len(engine_candidate_widths)==1)
+        or (len(widths)==2 and widths[-1]==16 and len(engine_candidate_widths)==1)
+    )
+    if engine_shape:
         cw=engine_candidate_widths[0]
         expected_named_gate=f"alpha5_w{cw}.aggregate_qant_correct>=alpha5_w16_control.aggregate_qant_correct-10"
         generic_engine_gates=(
