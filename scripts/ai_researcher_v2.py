@@ -100,10 +100,16 @@ same w8/w16 100-epoch experiment with seeds [42,43,44,45,46] again, and do not c
 rerun with identical seeds an independent replication. Advance to a genuinely new,
 falsifiable research question. Because w8 is narrower than w12 and has already passed
 its confirmation gate, a w12 experiment CANNOT establish that w12 is the minimal viable
-local width. If proposing w12, motivate it instead as an independent robustness /
-width-response measurement (for example whether an intermediate width behaves
-consistently under fresh seeds), and do not describe it as finding the minimum width or
-as necessary to prove compression already demonstrated by w8. Any true replication must use a fresh preregistered seed
+local width. Do NOT call w8 the "minimal viable width" either: widths below 8 have not
+been exhaustively tested under the same confirmation protocol. State only that w8 passed
+the defined preregistered gate. If proposing w12, motivate it instead as an independent
+robustness / width-response measurement (for example whether an intermediate width
+behaves consistently under fresh seeds), and do not describe it as finding the minimum
+width or as necessary to prove compression already demonstrated by w8.
+For any experiment described as using fresh seeds, every seed must be absent from all
+structured prior experiment configurations in the supplied context. In particular,
+avoid the already used seeds [11,22,33,44,55,66,77,88,99,111],
+[121,131,141,151,161], and [42,43,44,45,46]. Any true replication must use a fresh preregistered seed
 set not used by the experiment being replicated. Keep the proposal bounded and use
 structured seeds and epochs in experiment_design. A novel proposal does not need to
 match an existing executable template; unsupported designs must remain non-executable
