@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: ai-researcher-v2
@@ -54,12 +55,9 @@ jobs:
         if: success()
         run: |
           python scripts/render_ai_researcher_summary.py
-      - name: Publish proposal draft
-        run: |
-          git config user.name "Debatt-AI AI Researcher"
-          git config user.email "actions@users.noreply.github.com"
-          git add research_queue/context/latest.json research_queue/ai_researcher/latest.json research_queue/compiled/latest.json research_queue/cycle/latest.json
-          git commit -m "AI Researcher v2 draft proposal" || true
-          git pull --rebase origin main
-          git push
+      - name: Publish proposal draft via PR
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          AUTOMATION_GIT_NAME: "Debatt-AI AI Researcher"
+        run: python scripts/publish_via_pr.py "AI Researcher v2 draft proposal" research_queue/context/latest.json research_queue/ai_researcher/latest.json research_queue/compiled/latest.json research_queue/cycle/latest.json
 

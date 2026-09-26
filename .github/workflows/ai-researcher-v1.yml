@@ -2,11 +2,13 @@ name: AI Researcher v1
 
 on:
   workflow_dispatch:
+    if: ${{ false }}
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
+  # Legacy workflow retained for history; direct publication to main is disabled.
   propose:
     runs-on: ubuntu-latest
     steps:
