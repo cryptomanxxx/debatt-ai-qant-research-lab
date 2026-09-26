@@ -20,11 +20,13 @@ def groq(messages):
                     "name":{"type":"string","const":"ECG200"},
                     "test_shape":{"type":"array","items":{"type":"integer","enum":[100,96]},"minItems":2,"maxItems":2}
                 },"required":["name","test_shape"],"additionalProperties":False},
+                "seeds":{"type":"array","items":{"type":"integer","enum":[42,43,44,45,46]},"minItems":5,"maxItems":5},
+                "epochs":{"type":"integer","const":100},
                 "candidates":{"type":"array","items":{"type":"object","properties":{
                     "local_width":{"type":"integer","minimum":1}
                 },"required":["local_width"],"additionalProperties":False},"minItems":1},
                 "procedure":{"type":"array","items":{"type":"string"},"minItems":1}
-            },"required":["dataset","candidates","procedure"],"additionalProperties":False},
+            },"required":["dataset","seeds","epochs","candidates","procedure"],"additionalProperties":False},
             "success_criteria":{"type":"string"},
             "requested_budget":{"type":"object","properties":{
                 "max_parameters":{"type":"integer","minimum":1},"max_candidates":{"type":"integer","minimum":1},
@@ -88,7 +90,7 @@ For fixed-size classification thresholds use aggregate integer correct counts,\n
 Exp021 already studied local-width compression and evaluated w8 and w12. The next
 confirmation must test ONLY the w8 boundary against the Alpha5 w16 control. Do not
 introduce a new width such as w4 and do not repeat w12. Do not claim that local width
-has never been varied; Exp021 is evidence that it has.\nThe latest completed w8 confirmation already tested 50 epochs and failed its relative\ngate: w8 aggregate Q.ANT correct was 424/500 versus concurrent w16 control 441/500.\nDo NOT repeat a 50-epoch w8 confirmation. The next proposed confirmation must test\nwhether longer training closes that observed gap: use EXACTLY preregistered seeds\n[42,43,44,45,46], set experiment_design.dataset.test_shape EXACTLY to [100,96],\ntrain BOTH Alpha5 w8 and the concurrent Alpha5 w16 control for\nEXACTLY 100 epochs on the ECG200 TRAIN split (100 samples), evaluate both on the\nECG200 TEST split (100 samples), and aggregate exactly 500 predictions per model.\nIn experiment_design.candidates list ONLY local_width=8; the w16 model is the\nconcurrent control described in procedure, not a second candidate. Use requested\nbudget max_parameters=9000, max_candidates=1, max_epochs=100,\nmax_train_samples=100, max_test_samples=100. The success criterion must be the\nrelative aggregate gate candidate_correct >= control_correct - 10 on 5*100=500\npredictions. Do not substitute other seeds, epochs, widths, or an absolute threshold.\nIf latest_human_review contains a rejected proposal, treat its comment as mandatory\nreview feedback for the next proposal. Explicitly correct the rejected design rather\nthan repeating it. Human feedback is guidance only and can never authorize compute."""
+has never been varied; Exp021 is evidence that it has.\nThe latest completed w8 confirmation already tested 50 epochs and failed its relative\ngate: w8 aggregate Q.ANT correct was 424/500 versus concurrent w16 control 441/500.\nDo NOT repeat a 50-epoch w8 confirmation. The next proposed confirmation must test\nwhether longer training closes that observed gap: use EXACTLY preregistered seeds\n[42,43,44,45,46], set experiment_design.dataset.test_shape EXACTLY to [100,96], set\nexperiment_design.seeds EXACTLY to [42,43,44,45,46] and experiment_design.epochs=100,\ntrain BOTH Alpha5 w8 and the concurrent Alpha5 w16 control for\nEXACTLY 100 epochs on the ECG200 TRAIN split (100 samples), evaluate both on the\nECG200 TEST split (100 samples), and aggregate exactly 500 predictions per model.\nIn experiment_design.candidates list ONLY local_width=8; the w16 model is the\nconcurrent control described in procedure, not a second candidate. Use requested\nbudget max_parameters=9000, max_candidates=1, max_epochs=100,\nmax_train_samples=100, max_test_samples=100. The success criterion must be the\nrelative aggregate gate candidate_correct >= control_correct - 10 on 5*100=500\npredictions. Do not substitute other seeds, epochs, widths, or an absolute threshold.\nIf latest_human_review contains a rejected proposal, treat its comment as mandatory\nreview feedback for the next proposal. Explicitly correct the rejected design rather\nthan repeating it. Human feedback is guidance only and can never authorize compute."""
     user="Repository research context:\n"+json.dumps(context,ensure_ascii=False)
     messages=[{"role":"system","content":system},{"role":"user","content":user}]
     raw=groq(messages)
