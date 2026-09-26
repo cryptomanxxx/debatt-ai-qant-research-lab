@@ -1,0 +1,63 @@
+name: Test Groq API Key
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-groq:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify secret is configured
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          if [ -z "$GROQ_API_KEY" ]; then
+            echo "::error::GROQ_API_KEY is not configured"
+            exit 1
+          fi
+          echo "GROQ_API_KEY is configured."
+
+      - name: Make minimal Groq API request
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.request
+          import urllib.error
+
+          payload = {
+              "model": "openai/gpt-oss-20b",
+              "messages": [
+                  {"role": "user", "content": "Reply with exactly: GROQ_OK"}
+              ],
+              "max_completion_tokens": 32,
+          }
+
+          req = urllib.request.Request(
+              "https://api.groq.com/openai/v1/chat/completions",
+              data=json.dumps(payload).encode(),
+              headers={
+                  "Authorization": f"Bearer {os.environ['GROQ_API_KEY']}",
+                  "Content-Type": "application/json",
+              },
+              method="POST",
+          )
+
+          try:
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  body = json.loads(response.read().decode())
+          except urllib.error.HTTPError as exc:
+              detail = exc.read().decode(errors="replace")
+              raise SystemExit(f"Groq API returned HTTP {exc.code}: {detail[:1000]}")
+
+          text = body["choices"][0]["message"]["content"].strip()
+          print("Groq response:", text)
+          if "GROQ_OK" not in text:
+              raise SystemExit("Groq responded, but the expected smoke-test marker was missing.")
+          print("Groq API smoke test passed.")
+          PY
