@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "ai-local-width-w13-100epoch-301-302-303-304-305",
+  "experiment_id": "PNN-v1-Engine-alpha5_w13-100Epoch",
+  "timestamp_utc": "2026-09-26T17:28:52.955877+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "ECG200",
+    "train_shape": [
+      100,
+      96
+    ],
+    "test_shape": [
+      100,
+      96
+    ]
+  },
+  "configuration": {
+    "seeds": [
+      301,
+      302,
+      303,
+      304,
+      305
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "candidates": {
+      "alpha5_w13": [
+        13,
+        3
+      ],
+      "alpha5_w16_control": [
+        16,
+        3
+      ]
+    },
+    "preregistered_gate": "alpha5_w13.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
+  },
+  "rows": [
+    {
+      "candidate": "alpha5_w13",
+      "seed": 301,
+      "parameter_count": 6948,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.01826987788081169
+    },
+    {
+      "candidate": "alpha5_w13",
+      "seed": 302,
+      "parameter_count": 6948,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01621483825147152
+    },
+    {
+      "candidate": "alpha5_w13",
+      "seed": 303,
+      "parameter_count": 6948,
+      "reference_accuracy": 0.9,
+      "qant_accuracy": 0.9,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01635751500725746
+    },
+    {
+      "candidate": "alpha5_w13",
+      "seed": 304,
+      "parameter_count": 6948,
+      "reference_accuracy": 0.9,
+      "qant_accuracy": 0.9,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.017457615584135056
+    },
+    {
+      "candidate": "alpha5_w13",
+      "seed": 305,
+      "parameter_count": 6948,
+      "reference_accuracy": 0.91,
+      "qant_accuracy": 0.91,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01784788817167282
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 301,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.9,
+      "qant_accuracy": 0.9,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.021575581282377243
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 302,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.92,
+      "qant_accuracy": 0.92,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.019138401374220848
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 303,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.018851198256015778
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 304,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.91,
+      "qant_accuracy": 0.91,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.019610412418842316
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 305,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.9,
+      "qant_accuracy": 0.9,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.021309513598680496
+    }
+  ],
+  "summary": {
+    "alpha5_w13": {
+      "parameter_count": 6948,
+      "mean_reference_accuracy": 0.8959999999999999,
+      "mean_qant_accuracy": 0.898,
+      "std_qant_accuracy": 0.007483314773547889,
+      "mean_prediction_disagreements": 0.2,
+      "mean_absolute_logit_error": 0.01722954697906971,
+      "aggregate_qant_correct": 449
+    },
+    "alpha5_w16_control": {
+      "parameter_count": 8550,
+      "mean_reference_accuracy": 0.9040000000000001,
+      "mean_qant_accuracy": 0.9040000000000001,
+      "std_qant_accuracy": 0.01019803902718558,
+      "mean_prediction_disagreements": 0.0,
+      "mean_absolute_logit_error": 0.020097021386027335,
+      "aggregate_qant_correct": 452
+    }
+  },
+  "success_criteria_met": true,
+  "decision": "local_width_confirmation_passed",
+  "notes": "PNN Experiment Engine v1. Reviewed parameterized local-width confirmation family; same preregistered seeds for candidate and concurrent control. Software/simulation backend only."
+}

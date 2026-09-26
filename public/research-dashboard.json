@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at_utc": "2026-09-26T12:52:17.039329+00:00",
+  "generated_at_utc": "2026-09-26T17:28:53.886539+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -645,8 +645,8 @@
       "promoted_by": "PNN-v1-Exp020"
     },
     "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
-    "completed_experiments": 25,
-    "latest_completed_experiment": "PNN-v1-Engine-alpha5_w10-100Epoch",
+    "completed_experiments": 26,
+    "latest_completed_experiment": "PNN-v1-Engine-alpha5_w13-100Epoch",
     "experiments": [
       {
         "id": "PNN-v1-Exp001",
@@ -1290,6 +1290,43 @@
             "mean_prediction_disagreements": 0.0,
             "mean_absolute_logit_error": 0.019786666333675384,
             "aggregate_qant_correct": 453
+          }
+        ]
+      },
+      {
+        "id": "PNN-v1-Engine-alpha5_w13-100Epoch",
+        "proposal_id": "ai-local-width-w13-100epoch-301-302-303-304-305",
+        "completed": true,
+        "dataset": "ECG200",
+        "datasets": [],
+        "backend": "qant-cpu/software-simulation",
+        "timestamp_utc": "2026-09-26T17:28:52.955877+00:00",
+        "success_criteria_met": true,
+        "decision": "local_width_confirmation_passed",
+        "selected_candidate": null,
+        "eligible_candidates": null,
+        "architectures": [
+          {
+            "architecture": "alpha5_w13",
+            "parameters": 6948,
+            "mean_reference_accuracy": 0.8959999999999999,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.898,
+            "std_qant_accuracy": 0.007483314773547889,
+            "mean_prediction_disagreements": 0.2,
+            "mean_absolute_logit_error": 0.01722954697906971,
+            "aggregate_qant_correct": 449
+          },
+          {
+            "architecture": "alpha5_w16_control",
+            "parameters": 8550,
+            "mean_reference_accuracy": 0.9040000000000001,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.9040000000000001,
+            "std_qant_accuracy": 0.01019803902718558,
+            "mean_prediction_disagreements": 0.0,
+            "mean_absolute_logit_error": 0.020097021386027335,
+            "aggregate_qant_correct": 452
           }
         ]
       },
