@@ -18,11 +18,11 @@ def groq(messages):
             "requested_budget":{"type":"object","properties":{
                 "max_parameters":{"type":"integer","minimum":1},"max_candidates":{"type":"integer","minimum":1},
                 "max_epochs":{"type":"integer","minimum":1},"max_train_samples":{"type":"integer","minimum":1},"max_test_samples":{"type":"integer","minimum":1}},
-                "required":["max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"],"additionalProperties":False},
-            "risks":{},"requires_human_approval":{"type":"boolean","const":True}},
+                "required":["max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"],"additionalProperties":false},
+            "risks":{},"requires_human_approval":{"type":"boolean","const":true}},
             "required":["title","research_question","rationale","experiment_design","success_criteria","requested_budget","risks","requires_human_approval"],
-            "additionalProperties":False}},
-        "required":["researcher","model","evidence_frontier","analysis","hypothesis","proposal"],"additionalProperties":False}
+            "additionalProperties":false}},
+        "required":["researcher","model","evidence_frontier","analysis","hypothesis","proposal"],"additionalProperties":false}
     payload={"model":MODEL,"messages":messages,"temperature":0,"max_completion_tokens":3000,
              "response_format":{"type":"json_schema","json_schema":{"name":"ai_researcher_proposal","strict":True,"schema":schema}}}
     for attempt in range(3):
@@ -66,77 +66,6 @@ For fixed-size classification thresholds use aggregate integer correct counts,\n
     user="Repository research context:\n"+json.dumps(context,ensure_ascii=False)
     messages=[{"role":"system","content":system},{"role":"user","content":user}]
     raw=groq(messages)
-
-    def parse_json(text):
-        try:
-            return json.loads(text)
-        except Exception:
-            m=re.search(r"\{.*\}",text,re.S)
-            if not m:
-                raise
-            return json.loads(m.group(0))
-
-    # If the model returns malformed JSON, do not heuristically rewrite the
-    # research content in Python. Give it one bounded opportunity to serialize
-    # the same proposal as strict JSON; fail closed if that also cannot parse.
-    try:
-        data=parse_json(raw)
-    except (json.JSONDecodeError, ValueError):
-        repair=(
-            "Your previous response is not valid JSON. Return the COMPLETE response "
-            "again as one strict JSON object using double-quoted property names and "
-            "valid JSON syntax. Do not return a patch, markdown, code fences, or "
-            "commentary. Preserve the research claims; this request is only to repair "
-            "serialization. The required top-level structure is: researcher, model, "
-            "evidence_frontier, analysis, hypothesis, proposal.\n\nPrevious response:\n"
-            + raw
-        )
-        raw=groq(messages+[{"role":"assistant","content":raw},{"role":"user","content":repair}])
-        try:
-            data=parse_json(raw)
-        except (json.JSONDecodeError, ValueError) as exc:
-            raise SystemExit("AI Researcher returned invalid JSON after repair attempt") from exc
-
-    required=("evidence_frontier","analysis","hypothesis","proposal")
-    missing=[k for k in required if k not in data]
-
-    # Models can occasionally return a structurally valid JSON object while
-    # omitting one required top-level field. Give the researcher one bounded
-    # repair attempt instead of publishing or silently inventing that field.
-    if missing:
-        repair=(
-            "Your previous JSON object omitted required top-level key(s): "
-            + ", ".join(missing)
-            + ". Return the COMPLETE corrected JSON object, not a patch. "
-              "It must contain exactly the requested top-level structure: "
-              "researcher, model, evidence_frontier, analysis, hypothesis, proposal. "
-              "Preserve claims only when supported by the repository context. "
-              "Do not add markdown or commentary.\n\nPrevious response:\n"
-            + raw
-        )
-        raw=groq(messages+[{"role":"assistant","content":raw},{"role":"user","content":repair}])
-        data=parse_json(raw)
-        missing=[k for k in required if k not in data]
-
-    if missing:
-        raise SystemExit("AI Researcher output missing after repair attempt: "+", ".join(missing))
-    p=data["proposal"]
-    for k in ("title","research_question","rationale","experiment_design","success_criteria","requested_budget","risks","requires_human_approval"):
-        if k not in p: raise SystemExit("Proposal missing: "+k)
-    if p["requires_human_approval"] is not True: raise SystemExit("AI proposal must require human approval")
-    for k in ("max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"):
-        v=p["requested_budget"].get(k)
-        if not isinstance(v,int) or isinstance(v,bool) or v<=0: raise SystemExit("Invalid requested_budget."+k)
-    data["researcher"]="AI Researcher v2"
-    data["model"]=MODEL
-    data["status"]="draft_requires_human_review"
-    OUT.parent.mkdir(parents=True,exist_ok=True)
-    OUT.write_text(json.dumps(data,indent=2,ensure_ascii=False)+"\n")
-    print("AI Researcher v2 wrote",OUT)
-    print("Hypothesis:",data["hypothesis"])
-    print("Proposal:",p["title"])
-
-if __name__=="__main__": main()    raw=groq(messages)
     try:
         data=json.loads(raw)
     except json.JSONDecodeError as exc:
