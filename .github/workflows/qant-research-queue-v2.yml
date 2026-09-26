@@ -97,7 +97,7 @@ jobs:
           execution_files=(local_results/executions/*)
           [ ${#result_files[@]} -gt 0 ] && cp -f "${result_files[@]}" results/
           [ ${#execution_files[@]} -gt 0 ] && cp -f "${execution_files[@]}" executions/
-          # Execution above remains pinned to approved_commit_sha. Refresh only
+          # Execution above remains pinned to execution_commit_sha. Refresh only
           # shared published artifacts before rebuilding aggregate summaries.
           git fetch origin main
           git checkout origin/main -- results pnn-v1/results executions public/research-dashboard.json research_queue/context/latest.json
