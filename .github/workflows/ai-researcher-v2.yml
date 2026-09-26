@@ -11,79 +11,26 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  prepare:
-    name: "1 — AI Researcher"
+  researcher:
+    name: "1 - AI Researcher"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Result and Research Context
+      - name: Build research context
         run: |
-          test -d pnn-v1/results
           python scripts/build_research_context.py
           test -s research_queue/context/latest.json
-      - name: GPT-OSS 120B analysis, hypothesis and proposal
+      - name: Generate research proposal
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: python scripts/ai_researcher_v2.py
+        run: |
+          python scripts/ai_researcher_v2.py
       - name: Validate proposal draft
         run: |
-          python - <<'PY'
-          import json
-          d=json.load(open("research_queue/ai_researcher/latest.json"))
-          p=d["proposal"]
-          assert d["status"]=="draft_requires_human_review"
-          assert p["requires_human_approval"] is True
-          keys=("max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples")
-          assert all(isinstance(p["requested_budget"].get(k),int) and p["requested_budget"][k]>0 for k in keys)
-          PY
-      - name: Write readable Research Proposal to workflow Summary
+          python -c 'import json; d=json.load(open("research_queue/ai_researcher/latest.json")); p=d["proposal"]; assert d["status"]=="draft_requires_human_review"; assert p["requires_human_approval"] is True; keys=("max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"); assert all(isinstance(p["requested_budget"].get(k),int) and p["requested_budget"][k]>0 for k in keys)'
+      - name: Show readable research proposal
         run: |
-          python - <<'PY'
-          import json, os
-          d=json.load(open("research_queue/ai_researcher/latest.json"))
-          p=d["proposal"]
-          budget=p["requested_budget"]
-          def fmt(v):
-              if isinstance(v,list): return "\n".join(f"- {x}" for x in v)
-              if isinstance(v,dict): return "\n".join(f"- **{k}:** {v2}" for k,v2 in v.items())
-              return str(v)
-          md=f"""# AI Researcher v2 — Research Proposal
-
-**Model:** {d.get('model','openai/gpt-oss-120b')}
-
-## Evidence frontier
-{fmt(d.get('evidence_frontier',''))}
-
-## AI analysis
-{fmt(d.get('analysis',''))}
-
-## Hypothesis
-{fmt(d.get('hypothesis',''))}
-
-## Proposed experiment
-### {p.get('title','Untitled proposal')}
-
-**Research question:** {fmt(p.get('research_question',''))}
-
-**Rationale:** {fmt(p.get('rationale',''))}
-
-**Experiment design:**
-{fmt(p.get('experiment_design',''))}
-
-**Success criteria:**
-{fmt(p.get('success_criteria',''))}
-
-## Requested compute budget
-{fmt(budget)}
-
-## Risks / limitations
-{fmt(p.get('risks',''))}
-
----
-**Status: Awaiting human approval before Q.ANT compute.**
-"""
-          with open(os.environ["GITHUB_STEP_SUMMARY"],"a") as f: f.write(md)
-          PY
+          python scripts/render_ai_researcher_summary.py
       - name: Publish proposal draft
         run: |
           git config user.name "Debatt-AI AI Researcher"
@@ -94,22 +41,22 @@ jobs:
           git push
 
   approval:
-    name: "2 — Human Approval"
-    needs: prepare
+    name: "2 - Human Approval"
+    needs: researcher
     runs-on: ubuntu-latest
     environment:
       name: qant-research-approval
     steps:
       - name: Approval received
-        run: echo "Human approval received. Q.ANT research may continue."
+        run: |
+          echo "Human approval received."
 
   qant:
-    name: "3 — Q.ANT Research"
+    name: "3 - Q.ANT Research"
     needs: approval
     runs-on: ubuntu-latest
     steps:
-      - name: Safe bridge status
+      - name: Safe approval bridge
         run: |
           echo "Approval bridge passed."
-          echo "Automatic execution of an AI-generated experiment is intentionally not enabled yet."
-          echo "Next implementation step is compiling the approved structured proposal into reviewed experiment code."
+          echo "No AI-generated Q.ANT experiment is executed automatically yet."
