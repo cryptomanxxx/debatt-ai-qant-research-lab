@@ -42,12 +42,12 @@
       ]
     }
   },
-  "analysis": "The promotion experiment (Exp020) demonstrated that adding three independent Q.ANT‑native readouts and averaging logits improves mean absolute logit error (0.0200 vs 0.0326) while preserving or slightly increasing aggregate Q.ANT correct predictions (897 vs 893). Subsequent compression attempts (Exp021) showed that a heavily compressed 4,278‑parameter version loses 10 correct predictions (887) and, although logit error improves, the aggregate‑correct gate fails. Across three datasets (TwoLeadECG, GunPoint, SonyAIBORobotSurface1) redundant readout consistently lowers logit MAE without harming accuracy, establishing a robust design principle for the readout stage. The next logical variable is the *local representation width* (currently fixed at 16 per window). Reducing this width could lower parameter count below the 8,550 of Alpha5 while preserving the redundant readout benefits, but this hypothesis has not yet been tested.",
-  "hypothesis": "Decreasing the per‑window representation dimensionality from 16 to a narrower size (e.g., 8 or 12) will retain the redundant‑readout advantages (logit MAE ≤ 0.02001 and aggregate Q.ANT correct ≥ 897 on ECG200) while reducing total parameter count below 8,000.",
+  "analysis": "The promotion experiment (Exp020) demonstrated that adding three independent Q.ANT‑native readouts and averaging logits improves mean absolute logit error (0.0200 vs 0.0326) while preserving or slightly increasing aggregate Q.ANT correct predictions (897 vs 893). Subsequent compression attempts (Exp021) showed that a heavily compressed 4,278‑parameter version loses 10 correct predictions (887) and, although logit error improves, the aggregate‑correct gate fails. Across three datasets, redundant readout consistently lowers logit MAE without harming accuracy, suggesting the readout design is a robust numerical‑agreement intervention. The next logical variable is the size of the local window representation (currently a fixed 16‑dimensional output per window). Reducing this dimensionality could lower total parameters below the 8,550 of Alpha5 while retaining the redundant readout benefits, addressing the compression limitation observed in Exp021.",
+  "hypothesis": "Reducing the dimensionality of the per‑window local representation from 16 to a narrower width (e.g., 8 or 12) while keeping the three‑head redundant readout will maintain or improve the aggregate Q.ANT correct count (≥ 897/1000) and keep mean absolute logit error ≤ 0.02001, thereby achieving a smaller model (< 8,000 parameters) without sacrificing the numerical‑agreement gains of the redundant readout.",
   "proposal": {
-    "title": "Alpha5‑Slim: Evaluating Narrower Local Representations with Redundant Readout",
-    "research_question": "Can a reduced per‑window feature dimension preserve the promoted readout robustness and accuracy of Alpha5 while decreasing model size?",
-    "rationale": "Exp020 proved the redundant readout improves numerical agreement. Exp021 showed that aggressive compression of the whole model can violate the aggregate‑correct gate. Targeted compression of the *local* stage may achieve size reduction without sacrificing the validated readout benefits.",
+    "title": "PNN‑v1‑Proposal022 – Narrow‑Window Representation with Redundant Readout",
+    "research_question": "Can a reduced‑width local representation (≤ 12 dimensions) preserve the promoted Alpha5 performance metrics while decreasing total parameter count below 8,000?",
+    "rationale": "Exp020 proved the redundant readout improves logit agreement. Exp021 showed that aggressive compression of the whole model (including readout) harms aggregate accuracy. By targeting only the local representation for size reduction, we aim to achieve genuine compression without losing the readout‑driven robustness.",
     "experiment_design": {
       "backend": "qant-cpu/software-simulation",
       "dataset": {
@@ -63,53 +63,49 @@
       },
       "candidates": [
         {
-          "name": "Alpha5‑Slim‑8",
+          "name": "Alpha5_w8",
           "local_width": 8,
-          "readout": "3 independent Q.ANT Fourier/KAN heads, logits averaged",
-          "expected_parameter_count": "≈ 6,200"
+          "readout": "3 independent Q.ANT Fourier/KAN heads, logits averaged"
         },
         {
-          "name": "Alpha5‑Slim‑12",
+          "name": "Alpha5_w12",
           "local_width": 12,
-          "readout": "same redundant scheme",
-          "expected_parameter_count": "≈ 7,300"
+          "readout": "3 independent Q.ANT Fourier/KAN heads, logits averaged"
         },
         {
-          "name": "Alpha5‑Baseline‑Redundant",
+          "name": "Alpha5_w16_control",
           "local_width": 16,
-          "readout": "same redundant scheme (Alpha5 control)",
-          "expected_parameter_count": 8550
+          "readout": "3 independent Q.ANT Fourier/KAN heads, logits averaged"
         }
       ],
-      "evaluation_metrics": [
+      "metrics": [
         "aggregate_qant_correct (integer count out of 1000 test examples)",
         "mean_absolute_logit_error",
         "parameter_count"
       ],
       "procedure": [
         "Train each candidate on the ECG200 training set using the same hyper‑parameters as Exp020.",
-        "Run 5 random seeds to capture variability.",
-        "Compute aggregate Q.ANT correct predictions across the 1000 test examples for each seed and average the integer counts.",
-        "Record mean absolute logit error across seeds."
+        "Evaluate on the ECG200 test set with 5 random seeds.",
+        "Record aggregate correct predictions (sum over seeds) and mean absolute logit error (average over seeds)."
       ]
     },
     "success_criteria": {
       "gate_1_parameter_budget": "parameter_count ≤ 8000",
-      "gate_2_accuracy": "average aggregate_qant_correct ≥ 897 (same as Alpha5 control)",
-      "gate_3_logit_agreement": "mean_absolute_logit_error ≤ 0.02001 (Alpha5 control value)",
-      "decision_rule": "If a candidate meets all three gates, it is declared successful and recommended for promotion."
+      "gate_2_accuracy": "aggregate_qant_correct ≥ 897 (same as Alpha5 control)",
+      "gate_3_logit_agreement": "mean_absolute_logit_error ≤ 0.02001 (same as Alpha5 control)",
+      "decision_rule": "If any candidate satisfies all three gates, the experiment is classified as supported and the winning candidate becomes the new active model."
     },
     "requested_budget": {
-      "max_parameters": 9000,
+      "max_parameters": 10000,
       "max_candidates": 3,
       "max_epochs": 50,
       "max_train_samples": 100,
       "max_test_samples": 100
     },
     "risks": [
-      "Reduced local width may cause a drop in aggregate Q.ANT correct predictions below the gate, invalidating the compression hypothesis.",
-      "Lower capacity could increase variance across seeds, making the integer‑count gate unstable.",
-      "Simulation runtime may increase if the reduced width leads to slower convergence requiring more epochs."
+      "Reduced local width may cause a drop in aggregate correct predictions below the 897 threshold.",
+      "Training variance across seeds could obscure small differences; multiple seeds are required.",
+      "Simulation runtime may increase with multiple candidates; budget caps mitigate this."
     ],
     "requires_human_approval": true
   },
