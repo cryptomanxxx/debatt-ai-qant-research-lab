@@ -19,6 +19,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Verify automatic revision binding
+        if: ${{ github.event_name == 'repository_dispatch' }}
+        env:
+          DISPATCH_REVIEW_RUN_ID: ${{ github.event.client_payload.review_run_id }}
+          DISPATCH_PROPOSAL_SHA256: ${{ github.event.client_payload.proposal_sha256 }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          review=json.loads(Path("research_queue/human_review/latest.json").read_text())
+          review_run=os.environ.get("DISPATCH_REVIEW_RUN_ID","")
+          proposal_sha=os.environ.get("DISPATCH_PROPOSAL_SHA256","")
+          if not review_run or not proposal_sha:
+              raise SystemExit("Automatic revision dispatch is missing immutable human-review binding")
+          if review.get("decision")!="reject":
+              raise SystemExit("Bound human review is not a rejection")
+          if str(review.get("workflow_run_id"))!=review_run or review.get("proposal_sha256")!=proposal_sha:
+              raise SystemExit("Latest human review does not match the dispatching review; refusing automatic revision")
+          print("Automatic revision is bound to rejected review run",review_run)
+          PY
       - name: Record cycle mode
         env:
           EVENT_NAME: ${{ github.event_name }}
