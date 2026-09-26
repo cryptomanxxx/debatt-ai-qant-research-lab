@@ -2,7 +2,7 @@
   "status": "validated_not_executable",
   "approval_readiness": "NOT_READY_FOR_COMPUTE",
   "source": "research_queue/ai_researcher/latest.json",
-  "proposal_title": "100\u2011epoch Confirmation of Local Width\u202f13 on ECG200",
+  "proposal_title": "100\u2011epoch Confirmation of Local Width\u202f14 on ECG200",
   "automated_checks": [
     {
       "check": "Human approval required",
@@ -29,7 +29,7 @@
       "status": "passed"
     },
     {
-      "check": "Relative aggregate gate present",
+      "check": "Train/test protocol present",
       "status": "passed"
     }
   ],

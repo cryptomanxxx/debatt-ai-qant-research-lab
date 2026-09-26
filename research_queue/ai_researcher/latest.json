@@ -1,17 +1,17 @@
 {
   "researcher": "AI Researcher v2",
   "model": "openai/gpt-oss-120b",
-  "evidence_frontier": "Completed confirmations show widths 8,10,12 meet the gate (candidate_correct ≥ control_correct‑10) with fresh seeds; w8 100‑epoch (seeds 42‑46) passed, w10 100‑epoch (201‑205) passed, w12 100‑epoch (101‑105) passed. The next step is to test an untried width.",
-  "analysis": "Observation: Local widths 8,10,12 each achieved aggregate Q.ANT correct within 10 of the width‑16 control under independent seed sets, indicating that substantial compression does not severely degrade performance. Hypothesis: The performance advantage continues smoothly such that width 13 will also satisfy the gate.",
-  "hypothesis": "Increasing local width from 8 toward 16 yields non‑monotonic but generally improving Q.ANT correct counts; we hypothesize that width 13 will satisfy the preregistered gate, confirming a smooth performance scaling across widths.",
+  "evidence_frontier": "The latest frontier evidence includes successful 100‑epoch confirmations for local widths 8, 10, and 12 on ECG200 using fresh seed sets (w8 seeds 42‑46, w10 seeds 201‑205, w12 seeds 101‑105). Each candidate met the preregistered gate candidate_correct ≥ control_correct - 10 against the width‑16 control. No other widths have been evaluated under the same 100‑epoch confirmation protocol.",
+  "analysis": "Observations: (1) Width 8, 10, 12 all achieve aggregate Q.ANT correct counts within 10 of the width‑16 control when evaluated on independent seed sets. (2) Performance improves modestly with increasing width, but the gap to control remains small. (3) All prior seed sets have been exhausted; fresh seeds are required for any new confirmation. Hypothesis: A wider local width (e.g., 14) will continue this trend and also satisfy the same relative performance gate on a fresh seed set.",
+  "hypothesis": "Increasing the local width to 14 will produce aggregate Q.ANT correct counts that are no more than 10 below the width‑16 control when evaluated on a fresh five‑seed set for 100 epochs on ECG200.",
   "proposal": {
-    "title": "100‑epoch Confirmation of Local Width 13 on ECG200",
-    "research_question": "Does local width 13 for the Alpha5 model satisfy the preregistered performance gate relative to the width‑16 control on ECG200 under fresh seeds?",
-    "rationale": "Having established that widths 8,10,12 meet the gate, testing width 13 provides a more complete width‑response curve and assesses whether the trend holds for higher intermediate compression levels.",
+    "title": "100‑epoch Confirmation of Local Width 14 on ECG200",
+    "research_question": "Does a local width of 14 maintain performance within the predefined gate relative to the width‑16 control under a fresh seed set?",
+    "rationale": "Width 8, 10, and 12 have each passed the confirmation gate, demonstrating that moderate compression retains accuracy. Testing width 14 extends the width‑response curve, probing whether further widening continues to meet the gate and provides a robustness measurement beyond the previously confirmed widths. This does not aim to identify a minimal width but to assess scalability and consistency of the gate across a broader width range.",
     "experiment_design": {
       "candidates": [
         {
-          "local_width": 13
+          "local_width": 14
         }
       ],
       "dataset": {
@@ -22,20 +22,21 @@
         ]
       },
       "epochs": 100,
-      "procedure": [
-        "train_candidate_and_control",
-        "evaluate_qant_correct",
-        "compare_gate"
-      ],
+      "procedure": {
+        "same_preregistered_seeds": true,
+        "train_samples": 100,
+        "test_samples": 100,
+        "aggregate_predictions_per_model": 500
+      },
       "seeds": [
-        301,
-        302,
-        303,
-        304,
-        305
+        206,
+        207,
+        208,
+        209,
+        210
       ]
     },
-    "success_criteria": "alpha13.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10 (candidate_correct ≥ control_correct - 10 on 500 aggregated test predictions).",
+    "success_criteria": "alpha5_w14.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
     "requested_budget": {
       "max_parameters": 9000,
       "max_candidates": 2,
@@ -43,7 +44,7 @@
       "max_train_samples": 100,
       "max_test_samples": 100
     },
-    "risks": "If width 13 fails the gate, it may indicate a non‑linear performance drop, questioning the assumption of smooth scaling; also limited test set size may lead to variance in aggregate counts.",
+    "risks": "Potential over‑parameterization may not yield additional accuracy and could increase training time; the experiment consumes the allocated budget of 100 epochs and 500 predictions per model, limiting resources for other candidates.",
     "requires_human_approval": true
   },
   "status": "draft_requires_human_review"
