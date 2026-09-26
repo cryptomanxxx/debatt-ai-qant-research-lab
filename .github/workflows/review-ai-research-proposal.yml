@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 jobs:
   review:
@@ -79,9 +80,33 @@ jobs:
           git push
       - name: Rejection recorded
         if: inputs.decision == 'reject'
+        id: rejection
         run: |
           echo "Scientific proposal rejected."
           echo "Feedback is now part of AI Researcher's memory. No compute is authorized."
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("research_queue/cycle/latest.json")
+          cycle=json.loads(p.read_text()) if p.exists() else {}
+          allowed=cycle.get("automatic_revision_allowed") is True
+          with open("$GITHUB_OUTPUT","a") as out:
+              out.write(f"auto_revision={'true' if allowed else 'false'}\n")
+          print("Automatic revision allowed:",allowed)
+          PY
+      - name: Start one automatic revision
+        if: inputs.decision == 'reject' && steps.rejection.outputs.auto_revision == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST repos/${{ github.repository }}/dispatches \
+            -f event_type=human_feedback_revision
+          echo "Started the one permitted automatic revision."
+      - name: Automatic revision limit reached
+        if: inputs.decision == 'reject' && steps.rejection.outputs.auto_revision != 'true'
+        run: |
+          echo "No new proposal started automatically."
+          echo "The current proposal was already the automatic revision; a new cycle requires a manual AI Researcher v2 run."
       - name: Scientific approval recorded
         if: inputs.decision == 'approve'
         run: |
