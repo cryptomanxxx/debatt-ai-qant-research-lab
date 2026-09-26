@@ -55,12 +55,38 @@ jobs:
         run: |
           echo "Human approval received."
 
-  qant:
-    name: "3 - Q.ANT Research"
+  prepare-qant:
+    name: "3 - Prepare Guarded Q.ANT Job"
     needs: approval
     runs-on: ubuntu-latest
+    outputs:
+      job_id: ${{ steps.job.outputs.job_id }}
     steps:
-      - name: Safe approval bridge
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Materialize allowlisted approved job
+        run: python scripts/materialize_ai_approved_job.py
+      - name: Publish approved job
         run: |
-          echo "Approval bridge passed."
-          echo "No AI-generated Q.ANT experiment is executed automatically yet."
+          git config user.name "Debatt-AI Research Approver"
+          git config user.email "actions@users.noreply.github.com"
+          git add research_queue/jobs/ai-w8-confirmation.json
+          if git diff --cached --quiet; then
+            echo "Approved job already exists."
+          else
+            git commit -m "Approve AI Researcher w8 confirmation"
+            git pull --rebase origin main
+            git push
+          fi
+      - name: Expose approved job ID
+        id: job
+        run: echo "job_id=ai-w8-confirmation" >> "$GITHUB_OUTPUT"
+
+  qant:
+    name: "4 - Q.ANT Guarded Research"
+    needs: prepare-qant
+    uses: ./.github/workflows/qant-research-queue-v2.yml
+    with:
+      job_id: ${{ needs.prepare-qant.outputs.job_id }}
+    secrets: inherit
