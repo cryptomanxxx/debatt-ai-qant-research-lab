@@ -98,7 +98,12 @@ w16=448/500, decision w8_boundary_confirmed.
 Treat that successful 100-epoch confirmation as completed evidence. Do NOT propose the
 same w8/w16 100-epoch experiment with seeds [42,43,44,45,46] again, and do not call a
 rerun with identical seeds an independent replication. Advance to a genuinely new,
-falsifiable research question. Any true replication must use a fresh preregistered seed
+falsifiable research question. Because w8 is narrower than w12 and has already passed
+its confirmation gate, a w12 experiment CANNOT establish that w12 is the minimal viable
+local width. If proposing w12, motivate it instead as an independent robustness /
+width-response measurement (for example whether an intermediate width behaves
+consistently under fresh seeds), and do not describe it as finding the minimum width or
+as necessary to prove compression already demonstrated by w8. Any true replication must use a fresh preregistered seed
 set not used by the experiment being replicated. Keep the proposal bounded and use
 structured seeds and epochs in experiment_design. A novel proposal does not need to
 match an existing executable template; unsupported designs must remain non-executable
