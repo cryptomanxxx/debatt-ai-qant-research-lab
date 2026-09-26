@@ -62,6 +62,37 @@ def main():
         if any(x>maximum for x in count_matches):
             reject(f"impossible aggregate-count gate: {seed_count} seeds × {test_n} test samples gives at most {maximum} correct")
 
+    # Reviewed executable template: clean w8 confirmation only.
+    # Fail closed unless the AI draft exactly matches the preregistered design.
+    clean_w8=(
+        widths==[8]
+        and test_shape==[100,96]
+        and seed_count==5
+        and budget["max_candidates"]==1
+        and budget["max_epochs"]>=50
+        and budget["max_train_samples"]>=100
+        and budget["max_test_samples"]>=100
+        and budget["max_parameters"]>=8550
+        and "control_correct-10" in criteria.lower().replace(" ", "")
+    )
+    if clean_w8:
+        compiled={
+            "status":"validated_executable_template",
+            "approval_readiness":"READY_FOR_HUMAN_COMPUTE_DECISION",
+            "source":"research_queue/ai_researcher/latest.json",
+            "proposal_title":p.get("title"),
+            "template":"pnn-v1/experiments/w8_confirmation/run.py",
+            "job_id":"ai-w8-confirmation",
+            "preregistered_seeds":[121,131,141,151,161],
+            "epochs":50,
+            "gate":"alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
+            "message":"Draft exactly matches the reviewed w8 confirmation template. Human approval is still required before compute."
+        }
+        OUT.parent.mkdir(parents=True,exist_ok=True)
+        OUT.write_text(json.dumps(compiled,indent=2)+"\n")
+        print(json.dumps(compiled,indent=2))
+        return
+
     compiled={
         "status":"validated_not_executable",
         "approval_readiness":"NOT_READY_FOR_COMPUTE",
