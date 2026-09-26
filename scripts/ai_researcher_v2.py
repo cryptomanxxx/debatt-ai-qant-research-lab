@@ -70,6 +70,7 @@ def main():
         "rules":full.get("rules",[]),
         "active_pnn_v1_model":full.get("active_pnn_v1_model"),
         "current_frontier":full.get("current_frontier"),
+        "latest_human_review":full.get("latest_human_review"),
         "recent_pnn_v1_experiments":full.get("pnn_v1_experiments",[])[-6:],
         "recent_pnn_v1_analyses":full.get("pnn_v1_analyses",[])[-3:],
     }
@@ -87,7 +88,7 @@ For fixed-size classification thresholds use aggregate integer correct counts,\n
 Exp021 already studied local-width compression and evaluated w8 and w12. The next
 confirmation must test ONLY the w8 boundary against the Alpha5 w16 control. Do not
 introduce a new width such as w4 and do not repeat w12. Do not claim that local width
-has never been varied; Exp021 is evidence that it has."""
+has never been varied; Exp021 is evidence that it has.\nIf latest_human_review contains a rejected proposal, treat its comment as mandatory\nreview feedback for the next proposal. Explicitly correct the rejected design rather\nthan repeating it. Human feedback is guidance only and can never authorize compute."""
     user="Repository research context:\n"+json.dumps(context,ensure_ascii=False)
     messages=[{"role":"system","content":system},{"role":"user","content":user}]
     raw=groq(messages)
