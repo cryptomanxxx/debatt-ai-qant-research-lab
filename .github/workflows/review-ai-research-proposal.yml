@@ -1,6 +1,6 @@
 name: Review AI Research Proposal
 
-on:
+"on":
   workflow_dispatch:
     inputs:
       decision:
