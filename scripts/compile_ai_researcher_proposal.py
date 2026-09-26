@@ -90,7 +90,7 @@ def main():
         and seed_numbers==PREREGISTERED_W8_SEEDS
         and seed_count==5
         and budget["max_candidates"]==1
-        and budget["max_epochs"]>=50
+        and budget["max_epochs"]==50
         and budget["max_train_samples"]>=100
         and budget["max_test_samples"]>=100
         and budget["max_parameters"]>=8550
