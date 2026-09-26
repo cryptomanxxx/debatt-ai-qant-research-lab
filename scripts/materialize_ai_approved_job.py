@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 COMPILED=Path("research_queue/compiled/latest.json")
-TEMPLATES={"ai-w8-confirmation":("research_queue/templates/ai-w8-confirmation.json","pnn-v1/experiments/w8_confirmation/run.py",[121,131,141,151,161]),"ai-w8-100epoch-confirmation":("research_queue/templates/ai-w8-100epoch-confirmation.json","pnn-v1/experiments/w8_100epoch_confirmation/run.py",[42,43,44,45,46])}
+TEMPLATES={"ai-w8-confirmation":("research_queue/templates/ai-w8-confirmation.json","pnn-v1/experiments/w8_confirmation/run.py",[121,131,141,151,161]),"ai-w8-100epoch-confirmation":("research_queue/templates/ai-w8-100epoch-confirmation.json","pnn-v1/experiments/w8_100epoch_confirmation/run.py",[42,43,44,45,46]),"ai-w12-100epoch-confirmation":("research_queue/templates/ai-w12-100epoch-confirmation.json","pnn-v1/experiments/w12_100epoch_confirmation/run.py",[101,102,103,104,105])}
 
 def fail(msg):
     raise SystemExit("APPROVAL BRIDGE REJECTED: "+msg)
@@ -31,7 +31,12 @@ if template.get("job_id")!=job_id or template.get("experiment")!=experiment:
     fail("template identity mismatch")
 if template.get("preregistered_seeds")!=seeds:
     fail("preregistered seeds mismatch")
-if template.get("gate")!="alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10":
+expected_gates={
+    "ai-w8-confirmation":"alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
+    "ai-w8-100epoch-confirmation":"alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
+    "ai-w12-100epoch-confirmation":"alpha5_w12.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
+}
+if template.get("gate")!=expected_gates[job_id] or compiled.get("gate")!=expected_gates[job_id]:
     fail("confirmation gate mismatch")
 
 job={
