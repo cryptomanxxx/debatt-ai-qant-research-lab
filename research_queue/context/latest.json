@@ -20,31 +20,31 @@
     "model_file": "pnn-v1/models/alpha5.md"
   },
   "latest_human_review": {
-    "proposal_title": "100\u2011epoch w12 Confirmation on ECG200",
+    "proposal_title": "100\u2011epoch Confirmation of Local Width\u202f10 on ECG200",
     "proposal_status_at_review": "draft_requires_human_review",
-    "proposal_sha256": "ce0dd16cb789fab846f0085a1f59bd94e6fa8e1ee896740a8d52e84eebd23cc4",
+    "proposal_sha256": "684c2914f435b9e64fb0f127880003cc9286b62b13cdc8aca56a759a267b54c7",
     "compiler_status": "validated_executable_template",
     "approval_readiness": "READY_FOR_HUMAN_COMPUTE_DECISION",
     "decision": "approve",
-    "comment": "Approved for scientific review. The preregistered w12 confirmation design is acceptable: ECG200, seeds 101\u2013105, 100 epochs, concurrent w16 control, 500 test predictions per model, with the success gate w12_correct \u2265 w16_correct \u2212 10. Approval is for this exact experiment design only.",
+    "comment": "Approved for scientific review. The preregistered w10 confirmation design is acceptable: ECG200, seeds 201\u2013205, 100 epochs, concurrent w16 control, 500 test predictions per model, with the success gate w10_correct \u2265 w16_correct \u2212 10. Approval is for this exact experiment design only.",
     "reviewer": "cryptomanxxx",
-    "workflow_run_id": "36241667768",
-    "proposal_workflow_run_id": "36241453123",
+    "workflow_run_id": "36243098020",
+    "proposal_workflow_run_id": "36242991513",
     "proposal_mode": "manual_start",
-    "reviewed_at_utc": "20260926T122144Z"
+    "reviewed_at_utc": "20260926T124845Z"
   },
   "current_frontier": {
-    "latest_completed_experiment": "PNN-v1-W12-100Epoch-Confirmation",
-    "result_file": "result_w12_100epoch_confirmation.json",
+    "latest_completed_experiment": "PNN-v1-Engine-alpha5_w10-100Epoch",
+    "result_file": "result_engine_w10_100epoch_ai-local-width-w10-100epoch-201-202-203-204-205.json",
     "success_criteria_met": true,
-    "decision": "w12_robustness_confirmed",
+    "decision": "local_width_confirmation_passed",
     "configuration": {
       "seeds": [
-        101,
-        102,
-        103,
-        104,
-        105
+        201,
+        202,
+        203,
+        204,
+        205
       ],
       "epochs": 100,
       "learning_rate": 0.001,
@@ -54,8 +54,8 @@
         2
       ],
       "candidates": {
-        "alpha5_w12": [
-          12,
+        "alpha5_w10": [
+          10,
           3
         ],
         "alpha5_w16_control": [
@@ -63,25 +63,25 @@
           3
         ]
       },
-      "preregistered_gate": "alpha5_w12.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
+      "preregistered_gate": "alpha5_w10.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
     },
     "summary": {
-      "alpha5_w12": {
-        "parameter_count": 6414,
-        "mean_reference_accuracy": 0.8879999999999999,
-        "mean_qant_accuracy": 0.89,
-        "std_qant_accuracy": 0.016733200530681523,
-        "mean_prediction_disagreements": 0.2,
-        "mean_absolute_logit_error": 0.01564797479659319,
-        "aggregate_qant_correct": 445
+      "alpha5_w10": {
+        "parameter_count": 5346,
+        "mean_reference_accuracy": 0.8880000000000001,
+        "mean_qant_accuracy": 0.8880000000000001,
+        "std_qant_accuracy": 0.0040000000000000036,
+        "mean_prediction_disagreements": 0.0,
+        "mean_absolute_logit_error": 0.01546398401260376,
+        "aggregate_qant_correct": 444
       },
       "alpha5_w16_control": {
         "parameter_count": 8550,
-        "mean_reference_accuracy": 0.9040000000000001,
+        "mean_reference_accuracy": 0.906,
         "mean_qant_accuracy": 0.906,
-        "std_qant_accuracy": 0.01743559577416271,
-        "mean_prediction_disagreements": 0.2,
-        "mean_absolute_logit_error": 0.01942680701613426,
+        "std_qant_accuracy": 0.00489897948556636,
+        "mean_prediction_disagreements": 0.0,
+        "mean_absolute_logit_error": 0.019786666333675384,
         "aggregate_qant_correct": 453
       }
     },
@@ -3336,6 +3336,74 @@
           "std_qant_accuracy": 0.01743559577416271,
           "mean_prediction_disagreements": 0.2,
           "mean_absolute_logit_error": 0.01942680701613426,
+          "aggregate_qant_correct": 453
+        }
+      }
+    },
+    {
+      "file": "result_engine_w10_100epoch_ai-local-width-w10-100epoch-201-202-203-204-205.json",
+      "experiment_id": "PNN-v1-Engine-alpha5_w10-100Epoch",
+      "proposal_id": "ai-local-width-w10-100epoch-201-202-203-204-205",
+      "timestamp_utc": "2026-09-26T12:52:16.179533+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ]
+      },
+      "configuration": {
+        "seeds": [
+          201,
+          202,
+          203,
+          204,
+          205
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "candidates": {
+          "alpha5_w10": [
+            10,
+            3
+          ],
+          "alpha5_w16_control": [
+            16,
+            3
+          ]
+        },
+        "preregistered_gate": "alpha5_w10.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
+      },
+      "success_criteria_met": true,
+      "decision": "local_width_confirmation_passed",
+      "selected_candidate": null,
+      "summary": {
+        "alpha5_w10": {
+          "parameter_count": 5346,
+          "mean_reference_accuracy": 0.8880000000000001,
+          "mean_qant_accuracy": 0.8880000000000001,
+          "std_qant_accuracy": 0.0040000000000000036,
+          "mean_prediction_disagreements": 0.0,
+          "mean_absolute_logit_error": 0.01546398401260376,
+          "aggregate_qant_correct": 444
+        },
+        "alpha5_w16_control": {
+          "parameter_count": 8550,
+          "mean_reference_accuracy": 0.906,
+          "mean_qant_accuracy": 0.906,
+          "std_qant_accuracy": 0.00489897948556636,
+          "mean_prediction_disagreements": 0.0,
+          "mean_absolute_logit_error": 0.019786666333675384,
           "aggregate_qant_correct": 453
         }
       }
