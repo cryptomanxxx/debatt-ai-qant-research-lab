@@ -131,6 +131,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          PROPOSAL_SHA256="$(python -c 'import json; print(json.load(open("research_queue/human_review/latest.json"))["proposal_sha256"])')"
+          PROPOSAL_RUN_ID="$(python -c 'import json; print(json.load(open("research_queue/human_review/latest.json"))["proposal_workflow_run_id"])')"
           gh api --method POST repos/${{ github.repository }}/dispatches \
-            -f event_type=scientifically_approved_compute
-          echo "Scientific review approved. Separate Compute Authorization requested."
+            -f event_type=scientifically_approved_compute \
+            -f "client_payload[proposal_sha256]=$PROPOSAL_SHA256" \
+            -f "client_payload[proposal_workflow_run_id]=$PROPOSAL_RUN_ID"
+          echo "Scientific review approved. Separate Compute Authorization requested for immutable proposal $PROPOSAL_SHA256."
