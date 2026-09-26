@@ -2,6 +2,7 @@ name: Approve Research Proposal
 
 on:
   workflow_dispatch:
+    if: ${{ false }}
     inputs:
       proposal_id:
         description: "Proposal to approve"
@@ -15,9 +16,10 @@ on:
         type: boolean
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
+  # Legacy workflow retained for history; direct publication to main is disabled.
   approve:
     if: ${{ inputs.confirm }}
     runs-on: ubuntu-latest
