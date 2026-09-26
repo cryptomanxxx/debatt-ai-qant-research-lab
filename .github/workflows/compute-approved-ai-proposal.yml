@@ -96,9 +96,10 @@ jobs:
 
   qant:
     name: "Q.ANT Guarded Research"
-    needs: prepare-qant
+    needs: [verify, prepare-qant]
     uses: ./.github/workflows/qant-research-queue-v2.yml
     with:
       job_id: ${{ needs.prepare-qant.outputs.job_id }}
+      execution_commit_sha: ${{ needs.verify.outputs.verified_commit_sha }}
       approved_commit_sha: ${{ needs.prepare-qant.outputs.approved_commit_sha }}
     secrets: inherit
