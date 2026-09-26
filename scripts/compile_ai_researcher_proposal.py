@@ -70,15 +70,10 @@ def main():
         reject("duplicate design: Exp021 already evaluated Alpha5 local widths 8, 12 and 16")
 
     procedure=" ".join(map(str,design.get("procedure",[])))
-    m=re.search(r"(\d+)\s+random seeds?",procedure,re.I)
-    seed_count=int(m.group(1)) if m else None
-    seed_numbers=[]
-    for group in re.findall(r"[{\[]\s*(\d+(?:\s*,\s*\d+){1,20})\s*[}\]]",procedure):
-        values=[int(x) for x in re.findall(r"\d+",group)]
-        if values in (PREREGISTERED_W8_SEEDS,PREREGISTERED_W8_100EPOCH_SEEDS):
-            seed_numbers=values
-            seed_count=len(values)
-            break
+    structured_seeds=design.get("seeds")
+    structured_epochs=design.get("epochs")
+    seed_numbers=structured_seeds if isinstance(structured_seeds,list) and all(isinstance(x,int) and not isinstance(x,bool) for x in structured_seeds) else []
+    seed_count=len(seed_numbers) if seed_numbers else None
     criteria=json.dumps(p.get("success_criteria",{}),ensure_ascii=False)
     gate_text=(procedure+" "+criteria).lower()
     gate_text=gate_text.replace("−","-").replace("–","-").replace("—","-").replace("≥",">=")
@@ -107,6 +102,7 @@ def main():
         and seed_numbers==PREREGISTERED_W8_SEEDS
         and seed_count==5
         and budget["max_candidates"]==1
+        and structured_epochs==50
         and budget["max_epochs"]==50
         and budget["max_train_samples"]>=100
         and budget["max_test_samples"]>=100
@@ -117,10 +113,9 @@ def main():
     clean_w8_100epoch=(
         widths==[8] and test_shape==[100,96]
         and seed_numbers==PREREGISTERED_W8_100EPOCH_SEEDS and seed_count==5
-        and budget["max_candidates"]==1 and budget["max_epochs"]==100
+        and budget["max_candidates"]==1 and structured_epochs==100 and budget["max_epochs"]==100
         and budget["max_train_samples"]>=100 and budget["max_test_samples"]>=100
         and budget["max_parameters"]>=8550 and aggregate_gate and training_protocol
-        and "100 epochs" in procedure.lower()
     )
     if clean_w8_100epoch:
         compiled={"status":"validated_executable_template","approval_readiness":"READY_FOR_HUMAN_COMPUTE_DECISION","source":"research_queue/ai_researcher/latest.json","proposal_title":p.get("title"),"template":"pnn-v1/experiments/w8_100epoch_confirmation/run.py","job_id":"ai-w8-100epoch-confirmation","preregistered_seeds":[42,43,44,45,46],"epochs":100,"gate":"alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10","automated_checks":review_checks(training_protocol,aggregate_gate,True),"human_decision":"Awaiting scientific review.","message":"Draft structurally matches the reviewed w8 100-epoch confirmation template, including exact preregistered seeds, train/test protocol, and aggregate relative gate. Human approval is still required before compute."}
