@@ -19,7 +19,7 @@ def metric_line(name, values, total_predictions=1000):
     mae = values.get("mean_absolute_logit_error", "—")
     if isinstance(mae, (int, float)):
         mae = f"{mae:.5f}"
-    return f"- **{name}:** {params:,} parameters · Q.ANT correct {correct}/{total_predictions} · MAE {mae}" if isinstance(params, int) else f"- **{name}:** parameters {params} · Q.ANT correct {correct}/1000 · MAE {mae}"
+    return f"- **{name}:** {params:,} parameters · Q.ANT correct {correct}/{total_predictions} · MAE {mae}" if isinstance(params, int) else f"- **{name}:** parameters {params} · Q.ANT correct {correct}/{total_predictions} · MAE {mae}"
 
 def render_evidence(frontier):
     if not isinstance(frontier, dict):
