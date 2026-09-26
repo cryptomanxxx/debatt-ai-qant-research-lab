@@ -1,13 +1,13 @@
 {
   "researcher": "AI Researcher v2",
   "model": "openai/gpt-oss-120b",
-  "evidence_frontier": "The latest completed w8 confirmation (PNN-v1-W8-Confirmation) trained Alpha5 w8 for 50 epochs on ECG200 and achieved 424/500 correct predictions versus the concurrent w16 control 441/500, failing the relative gate (candidate_correct >= control_correct -10). Earlier Exp021 also showed w8 (887/1000) underperformed w16 (897/1000) after 100 epochs on the same dataset, indicating a persistent performance gap that may be reduced with longer training.",
-  "analysis": "Observation: In the 50‑epoch confirmation, the w8 model lagged the w16 control by 17 correct predictions (424 vs 441) on 500 test predictions, violating the relative gate. In Exp021, w8 achieved 887/1000 correct after 100 epochs, still 10 below w16’s 897/1000, suggesting the gap persists but may shrink with more epochs. Hypothesis: Extending training to 100 epochs for the w8 model will close part of the gap, potentially meeting the relative gate (deficit ≤10).",
-  "hypothesis": "Training Alpha5 with local_width=8 for 100 epochs on ECG200 will improve its aggregate correct predictions such that the deficit relative to the concurrent w16 control is no more than 10 correct predictions (candidate_correct ≥ control_correct -10).",
+  "evidence_frontier": "The latest completed w8 confirmation (PNN‑v1‑W8‑Confirmation) trained Alpha5 w8 and w16 for 50 epochs on ECG200 and obtained aggregate Q.ANT correct 424 vs 441, failing the relative gate (candidate_correct < control_correct‑10). Earlier Exp021 also showed w8 (887 correct) lagging w16 (897) after 50 epochs. Thus the w8 boundary remains unconfirmed.",
+  "analysis": "Observation: In both Exp021 (50‑epoch) and the subsequent w8 confirmation (50‑epoch) the w8 model consistently underperformed the w16 control by 13–14 correct predictions out of 500, failing the relative gate. Hypothesis: Extending training to 100 epochs may allow the w8 model to close the performance gap, potentially meeting the gate.",
+  "hypothesis": "Training the Alpha5 w8 model for 100 epochs will improve its aggregate Q.ANT correct count sufficiently to satisfy candidate_correct ≥ control_correct − 10 on the ECG200 test set.",
   "proposal": {
-    "title": "100‑Epoch w8 Local‑Width Confirmation on ECG200",
-    "research_question": "Can extending training to 100 epochs enable the Alpha5 w8 model to meet the relative performance gate against the concurrent w16 control on ECG200?",
-    "rationale": "The w8 boundary has not yet been confirmed; longer training may allow the narrower representation to converge better. Demonstrating that the w8 model can meet the relative gate after 100 epochs would validate the feasibility of reducing local width without sacrificing performance, supporting model size reduction goals.",
+    "title": "100‑epoch w8 Confirmation on ECG200",
+    "research_question": "Does training Alpha5 with local_width = 8 for 100 epochs close the performance gap to the w16 control on ECG200?",
+    "rationale": "The w8 boundary has only been tested at 50 epochs; longer training could allow the narrower local representation to converge better. Confirming this is necessary before concluding that the w8 width is insufficient.",
     "experiment_design": {
       "dataset": {
         "name": "ECG200",
@@ -16,17 +16,26 @@
           96
         ]
       },
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "epochs": 100,
       "candidates": [
         {
           "local_width": 8
         }
       ],
       "procedure": [
-        "Train Alpha5 w8 and the concurrent Alpha5 w16 control on the ECG200 TRAIN split (100 samples) for exactly 100 epochs using seeds 42,43,44,45,46.",
-        "Evaluate both models on the ECG200 TEST split (100 samples) and compute aggregate correct predictions over the 5 seeds (5 × 100 = 500 predictions per model)."
+        "Train Alpha5 w8 and Alpha5 w16 control for 100 epochs on ECG200 train split (100 samples).",
+        "Evaluate both models on ECG200 test split (100 samples) using seeds [42,43,44,45,46].",
+        "Aggregate correct predictions over 5 × 100 test samples per model and apply the relative gate."
       ]
     },
-    "success_criteria": "candidate_correct >= control_correct - 10 on 500 predictions (5 seeds × 100 test samples).",
+    "success_criteria": "Candidate model (Alpha5 w8) must achieve aggregate Q.ANT correct ≥ control_correct − 10 on the 500 predictions (5 seeds × 100 test samples). The denominator is 500 predictions per model.",
     "requested_budget": {
       "max_parameters": 9000,
       "max_candidates": 1,
@@ -34,7 +43,7 @@
       "max_train_samples": 100,
       "max_test_samples": 100
     },
-    "risks": "If the w8 model still underperforms by more than 10 correct predictions, the boundary will remain unconfirmed, requiring alternative architectural changes. Over‑fitting to the small ECG200 training set is possible, and the fixed seed set may not capture variability.",
+    "risks": "If the gap persists, the w8 width will be deemed insufficient, requiring larger widths or architectural changes, consuming additional compute budget. Over‑training could also lead to over‑fit on the small ECG200 train set.",
     "requires_human_approval": true
   },
   "status": "draft_requires_human_review"
