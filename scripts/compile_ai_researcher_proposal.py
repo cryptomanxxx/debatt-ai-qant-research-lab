@@ -108,12 +108,22 @@ def main():
             reject(f"impossible aggregate-count gate: {seed_count} seeds × {test_n} test samples gives at most {maximum} correct")
 
     # The 100-epoch confirmation on seeds 42..46 is already completed evidence.
-    # Never authorize an identical rerun as though it were a new proposal.
+    # Reject it as a duplicate only when the full structured confirmation protocol
+    # also matches. Reusing a width/seed/epoch tuple alone must not erase a future
+    # scientifically distinct protocol; unsupported variants remain non-executable.
+    completed_w8_protocol=(
+        isinstance(procedure_value,dict)
+        and procedure_value.get("same_preregistered_seeds") is True
+        and procedure_value.get("train_samples")==100
+        and procedure_value.get("test_samples")==100
+        and procedure_value.get("aggregate_predictions_per_model")==500
+    )
     if (
         widths==[8]
         and test_shape==[100,96]
         and seed_numbers==PREREGISTERED_W8_100EPOCH_SEEDS
         and structured_epochs==100
+        and completed_w8_protocol
     ):
         reject("duplicate completed design: the w8 100-epoch confirmation on seeds 42,43,44,45,46 already ran successfully")
 

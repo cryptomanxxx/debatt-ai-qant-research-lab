@@ -21,7 +21,7 @@ def groq(messages):
                     "test_shape":{"type":"array","items":{"type":"integer","enum":[100,96]},"minItems":2,"maxItems":2}
                 },"required":["name","test_shape"],"additionalProperties":False},
                 "seeds":{"type":"array","items":{"type":"integer","minimum":1},"minItems":3,"maxItems":10},
-                "epochs":{"type":"integer","minimum":1,"maximum":200},
+                "epochs":{"type":"integer","minimum":1,"maximum":100},
                 "candidates":{"type":"array","items":{"type":"object","properties":{
                     "local_width":{"type":"integer","minimum":1}
                 },"required":["local_width"],"additionalProperties":False},"minItems":1},
