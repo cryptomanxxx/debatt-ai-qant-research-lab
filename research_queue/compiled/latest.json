@@ -1,0 +1,34 @@
+{
+  "status": "validated_not_executable",
+  "approval_readiness": "NOT_READY_FOR_COMPUTE",
+  "source": "research_queue/ai_researcher/latest.json",
+  "proposal_title": "Confirmation of w8 Compression Boundary on ECG200 with Integer\u2011Count Gating",
+  "automated_checks": [
+    {
+      "check": "Human approval required",
+      "status": "passed"
+    },
+    {
+      "check": "Budget schema and positive limits",
+      "status": "passed"
+    },
+    {
+      "check": "Supported dataset/design family",
+      "status": "passed"
+    },
+    {
+      "check": "Candidate structure",
+      "status": "passed"
+    },
+    {
+      "check": "No known duplicate candidate set",
+      "status": "passed"
+    },
+    {
+      "check": "Aggregate-count arithmetic",
+      "status": "passed"
+    }
+  ],
+  "human_decision": "No compute decision is requested yet.",
+  "message": "Automated structural checks passed, but no reviewed executable template matches this draft yet. This is not a claim of scientific correctness."
+}
