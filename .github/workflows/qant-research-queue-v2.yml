@@ -10,6 +10,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 concurrency:
   group: qant-guarded-research-queue
@@ -62,13 +63,6 @@ jobs:
           python scripts/build_research_dashboard.py
           python scripts/build_research_context.py
           python scripts/build_research_context.py
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          git -C "$GITHUB_WORKSPACE" config user.name "Debatt-AI Research Runner"
-          git -C "$GITHUB_WORKSPACE" config user.email "actions@users.noreply.github.com"
-          git -C "$GITHUB_WORKSPACE" add results/ pnn-v1/results/ executions/ public/research-dashboard.json research_queue/context/latest.json research_queue/context/latest.json
-          if git -C "$GITHUB_WORKSPACE" diff --cached --quiet; then exit 0; fi
-          git -C "$GITHUB_WORKSPACE" commit -m "Complete guarded research job ${{ steps.resolve.outputs.job_id }}"
-          # main may have advanced while the experiment was running (for example,
-          # dashboard/research commits). Replay this result commit on latest main.
-          git -C "$GITHUB_WORKSPACE" pull --rebase origin main
-          git -C "$GITHUB_WORKSPACE" push
+          export GITHUB_TOKEN="${{ github.token }}"
+          export AUTOMATION_GIT_NAME="Debatt-AI Research Runner"
+          python scripts/publish_via_pr.py "Complete guarded research job ${{ steps.resolve.outputs.job_id }}" results/ pnn-v1/results/ executions/ public/research-dashboard.json research_queue/context/latest.json
