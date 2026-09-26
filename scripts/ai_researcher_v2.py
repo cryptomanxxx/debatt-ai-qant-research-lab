@@ -109,7 +109,13 @@ width or as necessary to prove compression already demonstrated by w8.
 For any experiment described as using fresh seeds, every seed must be absent from all
 structured prior experiment configurations in the supplied context. In particular,
 avoid the already used seeds [11,22,33,44,55,66,77,88,99,111],
-[121,131,141,151,161], and [42,43,44,45,46]. Any true replication must use a fresh preregistered seed
+[121,131,141,151,161], and [42,43,44,45,46].
+For a 100-epoch confirmation proposal, requested_budget.max_epochs MUST be exactly 100,
+not a looser ceiling such as 200. The procedure MUST explicitly state that candidate and
+concurrent control are trained/evaluated on the same preregistered seeds, for 100 epochs,
+using the same ECG200 train/test split (100 train and 100 test samples), and that results
+are aggregated over 500 test predictions per model. Do not replace these protocol details
+with abstract labels such as train_models or evaluate_qant_correct. Any true replication must use a fresh preregistered seed
 set not used by the experiment being replicated. Keep the proposal bounded and use
 structured seeds and epochs in experiment_design. A novel proposal does not need to
 match an existing executable template; unsupported designs must remain non-executable
