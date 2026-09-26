@@ -31,6 +31,16 @@ def render_evidence(frontier):
     summary = frontier.get("summary", {})
     if not isinstance(summary, dict):
         return fmt(frontier)
+    configuration = frontier.get("configuration", {})
+    seeds = configuration.get("seeds") if isinstance(configuration, dict) else None
+    dataset = frontier.get("dataset", {})
+    test_shape = dataset.get("test_shape") if isinstance(dataset, dict) else None
+    if isinstance(seeds, list) and isinstance(test_shape, list) and test_shape and isinstance(test_shape[0], int):
+        total_predictions = len(seeds) * test_shape[0]
+    elif isinstance(configuration, dict) and isinstance(configuration.get("aggregate_predictions_per_model"), int):
+        total_predictions = configuration["aggregate_predictions_per_model"]
+    else:
+        total_predictions = 500 if latest in ("PNN-v1-W8-Confirmation", "PNN-v1-W8-100Epoch-Confirmation") else 1000
     exp20 = summary.get("Exp020", {})
     if exp20:
         lines += ["### Exp020 — Alpha5 promotion evidence"]
@@ -56,8 +66,7 @@ def render_evidence(frontier):
         for key, label in labels.items():
             value = exp21.get(key)
             if isinstance(value, dict):
-                total = 500 if latest == "PNN-v1-W8-Confirmation" else 1000
-                lines.append(metric_line(label, value, total))
+                lines.append(metric_line(label, value, total_predictions))
             elif value is not None:
                 lines.append(f"- **{label}:** {fmt(value)}")
         lines += [f"- **Recorded decision:** {exp21.get('decision', '—')}", ""]
