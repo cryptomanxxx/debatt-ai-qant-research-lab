@@ -29,6 +29,8 @@ def render_evidence(frontier):
     if latest:
         lines += [f"**Latest completed experiment:** {latest}", ""]
     summary = frontier.get("summary", {})
+    if not isinstance(summary, dict):
+        return fmt(frontier)
     exp20 = summary.get("Exp020", {})
     if exp20:
         lines += ["### Exp020 — Alpha5 promotion evidence"]
@@ -38,6 +40,8 @@ def render_evidence(frontier):
             lines.append(metric_line("Alpha5", exp20["alpha5_candidate"]))
         lines += [f"- **Recorded decision:** {exp20.get('decision', '—')}", ""]
     exp21 = summary.get("Exp021", {})
+    if not exp21 and any(k in summary for k in ("alpha5_w8","alpha5_w12","alpha5_w16_control")):
+        exp21 = {k: summary[k] for k in ("alpha5_w8","alpha5_w12","alpha5_w16_control") if k in summary}
     if exp21:
         lines += ["### Exp021 — Compression frontier"]
         labels = {
