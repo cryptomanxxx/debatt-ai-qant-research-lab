@@ -1,8 +1,40 @@
 {
-  "status": "validated_not_executable",
-  "approval_readiness": "NOT_READY_FOR_COMPUTE",
+  "status": "validated_executable_template",
+  "approval_readiness": "READY_FOR_HUMAN_COMPUTE_DECISION",
   "source": "research_queue/ai_researcher/latest.json",
-  "proposal_title": "100\u2011epoch Width\u201110 Confirmation on ECG200",
+  "proposal_title": "100\u2011epoch Confirmation of Local Width\u202f10 on ECG200",
+  "template": "pnn-v1/experiments/local_width_confirmation/run.py",
+  "engine_family": "pnn-local-width-confirmation-v1",
+  "job_id": "ai-local-width-w10-100epoch-201-202-203-204-205",
+  "preregistered_seeds": [
+    201,
+    202,
+    203,
+    204,
+    205
+  ],
+  "epochs": 100,
+  "gate": "alpha5_w10.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
+  "budget": {
+    "max_parameters": 9000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "engine_config": {
+    "candidate_local_width": 10,
+    "control_local_width": 16,
+    "seeds": [
+      201,
+      202,
+      203,
+      204,
+      205
+    ],
+    "epochs": 100,
+    "gate_margin_correct": 10
+  },
   "automated_checks": [
     {
       "check": "Human approval required",
@@ -31,8 +63,32 @@
     {
       "check": "Relative aggregate gate present",
       "status": "passed"
+    },
+    {
+      "check": "Exact reviewed executable template match",
+      "status": "passed"
+    },
+    {
+      "check": "Structured paired candidate/control protocol",
+      "status": "passed"
+    },
+    {
+      "check": "Exact 100-epoch structured protocol",
+      "status": "passed"
+    },
+    {
+      "check": "Exact ECG200 100/100 budget contract",
+      "status": "passed"
+    },
+    {
+      "check": "Fresh seeds against recorded PNN results",
+      "status": "passed"
+    },
+    {
+      "check": "PNN Experiment Engine v1 parameter bounds",
+      "status": "passed"
     }
   ],
-  "human_decision": "No compute decision is requested yet.",
-  "message": "Automated structural checks passed, but no reviewed executable template matches this draft yet. This is not a claim of scientific correctness."
+  "human_decision": "Awaiting scientific review.",
+  "message": "Draft matches the reviewed PNN Experiment Engine v1 local-width confirmation family. Human scientific approval and separate compute authorization are still required."
 }
