@@ -89,7 +89,7 @@ def main():
             "message":"Draft exactly matches the reviewed w8 confirmation template. Human approval is still required before compute."
         }
         OUT.parent.mkdir(parents=True,exist_ok=True)
-        OUT.write_text(json.dumps(compiled,indent=2)+"\\n")
+        OUT.write_text(json.dumps(compiled,indent=2)+"\n")
         print(json.dumps(compiled,indent=2))
         return
 
