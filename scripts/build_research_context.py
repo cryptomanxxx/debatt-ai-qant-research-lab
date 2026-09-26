@@ -29,6 +29,7 @@ for path in sorted(Path("pnn-v1/results").glob("result*.json")):
   "timestamp_utc":d.get("timestamp_utc"),
   "backend":d.get("backend"),
   "dataset":d.get("dataset"),
+  "configuration":d.get("configuration"),
   "success_criteria_met":d.get("success_criteria_met"),
   "decision":d.get("promotion_decision") or d.get("intervention_decision") or d.get("diagnostic_decision") or d.get("decision"),
   "selected_candidate":d.get("selected_candidate"),
@@ -48,7 +49,7 @@ for path in sorted(Path("pnn-v1/analyses").glob("analysis*.md")):
 human_review=load_json(Path("research_queue/human_review/latest.json"))
 
 packet={
- "schema_version":4,
+ "schema_version":5,
  "purpose":"Evidence packet for the next falsifiable research proposal.",
  "rules":[
   "Use repository results as experimental evidence.",
