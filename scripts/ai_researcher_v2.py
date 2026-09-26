@@ -44,7 +44,17 @@ def groq(messages):
             with urllib.request.urlopen(req,timeout=120) as r:
                 return json.load(r)["choices"][0]["message"]["content"]
         except urllib.error.HTTPError as exc:
-            if exc.code != 429 or attempt == 2: raise
+            if exc.code == 400:
+                # Groq returns schema-validation details in the response body.
+                # Print that diagnostic only; request headers/API key are never logged.
+                try:
+                    detail=exc.read().decode("utf-8","replace")
+                except Exception:
+                    detail="<unable to read Groq error body>"
+                print(f"Groq HTTP 400 response: {detail}",file=sys.stderr)
+                raise
+            if exc.code != 429 or attempt == 2:
+                raise
             try: delay=max(1.0,float(exc.headers.get("Retry-After")))
             except (TypeError,ValueError): delay=2.0*(2**attempt)
             print(f"Groq rate limited request; retrying in {delay:g}s",file=sys.stderr)
