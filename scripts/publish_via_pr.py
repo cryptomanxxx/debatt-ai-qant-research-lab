@@ -33,7 +33,7 @@ branch=f"automation/artifacts-{run_id}-{attempt}-{job}".replace("_","-")
 run("git","fetch","origin","main")
 run("git","rebase","origin/main")
 run("git","checkout","-b",branch)
-run("git","push","origin","f"HEAD:refs/heads/{branch}")
+run("git","push","origin",f"HEAD:refs/heads/{branch}")
 token=os.environ["GITHUB_TOKEN"]; repository=os.environ["GITHUB_REPOSITORY"]
 def api(method,path,data=None):
     req=urllib.request.Request("https://api.github.com/repos/"+repository+path,
