@@ -77,6 +77,7 @@ packet={
    "result_file":pnn[-1].get("file"),
    "success_criteria_met":pnn[-1].get("success_criteria_met"),
    "decision":pnn[-1].get("decision"),
+   "dataset":pnn[-1].get("dataset"),
    "configuration":pnn[-1].get("configuration"),
    "summary":pnn[-1].get("summary"),
    "research_instruction":"Treat this latest completed result as evidence. Do not reinterpret a failed preregistered gate as success. Formulate the next falsifiable research question from the evidence rather than repeating a completed experiment."
