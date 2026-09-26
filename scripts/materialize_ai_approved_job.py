@@ -34,7 +34,7 @@ if compiled.get("engine_family")==ENGINE_FAMILY:
         compiled.get("template")==ENGINE_PATH
         and isinstance(cw,int) and not isinstance(cw,bool) and 4<=cw<16
         and cfg.get("control_local_width")==16
-        and isinstance(seeds,list) and len(seeds)==5 and len(set(seeds))==5
+        and isinstance(seeds,list) and len(seeds)==5 and len(set(seeds))==5 and all(isinstance(s,int) and not isinstance(s,bool) and s>0 for s in seeds)
         and cfg.get("seeds")==seeds and cfg.get("epochs")==100 and cfg.get("gate_margin_correct")==10
         and compiled.get("epochs")==100 and compiled.get("gate")==expected_gate
         and isinstance(budget,dict) and budget.get("max_candidates")==2 and budget.get("max_epochs")==100
