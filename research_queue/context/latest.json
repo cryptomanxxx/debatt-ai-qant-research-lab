@@ -22,10 +22,14 @@
   "latest_human_review": {
     "proposal_title": "Confirmation of w8 Local-Width Boundary on ECG200",
     "proposal_status_at_review": "draft_requires_human_review",
+    "proposal_git_blob_sha": "8cab6c5ad0954803789ce8ab6b6994df5007c134",
+    "compiler_status": "validated_not_executable",
+    "approval_readiness": "NOT_READY_FOR_COMPUTE",
     "decision": "reject",
-    "comment": "Reject: proposal does not match the preregistered executable w8 confirmation template. Use w8 as the candidate and w16 as the control, exactly five preregistered seeds (121, 131, 141, 151, 161), 50 epochs, and the relative gate candidate_correct >= control_correct - 10.",
+    "comment": "Reject: the preregistered success gate applies to the aggregate correct count across all five seeds, not separately to each seed. Use exactly: alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10. Keep all other corrected design details unchanged.",
     "reviewer": "human_review",
-    "source": "Recorded from the already-completed GitHub Environment rejection so AI Researcher can consume the human feedback."
+    "workflow_run_id": "22",
+    "source": "Backfilled from the already-completed review of AI Researcher v2 run #22."
   },
   "current_frontier": {
     "latest_completed_experiment": "PNN-v1-Exp021",
