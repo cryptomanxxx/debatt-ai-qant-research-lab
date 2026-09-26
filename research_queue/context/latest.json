@@ -22,16 +22,16 @@
   "latest_human_review": {
     "proposal_title": "Confirmation of w8 Local\u2011Width Boundary on ECG200",
     "proposal_status_at_review": "draft_requires_human_review",
-    "proposal_sha256": "5f1a3ec7f17ee5bffef2e6afc6de290b35e209753020fa994b967b3c58b004cc",
-    "compiler_status": "validated_not_executable",
-    "approval_readiness": "NOT_READY_FOR_COMPUTE",
-    "decision": "reject",
-    "comment": "Reject: keep the corrected train/test protocol, 50 epochs, and aggregate relative gate unchanged. Use exactly the preregistered seeds 121, 131, 141, 151, 161. Do not generate or substitute a different seed list.",
+    "proposal_sha256": "92b6193d48d7a95238129b53b8c95797e1ffe6c698219801171d9fd5c4b363ac",
+    "compiler_status": "validated_executable_template",
+    "approval_readiness": "READY_FOR_HUMAN_COMPUTE_DECISION",
+    "decision": "approve",
+    "comment": "Approved: the proposal now matches the preregistered w8 confirmation design, including exact seeds, 50 epochs, correct train/test separation, and the aggregate relative gate.",
     "reviewer": "cryptomanxxx",
-    "workflow_run_id": "36236675430",
-    "proposal_workflow_run_id": "36236550733",
-    "proposal_mode": "manual_start",
-    "reviewed_at_utc": "20260926T104411Z"
+    "workflow_run_id": "36236842964",
+    "proposal_workflow_run_id": "36236681757",
+    "proposal_mode": "automatic_revision",
+    "reviewed_at_utc": "20260926T104730Z"
   },
   "current_frontier": {
     "latest_completed_experiment": "PNN-v1-Exp021",
@@ -2462,6 +2462,47 @@
           "mean_prediction_disagreements": 0.0,
           "mean_absolute_logit_error": 0.020006656460464,
           "aggregate_qant_correct": 897
+        }
+      }
+    },
+    {
+      "file": "result_w8_confirmation.json",
+      "experiment_id": "PNN-v1-W8-Confirmation",
+      "proposal_id": "AI-Researcher-w8-confirmation",
+      "timestamp_utc": "2026-09-26T10:52:15.442041+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ]
+      },
+      "success_criteria_met": false,
+      "decision": "w8_boundary_not_confirmed",
+      "selected_candidate": null,
+      "summary": {
+        "alpha5_w8": {
+          "parameter_count": 4278,
+          "mean_reference_accuracy": 0.85,
+          "mean_qant_accuracy": 0.8480000000000001,
+          "std_qant_accuracy": 0.02561249694973138,
+          "mean_prediction_disagreements": 0.2,
+          "mean_absolute_logit_error": 0.011667688749730587,
+          "aggregate_qant_correct": 424
+        },
+        "alpha5_w16_control": {
+          "parameter_count": 8550,
+          "mean_reference_accuracy": 0.882,
+          "mean_qant_accuracy": 0.882,
+          "std_qant_accuracy": 0.022271057451320107,
+          "mean_prediction_disagreements": 0.0,
+          "mean_absolute_logit_error": 0.015304717980325223,
+          "aggregate_qant_correct": 441
         }
       }
     }

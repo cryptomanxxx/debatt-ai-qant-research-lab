@@ -1,6 +1,6 @@
 {
   "schema_version": 3,
-  "generated_at_utc": "2026-09-25T20:39:31.673940+00:00",
+  "generated_at_utc": "2026-09-26T10:52:16.424797+00:00",
   "project": {
     "name": "Debatt-AI Q.ANT Research Lab",
     "description": "Experimental architecture research using the Q.ANT Native Computing Toolkit.",
@@ -645,8 +645,8 @@
       "promoted_by": "PNN-v1-Exp020"
     },
     "description": "Development of a compact Q.ANT-native neural-network architecture, starting with time-series classification.",
-    "completed_experiments": 21,
-    "latest_completed_experiment": "PNN-v1-Exp021",
+    "completed_experiments": 22,
+    "latest_completed_experiment": "PNN-v1-W8-Confirmation",
     "experiments": [
       {
         "id": "PNN-v1-Exp001",
@@ -1253,6 +1253,43 @@
             "mean_prediction_disagreements": 0.0,
             "mean_absolute_logit_error": 0.020006656460464,
             "aggregate_qant_correct": 897
+          }
+        ]
+      },
+      {
+        "id": "PNN-v1-W8-Confirmation",
+        "proposal_id": "AI-Researcher-w8-confirmation",
+        "completed": true,
+        "dataset": "ECG200",
+        "datasets": [],
+        "backend": "qant-cpu/software-simulation",
+        "timestamp_utc": "2026-09-26T10:52:15.442041+00:00",
+        "success_criteria_met": false,
+        "decision": "w8_boundary_not_confirmed",
+        "selected_candidate": null,
+        "eligible_candidates": null,
+        "architectures": [
+          {
+            "architecture": "alpha5_w8",
+            "parameters": 4278,
+            "mean_reference_accuracy": 0.85,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.8480000000000001,
+            "std_qant_accuracy": 0.02561249694973138,
+            "mean_prediction_disagreements": 0.2,
+            "mean_absolute_logit_error": 0.011667688749730587,
+            "aggregate_qant_correct": 424
+          },
+          {
+            "architecture": "alpha5_w16_control",
+            "parameters": 8550,
+            "mean_reference_accuracy": 0.882,
+            "std_reference_accuracy": null,
+            "mean_qant_accuracy": 0.882,
+            "std_qant_accuracy": 0.022271057451320107,
+            "mean_prediction_disagreements": 0.0,
+            "mean_absolute_logit_error": 0.015304717980325223,
+            "aggregate_qant_correct": 441
           }
         ]
       }

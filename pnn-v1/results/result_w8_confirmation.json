@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "project": "Debatt-AI Photonic Neural Network v1",
+  "proposal_id": "AI-Researcher-w8-confirmation",
+  "experiment_id": "PNN-v1-W8-Confirmation",
+  "timestamp_utc": "2026-09-26T10:52:15.442041+00:00",
+  "backend": "qant-cpu/software-simulation",
+  "dataset": {
+    "name": "ECG200",
+    "train_shape": [
+      100,
+      96
+    ],
+    "test_shape": [
+      100,
+      96
+    ]
+  },
+  "configuration": {
+    "seeds": [
+      121,
+      131,
+      141,
+      151,
+      161
+    ],
+    "epochs": 50,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "candidates": {
+      "alpha5_w8": [
+        8,
+        3
+      ],
+      "alpha5_w16_control": [
+        16,
+        3
+      ]
+    },
+    "preregistered_gate": "alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
+  },
+  "rows": [
+    {
+      "candidate": "alpha5_w8",
+      "seed": 121,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.81,
+      "qant_accuracy": 0.8,
+      "prediction_disagreements": 1,
+      "mean_absolute_logit_error": 0.010959875769913197
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 131,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.85,
+      "qant_accuracy": 0.85,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.010892038233578205
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 141,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.85,
+      "qant_accuracy": 0.85,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.012811874970793724
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 151,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.87,
+      "qant_accuracy": 0.87,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.012223968282341957
+    },
+    {
+      "candidate": "alpha5_w8",
+      "seed": 161,
+      "parameter_count": 4278,
+      "reference_accuracy": 0.87,
+      "qant_accuracy": 0.87,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.011450686492025852
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 121,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.86,
+      "qant_accuracy": 0.86,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.015065946616232395
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 131,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.89,
+      "qant_accuracy": 0.89,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.014016227796673775
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 141,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.92,
+      "qant_accuracy": 0.92,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.016544463112950325
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 151,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.86,
+      "qant_accuracy": 0.86,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.016815731301903725
+    },
+    {
+      "candidate": "alpha5_w16_control",
+      "seed": 161,
+      "parameter_count": 8550,
+      "reference_accuracy": 0.88,
+      "qant_accuracy": 0.88,
+      "prediction_disagreements": 0,
+      "mean_absolute_logit_error": 0.01408122107386589
+    }
+  ],
+  "summary": {
+    "alpha5_w8": {
+      "parameter_count": 4278,
+      "mean_reference_accuracy": 0.85,
+      "mean_qant_accuracy": 0.8480000000000001,
+      "std_qant_accuracy": 0.02561249694973138,
+      "mean_prediction_disagreements": 0.2,
+      "mean_absolute_logit_error": 0.011667688749730587,
+      "aggregate_qant_correct": 424
+    },
+    "alpha5_w16_control": {
+      "parameter_count": 8550,
+      "mean_reference_accuracy": 0.882,
+      "mean_qant_accuracy": 0.882,
+      "std_qant_accuracy": 0.022271057451320107,
+      "mean_prediction_disagreements": 0.0,
+      "mean_absolute_logit_error": 0.015304717980325223,
+      "aggregate_qant_correct": 441
+    }
+  },
+  "success_criteria_met": false,
+  "decision": "w8_boundary_not_confirmed",
+  "notes": "Reviewed confirmation template. Same fresh preregistered seeds for w8 and w16 control. Software/simulation backend only."
+}
