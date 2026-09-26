@@ -80,13 +80,24 @@ def main():
     gate_text=gate_text.replace("−","-").replace("–","-").replace("—","-").replace("≥",">=")
     gate_compact=re.sub(r"\s+","",gate_text)
     training_protocol=("train" in procedure.lower() and "test" in procedure.lower() and ("evaluat" in procedure.lower() or "prediction" in procedure.lower()))
-    aggregate_gate=(
+    generic_aggregate_gate=(
         ("aggregate" in gate_text or "aggregated" in gate_text)
         and "candidate" in gate_text
         and "control" in gate_text
         and ("-10" in gate_compact or "minusten" in gate_text)
         and (">=" in gate_compact or "atleast" in gate_compact)
     )
+    # Reviewed named gates are equally explicit and safer than requiring the
+    # model to paraphrase them with the generic words candidate/control.
+    named_w8_gate=(
+        "alpha5_w8.aggregate_qant_correct>=alpha5_w16_control.aggregate_qant_correct-10"
+        in gate_compact
+    )
+    named_w12_gate=(
+        "alpha5_w12.aggregate_qant_correct>=alpha5_w16_control.aggregate_qant_correct-10"
+        in gate_compact
+    )
+    aggregate_gate=generic_aggregate_gate or named_w8_gate or named_w12_gate
     count_matches=[int(x) for x in re.findall(r"(?:correct[^0-9]{0,30}|≥\s*)(\d{3,5})",criteria,re.I)]
     test_shape=dataset.get("test_shape")
     test_n=test_shape[0] if isinstance(test_shape,list) and test_shape and isinstance(test_shape[0],int) else None
