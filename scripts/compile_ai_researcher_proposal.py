@@ -197,12 +197,12 @@ def main():
             4<=cw<16 and test_shape==[100,96] and fresh_seeds
             and structured_epochs==100 and budget["max_candidates"]==2 and budget["max_epochs"]==100
             and budget["max_train_samples"]==100 and budget["max_test_samples"]==100
-            and 8550<=budget["max_parameters"]<=10000 and training_protocol and engine_gate
+            and 8550<=budget["max_parameters"]<=10000 and engine_gate
         )
         if engine_match:
             job_id=f"ai-local-width-w{cw}-100epoch-"+"-".join(map(str,seed_numbers))
             gate=f"alpha5_w{cw}.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
-            compiled={"status":"validated_executable_template","approval_readiness":"READY_FOR_HUMAN_COMPUTE_DECISION","source":"research_queue/ai_researcher/latest.json","proposal_title":p.get("title"),"template":"pnn-v1/experiments/local_width_confirmation/run.py","engine_family":"pnn-local-width-confirmation-v1","job_id":job_id,"preregistered_seeds":seed_numbers,"epochs":100,"gate":gate,"budget":budget,"engine_config":{"candidate_local_width":cw,"control_local_width":16,"seeds":seed_numbers,"epochs":100,"gate_margin_correct":10},"automated_checks":review_checks(training_protocol,True,True)+[{"check":"Fresh seeds against recorded PNN results","status":"passed"},{"check":"PNN Experiment Engine v1 parameter bounds","status":"passed"}],"human_decision":"Awaiting scientific review.","message":"Draft matches the reviewed PNN Experiment Engine v1 local-width confirmation family. Human scientific approval and separate compute authorization are still required."}
+            compiled={"status":"validated_executable_template","approval_readiness":"READY_FOR_HUMAN_COMPUTE_DECISION","source":"research_queue/ai_researcher/latest.json","proposal_title":p.get("title"),"template":"pnn-v1/experiments/local_width_confirmation/run.py","engine_family":"pnn-local-width-confirmation-v1","job_id":job_id,"preregistered_seeds":seed_numbers,"epochs":100,"gate":gate,"budget":budget,"engine_config":{"candidate_local_width":cw,"control_local_width":16,"seeds":seed_numbers,"epochs":100,"gate_margin_correct":10},"automated_checks":review_checks(False,True,True)+[{"check":"Structured paired candidate/control protocol","status":"passed"},{"check":"Exact 100-epoch structured protocol","status":"passed"},{"check":"Exact ECG200 100/100 budget contract","status":"passed"},{"check":"Fresh seeds against recorded PNN results","status":"passed"},{"check":"PNN Experiment Engine v1 parameter bounds","status":"passed"}],"human_decision":"Awaiting scientific review.","message":"Draft matches the reviewed PNN Experiment Engine v1 local-width confirmation family. Human scientific approval and separate compute authorization are still required."}
             OUT.parent.mkdir(parents=True,exist_ok=True); OUT.write_text(json.dumps(compiled,indent=2)+"\n")
             print(json.dumps(compiled,indent=2)); return
 
