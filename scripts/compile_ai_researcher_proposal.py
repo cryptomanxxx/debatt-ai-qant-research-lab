@@ -91,9 +91,11 @@ def main():
     # Reviewed named gates are equally explicit and safer than requiring the
     # model to paraphrase them with the generic words candidate/control.
     def exact_gate(expr):
-        # Match the complete normalized expression, not a numeric prefix such
-        # as -10 inside -100. JSON punctuation/quotes may surround the value.
-        return re.search(r"(?<![a-z0-9_.-])"+re.escape(expr)+r"(?![a-z0-9_-]|\.\d)",gate_compact) is not None
+        # Match the normalized expression while preserving original whitespace
+        # boundaries. This distinguishes a decimal continuation (-10.5) from
+        # sentence punctuation followed by a new numeric token (-10. 5 seeds).
+        pattern=r"(?<![a-z0-9_.-])"+r"\\s*".join(map(re.escape,expr))+r"(?![a-z0-9_-]|\.\d)"
+        return re.search(pattern,gate_text) is not None
 
     named_w8_gate=exact_gate(
         "alpha5_w8.aggregate_qant_correct>=alpha5_w16_control.aggregate_qant_correct-10"
