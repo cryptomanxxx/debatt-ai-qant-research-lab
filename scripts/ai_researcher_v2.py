@@ -68,7 +68,27 @@ For fixed-size classification thresholds use aggregate integer correct counts,\n
                 raise
             return json.loads(m.group(0))
 
-    data=parse_json(raw)
+    # If the model returns malformed JSON, do not heuristically rewrite the
+    # research content in Python. Give it one bounded opportunity to serialize
+    # the same proposal as strict JSON; fail closed if that also cannot parse.
+    try:
+        data=parse_json(raw)
+    except (json.JSONDecodeError, ValueError):
+        repair=(
+            "Your previous response is not valid JSON. Return the COMPLETE response "
+            "again as one strict JSON object using double-quoted property names and "
+            "valid JSON syntax. Do not return a patch, markdown, code fences, or "
+            "commentary. Preserve the research claims; this request is only to repair "
+            "serialization. The required top-level structure is: researcher, model, "
+            "evidence_frontier, analysis, hypothesis, proposal.\n\nPrevious response:\n"
+            + raw
+        )
+        raw=groq(messages+[{"role":"assistant","content":raw},{"role":"user","content":repair}])
+        try:
+            data=parse_json(raw)
+        except (json.JSONDecodeError, ValueError) as exc:
+            raise SystemExit("AI Researcher returned invalid JSON after repair attempt") from exc
+
     required=("evidence_frontier","analysis","hypothesis","proposal")
     missing=[k for k in required if k not in data]
 
