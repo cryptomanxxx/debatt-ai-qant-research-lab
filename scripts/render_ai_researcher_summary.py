@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -79,7 +80,9 @@ def render_evidence(frontier):
     return "\n".join(lines).rstrip()
 
 def main():
-    data = json.loads(DRAFT.read_text())
+    proposal_bytes = DRAFT.read_bytes()
+    proposal_sha256 = hashlib.sha256(proposal_bytes).hexdigest()
+    data = json.loads(proposal_bytes)
     proposal = data["proposal"]
     budget = proposal["requested_budget"]
     review = json.loads(COMPILED.read_text()) if COMPILED.exists() else {}
@@ -87,7 +90,7 @@ def main():
     checks_md = "\n".join(f"- {chr(9989) if c.get('status') == 'passed' else chr(10060)} **{c.get('check', 'Check')}**" for c in checks) or "- No automated review record available."
     summary = f"""# AI Researcher v2 — Research Proposal
 
-**Model:** {data.get("model", "openai/gpt-oss-120b")}
+**Model:** {data.get("model", "openai/gpt-oss-120b")}\n\n**Proposal SHA-256 (copy this into the review form):** `{proposal_sha256}`
 
 ## Human review
 

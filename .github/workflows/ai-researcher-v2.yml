@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: ai-researcher-v2
+  group: research-proposal-state
   cancel-in-progress: false
 
 jobs:
