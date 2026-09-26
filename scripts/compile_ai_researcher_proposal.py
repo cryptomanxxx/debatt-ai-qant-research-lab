@@ -64,9 +64,19 @@ def main():
 
     compiled={
         "status":"validated_not_executable",
+        "approval_readiness":"NOT_READY_FOR_COMPUTE",
         "source":"research_queue/ai_researcher/latest.json",
         "proposal_title":p.get("title"),
-        "message":"Draft passed structural checks, but no reviewed executable template matches it yet."
+        "automated_checks":[
+            {"check":"Human approval required","status":"passed"},
+            {"check":"Budget schema and positive limits","status":"passed"},
+            {"check":"Supported dataset/design family","status":"passed"},
+            {"check":"Candidate structure","status":"passed"},
+            {"check":"No known duplicate candidate set","status":"passed"},
+            {"check":"Aggregate-count arithmetic","status":"passed"}
+        ],
+        "human_decision":"No compute decision is requested yet.",
+        "message":"Automated structural checks passed, but no reviewed executable template matches this draft yet. This is not a claim of scientific correctness."
     }
     OUT.parent.mkdir(parents=True,exist_ok=True)
     OUT.write_text(json.dumps(compiled,indent=2)+"\n")
