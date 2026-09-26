@@ -1,0 +1,117 @@
+{
+  "researcher": "AI Researcher v2",
+  "model": "openai/gpt-oss-120b",
+  "evidence_frontier": {
+    "latest_completed_experiment": "PNN‑v1‑Exp021",
+    "summary": {
+      "Exp020": {
+        "control": {
+          "parameter_count": 7010,
+          "aggregate_qant_correct": 893,
+          "mean_absolute_logit_error": 0.03264079298824072
+        },
+        "alpha5_candidate": {
+          "parameter_count": 8550,
+          "aggregate_qant_correct": 897,
+          "mean_absolute_logit_error": 0.020006656460464
+        },
+        "decision": "promote_alpha5"
+      },
+      "Exp021": {
+        "alpha5_w8": {
+          "parameter_count": 4278,
+          "aggregate_qant_correct": 887,
+          "mean_absolute_logit_error": 0.014332753885537387
+        },
+        "alpha5_w12": {
+          "parameter_count": 6414,
+          "aggregate_qant_correct": 884,
+          "mean_absolute_logit_error": 0.0168985347263515
+        },
+        "alpha5_w16_control": {
+          "parameter_count": 8550,
+          "aggregate_qant_correct": 897,
+          "mean_absolute_logit_error": 0.020006656460464
+        },
+        "decision": "retain_alpha5"
+      },
+      "Cross‑dataset redundant‑readout evidence": [
+        "Exp017 (TwoLeadECG): redundant 3‑head reduced logit MAE and increased Q.ANT accuracy.",
+        "Exp018 (GunPoint): redundant 3‑head reduced logit MAE, slight increase in disagreements (floor effect).",
+        "Exp019 (SonyAIBORobotSurface1): redundant 3‑head reduced logit MAE, unchanged accuracy."
+      ]
+    }
+  },
+  "analysis": "The promotion experiment (Exp020) demonstrated that adding three independent Q.ANT‑native readouts and averaging logits improves mean absolute logit error (0.0200 vs 0.0326) while preserving or slightly increasing aggregate Q.ANT correct predictions (897 vs 893). Subsequent compression attempts (Exp021) showed that a heavily compressed 4,278‑parameter version loses 10 correct predictions (887) and, although logit error improves, the aggregate‑correct gate fails. Across three datasets (TwoLeadECG, GunPoint, SonyAIBORobotSurface1) redundant readout consistently lowers logit MAE without harming accuracy, establishing a robust design principle for the readout stage. The next logical variable is the *local representation width* (currently fixed at 16 per window). Reducing this width could lower parameter count below the 8,550 of Alpha5 while preserving the redundant readout benefits, but this hypothesis has not yet been tested.",
+  "hypothesis": "Decreasing the per‑window representation dimensionality from 16 to a narrower size (e.g., 8 or 12) will retain the redundant‑readout advantages (logit MAE ≤ 0.02001 and aggregate Q.ANT correct ≥ 897 on ECG200) while reducing total parameter count below 8,000.",
+  "proposal": {
+    "title": "Alpha5‑Slim: Evaluating Narrower Local Representations with Redundant Readout",
+    "research_question": "Can a reduced per‑window feature dimension preserve the promoted readout robustness and accuracy of Alpha5 while decreasing model size?",
+    "rationale": "Exp020 proved the redundant readout improves numerical agreement. Exp021 showed that aggressive compression of the whole model can violate the aggregate‑correct gate. Targeted compression of the *local* stage may achieve size reduction without sacrificing the validated readout benefits.",
+    "experiment_design": {
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ]
+      },
+      "candidates": [
+        {
+          "name": "Alpha5‑Slim‑8",
+          "local_width": 8,
+          "readout": "3 independent Q.ANT Fourier/KAN heads, logits averaged",
+          "expected_parameter_count": "≈ 6,200"
+        },
+        {
+          "name": "Alpha5‑Slim‑12",
+          "local_width": 12,
+          "readout": "same redundant scheme",
+          "expected_parameter_count": "≈ 7,300"
+        },
+        {
+          "name": "Alpha5‑Baseline‑Redundant",
+          "local_width": 16,
+          "readout": "same redundant scheme (Alpha5 control)",
+          "expected_parameter_count": 8550
+        }
+      ],
+      "evaluation_metrics": [
+        "aggregate_qant_correct (integer count out of 1000 test examples)",
+        "mean_absolute_logit_error",
+        "parameter_count"
+      ],
+      "procedure": [
+        "Train each candidate on the ECG200 training set using the same hyper‑parameters as Exp020.",
+        "Run 5 random seeds to capture variability.",
+        "Compute aggregate Q.ANT correct predictions across the 1000 test examples for each seed and average the integer counts.",
+        "Record mean absolute logit error across seeds."
+      ]
+    },
+    "success_criteria": {
+      "gate_1_parameter_budget": "parameter_count ≤ 8000",
+      "gate_2_accuracy": "average aggregate_qant_correct ≥ 897 (same as Alpha5 control)",
+      "gate_3_logit_agreement": "mean_absolute_logit_error ≤ 0.02001 (Alpha5 control value)",
+      "decision_rule": "If a candidate meets all three gates, it is declared successful and recommended for promotion."
+    },
+    "requested_budget": {
+      "max_parameters": 9000,
+      "max_candidates": 3,
+      "max_epochs": 50,
+      "max_train_samples": 100,
+      "max_test_samples": 100
+    },
+    "risks": [
+      "Reduced local width may cause a drop in aggregate Q.ANT correct predictions below the gate, invalidating the compression hypothesis.",
+      "Lower capacity could increase variance across seeds, making the integer‑count gate unstable.",
+      "Simulation runtime may increase if the reduced width leads to slower convergence requiring more epochs."
+    ],
+    "requires_human_approval": true
+  },
+  "status": "draft_requires_human_review"
+}

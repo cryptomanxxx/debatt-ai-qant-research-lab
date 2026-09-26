@@ -1,13 +1,30 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "purpose": "Evidence packet for the next falsifiable research proposal.",
   "rules": [
     "Use repository results as experimental evidence.",
     "Separate observations from hypotheses.",
     "Propose only; human approval is required before compute.",
-    "Q.ANT CPU results do not establish photonic latency, energy, or hardware performance."
+    "Q.ANT CPU/software simulation results do not establish photonic latency, energy, throughput, optical noise, or physical-hardware performance.",
+    "For fixed-size classification gates, prefer aggregate integer correct counts over floating-point mean-accuracy boundaries."
   ],
-  "experiments": [
+  "active_pnn_v1_model": {
+    "name": "Alpha5",
+    "promoted_by": "PNN-v1-Exp020",
+    "architecture": "96 \u2192 6 contiguous windows\u00d716 \u2192 6\u00d7 Q.ANT Fourier/KAN 16\u219216 \u2192 concat96 \u2192 3 independent Q.ANT Fourier/KAN 96\u21922 readouts \u2192 arithmetic mean of logits",
+    "frequencies": [
+      1,
+      2
+    ],
+    "ecg200_parameter_count": 8550,
+    "model_file": "pnn-v1/models/alpha5.md"
+  },
+  "current_frontier": {
+    "latest_completed_experiment": "PNN-v1-Exp021",
+    "status": "Alpha5 remains active. Exp021 found a 4,278-parameter w8 compression candidate at exactly 10 fewer Q.ANT correct predictions out of 1000 than the Alpha5 control; the preregistered floating-point gate recorded retain_alpha5.",
+    "next_preregistered_question": "A future confirmation may use integer-count gating to test whether the w8 compression boundary is reproducible. Do not reinterpret or overwrite Exp021."
+  },
+  "historical_toolkit_experiments": [
     {
       "file": "exp001_baseline.json",
       "experiment_id": "exp001_baseline",
@@ -218,17 +235,2495 @@
         "h64_512",
         "h128_512"
       ]
+    },
+    {
+      "file": "exp008_full_mnist_validation.json",
+      "experiment_id": "exp008_full_mnist_validation",
+      "backend": "qant-cpu",
+      "dataset": "MNIST",
+      "summary": {
+        "h32_512": {
+          "mean_qant_accuracy": 0.961,
+          "std_qant_accuracy": 0.0022464787260658777,
+          "min_qant_accuracy": 0.9582,
+          "max_qant_accuracy": 0.9637,
+          "parameter_count": 47146
+        },
+        "h64_512": {
+          "mean_qant_accuracy": 0.9671333333333333,
+          "std_qant_accuracy": 0.002072572207561269,
+          "min_qant_accuracy": 0.9643,
+          "max_qant_accuracy": 0.9692,
+          "parameter_count": 88650
+        },
+        "h128_512": {
+          "mean_qant_accuracy": 0.9726333333333333,
+          "std_qant_accuracy": 0.0012472191289246482,
+          "min_qant_accuracy": 0.9713,
+          "max_qant_accuracy": 0.9743,
+          "parameter_count": 171658
+        },
+        "h128": {
+          "mean_qant_accuracy": 0.9628333333333333,
+          "std_qant_accuracy": 0.00047140452079103207,
+          "min_qant_accuracy": 0.9625,
+          "max_qant_accuracy": 0.9635,
+          "parameter_count": 101770
+        },
+        "h256": {
+          "mean_qant_accuracy": 0.9700000000000001,
+          "std_qant_accuracy": 0.0006480740698408175,
+          "min_qant_accuracy": 0.9691,
+          "max_qant_accuracy": 0.9706,
+          "parameter_count": 203530
+        },
+        "h512": {
+          "mean_qant_accuracy": 0.9737666666666667,
+          "std_qant_accuracy": 0.0031201851796897493,
+          "min_qant_accuracy": 0.9694,
+          "max_qant_accuracy": 0.9765,
+          "parameter_count": 407050
+        }
+      },
+      "pareto_front": [
+        "h32_512",
+        "h64_512",
+        "h128_512",
+        "h512"
+      ]
+    },
+    {
+      "file": "exp009_cross_dataset_validation.json",
+      "experiment_id": "exp009_cross_dataset_validation",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "h64_512": {
+          "mean_qant_accuracy": 0.8586666666666667,
+          "std_qant_accuracy": 0.007825315045131101,
+          "min_qant_accuracy": 0.8476,
+          "max_qant_accuracy": 0.8642,
+          "parameter_count": 88650
+        },
+        "h128_512": {
+          "mean_qant_accuracy": 0.8591333333333333,
+          "std_qant_accuracy": 0.006817787193967114,
+          "min_qant_accuracy": 0.8495,
+          "max_qant_accuracy": 0.8643,
+          "parameter_count": 171658
+        },
+        "h128": {
+          "mean_qant_accuracy": 0.8503999999999999,
+          "std_qant_accuracy": 0.0026191601707417317,
+          "min_qant_accuracy": 0.8484,
+          "max_qant_accuracy": 0.8541,
+          "parameter_count": 101770
+        },
+        "h256": {
+          "mean_qant_accuracy": 0.8592333333333334,
+          "std_qant_accuracy": 0.002960105103239075,
+          "min_qant_accuracy": 0.8568,
+          "max_qant_accuracy": 0.8634,
+          "parameter_count": 203530
+        },
+        "h512": {
+          "mean_qant_accuracy": 0.8649333333333334,
+          "std_qant_accuracy": 0.005409456740026877,
+          "min_qant_accuracy": 0.858,
+          "max_qant_accuracy": 0.8712,
+          "parameter_count": 407050
+        }
+      },
+      "pareto_front": [
+        "h64_512",
+        "h128_512",
+        "h256",
+        "h512"
+      ]
+    },
+    {
+      "file": "exp010_qant_fourier_layer.json",
+      "experiment_id": "exp010_qant_fourier_layer",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "qfourier_g1": {
+          "mean_qant_accuracy": 0.8068333333333332,
+          "std_qant_accuracy": 0.004499135719471285,
+          "min_qant_accuracy": 0.8008,
+          "max_qant_accuracy": 0.8116,
+          "parameter_count": 15690,
+          "kind": "fourier"
+        },
+        "qfourier_g2": {
+          "mean_qant_accuracy": 0.8225333333333333,
+          "std_qant_accuracy": 0.004249182927993998,
+          "min_qant_accuracy": 0.8167,
+          "max_qant_accuracy": 0.8267,
+          "parameter_count": 31370,
+          "kind": "fourier"
+        },
+        "h64_512": {
+          "mean_qant_accuracy": 0.8595666666666667,
+          "std_qant_accuracy": 0.008332399947727477,
+          "min_qant_accuracy": 0.8478,
+          "max_qant_accuracy": 0.866,
+          "parameter_count": 88650,
+          "kind": "relu"
+        },
+        "h128_512": {
+          "mean_qant_accuracy": 0.8584333333333333,
+          "std_qant_accuracy": 0.008581116218508818,
+          "min_qant_accuracy": 0.8463,
+          "max_qant_accuracy": 0.8647,
+          "parameter_count": 171658,
+          "kind": "relu"
+        },
+        "h256": {
+          "mean_qant_accuracy": 0.8576,
+          "std_qant_accuracy": 0.004382541119791897,
+          "min_qant_accuracy": 0.852,
+          "max_qant_accuracy": 0.8627,
+          "parameter_count": 203530,
+          "kind": "relu"
+        }
+      },
+      "pareto_front": [
+        "qfourier_g1",
+        "qfourier_g2",
+        "h64_512"
+      ]
+    },
+    {
+      "file": "exp011_qant_fourier_capacity.json",
+      "experiment_id": "exp011_qant_fourier_capacity",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "qfourier_g2": {
+          "mean_qant_accuracy": 0.8225333333333333,
+          "std_qant_accuracy": 0.004249182927993998,
+          "min_qant_accuracy": 0.8167,
+          "max_qant_accuracy": 0.8267,
+          "mean_prediction_disagreements": 274.0,
+          "parameter_count": 31370,
+          "kind": "fourier"
+        },
+        "qfourier_g4": {
+          "mean_qant_accuracy": 0.8298666666666666,
+          "std_qant_accuracy": 0.007972591938775128,
+          "min_qant_accuracy": 0.8187,
+          "max_qant_accuracy": 0.8368,
+          "mean_prediction_disagreements": 323.0,
+          "parameter_count": 62730,
+          "kind": "fourier"
+        },
+        "qfourier_g8": {
+          "mean_qant_accuracy": 0.8210333333333333,
+          "std_qant_accuracy": 0.015877937173603158,
+          "min_qant_accuracy": 0.7986,
+          "max_qant_accuracy": 0.8331,
+          "mean_prediction_disagreements": 586.6666666666666,
+          "parameter_count": 125450,
+          "kind": "fourier"
+        },
+        "h64_512": {
+          "mean_qant_accuracy": 0.8582000000000001,
+          "std_qant_accuracy": 0.005376492040974904,
+          "min_qant_accuracy": 0.8506,
+          "max_qant_accuracy": 0.8622,
+          "mean_prediction_disagreements": 6.666666666666667,
+          "parameter_count": 88650,
+          "kind": "relu"
+        }
+      },
+      "pareto_front": [
+        "qfourier_g2",
+        "qfourier_g4",
+        "h64_512"
+      ]
+    },
+    {
+      "file": "exp012_qant_fourier_robust_training.json",
+      "experiment_id": "exp012_qant_fourier_robust_training",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "noise_0": {
+          "noise_std": 0.0,
+          "mean_qant_accuracy": 0.8298666666666666,
+          "std_qant_accuracy": 0.007972591938775128,
+          "mean_reference_accuracy": 0.8328000000000001,
+          "mean_prediction_disagreements": 323.0,
+          "min_qant_accuracy": 0.8187,
+          "max_qant_accuracy": 0.8368,
+          "parameter_count": 62730
+        },
+        "noise_002": {
+          "noise_std": 0.02,
+          "mean_qant_accuracy": 0.8301333333333334,
+          "std_qant_accuracy": 0.008165510122188071,
+          "mean_reference_accuracy": 0.8326666666666668,
+          "mean_prediction_disagreements": 325.6666666666667,
+          "min_qant_accuracy": 0.8186,
+          "max_qant_accuracy": 0.8364,
+          "parameter_count": 62730
+        },
+        "noise_004": {
+          "noise_std": 0.04,
+          "mean_qant_accuracy": 0.8304333333333332,
+          "std_qant_accuracy": 0.008525386925073949,
+          "mean_reference_accuracy": 0.8324666666666668,
+          "mean_prediction_disagreements": 325.6666666666667,
+          "min_qant_accuracy": 0.8184,
+          "max_qant_accuracy": 0.8371,
+          "parameter_count": 62730
+        }
+      }
+    },
+    {
+      "file": "exp013_qant_fourier_mismatch_diagnostic.json",
+      "experiment_id": "exp013_qant_fourier_mismatch_diagnostic",
+      "backend": "qant-cpu",
+      "dataset": "synthetic_periodic_sweep",
+      "pareto_front": []
+    },
+    {
+      "file": "exp014_qant_fourier_error_decomposition.json",
+      "experiment_id": "exp014_qant_fourier_error_decomposition",
+      "backend": "qant-cpu",
+      "dataset": "synthetic_periodic_sweep",
+      "pareto_front": []
+    },
+    {
+      "file": "exp015_qant_aligned_training_surrogate.json",
+      "experiment_id": "exp015_qant_aligned_training_surrogate",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "qfourier_g4_exact_cosine": {
+          "grid_size": 4,
+          "training_condition": "exact_cosine",
+          "mean_qant_accuracy": 0.8298666666666666,
+          "std_qant_accuracy": 0.007972591938775128,
+          "mean_reference_accuracy": 0.8328000000000001,
+          "mean_prediction_disagreements": 323.3333333333333,
+          "parameter_count": 62730
+        },
+        "qfourier_g4_qant_fitted_surrogate": {
+          "grid_size": 4,
+          "training_condition": "qant_fitted_surrogate",
+          "mean_qant_accuracy": 0.8295,
+          "std_qant_accuracy": 0.006771016664184679,
+          "mean_reference_accuracy": 0.8328666666666665,
+          "mean_prediction_disagreements": 311.0,
+          "parameter_count": 62730
+        },
+        "qfourier_g8_exact_cosine": {
+          "grid_size": 8,
+          "training_condition": "exact_cosine",
+          "mean_qant_accuracy": 0.8210333333333333,
+          "std_qant_accuracy": 0.015877937173603158,
+          "mean_reference_accuracy": 0.8364666666666666,
+          "mean_prediction_disagreements": 586.6666666666666,
+          "parameter_count": 125450
+        },
+        "qfourier_g8_qant_fitted_surrogate": {
+          "grid_size": 8,
+          "training_condition": "qant_fitted_surrogate",
+          "mean_qant_accuracy": 0.8213666666666666,
+          "std_qant_accuracy": 0.013881722595637152,
+          "mean_reference_accuracy": 0.8374666666666667,
+          "mean_prediction_disagreements": 600.0,
+          "parameter_count": 125450
+        }
+      },
+      "pareto_front": []
+    },
+    {
+      "file": "exp016_qant_activation_error_occupancy.json",
+      "experiment_id": "exp016_qant_activation_error_occupancy",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "qfourier_g4": {
+          "grid_size": 4,
+          "mean_qant_accuracy": 0.8298666666666666,
+          "mean_prediction_disagreements": 323.0,
+          "mean_amplitude_weighted_residual": 0.0007114260611123992,
+          "mean_amplitude_weighted_high_error_fraction": 0.2361745889362189,
+          "mean_unweighted_high_error_fraction": 0.25062611607142854,
+          "parameter_count": 62730
+        },
+        "qfourier_g8": {
+          "grid_size": 8,
+          "mean_qant_accuracy": 0.8210333333333333,
+          "mean_prediction_disagreements": 586.6666666666666,
+          "mean_amplitude_weighted_residual": 0.0007186526192863107,
+          "mean_amplitude_weighted_high_error_fraction": 0.23767361995684677,
+          "mean_unweighted_high_error_fraction": 0.2494179156037415,
+          "parameter_count": 125450
+        }
+      },
+      "pareto_front": []
+    },
+    {
+      "file": "exp017_qant_logit_margin_diagnostic.json",
+      "experiment_id": "exp017_qant_logit_margin_diagnostic",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "qfourier_g4": {
+          "grid_size": 4,
+          "mean_qant_accuracy": 0.8298666666666666,
+          "mean_prediction_disagreements": 323.3333333333333,
+          "mean_absolute_logit_error": 0.2289014309644699,
+          "mean_max_absolute_logit_error_per_sample": 0.6997200846672058,
+          "mean_reference_margin": 4.025607109069824,
+          "mean_error_to_margin_ratio": 1.3942628304163616,
+          "mean_disagreement_reference_margin": 0.28680774569511414,
+          "mean_agreement_reference_margin": 4.1503987312316895,
+          "parameter_count": 62730
+        },
+        "qfourier_g8": {
+          "grid_size": 8,
+          "mean_qant_accuracy": 0.8210333333333333,
+          "mean_prediction_disagreements": 586.6666666666666,
+          "mean_absolute_logit_error": 0.45577460527420044,
+          "mean_max_absolute_logit_error_per_sample": 1.6192876895268757,
+          "mean_reference_margin": 5.027634779612224,
+          "mean_error_to_margin_ratio": 1.8064603408177693,
+          "mean_disagreement_reference_margin": 0.6901064515113831,
+          "mean_agreement_reference_margin": 5.296975771586101,
+          "parameter_count": 125450
+        }
+      },
+      "pareto_front": []
+    },
+    {
+      "file": "exp018_qant_frequency_controlled_g8.json",
+      "experiment_id": "exp018_qant_frequency_controlled_g8",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "qfourier_g4_k1_4": {
+          "frequencies": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "parameter_count": 62730,
+          "mean_reference_accuracy": 0.8328000000000001,
+          "std_reference_accuracy": 0.0031947874212013873,
+          "mean_qant_accuracy": 0.8298666666666666,
+          "std_qant_accuracy": 0.007972591938775128,
+          "mean_prediction_disagreements": 323.3333333333333,
+          "mean_absolute_logit_error": 0.2289014309644699,
+          "mean_max_absolute_logit_error_per_sample": 0.6997200846672058
+        },
+        "qfourier_g8_k1_8": {
+          "frequencies": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "parameter_count": 125450,
+          "mean_reference_accuracy": 0.8364666666666666,
+          "std_reference_accuracy": 0.0053505970591036876,
+          "mean_qant_accuracy": 0.8210333333333333,
+          "std_qant_accuracy": 0.015877937173603158,
+          "mean_prediction_disagreements": 586.6666666666666,
+          "mean_absolute_logit_error": 0.45577460527420044,
+          "mean_max_absolute_logit_error_per_sample": 1.6192876895268757
+        },
+        "qfourier_g8_repeat_k1_4": {
+          "frequencies": [
+            1,
+            2,
+            3,
+            4,
+            1,
+            2,
+            3,
+            4
+          ],
+          "parameter_count": 125450,
+          "mean_reference_accuracy": 0.8275333333333333,
+          "std_reference_accuracy": 0.011182227963255915,
+          "mean_qant_accuracy": 0.8141666666666666,
+          "std_qant_accuracy": 0.014365777234648857,
+          "mean_prediction_disagreements": 558.6666666666666,
+          "mean_absolute_logit_error": 0.4878562291463216,
+          "mean_max_absolute_logit_error_per_sample": 1.7082931598027546
+        }
+      },
+      "pareto_front": [
+        "qfourier_g4_k1_4"
+      ]
+    },
+    {
+      "file": "exp019_qant_amplitude_error_accumulation.json",
+      "experiment_id": "exp019_qant_amplitude_error_accumulation",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "qfourier_g4": {
+          "mean_absolute_observed_logit_error": 0.23048035303751627,
+          "mean_absolute_reconstructed_component_residual": 0.08624672889709473,
+          "reconstruction_mae": 0.24616832037766775,
+          "mean_absolute_component_residual_before_cancellation": 0.15649384756882986,
+          "component_residual_cancellation_ratio": 0.45171772440274555,
+          "mean_absolute_amplitude": 0.02879509391884009,
+          "amplitude_l1_per_output": 90.30141194661458,
+          "parameter_count": 62730
+        },
+        "qfourier_g8": {
+          "mean_absolute_observed_logit_error": 0.45693814754486084,
+          "mean_absolute_reconstructed_component_residual": 0.08218071361382802,
+          "reconstruction_mae": 0.46062976121902466,
+          "mean_absolute_component_residual_before_cancellation": 0.2058777411778768,
+          "component_residual_cancellation_ratio": 0.6040916442871094,
+          "mean_absolute_amplitude": 0.021106911202271778,
+          "amplitude_l1_per_output": 132.3825429280599,
+          "parameter_count": 125450
+        }
+      },
+      "pareto_front": []
+    },
+    {
+      "file": "exp020_qant_kan_additivity_ladder.json",
+      "experiment_id": "exp020_qant_kan_additivity_ladder",
+      "backend": "qant-cpu",
+      "dataset": "synthetic",
+      "summary": {
+        "in1_out1_k1": {
+          "input_channels": 1,
+          "output_channels": 1,
+          "components": 1,
+          "mean_component_split_mae": 0.0,
+          "max_component_split_abs": 0.0,
+          "mean_input_split_mae": 0.0,
+          "max_input_split_abs": 0.0,
+          "mean_full_qant_mae_vs_exact_cosine": 8.5602358012693e-05
+        },
+        "in1_out1_k4": {
+          "input_channels": 1,
+          "output_channels": 1,
+          "components": 4,
+          "mean_component_split_mae": 9.04155895113945e-05,
+          "max_component_split_abs": 0.00079345703125,
+          "mean_input_split_mae": 0.0,
+          "max_input_split_abs": 0.0,
+          "mean_full_qant_mae_vs_exact_cosine": 0.0002609278162708506
+        },
+        "in4_out1_k4": {
+          "input_channels": 4,
+          "output_channels": 1,
+          "components": 4,
+          "mean_component_split_mae": 0.0004667465885480245,
+          "max_component_split_abs": 0.0032958984375,
+          "mean_input_split_mae": 0.0004296600818634033,
+          "max_input_split_abs": 0.003173828125,
+          "mean_full_qant_mae_vs_exact_cosine": 0.0006349256339793404
+        },
+        "in4_out3_k4": {
+          "input_channels": 4,
+          "output_channels": 3,
+          "components": 4,
+          "mean_component_split_mae": 0.0005983271597263714,
+          "max_component_split_abs": 0.0045166015625,
+          "mean_input_split_mae": 0.0005203825033580264,
+          "max_input_split_abs": 0.0035400390625,
+          "mean_full_qant_mae_vs_exact_cosine": 0.0008125642586189011
+        },
+        "in32_out10_k4": {
+          "input_channels": 32,
+          "output_channels": 10,
+          "components": 4,
+          "mean_component_split_mae": 0.004304589548458655,
+          "max_component_split_abs": 0.0537109375,
+          "mean_input_split_mae": 0.003857879200950265,
+          "max_input_split_abs": 0.050994873046875,
+          "mean_full_qant_mae_vs_exact_cosine": 0.004239200769613187
+        },
+        "in32_out10_k8": {
+          "input_channels": 32,
+          "output_channels": 10,
+          "components": 8,
+          "mean_component_split_mae": 0.008242941461503506,
+          "max_component_split_abs": 0.0732421875,
+          "mean_input_split_mae": 0.007868985179811716,
+          "max_input_split_abs": 0.075439453125,
+          "mean_full_qant_mae_vs_exact_cosine": 0.008775583157936731
+        }
+      },
+      "pareto_front": []
+    },
+    {
+      "file": "exp021_qant_accumulation_scaling_law.json",
+      "experiment_id": "exp021_qant_accumulation_scaling_law",
+      "backend": "qant-cpu",
+      "dataset": "synthetic",
+      "summary": [
+        {
+          "input_channels": 1,
+          "components": 1,
+          "accumulated_terms": 1,
+          "mean_mae": 0.0016833613626658916,
+          "std_mae": 0.00041545630236555667,
+          "mean_rmse": 0.0025885271995017924,
+          "max_abs": 0.0215337872505188
+        },
+        {
+          "input_channels": 1,
+          "components": 2,
+          "accumulated_terms": 2,
+          "mean_mae": 0.002606501958022515,
+          "std_mae": 0.00036377117882101706,
+          "mean_rmse": 0.0036947906482964754,
+          "max_abs": 0.023298025131225586
+        },
+        {
+          "input_channels": 1,
+          "components": 4,
+          "accumulated_terms": 4,
+          "mean_mae": 0.003236825422694286,
+          "std_mae": 0.00031472506447017423,
+          "mean_rmse": 0.004479044893135627,
+          "max_abs": 0.039083242416381836
+        },
+        {
+          "input_channels": 1,
+          "components": 8,
+          "accumulated_terms": 8,
+          "mean_mae": 0.005274798721075058,
+          "std_mae": 0.00015762320805404095,
+          "mean_rmse": 0.007139192428439856,
+          "max_abs": 0.040847599506378174
+        },
+        {
+          "input_channels": 4,
+          "components": 1,
+          "accumulated_terms": 4,
+          "mean_mae": 0.0023130845123281083,
+          "std_mae": 0.00014725856182962082,
+          "mean_rmse": 0.0030819648721565804,
+          "max_abs": 0.016461491584777832
+        },
+        {
+          "input_channels": 4,
+          "components": 2,
+          "accumulated_terms": 8,
+          "mean_mae": 0.0028584948740899563,
+          "std_mae": 0.00023168719539362278,
+          "mean_rmse": 0.003742034469420711,
+          "max_abs": 0.027451038360595703
+        },
+        {
+          "input_channels": 4,
+          "components": 4,
+          "accumulated_terms": 16,
+          "mean_mae": 0.004152959678322077,
+          "std_mae": 0.0001547858692724017,
+          "mean_rmse": 0.0054570711217820644,
+          "max_abs": 0.0313262939453125
+        },
+        {
+          "input_channels": 4,
+          "components": 8,
+          "accumulated_terms": 32,
+          "mean_mae": 0.005849988199770451,
+          "std_mae": 0.00018193355412742164,
+          "mean_rmse": 0.007656806614249945,
+          "max_abs": 0.0430944561958313
+        },
+        {
+          "input_channels": 16,
+          "components": 1,
+          "accumulated_terms": 16,
+          "mean_mae": 0.0031252738554030657,
+          "std_mae": 0.00013887208911495926,
+          "mean_rmse": 0.004018133506178856,
+          "max_abs": 0.025162220001220703
+        },
+        {
+          "input_channels": 16,
+          "components": 2,
+          "accumulated_terms": 32,
+          "mean_mae": 0.004064694667855899,
+          "std_mae": 0.00023584172969278643,
+          "mean_rmse": 0.005341902996102969,
+          "max_abs": 0.034645676612854004
+        },
+        {
+          "input_channels": 16,
+          "components": 4,
+          "accumulated_terms": 64,
+          "mean_mae": 0.00593408631781737,
+          "std_mae": 0.0001205026116978996,
+          "mean_rmse": 0.007965910558899244,
+          "max_abs": 0.04842674732208252
+        },
+        {
+          "input_channels": 16,
+          "components": 8,
+          "accumulated_terms": 128,
+          "mean_mae": 0.00835613968471686,
+          "std_mae": 8.956827056730868e-05,
+          "mean_rmse": 0.011092407939334711,
+          "max_abs": 0.07501530647277832
+        },
+        {
+          "input_channels": 32,
+          "components": 1,
+          "accumulated_terms": 32,
+          "mean_mae": 0.004656407671670119,
+          "std_mae": 0.00034092860608349096,
+          "mean_rmse": 0.0062561507026354475,
+          "max_abs": 0.04124593734741211
+        },
+        {
+          "input_channels": 32,
+          "components": 2,
+          "accumulated_terms": 64,
+          "mean_mae": 0.00517906341701746,
+          "std_mae": 0.00018288204084340314,
+          "mean_rmse": 0.0069914877725144224,
+          "max_abs": 0.0392765998840332
+        },
+        {
+          "input_channels": 32,
+          "components": 4,
+          "accumulated_terms": 128,
+          "mean_mae": 0.007222150452435017,
+          "std_mae": 2.3202273199390745e-05,
+          "mean_rmse": 0.009907094451288382,
+          "max_abs": 0.08751392364501953
+        },
+        {
+          "input_channels": 32,
+          "components": 8,
+          "accumulated_terms": 256,
+          "mean_mae": 0.010393565520644188,
+          "std_mae": 0.00027107431657998656,
+          "mean_rmse": 0.014037582402427992,
+          "max_abs": 0.09372317790985107
+        },
+        {
+          "input_channels": 64,
+          "components": 1,
+          "accumulated_terms": 64,
+          "mean_mae": 0.005520309166361888,
+          "std_mae": 0.0009985924277921946,
+          "mean_rmse": 0.00751389500995477,
+          "max_abs": 0.0820918083190918
+        },
+        {
+          "input_channels": 64,
+          "components": 2,
+          "accumulated_terms": 128,
+          "mean_mae": 0.007125772691021363,
+          "std_mae": 0.0003468243357485693,
+          "mean_rmse": 0.009825420876344046,
+          "max_abs": 0.06680965423583984
+        },
+        {
+          "input_channels": 64,
+          "components": 4,
+          "accumulated_terms": 256,
+          "mean_mae": 0.010102514488001665,
+          "std_mae": 0.00022467067797196787,
+          "mean_rmse": 0.01407072072227796,
+          "max_abs": 0.1181633472442627
+        },
+        {
+          "input_channels": 64,
+          "components": 8,
+          "accumulated_terms": 512,
+          "mean_mae": 0.013974750104049841,
+          "std_mae": 0.0004881339656780242,
+          "mean_rmse": 0.019144002348184586,
+          "max_abs": 0.15276336669921875
+        },
+        {
+          "input_channels": 128,
+          "components": 1,
+          "accumulated_terms": 128,
+          "mean_mae": 0.008023962999383608,
+          "std_mae": 0.0008618912717882484,
+          "mean_rmse": 0.011483618368705114,
+          "max_abs": 0.08540582656860352
+        },
+        {
+          "input_channels": 128,
+          "components": 2,
+          "accumulated_terms": 256,
+          "mean_mae": 0.010306347471972307,
+          "std_mae": 0.0005375824241836856,
+          "mean_rmse": 0.01426592655479908,
+          "max_abs": 0.08307802677154541
+        },
+        {
+          "input_channels": 128,
+          "components": 4,
+          "accumulated_terms": 512,
+          "mean_mae": 0.012955848748485247,
+          "std_mae": 0.0002940385291571656,
+          "mean_rmse": 0.017795321842034657,
+          "max_abs": 0.10827577114105225
+        },
+        {
+          "input_channels": 128,
+          "components": 8,
+          "accumulated_terms": 1024,
+          "mean_mae": 0.019558612257242203,
+          "std_mae": 0.0005068342430386745,
+          "mean_rmse": 0.027135703712701797,
+          "max_abs": 0.16083037853240967
+        },
+        {
+          "input_channels": 256,
+          "components": 1,
+          "accumulated_terms": 256,
+          "mean_mae": 0.010972211758295694,
+          "std_mae": 0.0007795380799091245,
+          "mean_rmse": 0.015688312860826652,
+          "max_abs": 0.14944934844970703
+        },
+        {
+          "input_channels": 256,
+          "components": 2,
+          "accumulated_terms": 512,
+          "mean_mae": 0.01318353321403265,
+          "std_mae": 0.00024726172617203876,
+          "mean_rmse": 0.018167860805988312,
+          "max_abs": 0.1144254207611084
+        },
+        {
+          "input_channels": 256,
+          "components": 4,
+          "accumulated_terms": 1024,
+          "mean_mae": 0.018874452138940494,
+          "std_mae": 0.0005306961077609742,
+          "mean_rmse": 0.026581794023513794,
+          "max_abs": 0.19217133522033691
+        },
+        {
+          "input_channels": 256,
+          "components": 8,
+          "accumulated_terms": 2048,
+          "mean_mae": 0.02695014389852683,
+          "std_mae": 0.0005805581404861407,
+          "mean_rmse": 0.03759650637706121,
+          "max_abs": 0.2672138214111328
+        },
+        {
+          "input_channels": 512,
+          "components": 1,
+          "accumulated_terms": 512,
+          "mean_mae": 0.015224709796408812,
+          "std_mae": 0.0013313627066171628,
+          "mean_rmse": 0.021121729786197346,
+          "max_abs": 0.13028717041015625
+        },
+        {
+          "input_channels": 512,
+          "components": 2,
+          "accumulated_terms": 1024,
+          "mean_mae": 0.01832914041976134,
+          "std_mae": 0.0008947089346684414,
+          "mean_rmse": 0.026055283844470978,
+          "max_abs": 0.19235897064208984
+        },
+        {
+          "input_channels": 512,
+          "components": 4,
+          "accumulated_terms": 2048,
+          "mean_mae": 0.02546331596871217,
+          "std_mae": 0.0003633698153105208,
+          "mean_rmse": 0.035863654067118965,
+          "max_abs": 0.28555798530578613
+        },
+        {
+          "input_channels": 512,
+          "components": 8,
+          "accumulated_terms": 4096,
+          "mean_mae": 0.03725131725271543,
+          "std_mae": 0.0008708945294615922,
+          "mean_rmse": 0.0523395041624705,
+          "max_abs": 0.3860173225402832
+        },
+        {
+          "input_channels": 784,
+          "components": 1,
+          "accumulated_terms": 784,
+          "mean_mae": 0.016001831740140915,
+          "std_mae": 0.0008805895241698742,
+          "mean_rmse": 0.022849784543116886,
+          "max_abs": 0.15774697065353394
+        },
+        {
+          "input_channels": 784,
+          "components": 2,
+          "accumulated_terms": 1568,
+          "mean_mae": 0.022377225880821545,
+          "std_mae": 0.0005632716137763131,
+          "mean_rmse": 0.031293349961439766,
+          "max_abs": 0.22498607635498047
+        },
+        {
+          "input_channels": 784,
+          "components": 4,
+          "accumulated_terms": 3136,
+          "mean_mae": 0.032596598068873085,
+          "std_mae": 0.0007618268765880732,
+          "mean_rmse": 0.046358127146959305,
+          "max_abs": 0.44016504287719727
+        },
+        {
+          "input_channels": 784,
+          "components": 8,
+          "accumulated_terms": 6272,
+          "mean_mae": 0.04449011757969856,
+          "std_mae": 0.0005967907365786377,
+          "mean_rmse": 0.06263972446322441,
+          "max_abs": 0.3879985809326172
+        }
+      ],
+      "pareto_front": []
+    },
+    {
+      "file": "exp022_qant_grouped_accumulation_architecture.json",
+      "experiment_id": "exp022_qant_grouped_accumulation_architecture",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "monolithic_g4": {
+          "groups": 1,
+          "max_inputs_per_qant_call": 784,
+          "terms_per_call_upper_bound": 3136,
+          "parameter_count": 62730,
+          "mean_reference_accuracy": 0.8328000000000001,
+          "std_reference_accuracy": 0.0031947874212013873,
+          "mean_qant_accuracy": 0.8298666666666666,
+          "std_qant_accuracy": 0.007972591938775128,
+          "mean_prediction_disagreements": 323.0,
+          "mean_absolute_logit_error": 0.22903267542521158,
+          "mean_max_absolute_logit_error_per_sample": 0.6997334361076355
+        },
+        "grouped_g4_4": {
+          "groups": 4,
+          "max_inputs_per_qant_call": 196,
+          "terms_per_call_upper_bound": 784,
+          "parameter_count": 62730,
+          "mean_reference_accuracy": 0.8328000000000001,
+          "std_reference_accuracy": 0.0031947874212013873,
+          "mean_qant_accuracy": 0.8321999999999999,
+          "std_qant_accuracy": 0.003967366884975484,
+          "mean_prediction_disagreements": 114.33333333333333,
+          "mean_absolute_logit_error": 0.09151826053857803,
+          "mean_max_absolute_logit_error_per_sample": 0.25025110443433124
+        },
+        "grouped_g4_16": {
+          "groups": 16,
+          "max_inputs_per_qant_call": 49,
+          "terms_per_call_upper_bound": 196,
+          "parameter_count": 62730,
+          "mean_reference_accuracy": 0.8328000000000001,
+          "std_reference_accuracy": 0.0031947874212013873,
+          "mean_qant_accuracy": 0.8320666666666666,
+          "std_qant_accuracy": 0.0024729649321322067,
+          "mean_prediction_disagreements": 37.666666666666664,
+          "mean_absolute_logit_error": 0.03250539551178614,
+          "mean_max_absolute_logit_error_per_sample": 0.08168831219275792
+        }
+      },
+      "pareto_front": [
+        "grouped_g4_4"
+      ]
+    },
+    {
+      "file": "exp023_qant_hierarchical_low_fanin.json",
+      "experiment_id": "exp023_qant_hierarchical_low_fanin",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "monolithic_g4": {
+          "parameter_count": 62730,
+          "mean_reference_accuracy": 0.8328000000000001,
+          "std_reference_accuracy": 0.0031947874212013873,
+          "mean_qant_accuracy": 0.8298666666666666,
+          "std_qant_accuracy": 0.007972591938775128,
+          "mean_prediction_disagreements": 323.3333333333333,
+          "mean_absolute_logit_error": 0.2289014309644699,
+          "mean_max_absolute_logit_error_per_sample": 0.6997200846672058
+        },
+        "hierarchical_16x4_g4": {
+          "parameter_count": 30282,
+          "mean_reference_accuracy": 0.8466333333333332,
+          "std_reference_accuracy": 0.0006018490028422446,
+          "mean_qant_accuracy": 0.8466999999999999,
+          "std_qant_accuracy": 0.0005715476066493971,
+          "mean_prediction_disagreements": 109.66666666666667,
+          "mean_absolute_logit_error": 0.06983805447816849,
+          "mean_max_absolute_logit_error_per_sample": 0.1804595390955607
+        }
+      },
+      "pareto_front": [
+        "hierarchical_16x4_g4"
+      ]
+    },
+    {
+      "file": "exp024_qant_hierarchical_architecture_search.json",
+      "experiment_id": "exp024_qant_hierarchical_architecture_search",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "hierarchical_4x4_g4": {
+          "groups": 4,
+          "pixels_per_group": 196,
+          "features_per_group": 4,
+          "parameter_count": 26394,
+          "mean_reference_accuracy": 0.8211333333333334,
+          "std_reference_accuracy": 0.009415353890793931,
+          "mean_qant_accuracy": 0.8207,
+          "std_qant_accuracy": 0.009841070402485004,
+          "mean_prediction_disagreements": 172.0,
+          "mean_absolute_logit_error": 0.11061770965655644,
+          "mean_max_absolute_logit_error_per_sample": 0.2645029276609421
+        },
+        "hierarchical_8x4_g4": {
+          "groups": 8,
+          "pixels_per_group": 98,
+          "features_per_group": 4,
+          "parameter_count": 27690,
+          "mean_reference_accuracy": 0.8365333333333332,
+          "std_reference_accuracy": 0.0011115554667022196,
+          "mean_qant_accuracy": 0.8364333333333334,
+          "std_qant_accuracy": 0.0007717224601860324,
+          "mean_prediction_disagreements": 132.66666666666666,
+          "mean_absolute_logit_error": 0.08800212542215984,
+          "mean_max_absolute_logit_error_per_sample": 0.21081243455410004
+        },
+        "hierarchical_16x2_g4": {
+          "groups": 16,
+          "pixels_per_group": 49,
+          "features_per_group": 2,
+          "parameter_count": 15146,
+          "mean_reference_accuracy": 0.8312333333333334,
+          "std_reference_accuracy": 0.003287687468250125,
+          "mean_qant_accuracy": 0.8312333333333332,
+          "std_qant_accuracy": 0.003104119127152727,
+          "mean_prediction_disagreements": 110.0,
+          "mean_absolute_logit_error": 0.07317522913217545,
+          "mean_max_absolute_logit_error_per_sample": 0.18406020601590475
+        },
+        "hierarchical_16x4_g4": {
+          "groups": 16,
+          "pixels_per_group": 49,
+          "features_per_group": 4,
+          "parameter_count": 30282,
+          "mean_reference_accuracy": 0.8466333333333332,
+          "std_reference_accuracy": 0.0006018490028422446,
+          "mean_qant_accuracy": 0.8466999999999999,
+          "std_qant_accuracy": 0.0005715476066493971,
+          "mean_prediction_disagreements": 109.66666666666667,
+          "mean_absolute_logit_error": 0.06983805447816849,
+          "mean_max_absolute_logit_error_per_sample": 0.1804595390955607
+        },
+        "hierarchical_16x8_g4": {
+          "groups": 16,
+          "pixels_per_group": 49,
+          "features_per_group": 8,
+          "parameter_count": 60554,
+          "mean_reference_accuracy": 0.8545666666666666,
+          "std_reference_accuracy": 0.0015860503004493894,
+          "mean_qant_accuracy": 0.8539333333333333,
+          "std_qant_accuracy": 0.0017987650084309219,
+          "mean_prediction_disagreements": 117.33333333333333,
+          "mean_absolute_logit_error": 0.0855564499894778,
+          "mean_max_absolute_logit_error_per_sample": 0.2293743888537089
+        },
+        "hierarchical_28x4_g4": {
+          "groups": 28,
+          "pixels_per_group": 28,
+          "features_per_group": 4,
+          "parameter_count": 34170,
+          "mean_reference_accuracy": 0.8486666666666668,
+          "std_reference_accuracy": 0.0030641293851416825,
+          "mean_qant_accuracy": 0.8480666666666666,
+          "std_qant_accuracy": 0.003222145592958562,
+          "mean_prediction_disagreements": 124.33333333333333,
+          "mean_absolute_logit_error": 0.07613965372244517,
+          "mean_max_absolute_logit_error_per_sample": 0.21334093809127808
+        }
+      },
+      "pareto_front": [
+        "hierarchical_16x2_g4",
+        "hierarchical_8x4_g4",
+        "hierarchical_16x4_g4",
+        "hierarchical_28x4_g4",
+        "hierarchical_16x8_g4"
+      ]
+    },
+    {
+      "file": "exp025_qant_hierarchical_error_localization.json",
+      "experiment_id": "exp025_qant_hierarchical_error_localization",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "hierarchical_4x4_g4": {
+          "reference_accuracy": 0.8211333333333334,
+          "qant_accuracy": 0.8207333333333332,
+          "prediction_disagreements": 171.33333333333334,
+          "stage1_mean_absolute_feature_error": 0.027584439143538475,
+          "stage1_mean_max_absolute_feature_error_per_sample": 0.09973871956268947,
+          "stage2_head_error_given_reference_stage1": 0.020949406549334526,
+          "stage2_input_propagation_error": 0.11136033137639363,
+          "end_to_end_logit_error": 0.11071198185284932,
+          "groups": 4,
+          "pixels_per_group": 196,
+          "stage1_terms_per_output": 784,
+          "stage2_inputs": 16,
+          "stage2_terms_per_output": 64,
+          "parameter_count": 26394
+        },
+        "hierarchical_8x4_g4": {
+          "reference_accuracy": 0.8365333333333332,
+          "qant_accuracy": 0.8364333333333334,
+          "prediction_disagreements": 132.66666666666666,
+          "stage1_mean_absolute_feature_error": 0.01952986791729927,
+          "stage1_mean_max_absolute_feature_error_per_sample": 0.08418751259644826,
+          "stage2_head_error_given_reference_stage1": 0.029755811517437298,
+          "stage2_input_propagation_error": 0.08850430697202682,
+          "end_to_end_logit_error": 0.08791885028282802,
+          "groups": 8,
+          "pixels_per_group": 98,
+          "stage1_terms_per_output": 392,
+          "stage2_inputs": 32,
+          "stage2_terms_per_output": 128,
+          "parameter_count": 27690
+        },
+        "hierarchical_16x4_g4": {
+          "reference_accuracy": 0.8466333333333332,
+          "qant_accuracy": 0.8467333333333333,
+          "prediction_disagreements": 109.33333333333333,
+          "stage1_mean_absolute_feature_error": 0.01243931365509828,
+          "stage1_mean_max_absolute_feature_error_per_sample": 0.06057862068216006,
+          "stage2_head_error_given_reference_stage1": 0.04409496610363325,
+          "stage2_input_propagation_error": 0.0665497009952863,
+          "end_to_end_logit_error": 0.06983551383018494,
+          "groups": 16,
+          "pixels_per_group": 49,
+          "stage1_terms_per_output": 196,
+          "stage2_inputs": 64,
+          "stage2_terms_per_output": 256,
+          "parameter_count": 30282
+        },
+        "hierarchical_28x4_g4": {
+          "reference_accuracy": 0.8486666666666668,
+          "qant_accuracy": 0.8480666666666666,
+          "prediction_disagreements": 124.33333333333333,
+          "stage1_mean_absolute_feature_error": 0.009902873697380224,
+          "stage1_mean_max_absolute_feature_error_per_sample": 0.05332198987404505,
+          "stage2_head_error_given_reference_stage1": 0.06172079841295878,
+          "stage2_input_propagation_error": 0.06416156888008118,
+          "end_to_end_logit_error": 0.07605581978956859,
+          "groups": 28,
+          "pixels_per_group": 28,
+          "stage1_terms_per_output": 112,
+          "stage2_inputs": 112,
+          "stage2_terms_per_output": 448,
+          "parameter_count": 34170
+        }
+      },
+      "pareto_front": []
+    },
+    {
+      "file": "exp026_qant_predictive_compatibility_model.json",
+      "experiment_id": "exp026_qant_predictive_compatibility_model",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "7": {
+          "observed_mean": 0.08815128107865651,
+          "predicted_stage1_only": 0.09326528469300972,
+          "predicted_stage2_only": 0.09326528469300956,
+          "predicted_combined": 0.09326528469300956,
+          "mae_stage1_only": 0.005677706531606472,
+          "mae_stage2_only": 0.005677706531606416,
+          "mae_combined": 0.005677706531606416
+        },
+        "14": {
+          "observed_mean": 0.0751145010193189,
+          "predicted_stage1_only": 0.08045669957578347,
+          "predicted_stage2_only": 0.08045669957578329,
+          "predicted_combined": 0.08045669957578333,
+          "mae_stage1_only": 0.005342198556464571,
+          "mae_stage2_only": 0.0053421985564643905,
+          "mae_combined": 0.005342198556464432
+        },
+        "49": {
+          "observed_mean": 0.0918680876493454,
+          "predicted_stage1_only": 0.06160362737555814,
+          "predicted_stage2_only": 0.06160362737555801,
+          "predicted_combined": 0.06160362737555806,
+          "mae_stage1_only": 0.030264460273787253,
+          "mae_stage2_only": 0.03026446027378739,
+          "mae_combined": 0.030264460273787337
+        },
+        "heldout_rankings": {
+          "observed": [
+            1,
+            0,
+            2
+          ],
+          "stage1_only": [
+            2,
+            1,
+            0
+          ],
+          "stage2_only": [
+            2,
+            1,
+            0
+          ],
+          "combined": [
+            2,
+            1,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "file": "exp027_qant_factorial_accumulation_map.json",
+      "experiment_id": "exp027_qant_factorial_accumulation_map",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "hierarchical_8x2_g4": {
+          "groups": 8,
+          "features_per_group": 2,
+          "pixels_per_group": 98,
+          "stage1_terms_per_output": 392,
+          "stage2_terms_per_output": 64,
+          "parameter_count": 13850,
+          "mean_reference_accuracy": 0.8140333333333333,
+          "mean_qant_accuracy": 0.8131,
+          "mean_prediction_disagreements": 121.0,
+          "mean_stage1_mean_absolute_feature_error": 0.016314649333556492,
+          "mean_stage2_head_error_given_reference_stage1": 0.02156219072639942,
+          "mean_stage2_input_propagation_error": 0.0760483369231224,
+          "mean_end_to_end_logit_error": 0.07564775894085567
+        },
+        "hierarchical_8x8_g4": {
+          "groups": 8,
+          "features_per_group": 8,
+          "pixels_per_group": 98,
+          "stage1_terms_per_output": 392,
+          "stage2_terms_per_output": 256,
+          "parameter_count": 55370,
+          "mean_reference_accuracy": 0.8481,
+          "mean_qant_accuracy": 0.8476333333333333,
+          "mean_prediction_disagreements": 124.0,
+          "mean_stage1_mean_absolute_feature_error": 0.01827173928419749,
+          "mean_stage2_head_error_given_reference_stage1": 0.04343346133828163,
+          "mean_stage2_input_propagation_error": 0.08327169468005498,
+          "mean_end_to_end_logit_error": 0.08323618521293004
+        },
+        "hierarchical_16x2_g4": {
+          "groups": 16,
+          "features_per_group": 2,
+          "pixels_per_group": 49,
+          "stage1_terms_per_output": 196,
+          "stage2_terms_per_output": 128,
+          "parameter_count": 15146,
+          "mean_reference_accuracy": 0.8312333333333334,
+          "mean_qant_accuracy": 0.8312333333333332,
+          "mean_prediction_disagreements": 110.0,
+          "mean_stage1_mean_absolute_feature_error": 0.013752784269551436,
+          "mean_stage2_head_error_given_reference_stage1": 0.030345323806007702,
+          "mean_stage2_input_propagation_error": 0.07308984051148097,
+          "mean_end_to_end_logit_error": 0.0731502075990041
+        },
+        "hierarchical_16x8_g4": {
+          "groups": 16,
+          "features_per_group": 8,
+          "pixels_per_group": 49,
+          "stage1_terms_per_output": 196,
+          "stage2_terms_per_output": 512,
+          "parameter_count": 60554,
+          "mean_reference_accuracy": 0.8545666666666666,
+          "mean_qant_accuracy": 0.8538333333333333,
+          "mean_prediction_disagreements": 118.0,
+          "mean_stage1_mean_absolute_feature_error": 0.012959705976148447,
+          "mean_stage2_head_error_given_reference_stage1": 0.06524395694335301,
+          "mean_stage2_input_propagation_error": 0.07699418812990189,
+          "mean_end_to_end_logit_error": 0.08554018785556157
+        },
+        "hierarchical_28x2_g4": {
+          "groups": 28,
+          "features_per_group": 2,
+          "pixels_per_group": 28,
+          "stage1_terms_per_output": 112,
+          "stage2_terms_per_output": 224,
+          "parameter_count": 17090,
+          "mean_reference_accuracy": 0.8417,
+          "mean_qant_accuracy": 0.8422666666666666,
+          "mean_prediction_disagreements": 118.33333333333333,
+          "mean_stage1_mean_absolute_feature_error": 0.010368823694686094,
+          "mean_stage2_head_error_given_reference_stage1": 0.04129628464579582,
+          "mean_stage2_input_propagation_error": 0.05929295967022578,
+          "mean_end_to_end_logit_error": 0.06289116914073627
+        },
+        "hierarchical_28x8_g4": {
+          "groups": 28,
+          "features_per_group": 8,
+          "pixels_per_group": 28,
+          "stage1_terms_per_output": 112,
+          "stage2_terms_per_output": 896,
+          "parameter_count": 68330,
+          "mean_reference_accuracy": 0.8606666666666666,
+          "mean_qant_accuracy": 0.8607333333333335,
+          "mean_prediction_disagreements": 138.0,
+          "mean_stage1_mean_absolute_feature_error": 0.009345360721151033,
+          "mean_stage2_head_error_given_reference_stage1": 0.09100844711065292,
+          "mean_stage2_input_propagation_error": 0.07358700533707936,
+          "mean_end_to_end_logit_error": 0.10117589930693309
+        }
+      },
+      "pareto_front": []
+    },
+    {
+      "file": "exp028_qant_predictive_compatibility_v2.json",
+      "experiment_id": "exp028_qant_predictive_compatibility_v2",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "7x2": {
+          "predicted": 0.07012829419975589,
+          "observed_mean": 0.09212142477432887,
+          "mean_absolute_prediction_error": 0.021993130574572983,
+          "mean_reference_accuracy": 0.8144,
+          "mean_qant_accuracy": 0.8136333333333333
+        },
+        "14x4": {
+          "predicted": 0.07938004697603275,
+          "observed_mean": 0.07512217511733373,
+          "mean_absolute_prediction_error": 0.004257871858699021,
+          "mean_reference_accuracy": 0.8454,
+          "mean_qant_accuracy": 0.8450333333333333
+        },
+        "28x4": {
+          "predicted": 0.07959205856308445,
+          "observed_mean": 0.07605353991190593,
+          "mean_absolute_prediction_error": 0.003984772332460034,
+          "mean_reference_accuracy": 0.8486666666666668,
+          "mean_qant_accuracy": 0.8480666666666666
+        },
+        "49x2": {
+          "predicted": 0.07065538633468381,
+          "observed_mean": 0.06979301075140636,
+          "mean_absolute_prediction_error": 0.0014765596012361558,
+          "mean_reference_accuracy": 0.8469333333333333,
+          "mean_qant_accuracy": 0.8476666666666667
+        },
+        "ranking": {
+          "candidate_order": [
+            "7x2",
+            "14x4",
+            "28x4",
+            "49x2"
+          ],
+          "predicted": [
+            0,
+            2,
+            3,
+            1
+          ],
+          "observed": [
+            3,
+            1,
+            2,
+            0
+          ]
+        },
+        "overall_mean_absolute_prediction_error": 0.007928083591742048
+      }
+    },
+    {
+      "file": "exp029_qant_7x2_residual_localization.json",
+      "experiment_id": "exp029_qant_7x2_residual_localization",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "hierarchical_7x2_g4": {
+          "groups": 7,
+          "features_per_group": 2,
+          "stage1_terms_per_output": 448,
+          "stage2_terms_per_output": 56,
+          "parameter_count": 13688,
+          "mean_reference_accuracy": 0.8144,
+          "mean_qant_accuracy": 0.8136333333333333,
+          "mean_prediction_disagreements": 152.66666666666666,
+          "mean_stage1_mean_absolute_feature_error": 0.018466778720418613,
+          "mean_stage2_head_error_given_reference_stage1": 0.02129571760694186,
+          "mean_stage2_input_propagation_error": 0.09340530882279079,
+          "mean_end_to_end_logit_error": 0.09211880465348561,
+          "mean_stage1_feature_rms": 1.2128185607209991,
+          "mean_head_input_weighted_sensitivity_proxy": 0.16506796220183875
+        },
+        "hierarchical_14x4_g4": {
+          "groups": 14,
+          "features_per_group": 4,
+          "stage1_terms_per_output": 224,
+          "stage2_terms_per_output": 224,
+          "parameter_count": 29634,
+          "mean_reference_accuracy": 0.8454,
+          "mean_qant_accuracy": 0.8450666666666667,
+          "mean_prediction_disagreements": 120.33333333333333,
+          "mean_stage1_mean_absolute_feature_error": 0.013753009960055351,
+          "mean_stage2_head_error_given_reference_stage1": 0.04182804003357887,
+          "mean_stage2_input_propagation_error": 0.07314337293306987,
+          "mean_end_to_end_logit_error": 0.0751145010193189,
+          "mean_stage1_feature_rms": 1.1521386546927666,
+          "mean_head_input_weighted_sensitivity_proxy": 0.05719832453546645
+        },
+        "hierarchical_49x2_g4": {
+          "groups": 49,
+          "features_per_group": 2,
+          "stage1_terms_per_output": 64,
+          "stage2_terms_per_output": 392,
+          "parameter_count": 20492,
+          "mean_reference_accuracy": 0.8469333333333333,
+          "mean_qant_accuracy": 0.8476666666666667,
+          "mean_prediction_disagreements": 131.33333333333334,
+          "mean_stage1_mean_absolute_feature_error": 0.00804790947586298,
+          "mean_stage2_head_error_given_reference_stage1": 0.058277311424414315,
+          "mean_stage2_input_propagation_error": 0.05839009086290995,
+          "mean_end_to_end_logit_error": 0.0697910984357198,
+          "mean_stage1_feature_rms": 1.0737720768159955,
+          "mean_head_input_weighted_sensitivity_proxy": 0.025399765526317845
+        }
+      },
+      "pareto_front": []
+    },
+    {
+      "file": "exp030_qant_compatibility_model_v3.json",
+      "experiment_id": "exp030_qant_compatibility_model_v3",
+      "backend": "qant-cpu",
+      "dataset": "FashionMNIST",
+      "summary": {
+        "hierarchical_7x4_g4": {
+          "groups": 7,
+          "features_per_group": 4,
+          "stage1_terms_per_output": 448,
+          "stage2_terms_per_output": 112,
+          "parameter_count": 27366,
+          "mean_reference_accuracy": 0.8328333333333333,
+          "mean_qant_accuracy": 0.8327666666666667,
+          "mean_prediction_disagreements": 116.0,
+          "mean_stage1_mean_absolute_feature_error": 0.02013124463458856,
+          "mean_stage2_head_error_given_reference_stage1": 0.027612595508495968,
+          "mean_stage2_input_propagation_error": 0.08907374242941539,
+          "mean_end_to_end_logit_error": 0.08815128107865651,
+          "mean_stage1_feature_rms": 1.2141298774928482,
+          "mean_head_input_weighted_sensitivity_proxy": 0.11939873065375074
+        },
+        "hierarchical_14x2_g4": {
+          "groups": 14,
+          "features_per_group": 2,
+          "stage1_terms_per_output": 224,
+          "stage2_terms_per_output": 112,
+          "parameter_count": 14822,
+          "mean_reference_accuracy": 0.8309666666666667,
+          "mean_qant_accuracy": 0.8308333333333332,
+          "mean_prediction_disagreements": 102.66666666666667,
+          "mean_stage1_mean_absolute_feature_error": 0.01322350495805343,
+          "mean_stage2_head_error_given_reference_stage1": 0.028144645194212597,
+          "mean_stage2_input_propagation_error": 0.06650109340747197,
+          "mean_end_to_end_logit_error": 0.0657000703116258,
+          "mean_stage1_feature_rms": 1.1349931029830804,
+          "mean_head_input_weighted_sensitivity_proxy": 0.07901314290766977
+        },
+        "hierarchical_28x6_g4": {
+          "groups": 28,
+          "features_per_group": 6,
+          "stage1_terms_per_output": 112,
+          "stage2_terms_per_output": 672,
+          "parameter_count": 51250,
+          "mean_reference_accuracy": 0.8575,
+          "mean_qant_accuracy": 0.8564666666666666,
+          "mean_prediction_disagreements": 133.66666666666666,
+          "mean_stage1_mean_absolute_feature_error": 0.009625282138586044,
+          "mean_stage2_head_error_given_reference_stage1": 0.07711795717477798,
+          "mean_stage2_input_propagation_error": 0.07084505508343379,
+          "mean_end_to_end_logit_error": 0.09133779754241307,
+          "mean_stage1_feature_rms": 1.0362987483101052,
+          "mean_head_input_weighted_sensitivity_proxy": 0.02261956095035318
+        },
+        "hierarchical_49x3_g4": {
+          "groups": 49,
+          "features_per_group": 3,
+          "stage1_terms_per_output": 64,
+          "stage2_terms_per_output": 588,
+          "parameter_count": 30733,
+          "mean_reference_accuracy": 0.8543666666666666,
+          "mean_qant_accuracy": 0.8550333333333334,
+          "mean_prediction_disagreements": 115.66666666666667,
+          "mean_stage1_mean_absolute_feature_error": 0.007489648337165515,
+          "mean_stage2_head_error_given_reference_stage1": 0.0725411872069041,
+          "mean_stage2_input_propagation_error": 0.059962873657544456,
+          "mean_end_to_end_logit_error": 0.0816050296028455,
+          "mean_stage1_feature_rms": 0.9960696008134994,
+          "mean_head_input_weighted_sensitivity_proxy": 0.01916558282913538
+        }
+      },
+      "pareto_front": []
     }
   ],
-  "researcher_analyses": [
+  "pnn_v1_experiments": [
+    {
+      "file": "result001.json",
+      "experiment_id": "PNN-v1-Exp001",
+      "proposal_id": "PNN-v1-Proposal001",
+      "timestamp_utc": "2026-09-25T11:24:38.607203+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ],
+        "labels": [
+          "-1",
+          "1"
+        ],
+        "split": "canonical TRAIN/TEST"
+      },
+      "success_criteria_met": null,
+      "decision": null,
+      "selected_candidate": null,
+      "summary": {
+        "mlp_relu_96_64_32_2": {
+          "parameter_count": 8354,
+          "mean_reference_accuracy": 0.8766666666666666,
+          "std_reference_accuracy": 0.004714045207910321
+        },
+        "pnn_v1_alpha1_12x4_g4": {
+          "parameter_count": 3890,
+          "mean_reference_accuracy": 0.8300000000000001,
+          "std_reference_accuracy": 0.03559026084010435,
+          "mean_qant_accuracy": 0.8333333333333334,
+          "std_qant_accuracy": 0.033993463423951896,
+          "mean_prediction_disagreements": 0.3333333333333333,
+          "mean_absolute_logit_error": 0.038455537209908165
+        }
+      }
+    },
+    {
+      "file": "result002.json",
+      "experiment_id": "PNN-v1-Exp002",
+      "proposal_id": "PNN-v1-Proposal002",
+      "timestamp_utc": "2026-09-25T11:42:16.647688+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ],
+        "split": "canonical TRAIN/TEST"
+      },
+      "success_criteria_met": true,
+      "decision": null,
+      "selected_candidate": null,
+      "summary": {
+        "alpha1_raw_control": {
+          "parameter_count": 3890,
+          "mean_reference_accuracy": 0.8230000000000001,
+          "std_reference_accuracy": 0.030999999999999982,
+          "mean_qant_accuracy": 0.8240000000000001,
+          "std_qant_accuracy": 0.031685959035509706,
+          "mean_prediction_disagreements": 0.3,
+          "mean_absolute_logit_error": 0.03713339064270258
+        },
+        "alpha1_per_case_zscore": {
+          "parameter_count": 3890,
+          "mean_reference_accuracy": 0.82,
+          "std_reference_accuracy": 0.028284271247461884,
+          "mean_qant_accuracy": 0.819,
+          "std_qant_accuracy": 0.029478805945967333,
+          "mean_prediction_disagreements": 0.5,
+          "mean_absolute_logit_error": 0.03763062097132206
+        }
+      }
+    },
+    {
+      "file": "result003.json",
+      "experiment_id": "PNN-v1-Exp003",
+      "proposal_id": "PNN-v1-Proposal003",
+      "timestamp_utc": "2026-09-25T13:20:56.131808+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "canonical_train_shape": [
+          100,
+          96
+        ],
+        "canonical_test_shape": [
+          100,
+          96
+        ],
+        "selection_train_samples": 80,
+        "validation_samples": 20
+      },
+      "success_criteria_met": false,
+      "decision": null,
+      "selected_candidate": "alpha1_control",
+      "summary": null
+    },
+    {
+      "file": "result004.json",
+      "experiment_id": "PNN-v1-Exp004",
+      "proposal_id": "PNN-v1-Proposal004",
+      "timestamp_utc": "2026-09-25T13:41:07.673090+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "canonical_train_shape": [
+          100,
+          96
+        ],
+        "canonical_test_shape": [
+          100,
+          96
+        ],
+        "selection_train_samples": 80,
+        "validation_samples": 20
+      },
+      "success_criteria_met": false,
+      "decision": null,
+      "selected_candidate": "alpha1_control",
+      "summary": null
+    },
+    {
+      "file": "result005.json",
+      "experiment_id": "PNN-v1-Exp005",
+      "proposal_id": "PNN-v1-Proposal005",
+      "timestamp_utc": "2026-09-25T13:49:13.316955+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "canonical_train_shape": [
+          100,
+          96
+        ],
+        "canonical_test_shape": [
+          100,
+          96
+        ],
+        "selection_train_samples": 80,
+        "validation_samples": 20
+      },
+      "success_criteria_met": true,
+      "decision": null,
+      "selected_candidate": "alpha1_w8",
+      "summary": null
+    },
+    {
+      "file": "result006.json",
+      "experiment_id": "PNN-v1-Exp006",
+      "proposal_id": "PNN-v1-Proposal006",
+      "timestamp_utc": "2026-09-25T13:59:11.064859+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ],
+        "split": "canonical TRAIN/TEST"
+      },
+      "success_criteria_met": false,
+      "decision": "retain_alpha1",
+      "selected_candidate": null,
+      "summary": {
+        "alpha1_w4": {
+          "parameter_count": 3890,
+          "mean_reference_accuracy": 0.8230000000000001,
+          "std_reference_accuracy": 0.030999999999999982,
+          "mean_qant_accuracy": 0.8240000000000001,
+          "std_qant_accuracy": 0.031685959035509706,
+          "mean_prediction_disagreements": 0.3,
+          "mean_absolute_logit_error": 0.03713339064270258
+        },
+        "alpha2_w8": {
+          "parameter_count": 7778,
+          "mean_reference_accuracy": 0.835,
+          "std_reference_accuracy": 0.020615528128088288,
+          "mean_qant_accuracy": 0.834,
+          "std_qant_accuracy": 0.02154065922853799,
+          "mean_prediction_disagreements": 0.1,
+          "mean_absolute_logit_error": 0.045277418196201326
+        },
+        "mlp_relu_96_64_32_2": {
+          "parameter_count": 8354,
+          "mean_reference_accuracy": 0.876,
+          "std_reference_accuracy": 0.008000000000000007
+        }
+      }
+    },
+    {
+      "file": "result007.json",
+      "experiment_id": "PNN-v1-Exp007",
+      "proposal_id": "PNN-v1-Proposal007",
+      "timestamp_utc": "2026-09-25T14:10:49.287261+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ],
+        "split": "canonical TRAIN/TEST"
+      },
+      "success_criteria_met": true,
+      "decision": "promote_alpha2",
+      "selected_candidate": null,
+      "summary": {
+        "alpha1_w4": {
+          "parameter_count": 3890,
+          "mean_reference_accuracy": 0.8230000000000001,
+          "std_reference_accuracy": 0.030999999999999982,
+          "mean_qant_accuracy": 0.8240000000000001,
+          "std_qant_accuracy": 0.031685959035509706,
+          "total_qant_correct_count": 824,
+          "mean_prediction_disagreements": 0.3,
+          "mean_absolute_logit_error": 0.03713339064270258
+        },
+        "alpha2_w8": {
+          "parameter_count": 7778,
+          "mean_reference_accuracy": 0.835,
+          "std_reference_accuracy": 0.020615528128088288,
+          "mean_qant_accuracy": 0.834,
+          "std_qant_accuracy": 0.02154065922853799,
+          "total_qant_correct_count": 834,
+          "mean_prediction_disagreements": 0.1,
+          "mean_absolute_logit_error": 0.045277418196201326
+        }
+      }
+    },
+    {
+      "file": "result008.json",
+      "experiment_id": "PNN-v1-Exp008",
+      "proposal_id": "PNN-v1-Proposal008",
+      "timestamp_utc": "2026-09-25T14:20:46.758409+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "canonical_train_shape": [
+          100,
+          96
+        ],
+        "canonical_test_shape": [
+          100,
+          96
+        ],
+        "selection_train_samples": 80,
+        "validation_samples": 20
+      },
+      "success_criteria_met": false,
+      "decision": null,
+      "selected_candidate": "k1234",
+      "summary": null
+    },
+    {
+      "file": "result009.json",
+      "experiment_id": "PNN-v1-Exp009",
+      "proposal_id": "PNN-v1-Proposal009",
+      "timestamp_utc": "2026-09-25T14:28:08.557936+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ],
+        "split": "canonical TRAIN/TEST"
+      },
+      "success_criteria_met": true,
+      "decision": "promote_compact_k12",
+      "selected_candidate": null,
+      "summary": {
+        "active_alpha2_k1234": {
+          "frequencies": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "parameter_count": 7778,
+          "mean_reference_accuracy": 0.835,
+          "mean_qant_accuracy": 0.834,
+          "std_qant_accuracy": 0.02154065922853799,
+          "total_qant_correct_count": 834,
+          "mean_prediction_disagreements": 0.1,
+          "mean_absolute_logit_error": 0.045277418196201326
+        },
+        "compact_alpha2_k12": {
+          "frequencies": [
+            1,
+            2
+          ],
+          "parameter_count": 3938,
+          "mean_reference_accuracy": 0.851,
+          "mean_qant_accuracy": 0.852,
+          "std_qant_accuracy": 0.016613247725836167,
+          "total_qant_correct_count": 852,
+          "mean_prediction_disagreements": 0.1,
+          "mean_absolute_logit_error": 0.02616795338690281
+        }
+      }
+    },
+    {
+      "file": "result010.json",
+      "experiment_id": "PNN-v1-Exp010",
+      "proposal_id": "PNN-v1-Proposal010",
+      "timestamp_utc": "2026-09-25T14:39:05.986287+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "canonical_train_shape": [
+          100,
+          96
+        ],
+        "canonical_test_shape": [
+          100,
+          96
+        ],
+        "selection_train_samples": 80,
+        "validation_samples": 20
+      },
+      "success_criteria_met": true,
+      "decision": null,
+      "selected_candidate": "w16",
+      "summary": null
+    },
+    {
+      "file": "result011.json",
+      "experiment_id": "PNN-v1-Exp011",
+      "proposal_id": "PNN-v1-Proposal011",
+      "timestamp_utc": "2026-09-25T15:44:15.516378+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ],
+        "split": "canonical TRAIN/TEST"
+      },
+      "success_criteria_met": true,
+      "decision": "promote_alpha4_w16",
+      "selected_candidate": null,
+      "summary": {
+        "alpha3_w8": {
+          "geometry": [
+            12,
+            8,
+            8
+          ],
+          "frequencies": [
+            1,
+            2
+          ],
+          "parameter_count": 3938,
+          "mean_reference_accuracy": 0.851,
+          "mean_qant_accuracy": 0.852,
+          "std_qant_accuracy": 0.016613247725836167,
+          "total_qant_correct_count": 852,
+          "mean_prediction_disagreements": 0.1,
+          "mean_absolute_logit_error": 0.02616795338690281
+        },
+        "w16_candidate": {
+          "geometry": [
+            6,
+            16,
+            16
+          ],
+          "frequencies": [
+            1,
+            2
+          ],
+          "parameter_count": 7010,
+          "mean_reference_accuracy": 0.8960000000000001,
+          "mean_qant_accuracy": 0.893,
+          "std_qant_accuracy": 0.014177446878757837,
+          "total_qant_correct_count": 893,
+          "mean_prediction_disagreements": 0.3,
+          "mean_absolute_logit_error": 0.03264079298824072
+        }
+      }
+    },
+    {
+      "file": "result012.json",
+      "experiment_id": "PNN-v1-Exp012",
+      "proposal_id": "PNN-v1-Proposal012",
+      "timestamp_utc": "2026-09-25T17:32:12.681973+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "GunPoint",
+        "train_shape": [
+          50,
+          144
+        ],
+        "test_shape": [
+          150,
+          144
+        ],
+        "split": "canonical TRAIN/TEST"
+      },
+      "success_criteria_met": true,
+      "decision": null,
+      "selected_candidate": null,
+      "summary": {
+        "alpha4_transfer": {
+          "geometry": [
+            9,
+            16,
+            16
+          ],
+          "frequencies": [
+            1,
+            2
+          ],
+          "parameter_count": 10514,
+          "mean_reference_accuracy": 0.9493333333333333,
+          "mean_qant_accuracy": 0.9493333333333333,
+          "std_qant_accuracy": 0.012364824660660955,
+          "total_qant_correct_count": 1424,
+          "mean_prediction_disagreements": 0.2,
+          "mean_absolute_logit_error": 0.03331241775304079
+        }
+      }
+    },
+    {
+      "file": "result013.json",
+      "experiment_id": "PNN-v1-Exp013",
+      "proposal_id": "PNN-v1-Proposal013",
+      "timestamp_utc": "2026-09-25T17:45:05.574124+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "Multi-dataset transfer",
+        "datasets": [
+          "ItalyPowerDemand",
+          "SonyAIBORobotSurface1",
+          "TwoLeadECG"
+        ]
+      },
+      "success_criteria_met": false,
+      "decision": null,
+      "selected_candidate": null,
+      "summary": null
+    },
+    {
+      "file": "result014.json",
+      "experiment_id": "PNN-v1-Exp014",
+      "proposal_id": "PNN-v1-Proposal014",
+      "timestamp_utc": "2026-09-25T17:56:57.888135+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "TwoLeadECG",
+        "train_shape": [
+          23,
+          80
+        ],
+        "test_shape": [
+          1139,
+          80
+        ]
+      },
+      "success_criteria_met": true,
+      "decision": "margin_sensitivity_supported",
+      "selected_candidate": null,
+      "summary": null
+    },
+    {
+      "file": "result015.json",
+      "experiment_id": "PNN-v1-Exp015",
+      "proposal_id": "PNN-v1-Proposal015",
+      "timestamp_utc": "2026-09-25T18:04:34.023421+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "TwoLeadECG",
+        "train_shape": [
+          23,
+          80
+        ],
+        "test_shape": [
+          1139,
+          80
+        ]
+      },
+      "success_criteria_met": false,
+      "decision": "not_supported",
+      "selected_candidate": null,
+      "summary": {
+        "control": {
+          "parameter_count": 5842,
+          "mean_reference_accuracy": 0.8305531167690956,
+          "mean_qant_accuracy": 0.8298507462686567,
+          "std_qant_accuracy": 0.02363596749663375,
+          "mean_prediction_disagreements": 4.2,
+          "mean_absolute_logit_error": 0.020823519676923752,
+          "median_reference_margin_across_seeds": 2.0899996757507324
+        },
+        "margin_regularized": {
+          "parameter_count": 5842,
+          "mean_reference_accuracy": 0.8321334503950835,
+          "mean_qant_accuracy": 0.8310798946444249,
+          "std_qant_accuracy": 0.021634978189559013,
+          "mean_prediction_disagreements": 4.2,
+          "mean_absolute_logit_error": 0.02042516376823187,
+          "median_reference_margin_across_seeds": 2.0216079354286194
+        }
+      }
+    },
+    {
+      "file": "result016.json",
+      "experiment_id": "PNN-v1-Exp016",
+      "proposal_id": "PNN-v1-Proposal016",
+      "timestamp_utc": "2026-09-25T18:12:47.132524+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "TwoLeadECG",
+        "train_shape": [
+          23,
+          80
+        ],
+        "test_shape": [
+          1139,
+          80
+        ]
+      },
+      "success_criteria_met": false,
+      "decision": "not_supported",
+      "selected_candidate": null,
+      "summary": null
+    },
+    {
+      "file": "result017.json",
+      "experiment_id": "PNN-v1-Exp017",
+      "proposal_id": "PNN-v1-Proposal017",
+      "timestamp_utc": "2026-09-25T19:03:06.059299+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "TwoLeadECG",
+        "train_shape": [
+          23,
+          80
+        ],
+        "test_shape": [
+          1139,
+          80
+        ]
+      },
+      "success_criteria_met": true,
+      "decision": "supported",
+      "selected_candidate": null,
+      "summary": {
+        "control": {
+          "parameter_count": 5842,
+          "mean_reference_accuracy": 0.8305531167690956,
+          "mean_qant_accuracy": 0.8298507462686567,
+          "std_qant_accuracy": 0.02363596749663375,
+          "mean_prediction_disagreements": 4.2,
+          "mean_absolute_logit_error": 0.020823519676923752
+        },
+        "redundant3": {
+          "parameter_count": 7126,
+          "mean_reference_accuracy": 0.8369622475856013,
+          "mean_qant_accuracy": 0.8384547848990342,
+          "std_qant_accuracy": 0.01544815975271134,
+          "mean_prediction_disagreements": 3.3,
+          "mean_absolute_logit_error": 0.014194451086223126
+        }
+      }
+    },
+    {
+      "file": "result018.json",
+      "experiment_id": "PNN-v1-Exp018",
+      "proposal_id": "PNN-v1-Proposal018",
+      "timestamp_utc": "2026-09-25T19:38:31.919261+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "GunPoint",
+        "train_shape": [
+          50,
+          144
+        ],
+        "test_shape": [
+          150,
+          144
+        ]
+      },
+      "success_criteria_met": false,
+      "decision": "not_supported",
+      "selected_candidate": null,
+      "summary": {
+        "control": {
+          "parameter_count": 10514,
+          "mean_reference_accuracy": 0.9493333333333333,
+          "mean_qant_accuracy": 0.9493333333333333,
+          "std_qant_accuracy": 0.012364824660660955,
+          "mean_prediction_disagreements": 0.2,
+          "mean_absolute_logit_error": 0.03331241775304079
+        },
+        "redundant3": {
+          "parameter_count": 12822,
+          "mean_reference_accuracy": 0.9526666666666666,
+          "mean_qant_accuracy": 0.9546666666666667,
+          "std_qant_accuracy": 0.010241527663824832,
+          "mean_prediction_disagreements": 0.3,
+          "mean_absolute_logit_error": 0.02006006967276335
+        }
+      }
+    },
+    {
+      "file": "result019.json",
+      "experiment_id": "PNN-v1-Exp019",
+      "proposal_id": "PNN-v1-Proposal019",
+      "timestamp_utc": "2026-09-25T20:02:42.878867+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "SonyAIBORobotSurface1",
+        "train_shape": [
+          20,
+          64
+        ],
+        "test_shape": [
+          601,
+          64
+        ]
+      },
+      "success_criteria_met": true,
+      "decision": "supported",
+      "selected_candidate": null,
+      "summary": {
+        "control": {
+          "parameter_count": 4674,
+          "mean_reference_accuracy": 0.6597337770382696,
+          "mean_qant_accuracy": 0.6599001663893511,
+          "std_qant_accuracy": 0.03598936661456447,
+          "mean_prediction_disagreements": 1.5,
+          "mean_absolute_logit_error": 0.01643958343192935
+        },
+        "redundant3": {
+          "parameter_count": 5702,
+          "mean_reference_accuracy": 0.6607321131447589,
+          "mean_qant_accuracy": 0.6597337770382696,
+          "std_qant_accuracy": 0.02313051376781671,
+          "mean_prediction_disagreements": 1.2,
+          "mean_absolute_logit_error": 0.011338623333722353
+        }
+      }
+    },
+    {
+      "file": "result020.json",
+      "experiment_id": "PNN-v1-Exp020",
+      "proposal_id": "PNN-v1-Proposal020",
+      "timestamp_utc": "2026-09-25T20:10:25.816952+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ]
+      },
+      "success_criteria_met": true,
+      "decision": "promote_alpha5",
+      "selected_candidate": null,
+      "summary": {
+        "alpha4": {
+          "parameter_count": 7010,
+          "mean_reference_accuracy": 0.8960000000000001,
+          "mean_qant_accuracy": 0.893,
+          "std_qant_accuracy": 0.014177446878757837,
+          "mean_prediction_disagreements": 0.3,
+          "mean_absolute_logit_error": 0.03264079298824072,
+          "aggregate_qant_correct": 893
+        },
+        "alpha5_candidate": {
+          "parameter_count": 8550,
+          "mean_reference_accuracy": 0.897,
+          "mean_qant_accuracy": 0.897,
+          "std_qant_accuracy": 0.02451530134426255,
+          "mean_prediction_disagreements": 0.0,
+          "mean_absolute_logit_error": 0.020006656460464,
+          "aggregate_qant_correct": 897
+        }
+      }
+    },
+    {
+      "file": "result021.json",
+      "experiment_id": "PNN-v1-Exp021",
+      "proposal_id": "PNN-v1-Proposal021",
+      "timestamp_utc": "2026-09-25T20:23:06.255326+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ]
+      },
+      "success_criteria_met": false,
+      "decision": "retain_alpha5",
+      "selected_candidate": null,
+      "summary": {
+        "alpha5_w8": {
+          "parameter_count": 4278,
+          "mean_reference_accuracy": 0.885,
+          "mean_qant_accuracy": 0.8869999999999999,
+          "std_qant_accuracy": 0.016155494421403526,
+          "mean_prediction_disagreements": 0.2,
+          "mean_absolute_logit_error": 0.014332753885537387,
+          "aggregate_qant_correct": 887
+        },
+        "alpha5_w12": {
+          "parameter_count": 6414,
+          "mean_reference_accuracy": 0.882,
+          "mean_qant_accuracy": 0.884,
+          "std_qant_accuracy": 0.021071307505705496,
+          "mean_prediction_disagreements": 0.2,
+          "mean_absolute_logit_error": 0.0168985347263515,
+          "aggregate_qant_correct": 884
+        },
+        "alpha5_w16_control": {
+          "parameter_count": 8550,
+          "mean_reference_accuracy": 0.897,
+          "mean_qant_accuracy": 0.897,
+          "std_qant_accuracy": 0.02451530134426255,
+          "mean_prediction_disagreements": 0.0,
+          "mean_absolute_logit_error": 0.020006656460464,
+          "aggregate_qant_correct": 897
+        }
+      }
+    }
+  ],
+  "historical_researcher_analyses": [
     {
       "file": "analysis-exp007-gpt56-sol.json",
       "analysis_id": "analysis-exp007-gpt56-sol",
       "experiment_id": "exp007_expansion_ratio",
-      "researcher": "GPT-5.6 Sol via ChatGPT",
       "hypothesis_assessment": "partially_supported",
       "interpretation": "Experiment 007 supports a parameter-efficiency advantage for several bottleneck-plus-expansion architectures under this MNIST setup, but does not support a universal monotonic expansion-ratio rule. The 32-wide bottleneck showed a monotonic trend, while the 64-wide bottleneck did not. The strongest next question is therefore whether the apparent efficiency advantage generalizes beyond the current small MNIST training regime rather than further optimizing the same benchmark immediately.",
       "next_research_direction": "Test whether selected Pareto-efficient expansion architectures retain their advantage under a stronger validation regime, before making broader architectural claims."
+    },
+    {
+      "file": "analysis-exp008-gpt56-sol.json",
+      "analysis_id": "analysis-exp008-gpt56-sol",
+      "experiment_id": "exp008_full_mnist_validation",
+      "hypothesis_assessment": "supported_with_qualification",
+      "interpretation": "Selected bottleneck-plus-expansion architectures retain a parameter-efficiency advantage on full MNIST, but the effect is not universal across every pair. The next falsification should test whether the fixed architectures generalize to a different dataset rather than continuing MNIST tuning.",
+      "next_research_direction": "Cross-dataset validation using the already-selected architectures without architecture search on the new dataset."
+    },
+    {
+      "file": "analysis-exp009-gpt56-sol.json",
+      "analysis_id": "analysis-exp009-gpt56-sol",
+      "experiment_id": "exp009_cross_dataset_validation",
+      "hypothesis_assessment": "supported_with_qualification",
+      "interpretation": "The parameter-efficiency pattern transfers beyond MNIST: the fixed h64_512 architecture clearly outperforms h128 with fewer parameters, while h128_512 nearly matches h256 with fewer parameters. However, the evidence does not show universal dominance of bottleneck-plus-expansion architectures because h256 and h512 remain Pareto-efficient. This supports cross-dataset generalization of a parameter-efficiency effect, with qualification.",
+      "next_research_direction": "Move from generic ReLU dense topology comparisons toward a Q.ANT-specific architectural hypothesis, such as testing supported nonlinear or KAN-style operations under controlled parameter budgets, before eventual validation on real photonic hardware."
+    },
+    {
+      "file": "analysis-exp010-gpt56-sol.json",
+      "analysis_id": "analysis-exp010-gpt56-sol",
+      "experiment_id": "exp010_qant_fourier_layer",
+      "hypothesis_assessment": "supported_with_qualification",
+      "interpretation": "The pre-registered hypothesis is supported only in the Pareto sense: Q.ANT-native Fourier models occupy the low-parameter end of the frontier, demonstrating a strong compression/accuracy trade-off, but they do not yet reach ReLU accuracy. The unusually large reference-versus-Q.ANT disagreement for QFourier is a separate and scientifically important result, consistent with the experiment's warning that exact cosine training and the toolkit's tcos-style evaluation are not identical.",
+      "next_research_direction": "Test whether modestly richer locked QFourier configurations improve accuracy without losing the parameter advantage, while explicitly treating reference-to-Q.ANT disagreement as a metric. A next experiment should compare larger grid sizes and/or a small stacked Fourier architecture under a fixed parameter budget rather than tuning post hoc on Exp010."
+    },
+    {
+      "file": "analysis-exp011-gpt56-sol.json",
+      "analysis_id": "analysis-exp011-gpt56-sol",
+      "experiment_id": "exp011_qant_fourier_capacity",
+      "hypothesis_assessment": "partially_supported",
+      "interpretation": "The capacity hypothesis is only partially supported. Increasing grid size from 2 to 4 improves Q.ANT accuracy and preserves Pareto efficiency, but grid size 8 reverses the gain and sharply increases reference-to-Q.ANT disagreement. This suggests that simply adding higher Fourier frequencies is not a reliable path to closing the ReLU gap under the current exact-cosine-training/Q.ANT-evaluation protocol. The mismatch between the training reference and Q.ANT periodic evaluation becomes more important as grid size grows.",
+      "next_research_direction": "Prioritize the reference-to-Q.ANT mismatch rather than increasing grid size further. A pre-registered follow-up should test Q.ANT's official training-noise/robustness approach or another Q.ANT-aligned training method at fixed g4 capacity, comparing disagreement and Q.ANT accuracy against the no-noise g4 baseline."
+    },
+    {
+      "file": "analysis-exp012-gpt56-sol.json",
+      "analysis_id": "analysis-exp012-gpt56-sol",
+      "experiment_id": "exp012_qant_fourier_robust_training",
+      "hypothesis_assessment": "not_supported",
+      "interpretation": [
+        "The primary robustness criterion failed: neither pre-registered noise level lowered mean disagreement relative to the no-noise baseline.",
+        "The highest tested noise level improved mean Q.ANT accuracy by only about 0.057 percentage points versus no noise, while mean disagreement increased by about 2.67 predictions per 10,000.",
+        "Effects vary by seed: noise sometimes reduces disagreement and sometimes increases it, providing no consistent cross-seed direction.",
+        "The exact-cosine reference accuracy is essentially unchanged, so the intervention did not materially alter ordinary reference performance.",
+        "The Exp011/Exp012 evidence points away from simple output-noise regularization as the solution to the exact-cosine versus Q.ANT-periodic mismatch."
+      ],
+      "next_research_direction": null
+    },
+    {
+      "file": "analysis-exp013-gpt56-sol.json",
+      "analysis_id": "analysis-exp013-gpt56-sol",
+      "experiment_id": "exp013_qant_fourier_mismatch_diagnostic",
+      "hypothesis_assessment": "supported",
+      "interpretation": "The pre-registered hypothesis is supported on the Q.ANT CPU backend. Frequency and periodic argument location both structure the discrepancy. This makes simply increasing Fourier grid size a poor default strategy when training uses exact cosine but evaluation uses calc_kan_layer_fprop.",
+      "next_research_direction": "Separate bfloat16 argument/parameter quantization from the toolkit periodic-function approximation, then use the measured Q.ANT response to design a training surrogate that is aligned with calc_kan_layer_fprop rather than exact cosine."
+    },
+    {
+      "file": "analysis-exp014-gpt56-sol.json",
+      "analysis_id": "analysis-exp014-gpt56-sol",
+      "experiment_id": "exp014_qant_fourier_error_decomposition",
+      "hypothesis_assessment": "supported",
+      "interpretation": "Exp014 supports moving from robustness-by-noise to function-aligned training. The next intervention should preserve the locked QFourier architecture and change only the differentiable training response so that it approximates the measured Q.ANT periodic response.",
+      "next_research_direction": "Fit a fixed differentiable periodic surrogate to Q.ANT CPU-backend response samples, then compare exact-cosine training against surrogate-aligned training on locked QFourier g4 and g8 models."
+    },
+    {
+      "file": "analysis-exp015-gpt56-sol.json",
+      "analysis_id": "analysis-exp015-gpt56-sol",
+      "experiment_id": "exp015_qant_aligned_training_surrogate",
+      "hypothesis_assessment": "not_supported",
+      "interpretation": "Exp015 rules out the simplest global response-alignment intervention. The next experiment should observe the actual arguments used by trained models and quantify how much weighted activation mass falls in high-residual regions identified by Exp014.",
+      "next_research_direction": "Instrument locked exact-cosine g4 and g8 models after training, collect k*x+phase modulo 2*pi on a fixed FashionMNIST test subset, and relate argument occupancy plus learned amplitude magnitude to a Q.ANT residual lookup table."
+    },
+    {
+      "file": "analysis-exp016-gpt56-sol.json",
+      "analysis_id": "analysis-exp016-gpt56-sol",
+      "experiment_id": "exp016_qant_activation_error_occupancy",
+      "hypothesis_assessment": "not_supported",
+      "interpretation": "The much larger g8 prediction disagreement is not explained by materially greater occupancy of the high-residual phase bins identified by the scalar diagnostic. The next test should move downstream to accumulated logit error and decision margins.",
+      "next_research_direction": "Measure reference-versus-Q.ANT logit error, top-1/top-2 reference margin, and disagreement conditional on margin for locked g4 and g8 models."
+    },
+    {
+      "file": "analysis-exp017-gpt56-sol.json",
+      "analysis_id": "analysis-exp017-gpt56-sol",
+      "experiment_id": "exp017_qant_logit_margin_diagnostic",
+      "hypothesis_assessment": "supported_with_qualification",
+      "interpretation": "The preregistered hypothesis is supported with qualification. Exp017 provides evidence for a downstream mechanism in which g8 accumulates substantially larger reference-to-Q.ANT CPU-backend logit perturbations, and class flips are concentrated where those perturbations interact with limited decision margin. The experiment is observational and does not by itself prove which upstream Fourier components cause the extra logit error. Combined with Exp014's frequency-dependent residual, the next experiment should intervene on the frequency schedule while holding g8 parameter count fixed.",
+      "next_research_direction": "Compare g4 k=[1,2,3,4], standard g8 k=[1,2,3,4,5,6,7,8], and frequency-controlled g8 k=[1,2,3,4,1,2,3,4]. Test whether removing frequencies 5-8 while preserving eight trainable amplitude/phase components reduces accumulated logit error and prediction disagreement without collapsing reference accuracy."
+    },
+    {
+      "file": "analysis-exp018-gpt56-sol.json",
+      "analysis_id": "analysis-exp018-gpt56-sol",
+      "experiment_id": "exp018_qant_frequency_controlled_g8",
+      "hypothesis_assessment": "not_supported",
+      "interpretation": "Removing frequencies 5-8 while holding the eight-component parameter count fixed did not solve the model-level reference-to-Q.ANT mismatch. Exp014 established that single-operation residual grows with frequency, but Exp018 shows that this fact alone is insufficient to explain the larger g8 deployment error. A more plausible next target is error accumulation across the weighted sum of Fourier components, including the scale and distribution of learned amplitudes.",
+      "next_research_direction": "Directly measure how learned amplitude magnitude and component-wise Q.ANT residual contributions accumulate into output-logit error for locked g4 and g8 models, then use those measurements to design a targeted regularization or normalization intervention."
+    },
+    {
+      "file": "analysis-exp019-gpt56-sol.json",
+      "analysis_id": "analysis-exp019-gpt56-sol",
+      "experiment_id": "exp019_qant_amplitude_error_accumulation",
+      "hypothesis_assessment": "not_supported",
+      "interpretation": "The preregistered amplitude-accumulation explanation is not supported by the attempted decomposition because the sum of separately evaluated component residuals does not reconstruct the observed full-layer reference-to-Q.ANT error. Before testing amplitude regularization, the additivity assumption and the exact semantics of calc_kan_layer_fprop must be validated in controlled synthetic tensor shapes.",
+      "next_research_direction": "Run a synthetic additivity ladder that compares one full calc_kan_layer_fprop call with sums of calls split by Fourier component and input channel, beginning at 1x1x1 and increasing dimensions. Separate Q.ANT full-call additivity from exact-cosine reference mismatch."
+    },
+    {
+      "file": "analysis-exp020-gpt56-sol.json",
+      "analysis_id": "analysis-exp020-gpt56-sol",
+      "experiment_id": "exp020_qant_kan_additivity_ladder",
+      "hypothesis_assessment": "supported_with_qualification",
+      "interpretation": "The results are consistent with approximate mathematical additivity plus finite-precision/order-of-accumulation effects that grow with the number of summed terms. They do not establish a fundamental non-additive KAN operation. This also shows that the Exp019 split-call reconstruction itself can introduce error, so its failed reconstruction should not be treated as evidence of non-additive backend semantics.",
+      "next_research_direction": "Measure full-call Q.ANT-versus-exact-cosine error over a factorial scaling grid of input-channel count and Fourier-component count, without split-call reconstruction, and fit simple scaling models against the total number of accumulated terms."
+    },
+    {
+      "file": "analysis-exp021-gpt56-sol.json",
+      "analysis_id": "analysis-exp021-gpt56-sol",
+      "experiment_id": "exp021_qant_accumulation_scaling_law",
+      "hypothesis_assessment": "supported",
+      "interpretation": "Within this synthetic Q.ANT CPU-backend experiment, accumulated-term count is a strong descriptive predictor of reference-to-backend numerical error. This motivates an architecture intervention that reduces the fan-in seen by each Q.ANT KAN call. The exponent is empirical for the tested random parameter distribution and is not a universal Q.ANT or photonic scaling law.",
+      "next_research_direction": "Compare a monolithic FashionMNIST QFourier classifier with grouped low-fan-in QFourier classifiers that preserve the same Fourier grid while partitioning the 784 input pixels across multiple Q.ANT calls, then combine group logits additively."
+    },
+    {
+      "file": "analysis-exp022-gpt56-sol.json",
+      "analysis_id": "analysis-exp022-gpt56-sol",
+      "experiment_id": "exp022_qant_grouped_accumulation_architecture",
+      "hypothesis_assessment": "supported",
+      "interpretation": "The intervention strongly supports accumulation width as a controllable source of numerical reference-to-Q.ANT CPU-backend discrepancy. Because the exact-cosine model, learned parameters and parameter count were held fixed, the result isolates evaluation grouping rather than increased model capacity. It motivates training architectures whose internal representations are natively organized into low-fan-in Q.ANT blocks instead of only partitioning a monolithic layer at evaluation time.",
+      "next_research_direction": "Train a genuinely hierarchical Q.ANT-aware model: partition the 784 inputs into low-fan-in groups, map each group through a small QFourier/KAN block to learned intermediate features, then combine those features with a second low-fan-in QFourier/KAN stage. Compare against the monolithic g4 baseline on accuracy, parameter count, disagreements and logit error."
+    },
+    {
+      "file": "analysis-exp023-gpt56-sol.json",
+      "analysis_id": "analysis-exp023-gpt56-sol",
+      "experiment_id": "exp023_qant_hierarchical_low_fanin",
+      "hypothesis_assessment": "supported",
+      "interpretation": "Exp023 supports making low fan-in a learned architectural property rather than only an evaluation-time decomposition. Under this FashionMNIST setup the tested hierarchy simultaneously improved parameter efficiency, reference accuracy, Q.ANT CPU-backend accuracy and numerical agreement.",
+      "next_research_direction": "Map the local architecture landscape around the successful hierarchy by varying the number of input groups and learned features per group while holding the Fourier grid at g4. Evaluate accuracy, parameter count and Q.ANT numerical agreement jointly."
+    },
+    {
+      "file": "analysis-exp024-gpt56-sol.json",
+      "analysis_id": "analysis-exp024-gpt56-sol",
+      "experiment_id": "exp024_qant_hierarchical_architecture_search",
+      "hypothesis_assessment": "supported_with_qualification",
+      "interpretation": "The search supports a useful low-fan-in region but falsifies a simple monotonic rule that smaller first-stage fan-in always improves numerical agreement. Because increasing group count reduces stage-1 accumulation while increasing the dimensionality accumulated by the stage-2 head, the full hierarchy is a plausible explanatory variable.",
+      "next_research_direction": "Measure numerical discrepancy separately after stage 1 and after stage 2 across controlled group counts, and compare observed errors with each stage's accumulated term count."
+    },
+    {
+      "file": "analysis-exp025-gpt56-sol.json",
+      "analysis_id": "analysis-exp025-gpt56-sol",
+      "experiment_id": "exp025_qant_hierarchical_error_localization",
+      "hypothesis_assessment": "supported",
+      "interpretation": "Exp025 supports the proposed two-stage accumulation trade-off on the Q.ANT CPU backend. Reducing stage-1 fan-in lowers stage-1 discrepancy, while increasing the intermediate representation raises the head's own discrepancy. The nonlinear network means these errors are not expected to add directly.",
+      "next_research_direction": "Fit a predictive compatibility cost model from stage accumulation terms and test whether it can rank unseen hierarchical topologies before training/evaluating them."
+    },
+    {
+      "file": "analysis-exp026-gpt56-sol.json",
+      "analysis_id": "analysis-exp026-gpt56-sol",
+      "experiment_id": "exp026_qant_predictive_compatibility_model",
+      "hypothesis_assessment": "not_supported",
+      "interpretation": "Exp026 falsifies the proposed predictive model and reveals an identifiability problem in its calibration design. A factorial experiment that independently varies group count and feature width is required before fitting a genuine two-stage compatibility model.",
+      "next_research_direction": "Run a factorial group-count by feature-width diagnostic, measuring stage-local and end-to-end discrepancy, to break the stage-1/stage-2 accumulation coupling."
+    },
+    {
+      "file": "analysis-exp027-gpt56-sol.json",
+      "analysis_id": "analysis-exp027-gpt56-sol",
+      "experiment_id": "exp027_qant_factorial_accumulation_map",
+      "hypothesis_assessment": "supported",
+      "interpretation": "The factorial intervention breaks the fixed-width coupling exposed by Exp026 and supports separately measurable stage-1 and stage-2 accumulation effects on the Q.ANT CPU backend.",
+      "next_research_direction": "Fit a preregistered two-variable compatibility model on Exp027 and test it on unseen group-width combinations."
+    },
+    {
+      "file": "analysis-exp028-gpt56-sol.json",
+      "analysis_id": "analysis-exp028-gpt56-sol",
+      "experiment_id": "exp028_qant_predictive_compatibility_v2",
+      "hypothesis_assessment": "supported_with_qualification",
+      "interpretation": "Breaking the Exp026 confounding materially improved absolute prediction for most held-out architectures, but term counts alone are insufficient. The 7x2 residual motivates a controlled error-localization experiment.",
+      "next_research_direction": "Localize the 7x2 residual by comparing it with matched low-error architectures at stage 1, head-on-reference-input, and propagated-stage1-error levels."
+    },
+    {
+      "file": "analysis-exp029-gpt56-sol.json",
+      "analysis_id": "analysis-exp029-gpt56-sol",
+      "experiment_id": "exp029_qant_7x2_residual_localization",
+      "hypothesis_assessment": "supported",
+      "interpretation": "Compatibility depends not only on local accumulation width but also on how strongly downstream learned structure amplifies upstream numerical perturbations.",
+      "next_research_direction": "Test a predictive model that adds a pre-Q.ANT head-sensitivity feature to stage-1 and stage-2 accumulation counts, with predictions frozen before held-out Q.ANT evaluation."
+    }
+  ],
+  "pnn_v1_analyses": [
+    {
+      "file": "analysis001.md",
+      "text": "# PNN-v1 Analysis001 \u2014 ECG200 alpha1\n\n## Status\n\nPNN-v1 Exp001 completed successfully on the Q.ANT CPU/software-simulation backend using the canonical ECG200 TRAIN/TEST split.\n\n## Observed results\n\n| Model | Parameters | Mean accuracy | Accuracy std |\n|---|---:|---:|---:|\n| MLP-ReLU 96\u219264\u219232\u21922 | 8,354 | 0.8767 reference | 0.0047 |\n| PNN-v1-alpha1 12\u00d74 g4 | 3,890 | 0.8300 reference / 0.8333 Q.ANT | 0.0356 reference / 0.0340 Q.ANT |\n\nPNN-v1-alpha1 used 4,464 fewer parameters than the MLP baseline (53.44% fewer).\n\nPer-seed Q.ANT accuracies for alpha1 were 0.88, 0.80 and 0.82. The corresponding reference accuracies were 0.88, 0.80 and 0.81.\n\nNumerical compatibility was strong at the classification level: reference and Q.ANT predictions disagreed on 0, 0 and 1 of 100 test cases across the three seeds. Mean absolute logit error averaged 0.03846.\n\n## Interpretation\n\nExp001 establishes the core feasibility milestone: a compact hierarchical Q.ANT-native Fourier/KAN architecture can be trained on a real public time-series classification benchmark and evaluated through the Q.ANT software backend.\n\nThe alpha1 model is substantially smaller than the conventional baseline, but its mean task accuracy is lower and its seed-to-seed variance is much larger. Therefore Exp001 does **not** support a claim that alpha1 outperforms the conventional MLP.\n\nThe most actionable weakness is training/initialization stability. Seed 11 reaches 0.88 Q.ANT accuracy, matching the upper range of the MLP runs, while seeds 22 and 33 fall to 0.80 and 0.82. Because the reference model shows essentially the same seed pattern, this instability is primarily present before Q.ANT backend substitution rather than being introduced by reference-vs-Q.ANT numerical mismatch.\n\nThe low number of prediction disagreements also suggests that, for this architecture and dataset, improving the learned model itself is currently more important than reducing backend numerical mismatch.\n\n## Conclusion\n\n**Result classification: supported_with_qualification.**\n\nSupported: PNN-v1-alpha1 successfully solves the practical ECG200 task with a compact Q.ANT-native hierarchical architecture and retains close reference/Q.ANT classification agreement.\n\nQualification: it trails the MLP baseline in mean accuracy and is markedly less stable across seeds.\n\n## Recommended next hypothesis\n\nPNN-v1 Proposal002 should target **stability without abandoning the Q.ANT-native low-fan-in hierarchy**. The experiment should change one controlled architectural/training dimension at a time and evaluate more fixed seeds. It should not yet become a broad architecture search, because ECG200 is small and repeated test-set-guided optimization would create substantial overfitting risk.\n\nNo result here measures real photonic hardware latency, throughput, energy efficiency or optical noise.\n"
+    },
+    {
+      "file": "analysis002.md",
+      "text": "# PNN-v1 Analysis002 \u2014 alpha1 stabilization\n\n## Status\n\nPNN-v1 Exp002 completed successfully on the Q.ANT CPU/software-simulation backend using the canonical ECG200 TRAIN/TEST split and 10 fixed seeds.\n\n## Observed results\n\n| Condition | Parameters | Mean Q.ANT accuracy | Q.ANT accuracy std | Mean ref/Q.ANT disagreements | Mean logit MAE |\n|---|---:|---:|---:|---:|---:|\n| alpha1 raw control | 3,890 | 0.824 | 0.03169 | 0.3 / 100 | 0.03713 |\n| alpha1 per-case z-score | 3,890 | 0.819 | 0.02948 | 0.5 / 100 | 0.03763 |\n\nThe preregistered success criterion was technically met: z-score normalization reduced Q.ANT accuracy standard deviation while keeping the mean Q.ANT accuracy loss within the frozen 0.01 absolute tolerance.\n\n## Interpretation\n\nThe stabilization effect is small. Standard deviation fell by about 0.00221 absolute (3.17 to 2.95 percentage points), while mean Q.ANT accuracy fell by 0.005 absolute (82.4% to 81.9%). This is evidence for a modest variance reduction, not evidence that normalization solves alpha1's stability problem.\n\nAcross 10 seeds the raw alpha1 control ranges from 0.78 to 0.88 Q.ANT accuracy. Reference and Q.ANT predictions remain closely aligned: the raw control averages only 0.3 disagreements per 100 test cases. The numerical backend transition therefore remains a secondary limitation on this benchmark.\n\nThe next experiment should stop spending the small ECG200 test set on incremental preprocessing variants. The larger gap is task performance: alpha1 remains materially below the Exp001 MLP baseline while retaining its compact 3,890-parameter design.\n\n## Conclusion\n\n**Result classification: supported_with_qualification.**\n\nSupported: per-case z-score normalization satisfies the frozen Exp002 stabilization criterion.\n\nQualification: the gain in stability is small and accompanied by a small loss in mean accuracy. It does not establish z-score normalization as the preferred PNN-v1 preprocessing pipeline.\n\n## Recommended next hypothesis\n\nPNN-v1 Proposal003 should test one architecture-level change motivated by the current model structure, not a broad search. A residual linear bypass around the Q.ANT Fourier/KAN head is a useful next test: it preserves the Q.ANT-native nonlinear hierarchy while giving the classifier a simple low-complexity path for information that need not be represented through periodic nonlinearities.\n\nTo reduce test-set-guided iteration, candidate selection should be based on a deterministic validation split made only from the canonical TRAIN set. The canonical TEST set should be evaluated once after the choice is frozen.\n\nNo result here measures real photonic hardware latency, throughput, energy efficiency or optical noise.\n"
+    },
+    {
+      "file": "analysis003.md",
+      "text": "# PNN-v1 Analysis003 \u2014 residual-head architecture test\n\n## Status\n\nPNN-v1 Exp003 completed successfully on the Q.ANT CPU/software-simulation backend. Candidate selection used a deterministic 20-case validation subset drawn only from the canonical ECG200 TRAIN split. The canonical TEST split was evaluated only after selection was frozen.\n\n## Observed results\n\n| Candidate | Parameters | Mean validation Q.ANT accuracy | Validation std |\n|---|---:|---:|---:|\n| alpha1 control | 3,890 | 0.685 | 0.05025 |\n| alpha2 residual head | 3,986 | 0.680 | 0.05568 |\n\nThe preregistered success criterion was not met. Alpha2 neither improved mean validation accuracy nor stability, so alpha1 was selected.\n\nConfirmatory TEST performance for the selected alpha1 was 0.802 mean Q.ANT accuracy with 0.02676 standard deviation across 10 seeds. Mean reference accuracy was 0.805, with 0.5 reference/Q.ANT prediction disagreements per 100 test cases and mean absolute logit error 0.03776.\n\n## Interpretation\n\nThe linear residual path around the 48\u21922 Fourier/KAN head is not supported as the next PNN-v1 architecture. Adding 96 trainable parameters did not improve the validation objective.\n\nThe close reference/Q.ANT agreement again indicates that the immediate bottleneck is not backend substitution. Exp003 shifts attention upstream: alpha1's 12 independent local 8\u21924 blocks may discard useful cross-window temporal structure before the final head sees the signal.\n\nThe lower confirmatory TEST mean than Exp002 must not be interpreted as a direct regression: Exp003 trained on 80 canonical TRAIN cases because 20 were reserved for validation, whereas Exp002 trained on all 100.\n\n## Conclusion\n\n**Result classification: not_supported.**\n\nThe residual-head hypothesis is falsified under the preregistered Exp003 protocol. Alpha1 remains the active architecture.\n\n## Recommended next hypothesis\n\nTest whether a small second Q.ANT-native hierarchical mixing stage can combine neighboring local representations before classification. This directly targets cross-window temporal structure while preserving low fan-in and avoiding a broad architecture search.\n\nNo result here measures real photonic hardware latency, throughput, energy efficiency or optical noise.\n"
+    },
+    {
+      "file": "analysis004.md",
+      "text": "# PNN-v1 Analysis004 \u2014 hierarchical cross-window mixer\n\n## Status\n\nPNN-v1 Exp004 completed successfully on the Q.ANT CPU/software-simulation backend. Architecture selection reused the deterministic TRAIN/validation boundary introduced in Exp003; canonical TEST remained confirmatory.\n\n## Observed results\n\n| Candidate | Parameters | Mean validation Q.ANT accuracy | Validation std |\n|---|---:|---:|---:|\n| alpha1 control | 3,890 | 0.685 | 0.05025 |\n| alpha2 hierarchical mixer | 5,066 | 0.635 | 0.08958 |\n\nThe preregistered success criterion was not met. Alpha1 remained selected. Its confirmatory TEST mean Q.ANT accuracy was 0.802 with standard deviation 0.02676.\n\n## Interpretation\n\nAdding a second low-fan-in Q.ANT Fourier/KAN mixing stage did not recover useful cross-window structure. It reduced mean validation accuracy by 0.05 absolute and substantially increased seed sensitivity despite adding 1,176 parameters.\n\nTogether with Exp003, this rules out two immediate extensions of alpha1 under the current protocol: a linear residual classifier path and an additional neighboring-window nonlinear hierarchy.\n\nReference/Q.ANT agreement remains close. The more productive next question is therefore whether alpha1 compresses each eight-sample local window too aggressively when mapping 8 inputs to only 4 learned Fourier/KAN features.\n\n## Conclusion\n\n**Result classification: not_supported.**\n\nThe hierarchical-mixer hypothesis is falsified under the preregistered Exp004 protocol. Alpha1 remains the active architecture.\n\n## Recommended next hypothesis\n\nChange only the local feature width while keeping the single-stage alpha1 topology. Compare the current 8\u21924 local blocks with wider 8\u21926 and 8\u21928 blocks. This directly tests the information-bottleneck hypothesis without adding depth.\n\nCandidate selection should continue to use the frozen TRAIN/validation boundary. Canonical TEST should be evaluated only for the candidate selected by a rule fixed before execution.\n\nNo result here measures real photonic hardware latency, throughput, energy efficiency or optical noise.\n"
+    },
+    {
+      "file": "analysis005.md",
+      "text": "# PNN-v1 Analysis005 \u2014 local representation width\n\n## Status\n\nPNN-v1 Exp005 completed successfully on the Q.ANT CPU/software-simulation backend. Width selection used the frozen TRAIN/validation boundary from Exp003/004; canonical TEST was evaluated only after selection.\n\n## Observed results\n\n| Candidate | Parameters | Mean validation Q.ANT accuracy | Validation std |\n|---|---:|---:|---:|\n| alpha1_w4 | 3,890 | 0.685 | 0.05025 |\n| alpha1_w6 | 5,834 | 0.670 | 0.09274 |\n| alpha1_w8 | 7,778 | 0.725 | 0.04610 |\n\nThe preregistered success criterion was met. The selected candidate was alpha1_w8: +0.040 absolute validation Q.ANT accuracy versus w4 while also reducing validation standard deviation.\n\nAfter selection was frozen, alpha1_w8 achieved 0.819 mean Q.ANT accuracy and 0.818 mean reference accuracy on canonical TEST across 10 seeds. Mean reference/Q.ANT disagreement was 0.5 predictions per 100 test cases.\n\n## Interpretation\n\nExp005 provides the first preregistered architecture-level improvement over the original alpha1 under the TRAIN-only selection protocol. The evidence is consistent with the hypothesis that the original 8\u21924 local mapping compressed each eight-sample ECG window too aggressively.\n\nThe result is not monotonic with width: w6 performed worse and was much less stable, while w8 performed best. Therefore the evidence supports the tested 8\u21928 design, not a general rule that wider local representations are always better.\n\nReference/Q.ANT agreement remains close, so backend substitution is still not the dominant limitation on ECG200.\n\n## Conclusion\n\n**Result classification: supported_with_qualification.**\n\nSupported: alpha1_w8 passed the frozen validation criterion and remained numerically compatible with Q.ANT evaluation.\n\nQualification: ECG200 is very small, and the selected architecture has not yet been compared under an equal full-TRAIN confirmation protocol against the original alpha1 and conventional MLP baseline.\n\n## Architecture candidate\n\nThe selected candidate is promoted provisionally to **PNN-v1 Alpha2 candidate**:\n\n96 input \u2192 12 \u00d7 Q.ANT Fourier/KAN 8\u21928 \u2192 96 features \u2192 Q.ANT Fourier/KAN 96\u21922 \u2192 2 classes.\n\nPromotion to the active Alpha2 architecture requires the confirmation experiment below.\n\n## Recommended next experiment\n\nFreeze the architecture and run a confirmation experiment using all 100 canonical ECG200 TRAIN cases. Compare:\n1. original Alpha1 (8\u21924),\n2. Alpha2 candidate (8\u21928),\n3. the established MLP-ReLU baseline.\n\nNo architecture selection or tuning may use canonical TEST in this confirmation. Report all three models across the same fixed seeds. The purpose is confirmation and calibration against the conventional baseline, not another search.\n\nNo result here measures real photonic hardware latency, throughput, energy efficiency or optical noise.\n"
+    },
+    {
+      "file": "analysis006.md",
+      "text": "# PNN-v1 Analysis006 \u2014 full-TRAIN Alpha2 confirmation\n\n## Status\n\nExp006 completed on the Q.ANT CPU/software-simulation backend. Alpha1, frozen Alpha2, and MLP were trained on all 100 ECG200 TRAIN cases across the same 10 seeds.\n\n## Results\n\n| Model | Parameters | Mean accuracy | Std |\n|---|---:|---:|---:|\n| Alpha1 w4 (Q.ANT) | 3,890 | 0.824 | 0.03169 |\n| Alpha2 w8 (Q.ANT) | 7,778 | 0.834 | 0.02154 |\n| MLP-ReLU reference | 8,354 | 0.876 | 0.00800 |\n\nAlpha2 had 0.835 mean reference accuracy and 0.1 mean reference/Q.ANT prediction disagreements per 100 test cases.\n\n## Numerical boundary\n\nThe intended threshold was at least 0.01 absolute improvement. The displayed difference is exactly 0.010, but binary floating-point representations made the implementation comparison evaluate false by a tiny rounding difference. The recorded Exp006 result must remain unchanged: success_criteria_met=false and retain_alpha1. It should not be rewritten after seeing the data.\n\n## Conclusion\n\n**Result classification: boundary_case_requires_confirmation.**\n\nA frozen confirmation using integer correct-prediction counts avoids binary floating-point ambiguity. The MLP remains stronger, so Alpha2 promotion would not imply parity with the conventional baseline.\n\nNo result here measures real photonic hardware latency, throughput, energy efficiency or optical noise.\n"
+    },
+    {
+      "file": "analysis007.md",
+      "text": "# PNN-v1 Analysis007 \u2014 Alpha2 integer-count confirmation\n\n## Status\nExp007 repeated the frozen full-TRAIN Alpha1/Alpha2 comparison from Exp006 using the preregistered integer correct-count gate.\n\n## Results\n\n| Model | Parameters | Correct / 1,000 | Mean Q.ANT accuracy | Std |\n|---|---:|---:|---:|---:|\n| Alpha1 w4 | 3,890 | 824 | 0.824 | 0.03169 |\n| Alpha2 w8 | 7,778 | 834 | 0.834 | 0.02154 |\n\nAlpha2 produced exactly 10 more correct Q.ANT classifications and had lower across-seed standard deviation. Mean reference/Q.ANT prediction disagreements were 0.1 per 100 cases for Alpha2.\n\n## Decision\nBoth frozen promotion conditions were met. Exp007 records success_criteria_met=true and promotion_decision=promote_alpha2.\n\n## Conclusion\n**Result classification: supported.**\n\nThe frozen 8\u21928 architecture is promoted to active PNN-v1 Alpha2. This is evidence under the ECG200 protocol, not general superiority across datasets. Exp006's conventional MLP remained stronger at 0.876 mean accuracy versus Alpha2 0.834.\n\n## Next direction\nTreat Alpha2 as fixed baseline. Test whether the fixed frequency basis k=[1,2,3,4] is limiting task fit, using TRAIN-only validation for selection and canonical TEST only after selection.\n\nNo result here measures physical photonic latency, throughput, energy efficiency or optical noise.\n"
+    },
+    {
+      "file": "analysis008.md",
+      "text": "# PNN-v1 Analysis008 \u2014 frequency-basis search\n\n## Result\nThe frozen Alpha2 topology was tested with five frequency bases using the established TRAIN-only validation protocol.\n\n| Basis | Parameters | Mean validation Q.ANT accuracy | Std |\n|---|---:|---:|---:|\n| [1,2,3,4] control | 7,778 | 0.725 | 0.04610 |\n| [1,2,3] | 5,858 | 0.730 | 0.06403 |\n| [1,2] | 3,938 | 0.755 | 0.06103 |\n| [1,2,4] | 5,858 | 0.720 | 0.06403 |\n| [1,3,5] | 5,858 | 0.680 | 0.07141 |\n\nThe preregistered success criterion was not met because [1,2], despite the highest mean validation accuracy, exceeded the allowed stability degradation. Alpha2 therefore remains k=[1,2,3,4].\n\n## Interpretation\nThe [1,2] result is a useful secondary signal: +0.030 validation accuracy with roughly half the parameters, but greater across-seed variation. It should not be promoted from Exp008. A dedicated frozen confirmation is justified because the candidate was identified by validation and has a strong compactness advantage.\n\n## Conclusion\n**Result classification: not_supported_with_promising_secondary_signal.**\n\nNo physical photonic hardware performance is measured here.\n"
+    },
+    {
+      "file": "analysis009.md",
+      "text": "# PNN-v1 Analysis009 \u2014 compact frequency confirmation\n\n## Result\nExp009 compared the active Alpha2 k=[1,2,3,4] against the frozen compact k=[1,2] candidate. Both used the same Alpha2 topology, all 100 canonical ECG200 TRAIN cases, 10 seeds, and 100 epochs.\n\n| Model | Parameters | Q.ANT correct / 1,000 | Mean Q.ANT accuracy | Std | Logit MAE |\n|---|---:|---:|---:|---:|---:|\n| Alpha2 k1234 | 7,778 | 834 | 0.834 | 0.02154 | 0.04528 |\n| Compact k12 | 3,938 | 852 | 0.852 | 0.01661 | 0.02617 |\n\nThe compact candidate produced 18 more correct Q.ANT classifications, lower across-seed variation, and lower reference/Q.ANT logit error while using about 49% fewer parameters.\n\n## Preregistered decision\nBoth frozen criteria were met. The result records success_criteria_met=true and promotion_decision=promote_compact_k12.\n\n## Conclusion\n**Result classification: supported.**\n\nThe compact k=[1,2] model is promoted as **PNN-v1 Alpha3**. The result is ECG200-specific and does not establish general superiority. The conventional MLP calibration remains stronger at 0.876 mean accuracy versus Alpha3 0.852, leaving a 0.024 absolute gap.\n\nNo physical photonic latency, throughput, energy efficiency, or optical noise is measured.\n"
+    },
+    {
+      "file": "analysis010.md",
+      "text": "# PNN-v1 Analysis010 \u2014 local-window geometry search\n\n## Result\nExp010 kept Alpha3's compact k=[1,2] basis fixed and changed only the contiguous local-window geometry while preserving 96 concatenated features before the final 96\u21922 Q.ANT Fourier/KAN head.\n\n| Geometry | Parameters | Mean validation Q.ANT accuracy | Std |\n|---|---:|---:|---:|\n| 16\u00d76 | 3,170 | 0.770 | 0.05568 |\n| 12\u00d78 control | 3,938 | 0.755 | 0.06103 |\n| 8\u00d712 | 5,474 | 0.750 | 0.02236 |\n| 6\u00d716 | 7,010 | 0.800 | 0.05000 |\n\nThe 6\u00d716 candidate exceeded the control by 0.045 absolute validation accuracy and satisfied the preregistered stability gate.\n\nThe frozen selected candidate was then evaluated on TEST using the models trained on the 80-case selection subset: mean Q.ANT accuracy 0.863, std 0.01616, reference accuracy 0.863, and zero reference/Q.ANT prediction disagreements.\n\n## Interpretation\nThe result supports larger local temporal receptive fields as a promising direction in this tested family, but Exp010 does not promote a successor to Alpha3. Its protocol explicitly requires a separate full-TRAIN confirmation.\n\n## Conclusion\n**Result classification: supported_candidate_requires_confirmation.**\n\nThe 6\u00d716, k=[1,2] candidate advances to a frozen full-TRAIN comparison against active Alpha3. No physical photonic hardware performance is measured.\n"
+    },
+    {
+      "file": "analysis011.md",
+      "text": "# PNN-v1 Analysis011 \u2014 full-TRAIN confirmation of w16\n\n## Result\n\nExp011 compared the active Alpha3 geometry (12\u00d78\u21928) with the frozen Exp010 candidate (6\u00d716\u219216). Both used k=[1,2], the full canonical 100-case ECG200 TRAIN split, the canonical 100-case TEST split, 100 epochs, and the same ten preregistered seeds.\n\n| Model | Parameters | Mean Q.ANT TEST accuracy | Std | Correct / 1,000 | Mean ref/Q.ANT disagreements |\n|---|---:|---:|---:|---:|---:|\n| Alpha3 | 3,938 | 0.852 | 0.01661 | 852 | 0.1 |\n| w16 candidate | 7,010 | 0.893 | 0.01418 | 893 | 0.3 |\n\nThe w16 candidate produced 41 more correct Q.ANT classifications across 1,000 predictions. The preregistered threshold was +10, and its across-seed standard deviation was lower than Alpha3's.\n\nReference accuracy was 0.896 for w16 and 0.851 for Alpha3. Mean absolute reference/Q.ANT logit error was 0.03264 for w16 versus 0.02617 for Alpha3.\n\n## Interpretation\n\nThe full-TRAIN confirmation reproduces and strengthens the Exp010 signal: in this ECG200 architecture family, increasing the local temporal receptive field from 8 to 16 samples while keeping the concatenated representation width at 96 and k=[1,2] materially improves classification accuracy.\n\nThe improvement is not a parameter-efficiency result: w16 uses 7,010 parameters versus Alpha3's 3,938. It is an accuracy/stability result.\n\n## Decision\n\n**Classification: supported.**\n\nThe preregistered promotion rule is satisfied. Promote the frozen 6\u00d716\u219216, k=[1,2] architecture to **PNN-v1 Alpha4**.\n\nBecause ECG200 has now been used repeatedly throughout architecture development, further tuning on this dataset carries increasing benchmark-adaptation risk. The next research phase should test whether the discovered architecture principles transfer to a second time-series dataset rather than continuing unrestricted ECG200 optimization.\n\nAll measurements are from the Q.ANT CPU/software simulation backend. No physical photonic latency, throughput, energy, or hardware-performance claim is made.\n"
+    },
+    {
+      "file": "analysis012.md",
+      "text": "# PNN-v1 Analysis012 \u2014 Alpha4 cross-dataset transfer\n\n## Result\n\nExp012 froze the Alpha4 design principles discovered on ECG200 and transferred them to GunPoint without target-dataset architecture search. GunPoint's 150 samples were deterministically center-cropped to 144, producing nine contiguous 16-sample windows. Each local Q.ANT Fourier/KAN block remained 16\u219216 with k=[1,2], followed by a 144\u21922 Q.ANT Fourier/KAN head.\n\nAcross ten preregistered seeds:\n\n- Mean Q.ANT TEST accuracy: **94.93%**\n- Q.ANT accuracy std: **1.24 percentage points**\n- Aggregate Q.ANT correct: **1,424 / 1,500**\n- Mean reference accuracy: **94.93%**\n- Mean reference/Q.ANT prediction disagreements: **0.2 per 150 TEST cases**\n- Mean absolute logit error: **0.03331**\n- Alpha4-transfer parameters: **10,514**\n- Fixed MLP calibration: **92.53%** mean TEST accuracy, 11,426 parameters\n\nThe preregistered transfer criterion (Q.ANT accuracy \u22650.90 and mean disagreements \u22641.0 per TEST set) was satisfied.\n\n## Interpretation\n\n**Classification: supported.**\n\nThis is stronger evidence than another ECG200 architecture search because the local receptive-field principle and compact k=[1,2] basis were frozen before the GunPoint TEST result. The result supports cross-dataset transfer of the tested Alpha4 design principles from ECG200 to GunPoint.\n\nIt does not establish broad time-series generality. Two datasets are insufficient for that claim. A multi-dataset benchmark is the appropriate next scientific step.\n\nThe MLP result is calibration only and was not part of the success gate.\n\nAll Q.ANT measurements use the CPU/software simulation backend. No physical photonic latency, throughput, energy, or hardware-performance claim is made.\n"
+    },
+    {
+      "file": "analysis013.md",
+      "text": "# PNN-v1 Analysis013 \u2014 multi-dataset transfer benchmark\n\n## Result\n\nExp013 tested the frozen Alpha4 principle on three additional preregistered UCR/UEA datasets without target-TEST architecture search.\n\n| Dataset | Mean Q.ANT accuracy | Std | Mean ref/Q.ANT disagreements | MLP calibration |\n|---|---:|---:|---:|---:|\n| ItalyPowerDemand | 95.99% | 0.78 pp | 0.9 | 96.83% |\n| SonyAIBORobotSurface1 | 65.99% | 3.60 pp | 1.5 | 64.36% |\n| TwoLeadECG | 82.99% | 2.36 pp | 4.2 | 88.63% |\n\nThe preregistered accuracy condition was met on 2/3 datasets, but the compatibility condition required mean reference/Q.ANT prediction disagreements <=1.0 on every dataset. SonyAIBORobotSurface1 and TwoLeadECG exceeded that threshold.\n\n## Decision\n\n**Classification: not_supported.**\n\nThe Alpha4 principle is not broadly validated under the preregistered criterion. This is informative rather than a reason to alter the result: accuracy transfer and reference/Q.ANT compatibility separate on the new datasets.\n\nItalyPowerDemand provides a strong positive transfer case. SonyAIBORobotSurface1 is primarily an accuracy/generalization failure under this frozen protocol, while TwoLeadECG is especially useful diagnostically because its Q.ANT accuracy remains above 0.80 but its disagreement count rises to 4.2 per TEST set on average.\n\n## Next hypothesis\n\nThe next experiment should localize the TwoLeadECG disagreement mechanism before changing the architecture. In particular, measure whether reference/Q.ANT disagreements concentrate at low classification margins and whether logit error/margin predicts disagreement. This preserves the frozen model and turns the failed compatibility gate into a diagnostic experiment.\n\nAll Q.ANT measurements use the CPU/software simulation backend. No physical photonic hardware-performance claim is made.\n"
+    },
+    {
+      "file": "analysis014.md",
+      "text": "# PNN-v1 Analysis014 \u2014 TwoLeadECG disagreement localization\n\n## Result\n\nExp014 kept the Exp013 TwoLeadECG model and training protocol frozen and pooled diagnostics over ten seeds.\n\n- Total predictions: **11,390**\n- Reference/Q.ANT agreements: **11,348**\n- Disagreements: **42**\n- Mean Q.ANT accuracy: **82.99%**\n- Mean disagreements: **4.2 per TEST set**\n\nThe separation around the decision boundary was large:\n\n| Diagnostic | Agreement | Disagreement |\n|---|---:|---:|\n| Median reference top1-top2 margin | 2.01948 | **0.01668** |\n| Median max-logit-perturbation / margin | 0.01402 | **1.73903** |\n\n## Decision\n\n**Classification: supported.**\n\nThe preregistered criterion required disagreement cases to have both a lower median reference margin and a higher median perturbation-to-margin ratio than agreement cases. Both conditions were satisfied by a wide margin.\n\nThe result supports a margin-sensitivity mechanism: relatively modest reference/Q.ANT numerical perturbations become classification-changing primarily when the reference model is already close to its decision boundary.\n\nThis does not establish that low margin is the only compatibility mechanism, nor that increasing margins will necessarily improve Q.ANT accuracy. That intervention must be tested separately.\n\n## Next hypothesis\n\nTest a frozen training-only margin intervention on TwoLeadECG. The architecture, k=[1,2], data crop, optimizer, epochs, and seeds remain unchanged. Compare the ordinary cross-entropy control with a preregistered cross-entropy plus margin penalty intended to enlarge the top1/top2 training-logit gap. Evaluate whether it reduces reference/Q.ANT disagreements without materially reducing Q.ANT TEST accuracy.\n\nAll Q.ANT measurements use the CPU/software simulation backend. No physical photonic hardware-performance claim is made.\n"
+    },
+    {
+      "file": "analysis015.md",
+      "text": "# PNN-v1 Analysis015 \u2014 decision-margin robustness intervention\n\n## Result\n\nExp015 compared the frozen TwoLeadECG PNN under ordinary cross-entropy training with a preregistered training-only margin penalty (target margin 1.0, lambda 0.1).\n\n| Metric | Control | Margin-regularized |\n|---|---:|---:|\n| Mean Q.ANT TEST accuracy | 82.985% | 83.108% |\n| Q.ANT accuracy std | 2.364 pp | 2.163 pp |\n| Mean reference accuracy | 83.055% | 83.213% |\n| Mean ref/Q.ANT disagreements | 4.2 | 4.2 |\n| Mean absolute logit error | 0.02082 | 0.02043 |\n| Median reference margin across seeds | 2.0900 | 2.0216 |\n\n## Decision\n\n**Classification: not_supported.**\n\nThe preregistered criterion required strictly fewer mean reference/Q.ANT disagreements while retaining Q.ANT accuracy within one percentage point of control. Accuracy was retained and slightly improved, but disagreements did not decrease at all.\n\nThe intervention also did not enlarge the reported median TEST decision margin; it moved slightly downward. Therefore Exp014's strong association between low margins and disagreement should not be interpreted as evidence that this simple training penalty can fix the compatibility problem.\n\n## Interpretation\n\nExp014 localized where disagreements occur; Exp015 shows that a generic true-class training-margin penalty is not sufficient to remove them. The next experiment should diagnose *where in the frozen network the Q.ANT/reference perturbation accumulates* on disagreement cases rather than immediately trying another loss coefficient.\n\nA useful next decomposition is local blocks versus final head: compute reference and Q.ANT local representations, then separate (1) local representation perturbation, (2) propagation of that perturbed representation through the reference head, and (3) the head's own Q.ANT evaluation error.\n\nAll measurements use the Q.ANT CPU/software simulation backend. No physical photonic hardware-performance claim is made.\n"
+    },
+    {
+      "file": "analysis016.md",
+      "text": "# PNN-v1 Analysis016 \u2014 stagewise Q.ANT perturbation decomposition\n\n## Result\n\nExp016 decomposed the frozen TwoLeadECG model's reference/Q.ANT difference into local-representation perturbation, propagation through the reference head, and the head's own Q.ANT evaluation error.\n\nAcross 11,390 TEST predictions there were 11,348 agreements and 42 disagreements.\n\n| Median metric | Agreement | Disagreement |\n|---|---:|---:|\n| Local representation MAE | 0.005165 | 0.005121 |\n| Propagation-only logit perturbation | 0.016020 | 0.019333 |\n| Isolated head Q.ANT perturbation | 0.019774 | 0.018504 |\n| End-to-end logit perturbation | 0.026658 | 0.027000 |\n\n## Decision\n\n**Classification: not_supported.**\n\nThe preregistered hypothesis required disagreement cases to have both higher local-representation MAE than agreement cases and propagation-only perturbation larger than isolated-head Q.ANT perturbation. The first condition failed: local representation MAE was essentially unchanged and slightly lower for disagreement cases. The second condition held only narrowly.\n\n## Interpretation\n\nNo single early stage dominates the disagreement mechanism. Together with Exp014, the evidence is more consistent with small distributed numerical perturbations becoming decision-changing when a sample lies close to the classifier's decision boundary.\n\nExp015 showed that a generic training-margin penalty did not reduce disagreements. The next useful intervention is therefore architectural rather than another loss coefficient: create a more numerically robust decision readout while keeping the learned local Q.ANT representation fixed in structure.\n\nAll measurements use the Q.ANT CPU/software simulation backend. No physical photonic hardware-performance claim is made.\n"
+    },
+    {
+      "file": "analysis017.md",
+      "text": "# PNN-v1 Analysis017 \u2014 redundant Q.ANT readout robustness\n\n## Result\n\nExp017 compared the frozen TwoLeadECG architecture with a single Q.ANT Fourier/KAN readout head against three independently parameterized Q.ANT-compatible heads whose logits were averaged.\n\n| Metric | Single head | Redundant 3-head |\n|---|---:|---:|\n| Parameters | 5,842 | 7,126 |\n| Mean reference accuracy | 83.06% | 83.70% |\n| Mean Q.ANT accuracy | 82.99% | 83.85% |\n| Q.ANT accuracy std | 2.36 pp | 1.54 pp |\n| Mean reference/Q.ANT disagreements | 4.2 | 3.3 |\n| Mean absolute logit error | 0.02082 | 0.01419 |\n\n## Decision\n\n**Classification: supported.**\n\nThe preregistered criterion required strictly fewer reference/Q.ANT prediction disagreements and Q.ANT accuracy no more than one percentage point below control. The redundant readout reduced mean disagreements from 4.2 to 3.3 while increasing mean Q.ANT accuracy.\n\nThe redundant candidate also reduced mean absolute logit error and seed-to-seed Q.ANT accuracy variation. These were not required for success but are consistent with the robustness hypothesis.\n\n## Interpretation\n\nThis is the first positive intervention following the Exp014\u2013016 diagnostic sequence. The result supports redundant Q.ANT-native readout as a candidate compatibility design principle on TwoLeadECG, but it is still a single-dataset intervention result.\n\nThe preregistered next step is cross-dataset validation without target-specific architecture search. GunPoint is suitable because the frozen Alpha4 design already transferred strongly there in Exp012. The next experiment should reproduce the Exp012 GunPoint adaptation and change only the number of readout heads.\n\nAll measurements use the Q.ANT CPU/software simulation backend. No physical photonic hardware-performance claim is made.\n"
+    },
+    {
+      "file": "analysis018.md",
+      "text": "# PNN-v1 Analysis018 \u2014 GunPoint cross-dataset redundant readout validation\n\n## Result\n\nExp018 transferred the Exp017 three-head readout intervention to the frozen GunPoint adaptation from Exp012.\n\n| Metric | Single head | Redundant 3-head |\n|---|---:|---:|\n| Parameters | 10,514 | 12,822 |\n| Mean reference accuracy | 94.93% | 95.27% |\n| Mean Q.ANT accuracy | 94.93% | 95.47% |\n| Q.ANT accuracy std | 1.24 pp | 1.02 pp |\n| Mean reference/Q.ANT disagreements | 0.2 | 0.3 |\n| Mean absolute logit error | 0.03331 | 0.02006 |\n\n## Decision\n\n**Classification: not_supported under the preregistered primary criterion.**\n\nThe redundant candidate retained and slightly improved Q.ANT accuracy, reduced logit MAE, and reduced seed-to-seed accuracy variation. However, mean prediction disagreements increased from 0.2 to 0.3 rather than decreasing.\n\n## Interpretation\n\nThe cross-dataset result does not support a general claim that redundant readout reduces reference/Q.ANT classification disagreements. GunPoint also presents a floor effect: the single-head control averaged only 0.2 disagreements per 150 TEST examples per seed.\n\nAcross Exp017 and Exp018, a different signal is consistent: three-head averaging reduced mean absolute Q.ANT/reference logit error on both datasets while also improving mean Q.ANT accuracy and reducing its seed-to-seed variation. This pattern was not the preregistered primary claim in Exp018 and therefore should be treated as a new hypothesis, not a retrospective success.\n\nThe next experiment should preregister that narrower hypothesis and test it on a dataset where compatibility error is not already at floor. SonyAIBORobotSurface1 from Exp013 is appropriate: its frozen transfer architecture had materially more reference/Q.ANT disagreements than GunPoint, while avoiding another round of TwoLeadECG-specific tuning.\n\nAll measurements use the Q.ANT CPU/software simulation backend. No physical photonic hardware-performance claim is made.\n"
+    },
+    {
+      "file": "analysis019.md",
+      "text": "# PNN-v1 Analysis019 \u2014 SonyAIBORobotSurface1 redundant-readout numerical robustness\n\n## Result\n\nExp019 preregistered the narrower numerical-robustness signal observed in Exp017\u2013018 and tested it on the frozen SonyAIBORobotSurface1 adaptation from Exp013.\n\n| Metric | Single head | Redundant 3-head |\n|---|---:|---:|\n| Parameters | 4,674 | 5,702 |\n| Mean reference accuracy | 65.97% | 66.07% |\n| Mean Q.ANT accuracy | 65.99% | 65.97% |\n| Q.ANT accuracy std | 3.60 pp | 2.31 pp |\n| Mean reference/Q.ANT disagreements | 1.5 | 1.2 |\n| Mean absolute logit error | 0.01644 | 0.01134 |\n\n## Decision\n\n**Classification: supported.**\n\nThe preregistered primary criterion required strictly lower mean absolute reference/Q.ANT logit error while retaining Q.ANT accuracy within one percentage point of control. The redundant readout reduced logit MAE by about 31% while Q.ANT accuracy was effectively unchanged.\n\nDisagreements and seed-to-seed accuracy variation also decreased, but these were explicitly secondary non-gating observations.\n\n## Cross-experiment interpretation\n\nThree independent datasets now show lower mean absolute Q.ANT/reference logit error with three-head averaging:\n\n- TwoLeadECG (Exp017): lower logit MAE, higher Q.ANT accuracy, fewer disagreements.\n- GunPoint (Exp018): lower logit MAE, higher Q.ANT accuracy, slightly more disagreements from an already near-zero control floor.\n- SonyAIBORobotSurface1 (Exp019): lower logit MAE, essentially unchanged Q.ANT accuracy, fewer disagreements.\n\nThis supports a narrower PNN-v1 design principle: redundant Q.ANT-native readout averaging can improve numerical agreement between reference and Q.ANT software/simulation evaluation without a demonstrated accuracy penalty across these three tested datasets. It does **not** establish universal disagreement reduction or physical photonic-hardware robustness.\n\n## Next step\n\nThe intervention has now earned an explicit model-revision test. Rather than silently modifying Alpha4, define a candidate **Alpha5** that preserves Alpha4's local architecture rule and replaces the single final Q.ANT readout with three independent Q.ANT-native readouts averaged at the logits. The promotion experiment should compare Alpha4 and Alpha5 on the original ECG200 benchmark under a preregistered multi-objective gate.\n\nAll measurements use the Q.ANT CPU/software simulation backend.\n"
+    },
+    {
+      "file": "analysis020.md",
+      "text": "# PNN-v1 Analysis020 \u2014 Alpha5 promotion test on ECG200\n\n## Result\n\nExp020 compared active Alpha4 against a candidate that changed only the final readout: three independently parameterized Q.ANT-native Fourier/KAN heads with averaged logits.\n\n| Metric | Alpha4 | Alpha5 candidate |\n|---|---:|---:|\n| Parameters | 7,010 | 8,550 |\n| Mean reference accuracy | 89.60% | 89.70% |\n| Mean Q.ANT accuracy | 89.30% | 89.70% |\n| Aggregate Q.ANT correct / 1000 | 893 | 897 |\n| Q.ANT accuracy std | 1.42 pp | 2.45 pp |\n| Mean reference/Q.ANT disagreements | 0.3 | 0.0 |\n| Mean absolute logit error | 0.03264 | 0.02001 |\n\n## Preregistered decision\n\n**promote_alpha5**\n\nAll promotion gates passed:\n\n1. Mean logit MAE was strictly lower.\n2. Aggregate Q.ANT correct predictions did not fall by more than 10; they increased from 893 to 897.\n3. Parameter count remained below 10,000.\n\nThe zero observed prediction disagreements are a secondary result and are not used to redefine the promotion decision. Accuracy standard deviation increased, so Alpha5 should not be described as uniformly better on every metric.\n\n## Active architecture\n\nAlpha5 is now the active PNN-v1 architecture:\n\n**96 \u2192 6 contiguous windows\u00d716 \u2192 6\u00d7 Q.ANT Fourier/KAN 16\u219216 \u2192 concat96 \u2192 3 independent Q.ANT Fourier/KAN 96\u21922 readouts \u2192 arithmetic mean of logits**\n\nFrequency basis: **k=[1,2]**  \nParameter count on ECG200: **8,550**\n\n## Interpretation\n\nExp017\u2013019 established cross-dataset evidence for redundant readout as a numerical-agreement intervention. Exp020 converts that evidence into a model revision under a preregistered promotion gate.\n\nThe next research question should move beyond readout redundancy. A useful next target is the local representation itself: Alpha5 currently gives every local window the same fixed 16-dimensional output width. The next experiment can ask whether a narrower local representation preserves the promoted readout robustness while reducing model size, without changing the frequency basis or readout rule.\n\nAll measurements use the Q.ANT CPU/software simulation backend. No physical photonic-hardware performance claim is made.\n"
     }
   ]
 }
