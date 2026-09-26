@@ -33,6 +33,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.approved_commit_sha }}
+      - name: Verify immutable execution checkout
+        shell: bash
+        run: |
+          actual="$(git rev-parse HEAD)"
+          expected="${{ inputs.approved_commit_sha }}"
+          test "$actual" = "$expected" || { echo "Execution commit mismatch: expected $expected, got $actual" >&2; exit 1; }
+          echo "Pinned execution commit: $actual"
       - name: Verify prebuilt research environment
         run: python -c "import torch, numpy, ml_dtypes, aeon, qant_native_computing_toolkit; print('Q.ANT research environment ready')"
       - name: Resolve approved job
