@@ -182,7 +182,8 @@ def main():
     if len(widths)==2 and widths[-1]==16 and len(engine_candidate_widths)==1:
         cw=engine_candidate_widths[0]
         expected_named_gate=f"alpha5_w{cw}.aggregate_qant_correct>=alpha5_w16_control.aggregate_qant_correct-10"
-        engine_gate=expected_named_gate in gate_compact
+        generic_engine_gate="candidate.aggregate_qant_correct>=width16_control.aggregate_qant_correct-10"
+        engine_gate=(expected_named_gate in gate_compact or generic_engine_gate in gate_compact)
         used_seeds=set()
         for result_path in Path("pnn-v1/results").glob("*.json"):
             try:
