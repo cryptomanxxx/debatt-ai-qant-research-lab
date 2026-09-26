@@ -12,9 +12,9 @@ OUT=Path("research_queue/ai_researcher/latest.json")
 
 def groq(messages):
     schema={"type":"object","properties":{
-        "researcher":{"type":"string"},"model":{"type":"string"},"evidence_frontier":{},"analysis":{},"hypothesis":{},
+        "researcher":{"type":"string"},"model":{"type":"string"},"evidence_frontier":{"type":"string"},"analysis":{"type":"string"},"hypothesis":{"type":"string"},
         "proposal":{"type":"object","properties":{
-            "title":{"type":"string"},"research_question":{"type":"string"},"rationale":{},
+            "title":{"type":"string"},"research_question":{"type":"string"},"rationale":{"type":"string"},
             "experiment_design":{"type":"object","properties":{
                 "dataset":{"type":"object","properties":{
                     "name":{"type":"string","const":"ECG200"},
@@ -25,12 +25,12 @@ def groq(messages):
                 },"required":["local_width"],"additionalProperties":False},"minItems":1},
                 "procedure":{"type":"array","items":{"type":"string"},"minItems":1}
             },"required":["dataset","candidates","procedure"],"additionalProperties":False},
-            "success_criteria":{},
+            "success_criteria":{"type":"string"},
             "requested_budget":{"type":"object","properties":{
                 "max_parameters":{"type":"integer","minimum":1},"max_candidates":{"type":"integer","minimum":1},
                 "max_epochs":{"type":"integer","minimum":1},"max_train_samples":{"type":"integer","minimum":1},"max_test_samples":{"type":"integer","minimum":1}},
                 "required":["max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"],"additionalProperties":False},
-            "risks":{},"requires_human_approval":{"type":"boolean","const":True}},
+            "risks":{"type":"string"},"requires_human_approval":{"type":"boolean","const":True}},
             "required":["title","research_question","rationale","experiment_design","success_criteria","requested_budget","risks","requires_human_approval"],
             "additionalProperties":False}},
         "required":["researcher","model","evidence_frontier","analysis","hypothesis","proposal"],"additionalProperties":False}
@@ -81,14 +81,14 @@ optical noise, or hardware performance. Human approval is mandatory before compu
 Return one JSON object only with keys:
 researcher, model, evidence_frontier, analysis, hypothesis, proposal.
 proposal must contain: title, research_question, rationale, experiment_design,
-success_criteria, requested_budget, risks, requires_human_approval.
+success_criteria, requested_budget, risks, requires_human_approval.\nevidence_frontier, analysis, hypothesis, rationale, success_criteria, and risks must each be plain JSON strings, not objects or arrays.
 requested_budget must contain positive integers: max_parameters, max_candidates,
 max_epochs, max_train_samples, max_test_samples.
 For fixed-size classification thresholds use aggregate integer correct counts,\nnot floating-point mean-accuracy boundary comparisons. Never propose an experiment\nthat simply repeats a completed candidate set. Check recent experiments for novelty.\nIf you specify N random seeds and M test samples, every aggregate-correct threshold\nmust be mathematically possible on N*M predictions and must state that denominator.\nA confirmation experiment must use a fresh preregistered seed set independent of the\ncompleted discovery experiment. Compare control and candidate on the SAME fresh seed\nset. A relative performance gate must compare against the concurrent control (for\nexample candidate_correct >= control_correct - 10), never against a historical absolute\ncount such as 887. Identify it explicitly as confirmation, not architecture search.
 Exp021 already studied local-width compression and evaluated w8 and w12. The next
 confirmation must test ONLY the w8 boundary against the Alpha5 w16 control. Do not
 introduce a new width such as w4 and do not repeat w12. Do not claim that local width
-has never been varied; Exp021 is evidence that it has.\nIf latest_human_review contains a rejected proposal, treat its comment as mandatory\nreview feedback for the next proposal. Explicitly correct the rejected design rather\nthan repeating it. Human feedback is guidance only and can never authorize compute."""
+has never been varied; Exp021 is evidence that it has.\nThe latest completed w8 confirmation already tested 50 epochs and failed its relative\ngate: w8 aggregate Q.ANT correct was 424/500 versus concurrent w16 control 441/500.\nDo NOT repeat a 50-epoch w8 confirmation. The next proposed confirmation must test\nwhether longer training closes that observed gap: use EXACTLY preregistered seeds\n[42,43,44,45,46], train BOTH Alpha5 w8 and the concurrent Alpha5 w16 control for\nEXACTLY 100 epochs on the ECG200 TRAIN split (100 samples), evaluate both on the\nECG200 TEST split (100 samples), and aggregate exactly 500 predictions per model.\nIn experiment_design.candidates list ONLY local_width=8; the w16 model is the\nconcurrent control described in procedure, not a second candidate. Use requested\nbudget max_parameters=9000, max_candidates=1, max_epochs=100,\nmax_train_samples=100, max_test_samples=100. The success criterion must be the\nrelative aggregate gate candidate_correct >= control_correct - 10 on 5*100=500\npredictions. Do not substitute other seeds, epochs, widths, or an absolute threshold.\nIf latest_human_review contains a rejected proposal, treat its comment as mandatory\nreview feedback for the next proposal. Explicitly correct the rejected design rather\nthan repeating it. Human feedback is guidance only and can never authorize compute."""
     user="Repository research context:\n"+json.dumps(context,ensure_ascii=False)
     messages=[{"role":"system","content":system},{"role":"user","content":user}]
     raw=groq(messages)
