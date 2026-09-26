@@ -66,11 +66,21 @@ packet={
   "model_file":"pnn-v1/models/alpha5.md"
  },
  "latest_human_review":human_review,
- "current_frontier":{
-  "latest_completed_experiment":"PNN-v1-Exp021",
-  "status":"Alpha5 remains active. Exp021 found a 4,278-parameter w8 compression candidate at exactly 10 fewer Q.ANT correct predictions out of 1000 than the Alpha5 control; the preregistered floating-point gate recorded retain_alpha5.",
-  "next_preregistered_question":"A future confirmation may use integer-count gating to test whether the w8 compression boundary is reproducible. Do not reinterpret or overwrite Exp021."
- },
+ "current_frontier":(
+  {
+   "latest_completed_experiment":pnn[-1].get("experiment_id") or pnn[-1].get("file"),
+   "result_file":pnn[-1].get("file"),
+   "success_criteria_met":pnn[-1].get("success_criteria_met"),
+   "decision":pnn[-1].get("decision"),
+   "summary":pnn[-1].get("summary"),
+   "research_instruction":"Treat this latest completed result as evidence. Do not reinterpret a failed preregistered gate as success. Formulate the next falsifiable research question from the evidence rather than repeating a completed experiment."
+  }
+  if pnn else
+  {
+   "latest_completed_experiment":None,
+   "research_instruction":"No completed PNN-v1 experiment was found. Formulate the next falsifiable research question from available evidence."
+  }
+ ),
  "historical_toolkit_experiments":historical,
  "pnn_v1_experiments":pnn,
  "historical_researcher_analyses":historical_analyses,
