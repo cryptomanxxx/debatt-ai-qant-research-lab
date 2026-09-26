@@ -5,7 +5,7 @@ This keeps automation from pushing directly to protected main. The caller must
 stage only the explicitly supplied artifact paths; source/workflow changes are
 refused by this helper.
 """
-import json, os, subprocess, sys, urllib.request
+import hashlib, json, os, subprocess, sys, urllib.request
 from pathlib import Path
 
 SAFE_PREFIXES=("research_queue/","results/","pnn-v1/results/","executions/","public/research-dashboard.json")
@@ -32,6 +32,16 @@ run_id=os.environ["GITHUB_RUN_ID"]; attempt=os.environ.get("GITHUB_RUN_ATTEMPT",
 branch=f"automation/artifacts-{run_id}-{attempt}-{job}".replace("_","-")
 run("git","fetch","origin","main")
 run("git","rebase","origin/main")
+expected_proposal_sha=os.environ.get("EXPECTED_CURRENT_PROPOSAL_SHA256","").strip().lower()
+verified_base_sha=None
+if expected_proposal_sha:
+    if len(expected_proposal_sha)!=64 or any(c not in "0123456789abcdef" for c in expected_proposal_sha):
+        raise SystemExit("Invalid EXPECTED_CURRENT_PROPOSAL_SHA256")
+    proposal=run("git","show","origin/main:research_queue/ai_researcher/latest.json",capture=True).encode()
+    actual=hashlib.sha256(proposal).hexdigest()
+    if actual!=expected_proposal_sha:
+        raise SystemExit(f"STALE REVIEW: current proposal SHA-256 is {actual}, reviewed proposal was {expected_proposal_sha}")
+    verified_base_sha=run("git","rev-parse","origin/main",capture=True)
 run("git","checkout","-b",branch)
 run("git","push","origin",f"HEAD:refs/heads/{branch}")
 token=os.environ["GITHUB_TOKEN"]; repository=os.environ["GITHUB_REPOSITORY"]
@@ -42,6 +52,10 @@ def api(method,path,data=None):
     with urllib.request.urlopen(req,timeout=60) as r: return json.load(r) if r.length != 0 else {}
 pr=api("POST","/pulls",{"title":message,"head":branch,"base":"main","body":"Automated publication of generated research artifacts. No source or workflow files are permitted by the publisher."})
 head=run("git","rev-parse","HEAD",capture=True)
+if verified_base_sha:
+    current_base=api("GET",f"/pulls/{pr['number']}")["base"]["sha"]
+    if current_base!=verified_base_sha:
+        raise SystemExit(f"STALE REVIEW: PR base moved from verified {verified_base_sha} to {current_base}")
 merged=api("PUT",f"/pulls/{pr['number']}/merge",{"merge_method":"squash","sha":head,"commit_title":message})
 if not merged.get("merged"): raise SystemExit("Artifact PR was not merged: "+str(merged))
 subprocess.run(["git","push","origin","--delete",branch],check=False)
