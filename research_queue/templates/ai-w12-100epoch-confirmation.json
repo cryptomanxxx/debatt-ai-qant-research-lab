@@ -1,0 +1,16 @@
+{
+  "job_id": "ai-w12-100epoch-confirmation",
+  "status": "template_requires_human_approval",
+  "experiment": "pnn-v1/experiments/w12_100epoch_confirmation/run.py",
+  "runner": "github-actions",
+  "description": "Reviewed executable template for AI Researcher w12 100-epoch robustness confirmation",
+  "budget": {
+    "max_parameters": 10000,
+    "max_candidates": 2,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "preregistered_seeds": [101, 102, 103, 104, 105],
+  "gate": "alpha5_w12.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
+}
