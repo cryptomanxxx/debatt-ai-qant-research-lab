@@ -20,7 +20,7 @@ if not (isinstance(CANDIDATE_WIDTH,int) and not isinstance(CANDIDATE_WIDTH,bool)
  raise SystemExit("ENGINE REJECTED: candidate width outside reviewed bounds")
 if CONTROL_WIDTH!=16 or EPOCHS!=100 or CFG.get("gate_margin_correct")!=10:
  raise SystemExit("ENGINE REJECTED: fixed control/epoch/gate contract mismatch")
-if not (isinstance(SEEDS,list) and len(SEEDS)==5 and len(set(SEEDS))==5 and all(isinstance(s,int) and not isinstance(s,bool) and s>0 for s in SEEDS)):
+if not (isinstance(SEEDS,list) and len(SEEDS)==5 and len(set(SEEDS))==5 and all(isinstance(s,int) and not isinstance(s,bool) and 0<s<=2147483647 for s in SEEDS)):
  raise SystemExit("ENGINE REJECTED: invalid preregistered seeds")
 expected_gate=f"{CANDIDATE_ID}.aggregate_qant_correct >= {CONTROL_ID}.aggregate_qant_correct - 10"
 if JOB.get("gate")!=expected_gate:
