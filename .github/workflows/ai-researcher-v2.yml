@@ -43,24 +43,3 @@ jobs:
           git commit -m "AI Researcher v2 draft proposal" || true
           git pull --rebase origin main
           git push
-
-  approval:
-    name: "2 - Human Approval"
-    needs: researcher
-    runs-on: ubuntu-latest
-    environment:
-      name: qant-research-approval
-    steps:
-      - name: Approval received
-        run: |
-          echo "Human approval received."
-
-  qant:
-    name: "3 - Q.ANT Research"
-    needs: approval
-    runs-on: ubuntu-latest
-    steps:
-      - name: Safe approval bridge
-        run: |
-          echo "Approval bridge passed."
-          echo "No AI-generated Q.ANT experiment is executed automatically yet."

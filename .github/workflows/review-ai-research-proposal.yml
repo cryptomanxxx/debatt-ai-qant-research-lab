@@ -1,0 +1,65 @@
+name: Review AI Research Proposal
+
+on:
+  workflow_dispatch:
+    inputs:
+      decision:
+        description: "Human decision for the latest AI Researcher proposal"
+        required: true
+        type: choice
+        options:
+          - reject
+          - approve
+      comment:
+        description: "Reason or review note"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  review:
+    name: "Human Research Decision"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Record human decision
+        env:
+          DECISION: ${{ inputs.decision }}
+          COMMENT: ${{ inputs.comment }}
+          ACTOR: ${{ github.actor }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          proposal=Path("research_queue/ai_researcher/latest.json")
+          if not proposal.exists():
+              raise SystemExit("No AI Researcher proposal exists")
+          p=json.loads(proposal.read_text())
+          out={"proposal_title":p["proposal"]["title"],"proposal_status_at_review":p["status"],
+               "decision":os.environ["DECISION"],"comment":os.environ["COMMENT"],
+               "reviewer":os.environ["ACTOR"],"workflow_run_id":os.environ["RUN_ID"]}
+          path=Path("research_queue/human_review/latest.json")
+          path.parent.mkdir(parents=True,exist_ok=True)
+          path.write_text(json.dumps(out,indent=2,ensure_ascii=False)+"\n")
+          print("Human decision:",out["decision"])
+          print("Proposal:",out["proposal_title"])
+          PY
+      - name: Publish human decision
+        run: |
+          git config user.name "Debatt-AI Human Review"
+          git config user.email "actions@users.noreply.github.com"
+          git add research_queue/human_review/latest.json
+          git commit -m "Record human research decision: ${{ inputs.decision }}"
+          git pull --rebase origin main
+          git push
+      - name: Rejection recorded
+        if: inputs.decision == 'reject'
+        run: echo "Proposal rejected. No compute is authorized."
+      - name: Approval bridge
+        if: inputs.decision == 'approve'
+        run: |
+          echo "Proposal approved by human reviewer."
+          echo "No AI-generated Q.ANT experiment is executed automatically yet."
