@@ -65,7 +65,7 @@ for cid,(local_width,nheads) in CANDIDATES.items():
 summary={}
 for cid in CANDIDATES:
  rr=[r for r in rows if r["candidate"]==cid]
- summary[cid]={"parameter_count":rr[0]["parameter_count"],"mean_reference_accuracy":float(np.mean([r["reference_accuracy"] for r in rr])),"mean_qant_accuracy":float(np.mean([r["qant_accuracy"] for r in rr])),"std_qant_accuracy":float(np.std([r["qant_accuracy"] for r in rr])),"mean_prediction_disagreements":float(np.mean([r["prediction_disagreements"] for r in rr])),"mean_absolute_logit_error":float(np.mean([r["mean_absolute_logit_error"] for r in rr]))}
+ summary[cid]={"parameter_count":rr[0]["parameter_count"],"mean_reference_accuracy":float(np.mean([r["reference_accuracy"] for r in rr])),"mean_qant_accuracy":float(np.mean([r["qant_accuracy"] for r in rr])),"std_qant_accuracy":float(np.std([r["qant_accuracy"] for r in rr])),"mean_prediction_disagreements":float(np.mean([r["prediction_disagreements"] for r in rr])),"mean_absolute_logit_error":float(np.mean([r["mean_absolute_logit_error"] for r in rr])),"aggregate_qant_correct":sum(int(round(r["qant_accuracy"]*len(yte))) for r in rr)}
 control=summary["alpha5_w16_control"]
 candidate=summary["alpha5_w8"]
 gate_margin=10
