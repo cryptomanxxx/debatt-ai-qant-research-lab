@@ -1,19 +1,8 @@
 {
-  "status": "validated_executable_template",
-  "approval_readiness": "READY_FOR_HUMAN_COMPUTE_DECISION",
+  "status": "validated_not_executable",
+  "approval_readiness": "NOT_READY_FOR_COMPUTE",
   "source": "research_queue/ai_researcher/latest.json",
-  "proposal_title": "100\u2011epoch w12 Confirmation on ECG200",
-  "template": "pnn-v1/experiments/w12_100epoch_confirmation/run.py",
-  "job_id": "ai-w12-100epoch-confirmation",
-  "preregistered_seeds": [
-    101,
-    102,
-    103,
-    104,
-    105
-  ],
-  "epochs": 100,
-  "gate": "alpha5_w12.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
+  "proposal_title": "100\u2011epoch Width\u201110 Confirmation on ECG200",
   "automated_checks": [
     {
       "check": "Human approval required",
@@ -40,18 +29,10 @@
       "status": "passed"
     },
     {
-      "check": "Train/test protocol present",
-      "status": "passed"
-    },
-    {
       "check": "Relative aggregate gate present",
-      "status": "passed"
-    },
-    {
-      "check": "Exact reviewed executable template match",
       "status": "passed"
     }
   ],
-  "human_decision": "Awaiting scientific review.",
-  "message": "Draft structurally matches the reviewed w12 100-epoch robustness confirmation template, including exact preregistered seeds, paired w12/w16 protocol, and aggregate relative gate. Human approval is still required before compute."
+  "human_decision": "No compute decision is requested yet.",
+  "message": "Automated structural checks passed, but no reviewed executable template matches this draft yet. This is not a claim of scientific correctness."
 }
