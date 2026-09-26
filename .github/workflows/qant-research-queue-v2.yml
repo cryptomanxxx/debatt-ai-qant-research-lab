@@ -7,6 +7,10 @@ on:
         description: "Approved research job ID"
         required: true
         type: string
+      approved_commit_sha:
+        description: "Immutable commit containing the approved research job"
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -28,7 +32,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ inputs.approved_commit_sha }}
+      - name: Verify immutable execution checkout
+        shell: bash
+        run: |
+          actual="$(git rev-parse HEAD)"
+          expected="${{ inputs.approved_commit_sha }}"
+          test "$actual" = "$expected" || { echo "Execution commit mismatch: expected $expected, got $actual" >&2; exit 1; }
+          echo "Pinned execution commit: $actual"
       - name: Verify prebuilt research environment
         run: python -c "import torch, numpy, ml_dtypes, aeon, qant_native_computing_toolkit; print('Q.ANT research environment ready')"
       - name: Resolve approved job
@@ -48,7 +59,7 @@ jobs:
         if: success()
         run: |
           mkdir -p local_results/executions
-          printf '{"job_id":"%s","status":"completed","git_commit":"%s","runner":"github-actions","run_id":"%s"}\n'             "${{ steps.resolve.outputs.job_id }}" "${{ github.sha }}" "${{ github.run_id }}"             > "local_results/executions/${{ steps.resolve.outputs.job_id }}-${{ github.run_id }}.json"
+          printf '{"job_id":"%s","status":"completed","git_commit":"%s","runner":"github-actions","run_id":"%s"}\n'             "${{ steps.resolve.outputs.job_id }}" "${{ inputs.approved_commit_sha }}" "${{ github.run_id }}"             > "local_results/executions/${{ steps.resolve.outputs.job_id }}-${{ github.run_id }}.json"
       - name: Publish results and execution record
         if: success()
         shell: bash
