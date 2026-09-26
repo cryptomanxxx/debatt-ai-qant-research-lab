@@ -16,6 +16,15 @@ SEEDS=CFG["seeds"]; EPOCHS=CFG["epochs"]; LR=1e-3; K=[1,2]
 CANDIDATE_WIDTH=CFG["candidate_local_width"]; CONTROL_WIDTH=CFG["control_local_width"]
 CANDIDATE_ID=f"alpha5_w{CANDIDATE_WIDTH}"; CONTROL_ID=f"alpha5_w{CONTROL_WIDTH}_control"
 CANDIDATES={CANDIDATE_ID:(CANDIDATE_WIDTH,3),CONTROL_ID:(CONTROL_WIDTH,3)}
+if not (isinstance(CANDIDATE_WIDTH,int) and not isinstance(CANDIDATE_WIDTH,bool) and 4<=CANDIDATE_WIDTH<16):
+ raise SystemExit("ENGINE REJECTED: candidate width outside reviewed bounds")
+if CONTROL_WIDTH!=16 or EPOCHS!=100 or CFG.get("gate_margin_correct")!=10:
+ raise SystemExit("ENGINE REJECTED: fixed control/epoch/gate contract mismatch")
+if not (isinstance(SEEDS,list) and len(SEEDS)==5 and len(set(SEEDS))==5 and all(isinstance(s,int) and not isinstance(s,bool) and s>0 for s in SEEDS)):
+ raise SystemExit("ENGINE REJECTED: invalid preregistered seeds")
+expected_gate=f"{CANDIDATE_ID}.aggregate_qant_correct >= {CONTROL_ID}.aggregate_qant_correct - 10"
+if JOB.get("gate")!=expected_gate:
+ raise SystemExit("ENGINE REJECTED: gate mismatch")
 
 def as2d(X):
  x=np.asarray(X,dtype=np.float32)
