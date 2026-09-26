@@ -87,8 +87,21 @@ def main():
             for name,value in summary.items():
                 if isinstance(value,dict) and value.get("aggregate_qant_correct") is not None:
                     counts[name]=value["aggregate_qant_correct"]
+        dataset=exp.get("dataset") or {}
+        candidates=cfg.get("candidates")
+        if candidates is None:
+            candidates=exp.get("candidates")
+        experiment_signature={
+            "dataset_name":dataset.get("name") if isinstance(dataset,dict) else None,
+            "train_shape":dataset.get("train_shape") if isinstance(dataset,dict) else None,
+            "test_shape":dataset.get("test_shape") if isinstance(dataset,dict) else None,
+            "candidates":candidates,
+        }
+        # Preserve a compact design fingerprint so old experiments remain
+        # recognizable for novelty checks without restoring their full payload.
         older_memory.append({
             "experiment_id":exp.get("experiment_id"),
+            "experiment_signature":experiment_signature,
             "seeds":cfg.get("seeds"),
             "epochs":cfg.get("epochs"),
             "aggregate_qant_correct":counts or None,
