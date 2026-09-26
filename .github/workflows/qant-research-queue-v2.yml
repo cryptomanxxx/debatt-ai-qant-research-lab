@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ inputs.approved_commit_sha }}
       - name: Verify prebuilt research environment
         run: python -c "import torch, numpy, ml_dtypes, aeon, qant_native_computing_toolkit; print('Q.ANT research environment ready')"
       - name: Resolve approved job
