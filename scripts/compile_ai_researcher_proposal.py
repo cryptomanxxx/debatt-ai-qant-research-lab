@@ -94,6 +94,16 @@ def main():
         if any(x>maximum for x in count_matches):
             reject(f"impossible aggregate-count gate: {seed_count} seeds × {test_n} test samples gives at most {maximum} correct")
 
+    # The 100-epoch confirmation on seeds 42..46 is already completed evidence.
+    # Never authorize an identical rerun as though it were a new proposal.
+    if (
+        widths==[8]
+        and test_shape==[100,96]
+        and seed_numbers==PREREGISTERED_W8_100EPOCH_SEEDS
+        and structured_epochs==100
+    ):
+        reject("duplicate completed design: the w8 100-epoch confirmation on seeds 42,43,44,45,46 already ran successfully")
+
     # Reviewed executable template: clean w8 confirmation only.
     # Fail closed unless the AI draft exactly matches the preregistered design.
     clean_w8=(
