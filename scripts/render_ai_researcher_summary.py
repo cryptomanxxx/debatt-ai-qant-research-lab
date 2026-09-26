@@ -55,7 +55,7 @@ def render_evidence(frontier):
         exp21 = {
             k: summary[k]
             for k in ("alpha5_w8","alpha5_w12","alpha5_w16_control")
-            if isinstance(summary.get(k), dict)
+            if k in summary
         }
     if exp21:
         lines += ["### Exp021 — Compression frontier"]
