@@ -1,0 +1,23 @@
+{
+  "job_id": "ai-w8-100epoch-confirmation",
+  "status": "approved",
+  "experiment": "pnn-v1/experiments/w8_100epoch_confirmation/run.py",
+  "runner": "github-actions",
+  "description": "Human-approved AI Researcher experiment using reviewed template",
+  "budget": {
+    "max_parameters": 9000,
+    "max_candidates": 1,
+    "max_epochs": 100,
+    "max_train_samples": 100,
+    "max_test_samples": 100
+  },
+  "source_compilation": "research_queue/compiled/latest.json",
+  "preregistered_seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "gate": "alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
+}
