@@ -51,7 +51,7 @@ def remote_lock_sha():
 def release_publish_lock():
     if remote_lock_sha()!=lock_sha:
         return
-    deleted=subprocess.run(["git","push","origin","--delete",lock_ref],text=True,capture_output=True)
+    deleted=subprocess.run(["git","push",f"--force-with-lease={lock_ref}:{lock_sha}","origin",f":{lock_ref}"],text=True,capture_output=True)
     if deleted.returncode!=0:
         print("WARNING: failed to release artifact publication lock: "+deleted.stderr.strip(),file=sys.stderr)
 
@@ -80,7 +80,7 @@ for lock_attempt in range(60):
             except (ValueError,KeyError,urllib.error.HTTPError):
                 status=None
             if status=="completed" and remote_lock_sha()==owner_sha:
-                subprocess.run(["git","push","origin","--delete",lock_ref],check=False,capture_output=True)
+                subprocess.run(["git","push",f"--force-with-lease={lock_ref}:{owner_sha}","origin",f":{lock_ref}"],check=False,capture_output=True)
                 continue
     if lock_attempt==59:
         raise SystemExit("Could not acquire artifact publication lock; current owner is still active or unverifiable")
