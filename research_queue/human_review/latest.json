@@ -1,0 +1,8 @@
+{
+  "proposal_title": "Confirmation of w8 Local-Width Boundary on ECG200",
+  "proposal_status_at_review": "draft_requires_human_review",
+  "decision": "reject",
+  "comment": "Reject: proposal does not match the preregistered executable w8 confirmation template. Use w8 as the candidate and w16 as the control, exactly five preregistered seeds (121, 131, 141, 151, 161), 50 epochs, and the relative gate candidate_correct >= control_correct - 10.",
+  "reviewer": "human_review",
+  "source": "Recorded from the already-completed GitHub Environment rejection so AI Researcher can consume the human feedback."
+}
