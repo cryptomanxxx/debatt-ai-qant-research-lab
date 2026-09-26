@@ -9,11 +9,11 @@ permissions:
   pull-requests: write
 
 jobs:
-  authorize:
-    name: "Compute Authorization"
+  verify:
+    name: "Verify Scientific Approval"
     runs-on: ubuntu-latest
-    environment:
-      name: qant-research-approval
+    outputs:
+      verified_commit_sha: ${{ steps.commit.outputs.verified_commit_sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -42,12 +42,25 @@ jobs:
               raise SystemExit("Current proposal changed after scientific approval; refusing compute")
           if compiled.get("status")!="validated_executable_template" or compiled.get("approval_readiness")!="READY_FOR_HUMAN_COMPUTE_DECISION":
               raise SystemExit("Compiler has not cleared current proposal for compute")
-          print("Scientific approval, dispatch, and current proposal are immutably bound; compute authorization received.")
+          print("Scientific approval, dispatch, and current proposal are immutably bound.")
           PY
+      - name: Pin verified repository commit
+        id: commit
+        run: echo "verified_commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  authorize:
+    name: "Compute Authorization"
+    needs: verify
+    runs-on: ubuntu-latest
+    environment:
+      name: qant-research-approval
+    steps:
+      - name: Authorize verified compute request
+        run: echo "Human compute authorization granted for verified commit ${{ needs.verify.outputs.verified_commit_sha }}."
 
   prepare-qant:
     name: "Prepare Guarded Q.ANT Job"
-    needs: authorize
+    needs: [verify, authorize]
     runs-on: ubuntu-latest
     outputs:
       job_id: ${{ steps.job.outputs.job_id }}
@@ -55,7 +68,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ needs.verify.outputs.verified_commit_sha }}
+      - name: Verify pinned preparation commit
+        env:
+          VERIFIED_COMMIT_SHA: ${{ needs.verify.outputs.verified_commit_sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$VERIFIED_COMMIT_SHA"
       - name: Materialize allowlisted approved job
         run: python scripts/materialize_ai_approved_job.py
       - name: Publish approved job via PR
