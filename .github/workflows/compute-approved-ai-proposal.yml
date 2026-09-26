@@ -5,6 +5,7 @@ on:
     types: [scientifically_approved_compute]
 
 permissions:
+  actions: read
   contents: write
   pull-requests: write
 
