@@ -2,7 +2,7 @@
   "status": "validated_not_executable",
   "approval_readiness": "NOT_READY_FOR_COMPUTE",
   "source": "research_queue/ai_researcher/latest.json",
-  "proposal_title": "Confirmation of w8 Compression Boundary on ECG200 with Integer\u2011Count Gating",
+  "proposal_title": "Local\u2011Width Compression with Redundant Readout on ECG200",
   "automated_checks": [
     {
       "check": "Human approval required",
