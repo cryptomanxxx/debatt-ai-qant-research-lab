@@ -64,14 +64,13 @@ def main():
 
     # Reviewed executable template: clean w8 confirmation only.
     # Fail closed unless the AI draft exactly matches the preregistered design.
-    normalized=procedure.lower().replace(" ", "")
     clean_w8=(
         widths==[8]
         and seed_count==5
         and budget["max_candidates"]==1
-        and budget["max_epochs"]<=50
-        and budget["max_train_samples"]<=100
-        and budget["max_test_samples"]<=100
+        and budget["max_epochs"]>=50
+        and budget["max_train_samples"]>=100
+        and budget["max_test_samples"]>=100
         and budget["max_parameters"]>=8550
         and "control_correct-10" in criteria.lower().replace(" ", "")
     )
