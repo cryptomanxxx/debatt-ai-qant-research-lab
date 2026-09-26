@@ -22,16 +22,16 @@
   "latest_human_review": {
     "proposal_title": "Confirmation of w8 Local\u2011Width Boundary on ECG200",
     "proposal_status_at_review": "draft_requires_human_review",
-    "proposal_sha256": "cd2d24bff1c2d1d65791985fa4a062a3b1f1294d1f358da912eaa7ca7b0eefa5",
+    "proposal_sha256": "5f1a3ec7f17ee5bffef2e6afc6de290b35e209753020fa994b967b3c58b004cc",
     "compiler_status": "validated_not_executable",
     "approval_readiness": "NOT_READY_FOR_COMPUTE",
     "decision": "reject",
-    "comment": "Reject: keep the preregistered w8 confirmation design, exact seeds, 50 epochs, and aggregate relative gate unchanged. Train both w8 candidate and w16 control on the ECG200 training set for each preregistered seed, then evaluate both on the ECG200 test set. Do not train on the test set.",
+    "comment": "Reject: keep the corrected train/test protocol, 50 epochs, and aggregate relative gate unchanged. Use exactly the preregistered seeds 121, 131, 141, 151, 161. Do not generate or substitute a different seed list.",
     "reviewer": "cryptomanxxx",
-    "workflow_run_id": "36236069050",
-    "proposal_workflow_run_id": "36235349198",
+    "workflow_run_id": "36236675430",
+    "proposal_workflow_run_id": "36236550733",
     "proposal_mode": "manual_start",
-    "reviewed_at_utc": "20260926T103157Z"
+    "reviewed_at_utc": "20260926T104411Z"
   },
   "current_frontier": {
     "latest_completed_experiment": "PNN-v1-Exp021",
