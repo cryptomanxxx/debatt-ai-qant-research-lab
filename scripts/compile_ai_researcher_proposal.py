@@ -107,6 +107,18 @@ def main():
         if any(x>maximum for x in count_matches):
             reject(f"impossible aggregate-count gate: {seed_count} seeds × {test_n} test samples gives at most {maximum} correct")
 
+    # Exp021 is completed discovery evidence. Candidate overlap is allowed, but
+    # an exact rerun of its structured width/seed/epoch/test signature is not a
+    # novel proposal and must fail closed rather than appear to pass novelty.
+    EXP021_SEEDS=[11,22,33,44,55,66,77,88,99,111]
+    if (
+        widths==[8,12,16]
+        and test_shape==[100,96]
+        and seed_numbers==EXP021_SEEDS
+        and structured_epochs==100
+    ):
+        reject("duplicate completed design: Exp021 already ran widths 8,12,16 on seeds 11,22,33,44,55,66,77,88,99,111 for 100 epochs")
+
     # The 100-epoch confirmation on seeds 42..46 is already completed evidence.
     # Reject it as a duplicate only when the full structured confirmation protocol
     # also matches. Reusing a width/seed/epoch tuple alone must not erase a future
