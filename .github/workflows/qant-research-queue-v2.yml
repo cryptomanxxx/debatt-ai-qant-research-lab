@@ -59,7 +59,7 @@ jobs:
         if: success()
         run: |
           mkdir -p local_results/executions
-          printf '{"job_id":"%s","status":"completed","git_commit":"%s","runner":"github-actions","run_id":"%s"}\n'             "${{ steps.resolve.outputs.job_id }}" "${{ github.sha }}" "${{ github.run_id }}"             > "local_results/executions/${{ steps.resolve.outputs.job_id }}-${{ github.run_id }}.json"
+          printf '{"job_id":"%s","status":"completed","git_commit":"%s","runner":"github-actions","run_id":"%s"}\n'             "${{ steps.resolve.outputs.job_id }}" "${{ inputs.approved_commit_sha }}" "${{ github.run_id }}"             > "local_results/executions/${{ steps.resolve.outputs.job_id }}-${{ github.run_id }}.json"
       - name: Publish results and execution record
         if: success()
         shell: bash
