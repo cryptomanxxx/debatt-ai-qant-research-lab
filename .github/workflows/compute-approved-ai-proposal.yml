@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   authorize:
@@ -46,18 +47,11 @@ jobs:
           ref: main
       - name: Materialize allowlisted approved job
         run: python scripts/materialize_ai_approved_job.py
-      - name: Publish approved job
-        run: |
-          git config user.name "Debatt-AI Research Approver"
-          git config user.email "actions@users.noreply.github.com"
-          git add research_queue/jobs/*.json
-          if git diff --cached --quiet; then
-            echo "Approved job already exists."
-          else
-            git commit -m "Approve AI Researcher w8 confirmation"
-            git pull --rebase origin main
-            git push
-          fi
+      - name: Publish approved job via PR
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          AUTOMATION_GIT_NAME: "Debatt-AI Research Approver"
+        run: python scripts/publish_via_pr.py "Approve guarded AI Research job" research_queue/jobs/
       - name: Expose approved job ID
         id: job
         run: |
