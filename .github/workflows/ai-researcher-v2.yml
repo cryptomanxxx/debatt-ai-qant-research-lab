@@ -1,0 +1,63 @@
+name: AI Researcher v2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  researcher:
+    name: "Research chain: A → B → C → D → E → F → G"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "A — Result | Checkout evidence"
+        uses: actions/checkout@v4
+
+      - name: "B — Research Context | Rebuild evidence packet"
+        run: |
+          python scripts/build_research_context.py
+          test -s research_queue/context/latest.json
+          echo "B complete — research context is ready."
+
+      - name: "C — AI analysis | GPT-OSS 120B"
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          python scripts/ai_researcher_v2.py
+          python -c 'import json; d=json.load(open("research_queue/ai_researcher/latest.json")); print(d["analysis"])'
+
+      - name: "D — Hypothesis | Show next falsifiable hypothesis"
+        run: |
+          python -c 'import json; d=json.load(open("research_queue/ai_researcher/latest.json")); print(d["hypothesis"])'
+
+      - name: "E — Proposal | Show structured draft"
+        run: |
+          python -c 'import json; d=json.load(open("research_queue/ai_researcher/latest.json")); p=d["proposal"]; print(p["title"]); print(p["research_question"]); print("Budget:",json.dumps(p["requested_budget"]))'
+
+      - name: "F — Validator | Validate AI draft"
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open("research_queue/ai_researcher/latest.json"))
+          p=d["proposal"]
+          assert d["status"]=="draft_requires_human_review"
+          assert p["requires_human_approval"] is True
+          required=("max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples")
+          assert all(isinstance(p["requested_budget"].get(k),int) and p["requested_budget"][k]>0 for k in required)
+          print("F complete — AI draft passed proposal-only validation.")
+          PY
+
+      - name: "G — Approval gate | Publish draft for human review"
+        run: |
+          git config user.name "Debatt-AI AI Researcher"
+          git config user.email "actions@users.noreply.github.com"
+          git add research_queue/context/latest.json research_queue/ai_researcher/latest.json
+          if git diff --cached --quiet; then
+            echo "No changed draft to publish."
+          else
+            git commit -m "AI Researcher v2 draft proposal"
+            git pull --rebase origin main
+            git push
+          fi
+          echo "G complete — STOPPED BEFORE COMPUTE. Human approval is required."
