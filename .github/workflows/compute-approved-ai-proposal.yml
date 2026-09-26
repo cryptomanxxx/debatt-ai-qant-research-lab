@@ -50,7 +50,7 @@ jobs:
         run: |
           git config user.name "Debatt-AI Research Approver"
           git config user.email "actions@users.noreply.github.com"
-          git add research_queue/jobs/ai-w8-confirmation.json
+          git add research_queue/jobs/*.json
           if git diff --cached --quiet; then
             echo "Approved job already exists."
           else
@@ -60,7 +60,11 @@ jobs:
           fi
       - name: Expose approved job ID
         id: job
-        run: echo "job_id=ai-w8-confirmation" >> "$GITHUB_OUTPUT"
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import json
+          print("job_id="+json.load(open("research_queue/compiled/latest.json"))["job_id"])
+          PY
 
   qant:
     name: "Q.ANT Guarded Research"

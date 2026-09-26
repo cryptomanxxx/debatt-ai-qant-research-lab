@@ -13,13 +13,13 @@ def fmt(value):
         return "\n".join(f"- **{key}:** {item}" for key, item in value.items())
     return str(value)
 
-def metric_line(name, values):
+def metric_line(name, values, total_predictions=1000):
     params = values.get("parameter_count", "—")
     correct = values.get("aggregate_qant_correct", "—")
     mae = values.get("mean_absolute_logit_error", "—")
     if isinstance(mae, (int, float)):
         mae = f"{mae:.5f}"
-    return f"- **{name}:** {params:,} parameters · Q.ANT correct {correct}/1000 · MAE {mae}" if isinstance(params, int) else f"- **{name}:** parameters {params} · Q.ANT correct {correct}/1000 · MAE {mae}"
+    return f"- **{name}:** {params:,} parameters · Q.ANT correct {correct}/{total_predictions} · MAE {mae}" if isinstance(params, int) else f"- **{name}:** parameters {params} · Q.ANT correct {correct}/{total_predictions} · MAE {mae}"
 
 def render_evidence(frontier):
     if not isinstance(frontier, dict):
@@ -51,7 +51,8 @@ def render_evidence(frontier):
         }
         for key, label in labels.items():
             if exp21.get(key):
-                lines.append(metric_line(label, exp21[key]))
+                total = 500 if latest == "PNN-v1-W8-Confirmation" else 1000
+                lines.append(metric_line(label, exp21[key], total))
         lines += [f"- **Recorded decision:** {exp21.get('decision', '—')}", ""]
     cross = summary.get("Cross-dataset redundant-readout evidence", [])
     if cross:
