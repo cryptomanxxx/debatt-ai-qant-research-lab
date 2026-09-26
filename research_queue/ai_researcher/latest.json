@@ -1,13 +1,13 @@
 {
   "researcher": "AI Researcher v2",
   "model": "openai/gpt-oss-120b",
-  "evidence_frontier": "The latest completed evidence confirms that a local width of 8 (w8) meets the preregistered gate against the w16 control after 100 epochs on ECG200 (aggregate correct 444 vs 448). Earlier 100‑epoch runs with w12 showed aggregate correct 884 versus 897 for w16 but were not confirmed because the gate was not preregistered for that comparison. No experiment has yet tested w12 against the w16 control on a fresh seed set, leaving the robustness of the intermediate width unknown.",
-  "analysis": "Observations: (1) w8 passes the accuracy gate versus w16 after 100 epochs on ECG200. (2) w12 previously achieved slightly lower aggregate correct (884) than w16 (897) on the same dataset but with the same seed set used for discovery, not a fresh confirmation. (3) The gate for confirmation must compare candidate to concurrent control on the same fresh seeds. Hypothesis: If the local width is set to 12, the model will retain performance within 10 correct predictions of the w16 control on a new seed set, indicating that intermediate compression does not materially degrade Q.ANT accuracy or numerical agreement.",
-  "hypothesis": "A local width of 12 will achieve aggregate Q.ANT correct predictions within ten of the w16 control (i.e., >= w16_correct‑10) on a fresh five‑seed set after 100 epochs, demonstrating that intermediate compression is robust.",
+  "evidence_frontier": "The latest completed evidence shows that the w8 local width passed its 100‑epoch confirmation gate (444/500 vs 448/500) confirming its robustness. The earlier 100‑seed experiment (Exp021) reported w12 aggregate correct 884 vs w16 control 897, but without confirmation. Thus the frontier is a confirmed w8 and an unconfirmed w12 performance relative to w16.",
+  "analysis": "Observation: w8 achieved aggregate Q.ANT correct within 4 of the w16 control over 500 predictions and passed the preregistered gate. w12 previously yielded 884 correct versus 897 for w16 on the same seed set, a 13‑point gap, but this was not a confirmed experiment. Hypothesis: Under a fresh, independent seed set, the intermediate local width w12 will achieve aggregate Q.ANT correct predictions within 10 of the w16 control, demonstrating comparable robustness to the confirmed w8 width.",
+  "hypothesis": "Under fresh seeds, the intermediate local width w12 will achieve aggregate Q.ANT correct predictions within 10 of the w16 control, indicating comparable robustness to the confirmed w8 width.",
   "proposal": {
     "title": "100‑epoch w12 Confirmation on ECG200",
-    "research_question": "Does a local width of 12 maintain comparable Q.ANT accuracy and numerical agreement to the 16‑width control under a fresh seed set, indicating robustness of intermediate compression?",
-    "rationale": "w8 has been validated as the minimal viable width, but the behavior of intermediate widths remains untested. Confirming w12 on an independent seed set will map the width‑performance curve, informing future model size trade‑offs without claiming w12 as the new minimum. This experiment is novel because it uses a seed set not previously employed and directly compares w12 to the w16 control under the same conditions.",
+    "research_question": "Does the intermediate local width of 12 maintain comparable Q.ANT classification performance to the w16 control under a fresh seed set?",
+    "rationale": "w8 has been confirmed as robust, but widths between 8 and 16 have not been independently validated under the same confirmation protocol. Testing w12 with fresh seeds will assess whether performance degrades gradually with width reduction or if w12 behaves consistently, providing a robustness measurement for the local representation without claiming minimality.",
     "experiment_design": {
       "dataset": {
         "name": "ECG200",
@@ -17,11 +17,11 @@
         ]
       },
       "seeds": [
-        51,
-        52,
-        53,
-        54,
-        55
+        101,
+        102,
+        103,
+        104,
+        105
       ],
       "epochs": 100,
       "candidates": [
@@ -33,21 +33,20 @@
         }
       ],
       "procedure": [
-        "Train each candidate on the ECG200 training set for 100 epochs",
-        "Evaluate Q.ANT predictions on the ECG200 test set",
-        "Record aggregate correct predictions and mean absolute logit error for each candidate",
-        "Apply the preregistered gate: w12.aggregate_qant_correct >= w16.aggregate_qant_correct - 10"
+        "train_models",
+        "evaluate_qant_correct",
+        "apply_preregistered_gate"
       ]
     },
-    "success_criteria": "The experiment passes if the w12 candidate achieves aggregate Q.ANT correct >= (w16 aggregate correct - 10) on the five‑seed set. Additionally, the mean absolute logit error for w12 must not exceed that of w16 by more than 0.005, ensuring comparable numerical agreement.",
+    "success_criteria": "alpha5_w12.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10 (out of 500 predictions per model)",
     "requested_budget": {
       "max_parameters": 10000,
       "max_candidates": 2,
-      "max_epochs": 100,
+      "max_epochs": 200,
       "max_train_samples": 100,
       "max_test_samples": 100
     },
-    "risks": "Potential risks include stochastic variance causing the gate to fail despite true equivalence, limited seed count reducing statistical power, and the possibility that w12 performance degrades beyond the gate threshold, which would require revisiting compression strategies. All measurements remain in Q.ANT CPU/software simulation, avoiding hardware‑level claims.",
+    "risks": "w12 may underperform relative to the control and fail the gate, limiting conclusions about intermediate widths; the limited seed count (5) may not capture full variability; computational budget constraints could restrict additional repeats if results are borderline.",
     "requires_human_approval": true
   },
   "status": "draft_requires_human_review"

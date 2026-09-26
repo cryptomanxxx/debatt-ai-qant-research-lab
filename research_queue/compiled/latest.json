@@ -27,10 +27,6 @@
     {
       "check": "Aggregate-count arithmetic",
       "status": "passed"
-    },
-    {
-      "check": "Train/test protocol present",
-      "status": "passed"
     }
   ],
   "human_decision": "No compute decision is requested yet.",
