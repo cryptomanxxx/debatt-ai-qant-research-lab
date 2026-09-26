@@ -28,9 +28,7 @@ jobs:
       - name: Validate proposal draft
         run: |
           python -c 'import json; d=json.load(open("research_queue/ai_researcher/latest.json")); p=d["proposal"]; assert d["status"]=="draft_requires_human_review"; assert p["requires_human_approval"] is True; keys=("max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"); assert all(isinstance(p["requested_budget"].get(k),int) and p["requested_budget"][k]>0 for k in keys)'
-      - name: Show readable research proposal
-        run: |
-          python scripts/render_ai_researcher_summary.py
+      - name: Compile proposal safety check\n        run: |\n          python scripts/compile_ai_researcher_proposal.py\n      - name: Show readable research proposal\n        if: success()\n        run: |\n          python scripts/render_ai_researcher_summary.py
       - name: Publish proposal draft
         run: |
           git config user.name "Debatt-AI AI Researcher"
