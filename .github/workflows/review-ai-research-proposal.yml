@@ -88,6 +88,19 @@ jobs:
           print("Proposal:",out["proposal_title"])
           print("Compiler readiness:",out["approval_readiness"])
           PY
+      - name: Revalidate reviewed proposal against current main
+        env:
+          EXPECTED_PROPOSAL_SHA256: ${{ github.event.inputs.expected_proposal_sha256 }}
+        shell: bash
+        run: |
+          git fetch origin main
+          expected="${EXPECTED_PROPOSAL_SHA256,,}"
+          actual="$(git show origin/main:research_queue/ai_researcher/latest.json | sha256sum | awk '{print $1}')"
+          test "$actual" = "$expected" || {
+            echo "STALE REVIEW: current proposal SHA-256 is $actual, reviewed proposal was $expected" >&2
+            exit 1
+          }
+          echo "Review still matches the current proposal."
       - name: Publish human feedback via PR
         env:
           GITHUB_TOKEN: ${{ github.token }}
