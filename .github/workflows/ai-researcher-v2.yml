@@ -6,6 +6,7 @@ on:
     types: [human_feedback_revision]
 
 permissions:
+  actions: read
   contents: write
   pull-requests: write
 

@@ -10,6 +10,7 @@ on:
       - "scripts/build_research_dashboard.py"
 
 permissions:
+  actions: read
   contents: write
   pull-requests: write
 
