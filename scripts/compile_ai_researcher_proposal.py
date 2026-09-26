@@ -93,7 +93,7 @@ def main():
     def exact_gate(expr):
         # Match the complete normalized expression, not a numeric prefix such
         # as -10 inside -100. JSON punctuation/quotes may surround the value.
-        return re.search(r"(?<![a-z0-9_.-])"+re.escape(expr)+r"(?![a-z0-9_.-])",gate_compact) is not None
+        return re.search(r"(?<![a-z0-9_.-])"+re.escape(expr)+r"(?![a-z0-9_-]|\\.\\d)",gate_compact) is not None
 
     named_w8_gate=exact_gate(
         "alpha5_w8.aggregate_qant_correct>=alpha5_w16_control.aggregate_qant_correct-10"
