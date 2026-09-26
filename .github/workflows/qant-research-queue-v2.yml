@@ -7,6 +7,10 @@ on:
         description: "Approved research job ID"
         required: true
         type: string
+      approved_commit_sha:
+        description: "Immutable commit containing the approved research job"
+        required: true
+        type: string
 
 permissions:
   contents: write
