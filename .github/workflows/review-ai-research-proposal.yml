@@ -85,12 +85,12 @@ jobs:
           echo "Scientific proposal rejected."
           echo "Feedback is now part of AI Researcher's memory. No compute is authorized."
           python - <<'PY'
-          import json
+          import json, os
           from pathlib import Path
           p=Path("research_queue/cycle/latest.json")
           cycle=json.loads(p.read_text()) if p.exists() else {}
           allowed=cycle.get("automatic_revision_allowed") is True
-          with open("$GITHUB_OUTPUT","a") as out:
+          with open(os.environ["GITHUB_OUTPUT"],"a") as out:
               out.write(f"auto_revision={'true' if allowed else 'false'}\n")
           print("Automatic revision allowed:",allowed)
           PY
