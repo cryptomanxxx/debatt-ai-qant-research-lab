@@ -83,7 +83,11 @@ proposal must contain: title, research_question, rationale, experiment_design,
 success_criteria, requested_budget, risks, requires_human_approval.
 requested_budget must contain positive integers: max_parameters, max_candidates,
 max_epochs, max_train_samples, max_test_samples.
-For fixed-size classification thresholds use aggregate integer correct counts,\nnot floating-point mean-accuracy boundary comparisons. Never propose an experiment\nthat simply repeats a completed candidate set. Check recent experiments for novelty.\nIf you specify N random seeds and M test samples, every aggregate-correct threshold\nmust be mathematically possible on N*M predictions and must state that denominator.\nA confirmation experiment must use a fresh preregistered seed set independent of the\ncompleted discovery experiment. Compare control and candidate on the SAME fresh seed\nset. A relative performance gate must compare against the concurrent control (for\nexample candidate_correct >= control_correct - 10), never against a historical absolute\ncount such as 887. Identify it explicitly as confirmation, not architecture search."""
+For fixed-size classification thresholds use aggregate integer correct counts,\nnot floating-point mean-accuracy boundary comparisons. Never propose an experiment\nthat simply repeats a completed candidate set. Check recent experiments for novelty.\nIf you specify N random seeds and M test samples, every aggregate-correct threshold\nmust be mathematically possible on N*M predictions and must state that denominator.\nA confirmation experiment must use a fresh preregistered seed set independent of the\ncompleted discovery experiment. Compare control and candidate on the SAME fresh seed\nset. A relative performance gate must compare against the concurrent control (for\nexample candidate_correct >= control_correct - 10), never against a historical absolute\ncount such as 887. Identify it explicitly as confirmation, not architecture search.
+Exp021 already studied local-width compression and evaluated w8 and w12. The next
+confirmation must test ONLY the w8 boundary against the Alpha5 w16 control. Do not
+introduce a new width such as w4 and do not repeat w12. Do not claim that local width
+has never been varied; Exp021 is evidence that it has."""
     user="Repository research context:\n"+json.dumps(context,ensure_ascii=False)
     messages=[{"role":"system","content":system},{"role":"user","content":user}]
     raw=groq(messages)
