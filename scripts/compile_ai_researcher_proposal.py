@@ -78,7 +78,7 @@ def main():
     seed_count=len(seed_numbers) if seed_numbers else None
     criteria=json.dumps(p.get("success_criteria",{}),ensure_ascii=False)
     gate_text=(procedure+" "+criteria).lower()
-    gate_text=gate_text.replace("−","-").replace("–","-").replace("—","-").replace("≥",">=")
+    gate_text=gate_text.replace("−","-").replace("‐","-").replace("‑","-").replace("‒","-").replace("–","-").replace("—","-").replace("≥",">=")
     gate_compact=re.sub(r"\s+","",gate_text)
     training_protocol=("train" in procedure.lower() and "test" in procedure.lower() and ("evaluat" in procedure.lower() or "prediction" in procedure.lower()))
     generic_aggregate_gate=(
@@ -90,13 +90,16 @@ def main():
     )
     # Reviewed named gates are equally explicit and safer than requiring the
     # model to paraphrase them with the generic words candidate/control.
-    named_w8_gate=(
+    def exact_gate(expr):
+        # Match the complete normalized expression, not a numeric prefix such
+        # as -10 inside -100. JSON punctuation/quotes may surround the value.
+        return re.search(r"(?<![a-z0-9_.-])"+re.escape(expr)+r"(?![a-z0-9_.-])",gate_compact) is not None
+
+    named_w8_gate=exact_gate(
         "alpha5_w8.aggregate_qant_correct>=alpha5_w16_control.aggregate_qant_correct-10"
-        in gate_compact
     )
-    named_w12_gate=(
+    named_w12_gate=exact_gate(
         "alpha5_w12.aggregate_qant_correct>=alpha5_w16_control.aggregate_qant_correct-10"
-        in gate_compact
     )
     aggregate_gate=generic_aggregate_gate or named_w8_gate or named_w12_gate
     count_matches=[int(x) for x in re.findall(r"(?:correct[^0-9]{0,30}|≥\s*)(\d{3,5})",criteria,re.I)]
@@ -216,7 +219,7 @@ def main():
             "candidate.aggregate_qant_correct>=width16_control.aggregate_qant_correct-10",
             "candidate_correct>=control_correct-10",
         )
-        engine_gate=(expected_named_gate in gate_compact or any(g in gate_compact for g in generic_engine_gates))
+        engine_gate=(exact_gate(expected_named_gate) or any(exact_gate(g) for g in generic_engine_gates))
         used_seeds=set()
         for result_path in Path("pnn-v1/results").glob("*.json"):
             try:
