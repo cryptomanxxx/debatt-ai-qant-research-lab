@@ -25,7 +25,7 @@ def groq(messages):
                 "candidates":{"type":"array","items":{"type":"object","properties":{
                     "local_width":{"type":"integer","minimum":1}
                 },"required":["local_width"],"additionalProperties":False},"minItems":1},
-                "procedure":{"type":"array","items":{"type":"string"},"minItems":1}
+                "procedure":{"type":"object","properties":{"same_preregistered_seeds":{"type":"boolean"},"train_samples":{"type":"integer","minimum":1},"test_samples":{"type":"integer","minimum":1},"aggregate_predictions_per_model":{"type":"integer","minimum":1}},"required":["same_preregistered_seeds","train_samples","test_samples","aggregate_predictions_per_model"],"additionalProperties":False}
             },"required":["dataset","seeds","epochs","candidates","procedure"],"additionalProperties":False},
             "success_criteria":{"type":"string"},
             "requested_budget":{"type":"object","properties":{
@@ -142,11 +142,10 @@ structured prior experiment configurations in the supplied context. In particula
 avoid the already used seeds [11,22,33,44,55,66,77,88,99,111],
 [121,131,141,151,161], and [42,43,44,45,46].
 For a 100-epoch confirmation proposal, requested_budget.max_epochs MUST be exactly 100,
-not a looser ceiling such as 200. The procedure MUST explicitly state that candidate and
+not a looser ceiling such as 200. The structured procedure MUST set same_preregistered_seeds=true and record train_samples=100, test_samples=100, aggregate_predictions_per_model=500. Candidate and
 concurrent control are trained/evaluated on the same preregistered seeds, for 100 epochs,
-using the same ECG200 train/test split (100 train and 100 test samples), and that results
-are aggregated over 500 test predictions per model. Do not replace these protocol details
-with abstract labels such as train_models or evaluate_qant_correct. Any true replication must use a fresh preregistered seed
+using the same ECG200 train/test split (100 train and 100 test samples), with results
+aggregated over 500 test predictions per model. Do not encode procedure as free-text labels. Any true replication must use a fresh preregistered seed
 set not used by the experiment being replicated. Keep the proposal bounded and use
 structured seeds and epochs in experiment_design. PNN Experiment Engine v1 is a reviewed executable family for local-width confirmation
 experiments. A proposal can use it without a new Python template when it uses ECG200,
