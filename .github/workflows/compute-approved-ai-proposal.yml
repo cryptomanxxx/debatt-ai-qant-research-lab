@@ -51,6 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       job_id: ${{ steps.job.outputs.job_id }}
+      approved_commit_sha: ${{ steps.commit.outputs.approved_commit_sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -62,6 +63,11 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           AUTOMATION_GIT_NAME: "Debatt-AI Research Approver"
         run: python scripts/publish_via_pr.py "Approve guarded AI Research job" research_queue/jobs/
+      - name: Resolve immutable approved-job commit
+        id: commit
+        run: |
+          git fetch origin main
+          echo "approved_commit_sha=$(git rev-parse origin/main)" >> "$GITHUB_OUTPUT"
       - name: Expose approved job ID
         id: job
         run: |
@@ -76,4 +82,5 @@ jobs:
     uses: ./.github/workflows/qant-research-queue-v2.yml
     with:
       job_id: ${{ needs.prepare-qant.outputs.job_id }}
+      approved_commit_sha: ${{ needs.prepare-qant.outputs.approved_commit_sha }}
     secrets: inherit
