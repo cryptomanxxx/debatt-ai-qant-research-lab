@@ -41,7 +41,11 @@ def render_evidence(frontier):
         lines += [f"- **Recorded decision:** {exp20.get('decision', '—')}", ""]
     exp21 = summary.get("Exp021", {})
     if not exp21 and any(k in summary for k in ("alpha5_w8","alpha5_w12","alpha5_w16_control")):
-        exp21 = {k: summary[k] for k in ("alpha5_w8","alpha5_w12","alpha5_w16_control") if k in summary}
+        exp21 = {
+            k: summary[k]
+            for k in ("alpha5_w8","alpha5_w12","alpha5_w16_control")
+            if isinstance(summary.get(k), dict)
+        }
     if exp21:
         lines += ["### Exp021 — Compression frontier"]
         labels = {
@@ -50,9 +54,12 @@ def render_evidence(frontier):
             "alpha5_w16_control": "Alpha5 w16 control",
         }
         for key, label in labels.items():
-            if exp21.get(key):
+            value = exp21.get(key)
+            if isinstance(value, dict):
                 total = 500 if latest == "PNN-v1-W8-Confirmation" else 1000
-                lines.append(metric_line(label, exp21[key], total))
+                lines.append(metric_line(label, value, total))
+            elif value is not None:
+                lines.append(f"- **{label}:** {fmt(value)}")
         lines += [f"- **Recorded decision:** {exp21.get('decision', '—')}", ""]
     cross = summary.get("Cross-dataset redundant-readout evidence", [])
     if cross:
