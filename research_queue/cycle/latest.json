@@ -1,5 +1,5 @@
 {
-  "proposal_workflow_run_id": "36255109717",
-  "proposal_mode": "manual_start",
-  "automatic_revision_allowed": true
+  "proposal_workflow_run_id": "36258109362",
+  "proposal_mode": "automatic_revision",
+  "automatic_revision_allowed": false
 }
