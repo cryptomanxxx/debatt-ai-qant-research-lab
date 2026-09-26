@@ -117,9 +117,17 @@ using the same ECG200 train/test split (100 train and 100 test samples), and tha
 are aggregated over 500 test predictions per model. Do not replace these protocol details
 with abstract labels such as train_models or evaluate_qant_correct. Any true replication must use a fresh preregistered seed
 set not used by the experiment being replicated. Keep the proposal bounded and use
-structured seeds and epochs in experiment_design. A novel proposal does not need to
-match an existing executable template; unsupported designs must remain non-executable
-until a reviewed repository template is added.
+structured seeds and epochs in experiment_design. PNN Experiment Engine v1 is a reviewed executable family for local-width confirmation
+experiments. A proposal can use it without a new Python template when it uses ECG200,
+exactly one candidate local_width from 4 through 15 plus the concurrent width-16 control,
+exactly five fresh previously unused positive integer seeds, exactly 100 epochs, 100 train
+and 100 test samples, 500 predictions per model, and the fixed relative gate
+candidate.aggregate_qant_correct >= width16_control.aggregate_qant_correct - 10.
+For this family set max_candidates=2, max_epochs=100, max_train_samples=100,
+max_test_samples=100, and max_parameters between 8550 and 10000. Do not repeat a
+completed design merely because the engine can execute it. A novel proposal outside this
+reviewed family may still be scientifically proposed, but it must remain non-executable
+until a new reviewed experiment family is added.
 If latest_human_review contains a rejected proposal, treat its comment as mandatory\nreview feedback for the next proposal. Explicitly correct the rejected design rather\nthan repeating it. Human feedback is guidance only and can never authorize compute."""
     user="Repository research context:\n"+json.dumps(context,ensure_ascii=False)
     messages=[{"role":"system","content":system},{"role":"user","content":user}]
