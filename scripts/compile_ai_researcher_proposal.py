@@ -14,6 +14,7 @@ DRAFT=Path("research_queue/ai_researcher/latest.json")
 OUT=Path("research_queue/compiled/latest.json")
 REQUIRED_BUDGET={"max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"}
 PREREGISTERED_W8_SEEDS=[121,131,141,151,161]
+PREREGISTERED_W8_100EPOCH_SEEDS=[42,43,44,45,46]
 
 def reject(reason):
     OUT.parent.mkdir(parents=True,exist_ok=True)
@@ -57,7 +58,7 @@ def main():
     seed_numbers=[]
     for group in re.findall(r"[{\[]\s*(\d+(?:\s*,\s*\d+){1,20})\s*[}\]]",procedure):
         values=[int(x) for x in re.findall(r"\d+",group)]
-        if values==PREREGISTERED_W8_SEEDS:
+        if values in (PREREGISTERED_W8_SEEDS,PREREGISTERED_W8_100EPOCH_SEEDS):
             seed_numbers=values
             seed_count=len(values)
             break
@@ -96,6 +97,19 @@ def main():
         and aggregate_gate
         and training_protocol
     )
+    clean_w8_100epoch=(
+        widths==[8] and test_shape==[100,96]
+        and seed_numbers==PREREGISTERED_W8_100EPOCH_SEEDS and seed_count==5
+        and budget["max_candidates"]==1 and budget["max_epochs"]==100
+        and budget["max_train_samples"]>=100 and budget["max_test_samples"]>=100
+        and budget["max_parameters"]>=8550 and aggregate_gate and training_protocol
+        and "100 epochs" in procedure.lower()
+    )
+    if clean_w8_100epoch:
+        compiled={"status":"validated_executable_template","approval_readiness":"READY_FOR_HUMAN_COMPUTE_DECISION","source":"research_queue/ai_researcher/latest.json","proposal_title":p.get("title"),"template":"pnn-v1/experiments/w8_100epoch_confirmation/run.py","job_id":"ai-w8-100epoch-confirmation","preregistered_seeds":[42,43,44,45,46],"epochs":100,"gate":"alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10","message":"Draft structurally matches the reviewed w8 100-epoch confirmation template, including exact preregistered seeds, train/test protocol, and aggregate relative gate. Human approval is still required before compute."}
+        OUT.parent.mkdir(parents=True,exist_ok=True); OUT.write_text(json.dumps(compiled,indent=2)+"\\n")
+        print(json.dumps(compiled,indent=2)); return
+
     if clean_w8:
         compiled={
             "status":"validated_executable_template",
