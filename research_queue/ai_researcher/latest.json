@@ -7,7 +7,7 @@
   "proposal": {
     "title": "100‑epoch Width‑10 Confirmation on ECG200",
     "research_question": "Does an intermediate local width of 10 retain the required performance relative to the width‑16 control under a fresh seed set?",
-    "rationale": "Testing width 10 fills the gap between the already confirmed widths 8 and 12, allowing us to map the width‑performance trade‑off and assess whether compression benefits continue smoothly. This informs future architecture scaling decisions without assuming that width 8 is the minimal viable width.",
+    "rationale": "Testing width 10 fills the gap between the already confirmed widths 8 and 12, allowing us to map the width‑performance trade‑off and assess whether compression benefits continue smoothly. This informs future architecture scaling decisions without assuming minimal viable width.",
     "experiment_design": {
       "dataset": {
         "name": "ECG200",
@@ -46,7 +46,7 @@
       "max_train_samples": 100,
       "max_test_samples": 100
     },
-    "risks": "If width 10 fails the gate, it may indicate non‑linear degradation of performance, limiting compression expectations. Fresh seed selection could inadvertently favor one model; however, using five independent seeds mitigates this. Results are based on software simulation and do not guarantee physical hardware behavior.",
+    "risks": "Width 10 may fail the gate, limiting compression expectations; seed selection could unintentionally favor one model; simulation results do not translate to physical hardware performance.",
     "requires_human_approval": true
   },
   "status": "draft_requires_human_review"
