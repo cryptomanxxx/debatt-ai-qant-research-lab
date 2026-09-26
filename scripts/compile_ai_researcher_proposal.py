@@ -94,7 +94,12 @@ def main():
         # Match the normalized expression while preserving original whitespace
         # boundaries. This distinguishes a decimal continuation (-10.5) from
         # sentence punctuation followed by a new numeric token (-10. 5 seeds).
-        pattern=r"(?<![a-z0-9_.-])"+r"\s*".join(map(re.escape,expr))+r"(?![a-z0-9_-]|\.\d)"
+        # Keep identifiers and numbers contiguous; whitespace is allowed only
+        # at syntactically meaningful operator boundaries.
+        tokens=re.findall(r"[a-z0-9_.]+|>=|<=|==|!=|[-+*/<>]",expr)
+        if "".join(tokens)!=expr:
+            return False
+        pattern=r"(?<![a-z0-9_.-])"+r"\s*".join(re.escape(token) for token in tokens)+r"(?![a-z0-9_-]|\.\d)"
         return re.search(pattern,gate_text) is not None
 
     named_w8_gate=exact_gate(
