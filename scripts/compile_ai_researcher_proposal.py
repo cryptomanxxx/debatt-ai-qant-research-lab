@@ -65,6 +65,7 @@ def main():
     gate_text=(procedure+" "+criteria).lower()
     gate_text=gate_text.replace("−","-").replace("–","-").replace("—","-").replace("≥",">=")
     gate_compact=re.sub(r"\s+","",gate_text)
+    training_protocol=("train" in procedure.lower() and "test" in procedure.lower() and ("evaluat" in procedure.lower() or "prediction" in procedure.lower()))
     aggregate_gate=(
         ("aggregate" in gate_text or "aggregated" in gate_text)
         and "candidate" in gate_text
@@ -93,6 +94,7 @@ def main():
         and budget["max_test_samples"]>=100
         and budget["max_parameters"]>=8550
         and aggregate_gate
+        and training_protocol
     )
     if clean_w8:
         compiled={
