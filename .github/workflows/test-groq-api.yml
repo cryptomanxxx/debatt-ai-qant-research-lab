@@ -20,44 +20,65 @@ jobs:
           fi
           echo "GROQ_API_KEY is configured."
 
-      - name: Make minimal Groq API request
+      - name: Diagnose Groq API access
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
           python - <<'PY'
-          import json
-          import os
-          import urllib.request
-          import urllib.error
+          import json, os, urllib.request, urllib.error
+
+          def call(url, method="GET", payload=None):
+              headers = {
+                  "Authorization": f"Bearer {os.environ['GROQ_API_KEY']}",
+                  "Accept": "application/json",
+                  "User-Agent": "debatt-ai-qant-research-lab/1.0",
+              }
+              data = None
+              if payload is not None:
+                  headers["Content-Type"] = "application/json"
+                  data = json.dumps(payload).encode()
+              req = urllib.request.Request(url, data=data, headers=headers, method=method)
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as r:
+                      return r.status, r.headers.get("content-type", ""), r.read().decode(errors="replace")
+              except urllib.error.HTTPError as e:
+                  return e.code, e.headers.get("content-type", ""), e.read().decode(errors="replace")
+
+          status, ctype, body = call("https://api.groq.com/openai/v1/models")
+          print(f"/models HTTP {status}; content-type={ctype}")
+          if status != 200:
+              print("Response preview:", body[:1000])
+              raise SystemExit(
+                  "Groq access failed already at /models. The secret exists, but this runner/request is being denied before a model completion can be tested."
+              )
+
+          models = json.loads(body).get("data", [])
+          ids = sorted(m.get("id", "") for m in models if m.get("id"))
+          print(f"Groq authenticated successfully. Accessible models: {len(ids)}")
+          target = "openai/gpt-oss-20b"
+          print(f"Target model {target!r} available:", target in ids)
+
+          if target not in ids:
+              print("First accessible model IDs:", ", ".join(ids[:20]))
+              raise SystemExit(f"Authentication works, but {target} is not available to this Groq project/key.")
 
           payload = {
-              "model": "openai/gpt-oss-20b",
-              "messages": [
-                  {"role": "user", "content": "Reply with exactly: GROQ_OK"}
-              ],
+              "model": target,
+              "messages": [{"role": "user", "content": "Reply with exactly: GROQ_OK"}],
               "max_completion_tokens": 32,
           }
-
-          req = urllib.request.Request(
-              "https://api.groq.com/openai/v1/chat/completions",
-              data=json.dumps(payload).encode(),
-              headers={
-                  "Authorization": f"Bearer {os.environ['GROQ_API_KEY']}",
-                  "Content-Type": "application/json",
-              },
-              method="POST",
+          status, ctype, body = call(
+              "https://api.groq.com/openai/v1/chat/completions", "POST", payload
           )
+          print(f"/chat/completions HTTP {status}; content-type={ctype}")
+          if status != 200:
+              print("Response preview:", body[:1000])
+              raise SystemExit("Groq authentication/model discovery works, but the completion request was denied.")
 
-          try:
-              with urllib.request.urlopen(req, timeout=30) as response:
-                  body = json.loads(response.read().decode())
-          except urllib.error.HTTPError as exc:
-              detail = exc.read().decode(errors="replace")
-              raise SystemExit(f"Groq API returned HTTP {exc.code}: {detail[:1000]}")
-
-          text = body["choices"][0]["message"]["content"].strip()
-          print("Groq response:", text)
-          if "GROQ_OK" not in text:
+          response = json.loads(body)
+          answer = response["choices"][0]["message"]["content"].strip()
+          print("Groq response:", answer)
+          if "GROQ_OK" not in answer:
               raise SystemExit("Groq responded, but the expected smoke-test marker was missing.")
           print("Groq API smoke test passed.")
           PY
