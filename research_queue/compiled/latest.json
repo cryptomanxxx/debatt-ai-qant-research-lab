@@ -2,7 +2,7 @@
   "status": "validated_not_executable",
   "approval_readiness": "NOT_READY_FOR_COMPUTE",
   "source": "research_queue/ai_researcher/latest.json",
-  "proposal_title": "100\u2011Epoch w8 Confirmation on ECG200",
+  "proposal_title": "100\u2011Epoch w8 Local\u2011Width Confirmation on ECG200",
   "automated_checks": [
     {
       "check": "Human approval required",
