@@ -2,7 +2,6 @@ name: Approve Research Proposal
 
 on:
   workflow_dispatch:
-    if: ${{ false }}
     inputs:
       proposal_id:
         description: "Proposal to approve"
