@@ -75,6 +75,7 @@ jobs:
               "workflow_run_id":os.environ["RUN_ID"],
               "proposal_workflow_run_id":cycle.get("proposal_workflow_run_id"),
               "proposal_mode":cycle.get("proposal_mode"),
+              "automatic_revision_allowed":cycle.get("automatic_revision_allowed") is True,
               "reviewed_at_utc":stamp,
           }
           root=Path("research_queue/human_review")
@@ -103,10 +104,12 @@ jobs:
           python - <<'PY'
           import json, os
           from pathlib import Path
-          p=Path("research_queue/cycle/latest.json")
-          cycle=json.loads(p.read_text()) if p.exists() else {}
-          allowed=cycle.get("automatic_revision_allowed") is True
-          proposal_run_id=cycle.get("proposal_workflow_run_id")
+          p=Path("research_queue/human_review/latest.json")
+          review=json.loads(p.read_text()) if p.exists() else {}
+          if review.get("decision")!="reject":
+              raise SystemExit("Frozen human review is not a rejection; refusing automatic revision")
+          allowed=review.get("automatic_revision_allowed") is True
+          proposal_run_id=review.get("proposal_workflow_run_id")
           if not isinstance(proposal_run_id,str) or not proposal_run_id.isdigit():
               raise SystemExit("Missing/invalid proposal_workflow_run_id; refusing to cancel an unbound run")
           with open(os.environ["GITHUB_OUTPUT"],"a") as out:
