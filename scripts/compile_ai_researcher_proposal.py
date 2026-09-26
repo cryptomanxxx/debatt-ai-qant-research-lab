@@ -99,6 +99,7 @@ def main():
     clean_w8=(
         widths==[8]
         and test_shape==[100,96]
+        and "seeds" not in design and "epochs" not in design
         and seed_numbers==PREREGISTERED_W8_SEEDS
         and seed_count==5
         and budget["max_candidates"]==1
