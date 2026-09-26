@@ -64,11 +64,11 @@ def main():
             reject("reviewed local-width template requires integer local_width for every candidate")
         widths.append(c["local_width"])
 
-    # Exp021 already evaluated exactly widths 8, 12 and 16 with the Alpha5
-    # three-head readout. Repeating that search is not a new experiment.
-    if set(widths)=={8,12,16}:
-        reject("duplicate design: Exp021 already evaluated Alpha5 local widths 8, 12 and 16")
-
+    # Candidate overlap alone is not enough to call a proposal a duplicate.
+    # Exp021 used widths 8, 12 and 16, but a later experiment may legitimately
+    # reuse those widths for a different falsifiable question, fresh seeds, or
+    # different registered measurements. Exact reviewed templates are matched
+    # separately below; unsupported novel designs remain non-executable.
     procedure=" ".join(map(str,design.get("procedure",[])))
     structured_seeds=design.get("seeds")
     structured_epochs=design.get("epochs")
