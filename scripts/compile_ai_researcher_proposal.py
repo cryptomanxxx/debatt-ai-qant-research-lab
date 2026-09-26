@@ -66,6 +66,7 @@ def main():
     # Fail closed unless the AI draft exactly matches the preregistered design.
     clean_w8=(
         widths==[8]
+        and test_shape==[100,96]
         and seed_count==5
         and budget["max_candidates"]==1
         and budget["max_epochs"]>=50
