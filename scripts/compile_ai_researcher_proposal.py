@@ -13,6 +13,7 @@ from pathlib import Path
 DRAFT=Path("research_queue/ai_researcher/latest.json")
 OUT=Path("research_queue/compiled/latest.json")
 REQUIRED_BUDGET={"max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"}
+PREREGISTERED_W8_SEEDS=[121,131,141,151,161]
 
 def reject(reason):
     OUT.parent.mkdir(parents=True,exist_ok=True)
@@ -53,7 +54,24 @@ def main():
     procedure=" ".join(map(str,design.get("procedure",[])))
     m=re.search(r"(\d+)\s+random seeds?",procedure,re.I)
     seed_count=int(m.group(1)) if m else None
+    seed_numbers=[]
+    for group in re.findall(r"[{\[]\s*(\d+(?:\s*,\s*\d+){1,20})\s*[}\]]",procedure):
+        values=[int(x) for x in re.findall(r"\d+",group)]
+        if values==PREREGISTERED_W8_SEEDS:
+            seed_numbers=values
+            seed_count=len(values)
+            break
     criteria=json.dumps(p.get("success_criteria",{}),ensure_ascii=False)
+    gate_text=(procedure+" "+criteria).lower()
+    gate_text=gate_text.replace("−","-").replace("–","-").replace("—","-").replace("≥",">=")
+    gate_compact=re.sub(r"\s+","",gate_text)
+    aggregate_gate=(
+        ("aggregate" in gate_text or "aggregated" in gate_text)
+        and "candidate" in gate_text
+        and "control" in gate_text
+        and ("-10" in gate_compact or "minusten" in gate_text)
+        and (">=" in gate_compact or "atleast" in gate_compact)
+    )
     count_matches=[int(x) for x in re.findall(r"(?:correct[^0-9]{0,30}|≥\s*)(\d{3,5})",criteria,re.I)]
     test_shape=dataset.get("test_shape")
     test_n=test_shape[0] if isinstance(test_shape,list) and test_shape and isinstance(test_shape[0],int) else None
@@ -67,13 +85,14 @@ def main():
     clean_w8=(
         widths==[8]
         and test_shape==[100,96]
+        and seed_numbers==PREREGISTERED_W8_SEEDS
         and seed_count==5
         and budget["max_candidates"]==1
         and budget["max_epochs"]>=50
         and budget["max_train_samples"]>=100
         and budget["max_test_samples"]>=100
         and budget["max_parameters"]>=8550
-        and "control_correct-10" in criteria.lower().replace(" ", "")
+        and aggregate_gate
     )
     if clean_w8:
         compiled={
@@ -86,7 +105,7 @@ def main():
             "preregistered_seeds":[121,131,141,151,161],
             "epochs":50,
             "gate":"alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
-            "message":"Draft exactly matches the reviewed w8 confirmation template. Human approval is still required before compute."
+            "message":"Draft structurally matches the reviewed w8 confirmation template, including exact preregistered seeds and aggregate relative gate. Human approval is still required before compute."
         }
         OUT.parent.mkdir(parents=True,exist_ok=True)
         OUT.write_text(json.dumps(compiled,indent=2)+"\n")
