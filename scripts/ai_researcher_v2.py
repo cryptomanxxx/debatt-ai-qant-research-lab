@@ -66,15 +66,46 @@ def main():
     if not os.environ.get("GROQ_API_KEY"): raise SystemExit("GROQ_API_KEY missing")
     if not CONTEXT.exists(): raise SystemExit(f"Missing {CONTEXT}")
     full=json.loads(CONTEXT.read_text())
-    # Keep the model input focused and bounded. Full evidence remains in GitHub.
+    # Compact Research Memory: keep the frontier detailed, but represent older
+    # experiments as bounded structured facts. Full evidence remains in GitHub.
+    experiments=full.get("pnn_v1_experiments",[])
+    recent=experiments[-4:]
+    older=experiments[:-4]
+    used_seeds=sorted({
+        seed
+        for exp in experiments
+        for seed in (exp.get("configuration") or {}).get("seeds",[])
+        if isinstance(seed,int) and not isinstance(seed,bool)
+    })
+    older_memory=[]
+    for exp in older[-12:]:
+        cfg=exp.get("configuration") or {}
+        summary=exp.get("summary") or {}
+        counts={}
+        if isinstance(summary,dict):
+            for name,value in summary.items():
+                if isinstance(value,dict) and value.get("aggregate_qant_correct") is not None:
+                    counts[name]=value["aggregate_qant_correct"]
+        older_memory.append({
+            "experiment_id":exp.get("experiment_id"),
+            "seeds":cfg.get("seeds"),
+            "epochs":cfg.get("epochs"),
+            "aggregate_qant_correct":counts or None,
+            "success_criteria_met":exp.get("success_criteria_met"),
+            "decision":exp.get("decision"),
+        })
     context={
         "schema_version":full.get("schema_version"),
         "rules":full.get("rules",[]),
         "active_pnn_v1_model":full.get("active_pnn_v1_model"),
         "current_frontier":full.get("current_frontier"),
         "latest_human_review":full.get("latest_human_review"),
-        "recent_pnn_v1_experiments":full.get("pnn_v1_experiments",[])[-8:],
-        "recent_pnn_v1_analyses":full.get("pnn_v1_analyses",[])[-3:],
+        "research_memory":{
+            "used_seeds":used_seeds,
+            "older_experiments":older_memory,
+            "instruction":"Use this bounded memory for novelty and seed reuse checks; full evidence remains archived in the repository."
+        },
+        "recent_pnn_v1_experiments":recent,
     }
     system="""You are the proposal-only AI Researcher for Debatt-AI Q.ANT Research Lab.
 Use only the supplied repository evidence. Separate observation from hypothesis.\nFor experiment history, treat structured fields (configuration, summary, decision,\nsuccess_criteria_met) as authoritative. Never infer or invent epochs, seeds, denominators,\nor outcomes from experiment names or prose when structured values are available.
