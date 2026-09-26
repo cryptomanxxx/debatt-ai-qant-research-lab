@@ -46,10 +46,14 @@ pnn_analyses=[]
 for path in sorted(Path("pnn-v1/analyses").glob("analysis*.md")):
  pnn_analyses.append({"file":path.name,"text":path.read_text()})
 
+# File names are not chronological (for example result_w8_confirmation sorts
+# after result_w8_100epoch_confirmation). Use the recorded UTC timestamp.
+pnn.sort(key=lambda x: x.get("timestamp_utc") or "")
+
 human_review=load_json(Path("research_queue/human_review/latest.json"))
 
 packet={
- "schema_version":5,
+ "schema_version":6,
  "purpose":"Evidence packet for the next falsifiable research proposal.",
  "rules":[
   "Use repository results as experimental evidence.",
@@ -73,6 +77,7 @@ packet={
    "result_file":pnn[-1].get("file"),
    "success_criteria_met":pnn[-1].get("success_criteria_met"),
    "decision":pnn[-1].get("decision"),
+   "configuration":pnn[-1].get("configuration"),
    "summary":pnn[-1].get("summary"),
    "research_instruction":"Treat this latest completed result as evidence. Do not reinterpret a failed preregistered gate as success. Formulate the next falsifiable research question from the evidence rather than repeating a completed experiment."
   }
