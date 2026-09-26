@@ -7,6 +7,10 @@ on:
         description: "Approved research job ID"
         required: true
         type: string
+      execution_commit_sha:
+        description: "Immutable scientifically verified commit containing execution code"
+        required: true
+        type: string
       approved_commit_sha:
         description: "Immutable commit containing the approved research job"
         required: true
@@ -32,14 +36,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.approved_commit_sha }}
+          ref: ${{ inputs.execution_commit_sha }}
       - name: Verify immutable execution checkout
         shell: bash
         run: |
           actual="$(git rev-parse HEAD)"
-          expected="${{ inputs.approved_commit_sha }}"
+          expected="${{ inputs.execution_commit_sha }}"
           test "$actual" = "$expected" || { echo "Execution commit mismatch: expected $expected, got $actual" >&2; exit 1; }
           echo "Pinned execution commit: $actual"
+      - name: Import only the approved job artifact
+        shell: bash
+        run: |
+          job_id="${{ inputs.job_id }}"
+          [[ "$job_id" =~ ^[a-z0-9][a-z0-9-]{0,95}$ ]] || { echo "Invalid job ID" >&2; exit 1; }
+          approved="${{ inputs.approved_commit_sha }}"
+          git fetch --no-tags origin "$approved"
+          path="research_queue/jobs/$job_id.json"
+          mkdir -p research_queue/jobs
+          git show "$approved:$path" > "$path.tmp"
+          test -s "$path.tmp"
+          mv "$path.tmp" "$path"
+          test "$(git rev-parse HEAD)" = "${{ inputs.execution_commit_sha }}"
+          echo "Execution code remains pinned; imported approved job from $approved."
       - name: Verify prebuilt research environment
         run: python -c "import torch, numpy, ml_dtypes, aeon, qant_native_computing_toolkit; print('Q.ANT research environment ready')"
       - name: Resolve approved job
@@ -59,7 +77,15 @@ jobs:
         if: success()
         run: |
           mkdir -p local_results/executions
-          printf '{"job_id":"%s","status":"completed","git_commit":"%s","runner":"github-actions","run_id":"%s"}\n'             "${{ steps.resolve.outputs.job_id }}" "${{ inputs.approved_commit_sha }}" "${{ github.run_id }}"             > "local_results/executions/${{ steps.resolve.outputs.job_id }}-${{ github.run_id }}.json"
+          printf '{"job_id":"%s","status":"completed","git_commit":"%s","runner":"github-actions","run_id":"%s"}\n'             "${{ steps.resolve.outputs.job_id }}" "${{ inputs.execution_commit_sha }}" "${{ github.run_id }}"             > "local_results/executions/${{ steps.resolve.outputs.job_id }}-${{ github.run_id }}.json"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p=next(Path("local_results/executions").glob("*-${{ github.run_id }}.json"))
+          d=json.loads(p.read_text())
+          d["approved_job_commit"]="${{ inputs.approved_commit_sha }}"
+          p.write_text(json.dumps(d,separators=(",",":"))+"\n")
+          PY
       - name: Publish results and execution record
         if: success()
         shell: bash
