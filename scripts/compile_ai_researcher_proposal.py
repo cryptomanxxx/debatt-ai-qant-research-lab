@@ -70,7 +70,8 @@ def main():
     # reuse those widths for a different falsifiable question, fresh seeds, or
     # different registered measurements. Exact reviewed templates are matched
     # separately below; unsupported novel designs remain non-executable.
-    procedure=" ".join(map(str,design.get("procedure",[])))
+    procedure_value=design.get("procedure",{})
+    procedure=json.dumps(procedure_value,ensure_ascii=False) if isinstance(procedure_value,dict) else " ".join(map(str,procedure_value if isinstance(procedure_value,list) else []))
     structured_seeds=design.get("seeds")
     structured_epochs=design.get("epochs")
     seed_numbers=structured_seeds if isinstance(structured_seeds,list) and all(isinstance(x,int) and not isinstance(x,bool) for x in structured_seeds) else []
@@ -197,8 +198,15 @@ def main():
             except (OSError,json.JSONDecodeError):
                 pass
         fresh_seeds=(seed_count==5 and len(set(seed_numbers))==5 and all(x>0 for x in seed_numbers) and not (set(seed_numbers)&used_seeds))
+        structured_protocol=(
+            isinstance(procedure_value,dict)
+            and procedure_value.get("same_preregistered_seeds") is True
+            and procedure_value.get("train_samples")==100
+            and procedure_value.get("test_samples")==100
+            and procedure_value.get("aggregate_predictions_per_model")==500
+        )
         engine_match=(
-            4<=cw<16 and test_shape==[100,96] and fresh_seeds
+            4<=cw<16 and test_shape==[100,96] and fresh_seeds and structured_protocol
             and structured_epochs==100 and budget["max_candidates"]==2 and budget["max_epochs"]==100
             and budget["max_train_samples"]==100 and budget["max_test_samples"]==100
             and 8550<=budget["max_parameters"]<=10000 and engine_gate
