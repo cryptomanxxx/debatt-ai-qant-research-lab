@@ -1,16 +1,13 @@
 {
   "researcher": "AI Researcher v2",
   "model": "openai/gpt-oss-120b",
-  "evidence_frontier": {
-    "latest_completed_experiment": "PNN-v1-Exp021",
-    "status": "Alpha5 remains active. Exp021 identified a 4,278‑parameter w8 compression candidate that was 10 fewer Q.ANT correct predictions out of 1000 than the Alpha5 control. The preregistered integer‑count gate retained Alpha5. The next preregistered question is to test reproducibility of the w8 boundary with a fresh seed set."
-  },
-  "analysis": "Observations: (1) Redundant three‑head readout improves logit MAE and does not hurt aggregate Q.ANT correct counts (Exp020). (2) Alpha5 uses a fixed local window width of 16 dimensions. (3) No experiment has varied the local representation width while keeping the redundant readout. (4) Exp021 showed a compression candidate (w8) can lose up to 10 correct predictions, establishing a relative‑performance gate of \"candidate_correct ≥ control_correct − 10\" for confirmation. Hypothesis: Decreasing the local window width below 16 (e.g., to 12 or 8) will reduce parameter count while preserving the redundant readout’s robustness, yielding aggregate Q.ANT correct counts within 10 of the Alpha5 control on a fresh seed set and maintaining or improving logit MAE.",
-  "hypothesis": "Narrower local representations (width < 16) combined with the three‑head averaged readout will keep aggregate Q.ANT correct predictions within the 10‑prediction tolerance of the Alpha5 control and will lower total parameter count, potentially further reducing logit MAE.",
+  "evidence_frontier": "Exp021 (PNN-v1-Exp021) evaluated two compression candidates on ECG200: w8 (4,278 parameters) achieved 887 aggregate Q.ANT correct predictions (10 fewer than the Alpha5 w16 control's 897), while w12 performed worse. The w8 result is the current frontier for local‑width compression. No confirmation of this boundary has yet been performed on an independent seed set.",
+  "analysis": "Observation: The w8 compression candidate loses exactly 10 correct predictions relative to the w16 control on the original seed set (100 test samples). Observation: The gate used in Exp021 was a floating‑point retain_alpha5 decision; the next preregistered question calls for an integer‑count gate to test reproducibility. Observation: The control architecture (Alpha5 w16) remains active and unchanged. Observation: All prior experiments used the Q.ANT CPU/software simulation backend and did not claim physical photonic performance.",
+  "hypothesis": "When evaluated on a fresh, independent set of random seeds, the Alpha5 w8 compression candidate will achieve aggregate Q.ANT correct predictions no more than 10 fewer than the Alpha5 w16 control on the ECG200 test set (i.e., candidate_correct ≥ control_correct − 10).",
   "proposal": {
-    "title": "Local‑Width Compression with Redundant Readout on ECG200",
-    "research_question": "Can reducing the per‑window representation width below 16 dimensions preserve the promoted redundant readout’s accuracy and logit agreement while decreasing model size?",
-    "rationale": "Alpha5’s promotion demonstrated that redundant readout yields numerical‑agreement benefits. Model size is still dominated by the 16‑dimensional local windows. Prior compression (w8) lost exactly 10 correct predictions, establishing a clear relative‑performance gate. Testing narrower widths will reveal whether the readout redundancy compensates for reduced local capacity, enabling a smaller yet equally robust architecture.",
+    "title": "Confirmation of the w8 Local‑Width Compression Boundary on ECG200",
+    "research_question": "Is the w8 compression boundary reproducible within a 10‑prediction tolerance of the Alpha5 w16 control on a fresh seed set?",
+    "rationale": "Exp021 showed a 10‑prediction gap for w8 on a single seed configuration. Confirming this boundary with an integer‑count gate on independent seeds will validate the robustness of the w8 compression rule before any further width reductions are explored.",
     "experiment_design": {
       "dataset": {
         "name": "ECG200",
@@ -21,36 +18,30 @@
       },
       "candidates": [
         {
-          "local_width": 12
-        },
-        {
           "local_width": 8
-        },
-        {
-          "local_width": 4
         }
       ],
       "procedure": [
-        "Generate a fresh preregistered set of N=5 random seeds distinct from those used in Exp020 and Exp021.",
-        "For each seed, train Alpha5 (control) with its original local_width = 16 and three‑head readout for a fixed number of epochs (max_epochs).",
-        "For each candidate width, instantiate the same architecture but replace the 16‑dimensional local window projection with the specified local_width while keeping all other layers and the three‑head readout unchanged.",
-        "Evaluate on the ECG200 test set (100 samples) and record aggregate Q.ANT correct predictions and mean absolute logit error for each seed.",
-        "Compute per‑candidate totals across seeds (aggregate_correct = sum over seeds of correct predictions).",
-        "Apply the confirmation gate: candidate_correct ≥ control_correct − 10 and candidate_logit_MAE ≤ control_logit_MAE."
+        "Generate a fresh preregistered list of N=5 random seeds (different from Exp021).",
+        "For each seed, train an Alpha5 model with local_width=8 (w8) on the ECG200 training set (100 samples).",
+        "For each seed, also instantiate the Alpha5 w16 control (unchanged architecture) and evaluate it on the same training procedure for consistency.",
+        "Using each seed, evaluate both w8 candidate and w16 control on the ECG200 test set (100 samples) and record the number of correct Q.ANT predictions.",
+        "Aggregate correct counts across all 5 seeds (total predictions = 5 × 100 = 500) for candidate and control.",
+        "Apply the confirmation gate: candidate_correct ≥ control_correct − 10."
       ]
     },
     "success_criteria": {
-      "aggregate_correct_gate": "candidate_correct ≥ control_correct − 10 on the combined 5 × 100 test predictions",
-      "logit_mae_gate": "candidate_mean_absolute_logit_error ≤ control_mean_absolute_logit_error"
+      "description": "On the fresh 5‑seed evaluation (500 total test predictions), the w8 candidate must achieve at least (control_correct − 10) aggregate correct predictions. The denominator for the gate is 500 predictions.",
+      "gate": "candidate_correct >= control_correct - 10"
     },
     "requested_budget": {
-      "max_parameters": 10000,
-      "max_candidates": 3,
-      "max_epochs": 20,
+      "max_parameters": 9000,
+      "max_candidates": 1,
+      "max_epochs": 50,
       "max_train_samples": 100,
       "max_test_samples": 100
     },
-    "risks": "Potential over‑compression leading to >10‑prediction drop; variance across seeds may obscure small differences; software‑simulation may not capture hardware‑level effects; limited seed count may reduce statistical power.",
+    "risks": "Potential stochastic variance could cause the candidate to fall more than 10 predictions short, leading to a failed confirmation. Training on a small dataset may amplify seed sensitivity. The integer‑count gate is strict; any systematic bias in the simulation backend could affect reproducibility.",
     "requires_human_approval": true
   },
   "status": "draft_requires_human_review"
