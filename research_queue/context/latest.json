@@ -20,18 +20,18 @@
     "model_file": "pnn-v1/models/alpha5.md"
   },
   "latest_human_review": {
-    "proposal_title": "100\u2011epoch Confirmation of Local Width\u202f10 on ECG200",
+    "proposal_title": "100\u2011epoch Confirmation of Local Width\u202f14 on ECG200",
     "proposal_status_at_review": "draft_requires_human_review",
-    "proposal_sha256": "684c2914f435b9e64fb0f127880003cc9286b62b13cdc8aca56a759a267b54c7",
+    "proposal_sha256": "a12a4bf6c410f34bd1afe126d973a51de35dc623eb91e488688da531f8e5feb2",
     "compiler_status": "validated_executable_template",
     "approval_readiness": "READY_FOR_HUMAN_COMPUTE_DECISION",
     "decision": "approve",
-    "comment": "Approved for scientific review. The preregistered w10 confirmation design is acceptable: ECG200, seeds 201\u2013205, 100 epochs, concurrent w16 control, 500 test predictions per model, with the success gate w10_correct \u2265 w16_correct \u2212 10. Approval is for this exact experiment design only.",
+    "comment": "Approved for scientific review. The w14 candidate is a valid next test of the local-width response curve. Run the preregistered ECG200 protocol with seeds 301\u2013305, 100 epochs, concurrent w16 control, and the fixed gate w14_correct >= w16_correct - 10. Interpret the result as evidence for this specific configuration only.",
     "reviewer": "cryptomanxxx",
-    "workflow_run_id": "36243098020",
-    "proposal_workflow_run_id": "36242991513",
+    "workflow_run_id": "36258096241",
+    "proposal_workflow_run_id": "36255109717",
     "proposal_mode": "manual_start",
-    "reviewed_at_utc": "20260926T124845Z"
+    "reviewed_at_utc": "20260926T171053Z"
   },
   "current_frontier": {
     "latest_completed_experiment": "PNN-v1-Engine-alpha5_w10-100Epoch",

@@ -1,19 +1,14 @@
 {
   "researcher": "AI Researcher v2",
   "model": "openai/gpt-oss-120b",
-  "evidence_frontier": "Widths 8, 10, and 12 have each passed the 100‑epoch local‑width confirmation gate (candidate_correct ≥ control_correct‑10) on ECG200 using fresh seed sets. The 50‑epoch w8 trial failed, but the 100‑epoch w8 trial succeeded, establishing that the gate can be met at multiple widths under the standard protocol.",
-  "analysis": "Observations: (1) Candidate widths 8, 10, and 12 all achieved aggregate Q.ANT correct counts within 10 of their w16 controls after 100 epochs on fresh seeds. (2) The aggregate correct counts for candidates are 444 (w8), 444 (w10), and 445 (w12) versus controls 448, 453, and 453 respectively. Hypothesis: If the gate holds for intermediate widths, it may also hold for a wider local width such as 14, indicating that performance robustness extends to larger widths under the same training regime.",
-  "hypothesis": "A local width of 14 will satisfy the preregistered gate (candidate_correct ≥ w16_control_correct - 10) when evaluated under the standard 100‑epoch ECG200 protocol, demonstrating that the gate’s validity persists for wider configurations.",
+  "evidence_frontier": "The latest completed evidence includes a successful 100‑epoch confirmation for local width 8 (seeds 42‑46, aggregate correct 444 vs control 448), a successful 100‑epoch confirmation for local width 12 (seeds 101‑105, aggregate correct 445 vs control 453), and a successful 100‑epoch confirmation for local width 10 (seeds 201‑205, aggregate correct 444 vs control 453). All used the ECG200 dataset with 100 train and 100 test samples, 500 predictions per model, and the gate candidate_correct ≥ control_correct - 10.",
+  "analysis": "Observations: (1) Widths 8, 10, and 12 all meet the preregistered gate, showing that reducing local width from 16 to as low as 8 does not substantially degrade Q.ANT accuracy on ECG200 under the current protocol. (2) The performance gap between candidate and control narrows as width decreases, but remains within the allowed tolerance. Hypothesis: If the trend continues, intermediate width 13 should also satisfy the gate, confirming a smooth performance‑width relationship and providing additional robustness evidence for the architecture.",
+  "hypothesis": "Local width 13 will achieve aggregate Q.ANT correct predictions within 10 of the width‑16 control when evaluated on fresh seeds, indicating that performance degrades gradually and remains acceptable at this intermediate width.",
   "proposal": {
-    "title": "100‑epoch Confirmation of Local Width 14 on ECG200",
-    "research_question": "Does a local width of 14 meet the preregistered performance gate relative to the width‑16 control under the standard 100‑epoch ECG200 protocol?",
-    "rationale": "Widths 8, 10, and 12 have each been shown to meet the gate, but the behavior of wider local widths remains untested. Confirming width 14 will extend the empirical understanding of the width‑response curve and assess whether the gate continues to hold as the model becomes less compressed.",
+    "title": "100‑epoch Confirmation of Local Width 13 on ECG200",
+    "research_question": "Does local width 13 satisfy the preregistered performance gate relative to the width‑16 control on ECG200 under fresh seeds?",
+    "rationale": "Widths 8, 10, and 12 have each passed the gate, suggesting a monotonic relationship between width and accuracy. Testing width 13 provides a novel data point between 12 and the next untested width 14, helping to map the response curve without claiming minimality.",
     "experiment_design": {
-      "candidates": [
-        {
-          "local_width": 14
-        }
-      ],
       "dataset": {
         "name": "ECG200",
         "test_shape": [
@@ -21,22 +16,30 @@
           96
         ]
       },
-      "epochs": 100,
-      "procedure": {
-        "same_preregistered_seeds": true,
-        "train_samples": 100,
-        "test_samples": 100,
-        "aggregate_predictions_per_model": 500
-      },
       "seeds": [
         301,
         302,
         303,
         304,
         305
-      ]
+      ],
+      "epochs": 100,
+      "candidates": [
+        {
+          "local_width": 13
+        },
+        {
+          "local_width": 16
+        }
+      ],
+      "procedure": {
+        "same_preregistered_seeds": true,
+        "train_samples": 100,
+        "test_samples": 100,
+        "aggregate_predictions_per_model": 500
+      }
     },
-    "success_criteria": "alpha5_w14.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
+    "success_criteria": "candidate.aggregate_qant_correct >= width16_control.aggregate_qant_correct - 10 (i.e., candidate_correct >= control_correct - 10 on the 5 × 100 = 500 predictions).",
     "requested_budget": {
       "max_parameters": 9000,
       "max_candidates": 2,
@@ -44,7 +47,7 @@
       "max_train_samples": 100,
       "max_test_samples": 100
     },
-    "risks": "The candidate may fail the gate, providing a negative result that still informs the width‑response relationship. Additional risk includes potential over‑parameterization leading to diminishing returns, but the experiment remains low‑cost and bounded.",
+    "risks": "Potential that width 13 fails the gate, which would indicate a non‑linear degradation and require revisiting the assumed smooth performance‑width relationship. No hardware or photonic assumptions are involved; risk is limited to computational resource usage.",
     "requires_human_approval": true
   },
   "status": "draft_requires_human_review"
