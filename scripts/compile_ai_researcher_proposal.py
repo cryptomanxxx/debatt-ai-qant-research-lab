@@ -115,11 +115,19 @@ def main():
     # an exact rerun of its structured width/seed/epoch/test signature is not a
     # novel proposal and must fail closed rather than appear to pass novelty.
     EXP021_SEEDS=[11,22,33,44,55,66,77,88,99,111]
+    exp021_protocol=(
+        isinstance(procedure_value,dict)
+        and procedure_value.get("same_preregistered_seeds") is True
+        and procedure_value.get("train_samples")==100
+        and procedure_value.get("test_samples")==100
+        and procedure_value.get("aggregate_predictions_per_model")==1000
+    )
     if (
-        widths==[8,12,16]
+        sorted(widths)==[8,12,16]
         and test_shape==[100,96]
-        and seed_numbers==EXP021_SEEDS
+        and sorted(seed_numbers)==sorted(EXP021_SEEDS)
         and structured_epochs==100
+        and exp021_protocol
     ):
         reject("duplicate completed design: Exp021 already ran widths 8,12,16 on seeds 11,22,33,44,55,66,77,88,99,111 for 100 epochs")
 
@@ -137,7 +145,7 @@ def main():
     if (
         widths==[8]
         and test_shape==[100,96]
-        and seed_numbers==PREREGISTERED_W8_100EPOCH_SEEDS
+        and sorted(seed_numbers)==sorted(PREREGISTERED_W8_100EPOCH_SEEDS)
         and structured_epochs==100
         and completed_w8_protocol
     ):
