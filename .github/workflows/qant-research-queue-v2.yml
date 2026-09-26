@@ -91,18 +91,34 @@ jobs:
         shell: bash
         working-directory: ${{ github.workspace }}
         run: |
-          mkdir -p results executions
           shopt -s nullglob
-          result_files=(local_results/*.json local_results/*.csv pnn-v1/results/*.json pnn-v1/results/*.csv)
+          result_files=(local_results/*.json local_results/*.csv)
+          pnn_result_files=(pnn-v1/results/*.json pnn-v1/results/*.csv)
           execution_files=(local_results/executions/*)
-          [ ${#result_files[@]} -gt 0 ] && cp -f "${result_files[@]}" results/
-          [ ${#execution_files[@]} -gt 0 ] && cp -f "${execution_files[@]}" executions/
-          # Execution above remains pinned to execution_commit_sha. Refresh only
-          # shared published artifacts before rebuilding aggregate summaries.
+
+          # Preserve outputs from the pinned execution outside the Git worktree.
+          # Publication is then rebuilt from a coherent, current main checkout.
+          publish_tmp="$(mktemp -d)"
+          mkdir -p "$publish_tmp/local_results" "$publish_tmp/pnn_results" "$publish_tmp/executions"
+          [ ${#result_files[@]} -gt 0 ] && cp -f "${result_files[@]}" "$publish_tmp/local_results/"
+          [ ${#pnn_result_files[@]} -gt 0 ] && cp -f "${pnn_result_files[@]}" "$publish_tmp/pnn_results/"
+          [ ${#execution_files[@]} -gt 0 ] && cp -f "${execution_files[@]}" "$publish_tmp/executions/"
+
           git fetch origin main
-          git checkout origin/main -- results pnn-v1/results executions public/research-dashboard.json research_queue/context/latest.json
-          [ ${#result_files[@]} -gt 0 ] && cp -f "${result_files[@]}" results/
-          [ ${#execution_files[@]} -gt 0 ] && cp -f "${execution_files[@]}" executions/
+          git reset --hard origin/main
+          git clean -fd
+
+          mkdir -p results pnn-v1/results executions
+          saved_results=("$publish_tmp"/local_results/*)
+          saved_pnn_results=("$publish_tmp"/pnn_results/*)
+          saved_executions=("$publish_tmp"/executions/*)
+          [ ${#saved_results[@]} -gt 0 ] && cp -f "${saved_results[@]}" results/
+          [ ${#saved_pnn_results[@]} -gt 0 ] && cp -f "${saved_pnn_results[@]}" pnn-v1/results/
+          [ ${#saved_pnn_results[@]} -gt 0 ] && cp -f "${saved_pnn_results[@]}" results/
+          [ ${#saved_executions[@]} -gt 0 ] && cp -f "${saved_executions[@]}" executions/
+
+          # Dashboard and research context now see one consistent current-main
+          # evidence base plus only this run's newly computed artifacts.
           python scripts/build_research_dashboard.py
           python scripts/build_research_context.py
           export GITHUB_TOKEN="${{ github.token }}"
