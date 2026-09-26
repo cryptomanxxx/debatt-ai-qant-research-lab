@@ -76,7 +76,8 @@ for lock_attempt in range(60):
             try:
                 owner=json.loads(owner_message[len(prefix):])
                 owner_run=str(owner.get("run_id",""))
-                status=api("GET",f"/actions/runs/{owner_run}").get("status") if owner_run.isdigit() else None
+                owner_attempt=str(owner.get("attempt",""))
+                status=api("GET",f"/actions/runs/{owner_run}/attempts/{owner_attempt}").get("status") if owner_run.isdigit() and owner_attempt.isdigit() else None
             except (ValueError,KeyError,urllib.error.HTTPError):
                 status=None
             if status=="completed" and remote_lock_sha()==owner_sha:
