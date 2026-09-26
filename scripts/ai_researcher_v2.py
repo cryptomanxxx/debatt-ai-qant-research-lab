@@ -19,12 +19,12 @@ def groq(messages):
                 "dataset":{"type":"object","properties":{
                     "name":{"type":"string","const":"ECG200"},
                     "test_shape":{"type":"array","items":{"type":"integer","minimum":1},"minItems":1}
-                },"required":["name","test_shape"],"additionalProperties":True},
+                },"required":["name","test_shape"],"additionalProperties":False},
                 "candidates":{"type":"array","items":{"type":"object","properties":{
                     "local_width":{"type":"integer","minimum":1}
-                },"required":["local_width"],"additionalProperties":True},"minItems":1},
+                },"required":["local_width"],"additionalProperties":False},"minItems":1},
                 "procedure":{"type":"array","items":{"type":"string"},"minItems":1}
-            },"required":["dataset","candidates","procedure"],"additionalProperties":True},
+            },"required":["dataset","candidates","procedure"],"additionalProperties":False},
             "success_criteria":{},
             "requested_budget":{"type":"object","properties":{
                 "max_parameters":{"type":"integer","minimum":1},"max_candidates":{"type":"integer","minimum":1},
