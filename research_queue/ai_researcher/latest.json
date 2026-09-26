@@ -1,13 +1,13 @@
 {
   "researcher": "AI Researcher v2",
   "model": "openai/gpt-oss-120b",
-  "evidence_frontier": "The latest frontier evidence includes successful 100‑epoch confirmations for local widths 8, 10, and 12 on ECG200 using fresh seed sets (w8 seeds 42‑46, w10 seeds 201‑205, w12 seeds 101‑105). Each candidate met the preregistered gate candidate_correct ≥ control_correct - 10 against the width‑16 control. No other widths have been evaluated under the same 100‑epoch confirmation protocol.",
-  "analysis": "Observations: (1) Width 8, 10, 12 all achieve aggregate Q.ANT correct counts within 10 of the width‑16 control when evaluated on independent seed sets. (2) Performance improves modestly with increasing width, but the gap to control remains small. (3) All prior seed sets have been exhausted; fresh seeds are required for any new confirmation. Hypothesis: A wider local width (e.g., 14) will continue this trend and also satisfy the same relative performance gate on a fresh seed set.",
-  "hypothesis": "Increasing the local width to 14 will produce aggregate Q.ANT correct counts that are no more than 10 below the width‑16 control when evaluated on a fresh five‑seed set for 100 epochs on ECG200.",
+  "evidence_frontier": "Widths 8, 10, and 12 have each passed the 100‑epoch local‑width confirmation gate (candidate_correct ≥ control_correct‑10) on ECG200 using fresh seed sets. The 50‑epoch w8 trial failed, but the 100‑epoch w8 trial succeeded, establishing that the gate can be met at multiple widths under the standard protocol.",
+  "analysis": "Observations: (1) Candidate widths 8, 10, and 12 all achieved aggregate Q.ANT correct counts within 10 of their w16 controls after 100 epochs on fresh seeds. (2) The aggregate correct counts for candidates are 444 (w8), 444 (w10), and 445 (w12) versus controls 448, 453, and 453 respectively. Hypothesis: If the gate holds for intermediate widths, it may also hold for a wider local width such as 14, indicating that performance robustness extends to larger widths under the same training regime.",
+  "hypothesis": "A local width of 14 will satisfy the preregistered gate (candidate_correct ≥ w16_control_correct - 10) when evaluated under the standard 100‑epoch ECG200 protocol, demonstrating that the gate’s validity persists for wider configurations.",
   "proposal": {
     "title": "100‑epoch Confirmation of Local Width 14 on ECG200",
-    "research_question": "Does a local width of 14 maintain performance within the predefined gate relative to the width‑16 control under a fresh seed set?",
-    "rationale": "Width 8, 10, and 12 have each passed the confirmation gate, demonstrating that moderate compression retains accuracy. Testing width 14 extends the width‑response curve, probing whether further widening continues to meet the gate and provides a robustness measurement beyond the previously confirmed widths. This does not aim to identify a minimal width but to assess scalability and consistency of the gate across a broader width range.",
+    "research_question": "Does a local width of 14 meet the preregistered performance gate relative to the width‑16 control under the standard 100‑epoch ECG200 protocol?",
+    "rationale": "Widths 8, 10, and 12 have each been shown to meet the gate, but the behavior of wider local widths remains untested. Confirming width 14 will extend the empirical understanding of the width‑response curve and assess whether the gate continues to hold as the model becomes less compressed.",
     "experiment_design": {
       "candidates": [
         {
@@ -29,11 +29,11 @@
         "aggregate_predictions_per_model": 500
       },
       "seeds": [
-        206,
-        207,
-        208,
-        209,
-        210
+        301,
+        302,
+        303,
+        304,
+        305
       ]
     },
     "success_criteria": "alpha5_w14.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
@@ -44,7 +44,7 @@
       "max_train_samples": 100,
       "max_test_samples": 100
     },
-    "risks": "Potential over‑parameterization may not yield additional accuracy and could increase training time; the experiment consumes the allocated budget of 100 epochs and 500 predictions per model, limiting resources for other candidates.",
+    "risks": "The candidate may fail the gate, providing a negative result that still informs the width‑response relationship. Additional risk includes potential over‑parameterization leading to diminishing returns, but the experiment remains low‑cost and bounded.",
     "requires_human_approval": true
   },
   "status": "draft_requires_human_review"
