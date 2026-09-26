@@ -16,7 +16,6 @@ def groq(messages):
         "messages":messages,
         "temperature":0,
         "max_completion_tokens":3000,
-        "response_format":{"type":"json_object"},
     }
     req=urllib.request.Request(
         "https://api.groq.com/openai/v1/chat/completions",
@@ -35,7 +34,16 @@ def groq(messages):
 def main():
     if not os.environ.get("GROQ_API_KEY"): raise SystemExit("GROQ_API_KEY missing")
     if not CONTEXT.exists(): raise SystemExit(f"Missing {CONTEXT}")
-    context=json.loads(CONTEXT.read_text())
+    full=json.loads(CONTEXT.read_text())
+    # Keep the model input focused and bounded. Full evidence remains in GitHub.
+    context={
+        "schema_version":full.get("schema_version"),
+        "rules":full.get("rules",[]),
+        "active_pnn_v1_model":full.get("active_pnn_v1_model"),
+        "current_frontier":full.get("current_frontier"),
+        "recent_pnn_v1_experiments":full.get("pnn_v1_experiments",[])[-6:],
+        "recent_pnn_v1_analyses":full.get("pnn_v1_analyses",[])[-3:],
+    }
     system="""You are the proposal-only AI Researcher for Debatt-AI Q.ANT Research Lab.
 Use only the supplied repository evidence. Separate observation from hypothesis.
 Never claim simulation establishes physical photonic latency, energy, throughput,
