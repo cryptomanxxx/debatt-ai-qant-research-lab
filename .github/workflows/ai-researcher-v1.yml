@@ -9,6 +9,7 @@ permissions:
 jobs:
   # Legacy workflow retained for history; direct publication to main is disabled.
   propose:
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
