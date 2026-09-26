@@ -22,6 +22,23 @@ def reject(reason):
     OUT.write_text(json.dumps(payload,indent=2)+"\n")
     raise SystemExit("COMPILER REJECTED: "+reason)
 
+def review_checks(training_protocol=False, aggregate_gate=False, template_match=False):
+    checks=[
+        {"check":"Human approval required","status":"passed"},
+        {"check":"Budget schema and positive limits","status":"passed"},
+        {"check":"Supported dataset/design family","status":"passed"},
+        {"check":"Candidate structure","status":"passed"},
+        {"check":"No known duplicate candidate set","status":"passed"},
+        {"check":"Aggregate-count arithmetic","status":"passed"},
+    ]
+    if training_protocol:
+        checks.append({"check":"Train/test protocol present","status":"passed"})
+    if aggregate_gate:
+        checks.append({"check":"Relative aggregate gate present","status":"passed"})
+    if template_match:
+        checks.append({"check":"Exact reviewed executable template match","status":"passed"})
+    return checks
+
 def main():
     if not DRAFT.exists(): reject("AI Researcher draft is missing")
     data=json.loads(DRAFT.read_text())
@@ -106,7 +123,7 @@ def main():
         and "100 epochs" in procedure.lower()
     )
     if clean_w8_100epoch:
-        compiled={"status":"validated_executable_template","approval_readiness":"READY_FOR_HUMAN_COMPUTE_DECISION","source":"research_queue/ai_researcher/latest.json","proposal_title":p.get("title"),"template":"pnn-v1/experiments/w8_100epoch_confirmation/run.py","job_id":"ai-w8-100epoch-confirmation","preregistered_seeds":[42,43,44,45,46],"epochs":100,"gate":"alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10","message":"Draft structurally matches the reviewed w8 100-epoch confirmation template, including exact preregistered seeds, train/test protocol, and aggregate relative gate. Human approval is still required before compute."}
+        compiled={"status":"validated_executable_template","approval_readiness":"READY_FOR_HUMAN_COMPUTE_DECISION","source":"research_queue/ai_researcher/latest.json","proposal_title":p.get("title"),"template":"pnn-v1/experiments/w8_100epoch_confirmation/run.py","job_id":"ai-w8-100epoch-confirmation","preregistered_seeds":[42,43,44,45,46],"epochs":100,"gate":"alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10","automated_checks":review_checks(training_protocol,aggregate_gate,True),"human_decision":"Awaiting scientific review.","message":"Draft structurally matches the reviewed w8 100-epoch confirmation template, including exact preregistered seeds, train/test protocol, and aggregate relative gate. Human approval is still required before compute."}
         OUT.parent.mkdir(parents=True,exist_ok=True); OUT.write_text(json.dumps(compiled,indent=2)+"\n")
         print(json.dumps(compiled,indent=2)); return
 
@@ -121,6 +138,8 @@ def main():
             "preregistered_seeds":[121,131,141,151,161],
             "epochs":50,
             "gate":"alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
+            "automated_checks":review_checks(True),
+            "human_decision":"Awaiting scientific review.",
             "message":"Draft structurally matches the reviewed w8 confirmation template, including exact preregistered seeds and aggregate relative gate. Human approval is still required before compute."
         }
         OUT.parent.mkdir(parents=True,exist_ok=True)
@@ -133,14 +152,7 @@ def main():
         "approval_readiness":"NOT_READY_FOR_COMPUTE",
         "source":"research_queue/ai_researcher/latest.json",
         "proposal_title":p.get("title"),
-        "automated_checks":[
-            {"check":"Human approval required","status":"passed"},
-            {"check":"Budget schema and positive limits","status":"passed"},
-            {"check":"Supported dataset/design family","status":"passed"},
-            {"check":"Candidate structure","status":"passed"},
-            {"check":"No known duplicate candidate set","status":"passed"},
-            {"check":"Aggregate-count arithmetic","status":"passed"}
-        ],
+        "automated_checks":review_checks(training_protocol,aggregate_gate,False),
         "human_decision":"No compute decision is requested yet.",
         "message":"Automated structural checks passed, but no reviewed executable template matches this draft yet. This is not a claim of scientific correctness."
     }
