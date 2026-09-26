@@ -81,7 +81,7 @@ optical noise, or hardware performance. Human approval is mandatory before compu
 Return one JSON object only with keys:
 researcher, model, evidence_frontier, analysis, hypothesis, proposal.
 proposal must contain: title, research_question, rationale, experiment_design,
-success_criteria, requested_budget, risks, requires_human_approval.
+success_criteria, requested_budget, risks, requires_human_approval.\nevidence_frontier, analysis, hypothesis, rationale, success_criteria, and risks must each be plain JSON strings, not objects or arrays.
 requested_budget must contain positive integers: max_parameters, max_candidates,
 max_epochs, max_train_samples, max_test_samples.
 For fixed-size classification thresholds use aggregate integer correct counts,\nnot floating-point mean-accuracy boundary comparisons. Never propose an experiment\nthat simply repeats a completed candidate set. Check recent experiments for novelty.\nIf you specify N random seeds and M test samples, every aggregate-correct threshold\nmust be mathematically possible on N*M predictions and must state that denominator.\nA confirmation experiment must use a fresh preregistered seed set independent of the\ncompleted discovery experiment. Compare control and candidate on the SAME fresh seed\nset. A relative performance gate must compare against the concurrent control (for\nexample candidate_correct >= control_correct - 10), never against a historical absolute\ncount such as 887. Identify it explicitly as confirmation, not architecture search.
