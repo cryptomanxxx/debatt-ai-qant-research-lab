@@ -75,7 +75,9 @@ jobs:
         shell: bash
         run: |
           mkdir -p "$RUNNER_TEMP/pnn-results-before"
-          cp -a pnn-v1/results/. "$RUNNER_TEMP/pnn-results-before/" 2>/dev/null || true
+          if test -d pnn-v1/results; then
+            cp -a pnn-v1/results/. "$RUNNER_TEMP/pnn-results-before/"
+          fi
       - name: Validate and run approved job
         run: python scripts/run_research_job_v2.py "${{ steps.resolve.outputs.job_id }}"
       - name: Write execution record
