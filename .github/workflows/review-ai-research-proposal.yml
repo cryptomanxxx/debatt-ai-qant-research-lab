@@ -115,6 +115,8 @@ jobs:
           with open(os.environ["GITHUB_OUTPUT"],"a") as out:
               out.write(f"auto_revision={'true' if allowed else 'false'}\n")
               out.write(f"proposal_run_id={proposal_run_id}\n")
+              out.write(f"review_run_id={review.get('workflow_run_id')}\n")
+              out.write(f"proposal_sha256={review.get('proposal_sha256')}\n")
           print("Automatic revision allowed:",allowed)
           print("Bound proposal workflow run:",proposal_run_id)
           PY
@@ -124,8 +126,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh api --method POST repos/${{ github.repository }}/dispatches \
-            -f event_type=human_feedback_revision
-          echo "Started the one permitted automatic revision."
+            -f event_type=human_feedback_revision \
+            -f "client_payload[review_run_id]=${{ steps.rejection.outputs.review_run_id }}" \
+            -f "client_payload[proposal_sha256]=${{ steps.rejection.outputs.proposal_sha256 }}"
+          echo "Started one automatic revision bound to the frozen human review."
       - name: Automatic revision limit reached
         if: ${{ github.event.inputs.decision == 'reject' && steps.rejection.outputs.auto_revision != 'true' }}
         run: |
