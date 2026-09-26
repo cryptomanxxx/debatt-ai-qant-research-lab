@@ -34,9 +34,31 @@
     "reviewed_at_utc": "20260926T104730Z"
   },
   "current_frontier": {
-    "latest_completed_experiment": "PNN-v1-Exp021",
-    "status": "Alpha5 remains active. Exp021 found a 4,278-parameter w8 compression candidate at exactly 10 fewer Q.ANT correct predictions out of 1000 than the Alpha5 control; the preregistered floating-point gate recorded retain_alpha5.",
-    "next_preregistered_question": "A future confirmation may use integer-count gating to test whether the w8 compression boundary is reproducible. Do not reinterpret or overwrite Exp021."
+    "latest_completed_experiment": "PNN-v1-W8-Confirmation",
+    "result_file": "result_w8_confirmation.json",
+    "success_criteria_met": false,
+    "decision": "w8_boundary_not_confirmed",
+    "summary": {
+      "alpha5_w8": {
+        "parameter_count": 4278,
+        "mean_reference_accuracy": 0.85,
+        "mean_qant_accuracy": 0.8480000000000001,
+        "std_qant_accuracy": 0.02561249694973138,
+        "mean_prediction_disagreements": 0.2,
+        "mean_absolute_logit_error": 0.011667688749730587,
+        "aggregate_qant_correct": 424
+      },
+      "alpha5_w16_control": {
+        "parameter_count": 8550,
+        "mean_reference_accuracy": 0.882,
+        "mean_qant_accuracy": 0.882,
+        "std_qant_accuracy": 0.022271057451320107,
+        "mean_prediction_disagreements": 0.0,
+        "mean_absolute_logit_error": 0.015304717980325223,
+        "aggregate_qant_correct": 441
+      }
+    },
+    "research_instruction": "Treat this latest completed result as evidence. Do not reinterpret a failed preregistered gate as success. Formulate the next falsifiable research question from the evidence rather than repeating a completed experiment."
   },
   "historical_toolkit_experiments": [
     {

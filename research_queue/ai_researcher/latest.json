@@ -2,18 +2,26 @@
   "researcher": "AI Researcher v2",
   "model": "openai/gpt-oss-120b",
   "evidence_frontier": {
-    "latest_completed_experiment": "PNN-v1-Exp021",
-    "summary": "Exp021 evaluated a 4,278‑parameter w8 compression candidate on ECG200 and observed 887 aggregate Q.ANT correct predictions, exactly 10 fewer than the Alpha5 w16 control (897). The w12 candidate performed worse. The next step is a confirmation of the w8 boundary using integer‑count gating."
+    "latest_completed_experiment": "PNN-v1-W8-Confirmation",
+    "summary": {
+      "alpha5_w8": {
+        "parameter_count": 4278,
+        "aggregate_qant_correct": 424
+      },
+      "alpha5_w16_control": {
+        "parameter_count": 8550,
+        "aggregate_qant_correct": 441
+      }
+    },
+    "observation": "In the most recent confirmation (PNN‑v1‑W8‑Confirmation) the w8 candidate achieved 424 correct predictions on the ECG200 test set (100 samples × 5 seeds) while the w16 control achieved 441 correct. The w8 candidate fell 17 correct predictions short of the control, violating the preregistered relative gate (candidate_correct ≥ control_correct − 10).",
+    "hypothesis": "Training the w8 configuration for more epochs (100 instead of 50) will improve its aggregate Q.ANT correct count sufficiently to meet the relative gate (candidate_correct ≥ control_correct − 10) without altering any other architectural elements."
   },
-  "analysis": {
-    "observation": "Exp021 showed that reducing the local representation width from 16 to 8 lowered aggregate correct predictions by exactly ten on a single seed set. The result was reproducible under the same training protocol and dataset (ECG200).",
-    "hypothesis": "When evaluated on an independent preregistered seed set, the w8 compression will not lose more than ten aggregate Q.ANT correct predictions relative to the Alpha5 w16 control, confirming the w8 boundary as a reproducible trade‑off."
-  },
-  "hypothesis": "The w8 local‑width candidate will retain performance within the pre‑registered relative gate (candidate_correct ≥ control_correct − 10) on a fresh seed set, demonstrating that the w8 boundary is reproducible.",
+  "analysis": "Observation: The w8 boundary was not confirmed under the original training regime (50 epochs), showing a consistent accuracy gap of ~3 % relative to w16. Hypothesis: Extending training duration may allow the narrower local representation to converge better, reducing the gap. This hypothesis is falsifiable: if after 100 epochs the w8 candidate still falls more than 10 correct predictions behind the w16 control, the hypothesis is rejected.",
+  "hypothesis": "Increasing training epochs to 100 will enable the Alpha5 w8 configuration to achieve an aggregate Q.ANT correct count within 10 of the Alpha5 w16 control on ECG200 under a fresh seed set.",
   "proposal": {
-    "title": "Confirmation of w8 Local‑Width Boundary on ECG200",
-    "research_question": "Is the w8 compression boundary reproducible under integer‑count gating when evaluated on a fresh preregistered seed set?",
-    "rationale": "Exp021 identified a precise 10‑prediction drop for w8 versus the w16 control. A confirmation experiment using a new seed set will test whether this boundary holds, satisfying the next preregistered question and avoiding any reinterpretation of Exp021 results.",
+    "title": "Extended‑Epoch Confirmation of the w8 Local‑Width Boundary on ECG200",
+    "research_question": "Does training the Alpha5 w8 configuration for 100 epochs close the performance gap to the Alpha5 w16 control on ECG200?",
+    "rationale": "The prior w8 confirmation failed under a 50‑epoch regime, leaving open whether the gap is due to insufficient training rather than an inherent capacity limit. Demonstrating that longer training can meet the relative gate would inform future width‑compression decisions and model‑size trade‑offs.",
     "experiment_design": {
       "dataset": {
         "name": "ECG200",
@@ -28,27 +36,25 @@
         }
       ],
       "procedure": [
-        "Load the ECG200 dataset with the standard train (100) / test (100) split as used in Exp020/021.",
-        "Set the random seed list to [121,131,141,151,161] (preregistered).",
-        "For each seed, train the Alpha5 architecture with local_width = 8 for 50 epochs using the corrected training protocol.",
-        "For each seed, also train the Alpha5 w16 control (local_width = 16) for 50 epochs under identical conditions.",
-        "After training, evaluate Q.ANT aggregate correct predictions on the 100‑sample test set for each seed.",
-        "Sum correct predictions across the five seeds (max 5 × 100 = 500).",
-        "Apply the relative gate: candidate_total_correct ≥ control_total_correct − 10."
+        "Define a fresh set of five independent random seeds [42,43,44,45,46].",
+        "For each seed, train the Alpha5 w8 candidate for 100 epochs on the ECG200 training split (100 samples).",
+        "For the same seed, train the Alpha5 w16 control for 100 epochs under identical hyper‑parameters.",
+        "After training, evaluate both models on the ECG200 test split (100 samples) and record the number of correct Q.ANT predictions per seed.",
+        "Aggregate correct counts across the five seeds for candidate and control (max 500).",
+        "Apply the relative success criterion: candidate_correct ≥ control_correct − 10."
       ]
     },
     "success_criteria": {
-      "gate": "candidate_total_correct >= control_total_correct - 10 on the combined 5*100 test predictions",
-      "parameter_limit": "candidate_parameter_count <= 9000"
+      "relative_gate": "candidate_correct >= control_correct - 10 on the aggregated 5*100 predictions"
     },
     "requested_budget": {
       "max_parameters": 9000,
       "max_candidates": 1,
-      "max_epochs": 50,
+      "max_epochs": 100,
       "max_train_samples": 100,
       "max_test_samples": 100
     },
-    "risks": "Simulation variance across seeds may obscure a small performance gap; limited test sample size (500 predictions) yields coarse granularity; any deviation from the exact seed list invalidates preregistration.",
+    "risks": "Longer training may increase over‑fitting on the small ECG200 training set; additional compute time may delay downstream experiments; results remain limited to software‑simulation and cannot be extrapolated to physical photonic hardware.",
     "requires_human_approval": true
   },
   "status": "draft_requires_human_review"

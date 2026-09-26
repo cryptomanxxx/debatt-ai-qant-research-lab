@@ -1,18 +1,34 @@
 {
-  "status": "validated_executable_template",
-  "approval_readiness": "READY_FOR_HUMAN_COMPUTE_DECISION",
+  "status": "validated_not_executable",
+  "approval_readiness": "NOT_READY_FOR_COMPUTE",
   "source": "research_queue/ai_researcher/latest.json",
-  "proposal_title": "Confirmation of w8 Local\u2011Width Boundary on ECG200",
-  "template": "pnn-v1/experiments/w8_confirmation/run.py",
-  "job_id": "ai-w8-confirmation",
-  "preregistered_seeds": [
-    121,
-    131,
-    141,
-    151,
-    161
+  "proposal_title": "Extended\u2011Epoch Confirmation of the w8 Local\u2011Width Boundary on ECG200",
+  "automated_checks": [
+    {
+      "check": "Human approval required",
+      "status": "passed"
+    },
+    {
+      "check": "Budget schema and positive limits",
+      "status": "passed"
+    },
+    {
+      "check": "Supported dataset/design family",
+      "status": "passed"
+    },
+    {
+      "check": "Candidate structure",
+      "status": "passed"
+    },
+    {
+      "check": "No known duplicate candidate set",
+      "status": "passed"
+    },
+    {
+      "check": "Aggregate-count arithmetic",
+      "status": "passed"
+    }
   ],
-  "epochs": 50,
-  "gate": "alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10",
-  "message": "Draft structurally matches the reviewed w8 confirmation template, including exact preregistered seeds and aggregate relative gate. Human approval is still required before compute."
+  "human_decision": "No compute decision is requested yet.",
+  "message": "Automated structural checks passed, but no reviewed executable template matches this draft yet. This is not a claim of scientific correctness."
 }
