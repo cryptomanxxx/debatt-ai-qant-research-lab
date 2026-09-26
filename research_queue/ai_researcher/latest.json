@@ -1,13 +1,13 @@
 {
   "researcher": "AI Researcher v2",
   "model": "openai/gpt-oss-120b",
-  "evidence_frontier": "Exp021 (100‑epoch, 10‑seed) reported aggregate Q.ANT correct 887 for Alpha5 w8 versus 897 for the w16 control (gap = 10). The earlier 50‑epoch w8 confirmation (5‑seed) failed with 424 vs 441 (gap = 17). A subsequent 100‑epoch w8 confirmation (5‑seed) succeeded with 444 vs 448 (gap = 4). These results suggest longer training narrows the performance gap between w8 and the w16 baseline.",
-  "analysis": "Observation: Shorter training (50 epochs) leaves w8 substantially behind the w16 control (gap > 10). Observation: Extending training to 100 epochs reduces the gap to within the preregistered tolerance (gap ≤ 4) and even meets the relative gate. Hypothesis: Training Alpha5 w8 for 100 epochs on ECG200 is sufficient to achieve aggregate Q.ANT correct predictions within 10 of the concurrent w16 control, confirming the w8 boundary under the prescribed protocol.",
-  "hypothesis": "If Alpha5 w8 is trained for exactly 100 epochs on the ECG200 training split using the preregistered seed set [42,43,44,45,46], then its aggregate Q.ANT correct count on the ECG200 test split will be at least the w16 control's aggregate correct minus 10 (i.e., candidate_correct ≥ control_correct − 10).",
+  "evidence_frontier": "The latest completed evidence includes the successful 100‑epoch w8 confirmation (seeds 42‑46) where alpha5_w8 achieved 444/500 correct versus control 448/500, meeting the gate alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10. Earlier experiments (Exp021) evaluated w8 and w12 with 10 seeds at 100 epochs, yielding aggregate correct 887 and 884 respectively, but the preregistered gate was not applied. No confirmation experiment for w12 has been completed. Alpha5 has been promoted based on readout redundancy improvements, and the next open question is whether a narrower local representation (width 12) can preserve performance under a fresh seed set.",
+  "analysis": "Observation: Reducing local width to 8 can meet the performance gate when evaluated with a fresh seed set (42‑46). Observation: Width 12 has not yet been tested under the gate; prior aggregate correct (884) was lower than control (897) but without a gate assessment. Observation: The promotion of Alpha5 relied on readout redundancy, not on local width. Hypothesis: A local width of 12 will retain sufficient Q.ANT accuracy to satisfy the gate alpha5_w12.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10 when evaluated with a new seed set at 100 epochs.",
+  "hypothesis": "When evaluated on ECG200 with a fresh set of five seeds and 100 training epochs, the Alpha5 architecture using a local representation width of 12 (alpha5_w12) will achieve an aggregate Q.ANT correct count no more than 10 fewer than the 16‑width control (alpha5_w16_control), thereby passing the preregistered gate.",
   "proposal": {
-    "title": "100‑epoch w8 Confirmation on ECG200",
-    "research_question": "Does training Alpha5 w8 for 100 epochs close the performance gap to the Alpha5 w16 control on ECG200 as required by the relative aggregate gate?",
-    "rationale": "Exp021 indicated a 10‑point gap at 100 epochs, while the 50‑epoch confirmation failed. A 100‑epoch confirmation previously succeeded, but an independent replication with the exact preregistered seeds is required to solidify the evidence and satisfy the laboratory’s reproducibility standards before proceeding to downstream architectural explorations.",
+    "title": "100‑epoch w12 Confirmation on ECG200 with Fresh Seeds",
+    "research_question": "Does reducing Alpha5's local representation width from 16 to 12 preserve performance and meet the preregistered gate on ECG200 when evaluated with a fresh seed set?",
+    "rationale": "Prior evidence shows that a width‑8 local representation can meet the gate, while width‑12 has only been evaluated without gate verification. Confirming width‑12 will identify the minimal local width that maintains the promoted readout robustness, reducing model size without sacrificing Q.ANT accuracy.",
     "experiment_design": {
       "dataset": {
         "name": "ECG200",
@@ -17,33 +17,37 @@
         ]
       },
       "seeds": [
-        42,
-        43,
-        44,
-        45,
-        46
+        52,
+        53,
+        54,
+        55,
+        56
       ],
       "epochs": 100,
       "candidates": [
         {
-          "local_width": 8
+          "local_width": 12
+        },
+        {
+          "local_width": 16
         }
       ],
       "procedure": [
-        "Train Alpha5 w8 and concurrent Alpha5 w16 control on ECG200 train split (100 samples) for 100 epochs using seeds [42,43,44,45,46]",
-        "Evaluate both models on ECG200 test split (100 samples)",
-        "Aggregate predictions to obtain 500 total predictions per model"
+        "Train each candidate for 100 epochs on the ECG200 training set using the same hyperparameters as previous Alpha5 experiments.",
+        "Evaluate Q.ANT predictions on the ECG200 test set for each seed.",
+        "Compute aggregate Q.ANT correct counts (5 seeds × 100 test samples = 500 predictions per candidate).",
+        "Apply the preregistered gate: candidate_correct >= control_correct - 10."
       ]
     },
-    "success_criteria": "candidate_correct >= control_correct - 10 on the 500 aggregated predictions (5 seeds × 100 test samples)",
+    "success_criteria": "Alpha5_w12 must achieve aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10 on the 5‑seed, 500‑prediction evaluation (e.g., if control = 448, w12 must be ≥ 438).",
     "requested_budget": {
-      "max_parameters": 9000,
-      "max_candidates": 1,
+      "max_parameters": 10000,
+      "max_candidates": 2,
       "max_epochs": 100,
       "max_train_samples": 100,
       "max_test_samples": 100
     },
-    "risks": "Potential variance in simulation results could cause the relative gate to fail despite adequate training; compute time for 5 seeds at 100 epochs may exceed allocated wall‑clock limits; no physical hardware claims are made.",
+    "risks": "The w12 candidate may fail the gate, yielding no promotion and consuming compute budget. Using only five seeds limits statistical power; results could be seed‑specific. The experiment assumes the same training hyperparameters remain optimal for the narrower width, which may not hold.",
     "requires_human_approval": true
   },
   "status": "draft_requires_human_review"

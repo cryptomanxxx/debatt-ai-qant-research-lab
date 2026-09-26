@@ -1,5 +1,5 @@
 {
-  "schema_version": 5,
+  "schema_version": 6,
   "purpose": "Evidence packet for the next falsifiable research proposal.",
   "rules": [
     "Use repository results as experimental evidence.",
@@ -34,28 +34,55 @@
     "reviewed_at_utc": "20260926T113902Z"
   },
   "current_frontier": {
-    "latest_completed_experiment": "PNN-v1-W8-Confirmation",
-    "result_file": "result_w8_confirmation.json",
-    "success_criteria_met": false,
-    "decision": "w8_boundary_not_confirmed",
+    "latest_completed_experiment": "PNN-v1-W8-100Epoch-Confirmation",
+    "result_file": "result_w8_100epoch_confirmation.json",
+    "success_criteria_met": true,
+    "decision": "w8_boundary_confirmed",
+    "configuration": {
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "epochs": 100,
+      "learning_rate": 0.001,
+      "batch_size": 32,
+      "frequencies": [
+        1,
+        2
+      ],
+      "candidates": {
+        "alpha5_w8": [
+          8,
+          3
+        ],
+        "alpha5_w16_control": [
+          16,
+          3
+        ]
+      },
+      "preregistered_gate": "alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
+    },
     "summary": {
       "alpha5_w8": {
         "parameter_count": 4278,
-        "mean_reference_accuracy": 0.85,
-        "mean_qant_accuracy": 0.8480000000000001,
-        "std_qant_accuracy": 0.02561249694973138,
-        "mean_prediction_disagreements": 0.2,
-        "mean_absolute_logit_error": 0.011667688749730587,
-        "aggregate_qant_correct": 424
+        "mean_reference_accuracy": 0.8880000000000001,
+        "mean_qant_accuracy": 0.8880000000000001,
+        "std_qant_accuracy": 0.016000000000000014,
+        "mean_prediction_disagreements": 0.0,
+        "mean_absolute_logit_error": 0.013931976817548274,
+        "aggregate_qant_correct": 444
       },
       "alpha5_w16_control": {
         "parameter_count": 8550,
-        "mean_reference_accuracy": 0.882,
-        "mean_qant_accuracy": 0.882,
-        "std_qant_accuracy": 0.022271057451320107,
+        "mean_reference_accuracy": 0.8960000000000001,
+        "mean_qant_accuracy": 0.8960000000000001,
+        "std_qant_accuracy": 0.008000000000000007,
         "mean_prediction_disagreements": 0.0,
-        "mean_absolute_logit_error": 0.015304717980325223,
-        "aggregate_qant_correct": 441
+        "mean_absolute_logit_error": 0.018757576122879982,
+        "aggregate_qant_correct": 448
       }
     },
     "research_instruction": "Treat this latest completed result as evidence. Do not reinterpret a failed preregistered gate as success. Formulate the next falsifiable research question from the evidence rather than repeating a completed experiment."
@@ -3110,74 +3137,6 @@
       }
     },
     {
-      "file": "result_w8_100epoch_confirmation.json",
-      "experiment_id": "PNN-v1-W8-100Epoch-Confirmation",
-      "proposal_id": "AI-Researcher-w8-100epoch-confirmation",
-      "timestamp_utc": "2026-09-26T11:42:32.014535+00:00",
-      "backend": "qant-cpu/software-simulation",
-      "dataset": {
-        "name": "ECG200",
-        "train_shape": [
-          100,
-          96
-        ],
-        "test_shape": [
-          100,
-          96
-        ]
-      },
-      "configuration": {
-        "seeds": [
-          42,
-          43,
-          44,
-          45,
-          46
-        ],
-        "epochs": 100,
-        "learning_rate": 0.001,
-        "batch_size": 32,
-        "frequencies": [
-          1,
-          2
-        ],
-        "candidates": {
-          "alpha5_w8": [
-            8,
-            3
-          ],
-          "alpha5_w16_control": [
-            16,
-            3
-          ]
-        },
-        "preregistered_gate": "alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
-      },
-      "success_criteria_met": true,
-      "decision": "w8_boundary_confirmed",
-      "selected_candidate": null,
-      "summary": {
-        "alpha5_w8": {
-          "parameter_count": 4278,
-          "mean_reference_accuracy": 0.8880000000000001,
-          "mean_qant_accuracy": 0.8880000000000001,
-          "std_qant_accuracy": 0.016000000000000014,
-          "mean_prediction_disagreements": 0.0,
-          "mean_absolute_logit_error": 0.013931976817548274,
-          "aggregate_qant_correct": 444
-        },
-        "alpha5_w16_control": {
-          "parameter_count": 8550,
-          "mean_reference_accuracy": 0.8960000000000001,
-          "mean_qant_accuracy": 0.8960000000000001,
-          "std_qant_accuracy": 0.008000000000000007,
-          "mean_prediction_disagreements": 0.0,
-          "mean_absolute_logit_error": 0.018757576122879982,
-          "aggregate_qant_correct": 448
-        }
-      }
-    },
-    {
       "file": "result_w8_confirmation.json",
       "experiment_id": "PNN-v1-W8-Confirmation",
       "proposal_id": "AI-Researcher-w8-confirmation",
@@ -3242,6 +3201,74 @@
           "mean_prediction_disagreements": 0.0,
           "mean_absolute_logit_error": 0.015304717980325223,
           "aggregate_qant_correct": 441
+        }
+      }
+    },
+    {
+      "file": "result_w8_100epoch_confirmation.json",
+      "experiment_id": "PNN-v1-W8-100Epoch-Confirmation",
+      "proposal_id": "AI-Researcher-w8-100epoch-confirmation",
+      "timestamp_utc": "2026-09-26T11:42:32.014535+00:00",
+      "backend": "qant-cpu/software-simulation",
+      "dataset": {
+        "name": "ECG200",
+        "train_shape": [
+          100,
+          96
+        ],
+        "test_shape": [
+          100,
+          96
+        ]
+      },
+      "configuration": {
+        "seeds": [
+          42,
+          43,
+          44,
+          45,
+          46
+        ],
+        "epochs": 100,
+        "learning_rate": 0.001,
+        "batch_size": 32,
+        "frequencies": [
+          1,
+          2
+        ],
+        "candidates": {
+          "alpha5_w8": [
+            8,
+            3
+          ],
+          "alpha5_w16_control": [
+            16,
+            3
+          ]
+        },
+        "preregistered_gate": "alpha5_w8.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
+      },
+      "success_criteria_met": true,
+      "decision": "w8_boundary_confirmed",
+      "selected_candidate": null,
+      "summary": {
+        "alpha5_w8": {
+          "parameter_count": 4278,
+          "mean_reference_accuracy": 0.8880000000000001,
+          "mean_qant_accuracy": 0.8880000000000001,
+          "std_qant_accuracy": 0.016000000000000014,
+          "mean_prediction_disagreements": 0.0,
+          "mean_absolute_logit_error": 0.013931976817548274,
+          "aggregate_qant_correct": 444
+        },
+        "alpha5_w16_control": {
+          "parameter_count": 8550,
+          "mean_reference_accuracy": 0.8960000000000001,
+          "mean_qant_accuracy": 0.8960000000000001,
+          "std_qant_accuracy": 0.008000000000000007,
+          "mean_prediction_disagreements": 0.0,
+          "mean_absolute_logit_error": 0.018757576122879982,
+          "aggregate_qant_correct": 448
         }
       }
     }
