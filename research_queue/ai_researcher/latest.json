@@ -1,27 +1,13 @@
 {
   "researcher": "AI Researcher v2",
   "model": "openai/gpt-oss-120b",
-  "evidence_frontier": {
-    "latest_completed_experiment": "PNN-v1-W8-Confirmation",
-    "summary": {
-      "alpha5_w8": {
-        "parameter_count": 4278,
-        "aggregate_qant_correct": 424
-      },
-      "alpha5_w16_control": {
-        "parameter_count": 8550,
-        "aggregate_qant_correct": 441
-      }
-    },
-    "observation": "In the most recent confirmation (PNN‑v1‑W8‑Confirmation) the w8 candidate achieved 424 correct predictions on the ECG200 test set (100 samples × 5 seeds) while the w16 control achieved 441 correct. The w8 candidate fell 17 correct predictions short of the control, violating the preregistered relative gate (candidate_correct ≥ control_correct − 10).",
-    "hypothesis": "Training the w8 configuration for more epochs (100 instead of 50) will improve its aggregate Q.ANT correct count sufficiently to meet the relative gate (candidate_correct ≥ control_correct − 10) without altering any other architectural elements."
-  },
-  "analysis": "Observation: The w8 boundary was not confirmed under the original training regime (50 epochs), showing a consistent accuracy gap of ~3 % relative to w16. Hypothesis: Extending training duration may allow the narrower local representation to converge better, reducing the gap. This hypothesis is falsifiable: if after 100 epochs the w8 candidate still falls more than 10 correct predictions behind the w16 control, the hypothesis is rejected.",
-  "hypothesis": "Increasing training epochs to 100 will enable the Alpha5 w8 configuration to achieve an aggregate Q.ANT correct count within 10 of the Alpha5 w16 control on ECG200 under a fresh seed set.",
+  "evidence_frontier": "The latest completed w8 confirmation (PNN-v1-W8-Confirmation) trained Alpha5 w8 for 50 epochs on ECG200 and achieved 424/500 correct versus the Alpha5 w16 control 441/500, failing the relative gate (candidate_correct >= control_correct -10). Earlier experiments (Exp021) showed w8 at 887/1000 correct after longer training (100 epochs) but on a different split, and the w12 variant also underperformed. The boundary for local_width=8 remains unconfirmed for the standard 100‑epoch training regime.",
+  "analysis": "Observations: (1) At 50 epochs, w8 underperforms w16 by 17 correct predictions on 500 samples. (2) The same architecture trained for 100 epochs in Exp021 reached 887/1000 correct, suggesting longer training improves w8 performance. (3) No prior experiment has tested w8 versus w16 with exactly 100 epochs on the ECG200 train/test split using the preregistered seed set [42,43,44,45,46]. This gap constitutes the current evidence frontier.",
+  "hypothesis": "Extending training of Alpha5 with local_width=8 to 100 epochs will close the performance gap to within 10 correct predictions of the concurrent Alpha5 w16 control on ECG200, satisfying the relative aggregate gate.",
   "proposal": {
-    "title": "Extended‑Epoch Confirmation of the w8 Local‑Width Boundary on ECG200",
-    "research_question": "Does training the Alpha5 w8 configuration for 100 epochs close the performance gap to the Alpha5 w16 control on ECG200?",
-    "rationale": "The prior w8 confirmation failed under a 50‑epoch regime, leaving open whether the gap is due to insufficient training rather than an inherent capacity limit. Demonstrating that longer training can meet the relative gate would inform future width‑compression decisions and model‑size trade‑offs.",
+    "title": "Confirmation of w8 Local‑Width Boundary with Extended Training",
+    "research_question": "Does training Alpha5 with local_width=8 for 100 epochs achieve performance within 10 correct predictions of the Alpha5 w16 control on ECG200?",
+    "rationale": "The 50‑epoch w8 confirmation failed the gate, but longer training in prior work suggests the gap may shrink. Confirming the w8 boundary under the original training budget is essential before considering further architectural reductions.",
     "experiment_design": {
       "dataset": {
         "name": "ECG200",
@@ -36,17 +22,14 @@
         }
       ],
       "procedure": [
-        "Define a fresh set of five independent random seeds [42,43,44,45,46].",
-        "For each seed, train the Alpha5 w8 candidate for 100 epochs on the ECG200 training split (100 samples).",
-        "For the same seed, train the Alpha5 w16 control for 100 epochs under identical hyper‑parameters.",
-        "After training, evaluate both models on the ECG200 test split (100 samples) and record the number of correct Q.ANT predictions per seed.",
-        "Aggregate correct counts across the five seeds for candidate and control (max 500).",
-        "Apply the relative success criterion: candidate_correct ≥ control_correct − 10."
+        "Use the preregistered random seeds [42,43,44,45,46].",
+        "For each seed, train Alpha5 with local_width=8 for exactly 100 epochs on the ECG200 TRAIN split (100 samples).",
+        "Simultaneously, train the concurrent Alpha5 control with local_width=16 for exactly 100 epochs on the same TRAIN split and seeds.",
+        "After training, evaluate both models on the ECG200 TEST split (100 samples) per seed, yielding 5 × 100 = 500 predictions per model.",
+        "Aggregate the number of correct Q.ANT predictions for each model across all seeds."
       ]
     },
-    "success_criteria": {
-      "relative_gate": "candidate_correct >= control_correct - 10 on the aggregated 5*100 predictions"
-    },
+    "success_criteria": "candidate_correct >= control_correct - 10 on 500 predictions (5 seeds × 100 test samples).",
     "requested_budget": {
       "max_parameters": 9000,
       "max_candidates": 1,
@@ -54,7 +37,7 @@
       "max_train_samples": 100,
       "max_test_samples": 100
     },
-    "risks": "Longer training may increase over‑fitting on the small ECG200 training set; additional compute time may delay downstream experiments; results remain limited to software‑simulation and cannot be extrapolated to physical photonic hardware.",
+    "risks": "If 100 epochs are insufficient, the w8 model may still fall short of the gate, leading to inconclusive results. Simulation variance across seeds could obscure true performance differences. The experiment consumes the full allocated epoch budget, limiting exploration of alternative training schedules.",
     "requires_human_approval": true
   },
   "status": "draft_requires_human_review"
