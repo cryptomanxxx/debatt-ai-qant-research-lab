@@ -94,6 +94,16 @@ def main():
             "success_criteria_met":exp.get("success_criteria_met"),
             "decision":exp.get("decision"),
         })
+    human_review=full.get("latest_human_review")
+    if isinstance(human_review,dict) and human_review.get("decision")=="reject":
+        reviewed=human_review.get("reviewed_proposal")
+        expected=human_review.get("proposal_sha256")
+        if not isinstance(reviewed,dict) or not isinstance(expected,str):
+            raise SystemExit("Rejected human review is missing its immutable proposal snapshot")
+        import hashlib
+        snapshot_bytes=(json.dumps(reviewed,indent=2,ensure_ascii=False)+"\n").encode()
+        if hashlib.sha256(snapshot_bytes).hexdigest()!=expected:
+            raise SystemExit("Rejected human review proposal snapshot does not match proposal_sha256")
     context={
         "schema_version":full.get("schema_version"),
         "rules":full.get("rules",[]),
