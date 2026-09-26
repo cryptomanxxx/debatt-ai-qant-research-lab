@@ -37,7 +37,7 @@ verified_base_sha=None
 if expected_proposal_sha:
     if len(expected_proposal_sha)!=64 or any(c not in "0123456789abcdef" for c in expected_proposal_sha):
         raise SystemExit("Invalid EXPECTED_CURRENT_PROPOSAL_SHA256")
-    proposal=run("git","show","origin/main:research_queue/ai_researcher/latest.json",capture=True).encode()
+    proposal=subprocess.run(["git","show","origin/main:research_queue/ai_researcher/latest.json"],check=True,capture_output=True).stdout
     actual=hashlib.sha256(proposal).hexdigest()
     if actual!=expected_proposal_sha:
         raise SystemExit(f"STALE REVIEW: current proposal SHA-256 is {actual}, reviewed proposal was {expected_proposal_sha}")
