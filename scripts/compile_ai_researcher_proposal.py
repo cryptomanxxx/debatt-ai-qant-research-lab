@@ -103,6 +103,7 @@ def main():
     )
     aggregate_gate=generic_aggregate_gate or named_w8_gate or named_w12_gate
     count_matches=[int(x) for x in re.findall(r"(?:correct[^0-9]{0,30}|≥\s*)(\d{3,5})",criteria,re.I)]
+    train_shape=dataset.get("train_shape")
     test_shape=dataset.get("test_shape")
     test_n=test_shape[0] if isinstance(test_shape,list) and test_shape and isinstance(test_shape[0],int) else None
     if seed_count and test_n and count_matches:
@@ -229,7 +230,11 @@ def main():
                     used_seeds.update(x for x in old_seeds if isinstance(x,int) and not isinstance(x,bool))
             except (OSError,json.JSONDecodeError):
                 pass
-        fresh_seeds=(seed_count==5 and len(set(seed_numbers))==5 and all(x>0 for x in seed_numbers) and not (set(seed_numbers)&used_seeds))
+        fresh_seeds=(
+            seed_count==5 and len(set(seed_numbers))==5
+            and all(0<x<=2147483647 for x in seed_numbers)
+            and not (set(seed_numbers)&used_seeds)
+        )
         structured_protocol=(
             isinstance(procedure_value,dict)
             and procedure_value.get("same_preregistered_seeds") is True
@@ -238,13 +243,15 @@ def main():
             and procedure_value.get("aggregate_predictions_per_model")==500
         )
         engine_match=(
-            4<=cw<16 and test_shape==[100,96] and fresh_seeds and structured_protocol
+            4<=cw<16 and train_shape==[100,96] and test_shape==[100,96] and fresh_seeds and structured_protocol
             and structured_epochs==100 and budget["max_candidates"]==2 and budget["max_epochs"]==100
             and budget["max_train_samples"]==100 and budget["max_test_samples"]==100
             and 8550<=budget["max_parameters"]<=10000 and engine_gate
         )
         if engine_match:
             job_id=f"ai-local-width-w{cw}-100epoch-"+"-".join(map(str,seed_numbers))
+            if len(job_id)>96:
+                reject("generated job_id exceeds guarded executor limit")
             gate=f"alpha5_w{cw}.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
             compiled={"status":"validated_executable_template","approval_readiness":"READY_FOR_HUMAN_COMPUTE_DECISION","source":"research_queue/ai_researcher/latest.json","proposal_title":p.get("title"),"template":"pnn-v1/experiments/local_width_confirmation/run.py","engine_family":"pnn-local-width-confirmation-v1","job_id":job_id,"preregistered_seeds":seed_numbers,"epochs":100,"gate":gate,"budget":budget,"engine_config":{"candidate_local_width":cw,"control_local_width":16,"seeds":seed_numbers,"epochs":100,"gate_margin_correct":10},"automated_checks":review_checks(False,True,True)+[{"check":"Structured paired candidate/control protocol","status":"passed"},{"check":"Exact 100-epoch structured protocol","status":"passed"},{"check":"Exact ECG200 100/100 budget contract","status":"passed"},{"check":"Fresh seeds against recorded PNN results","status":"passed"},{"check":"PNN Experiment Engine v1 parameter bounds","status":"passed"}],"human_decision":"Awaiting scientific review.","message":"Draft matches the reviewed PNN Experiment Engine v1 local-width confirmation family. Human scientific approval and separate compute authorization are still required."}
             OUT.parent.mkdir(parents=True,exist_ok=True); OUT.write_text(json.dumps(compiled,indent=2)+"\n")

@@ -18,9 +18,10 @@ def groq(messages):
             "experiment_design":{"type":"object","properties":{
                 "dataset":{"type":"object","properties":{
                     "name":{"type":"string","const":"ECG200"},
+                    "train_shape":{"type":"array","items":{"type":"integer","enum":[100,96]},"minItems":2,"maxItems":2},
                     "test_shape":{"type":"array","items":{"type":"integer","enum":[100,96]},"minItems":2,"maxItems":2}
-                },"required":["name","test_shape"],"additionalProperties":False},
-                "seeds":{"type":"array","items":{"type":"integer","minimum":1},"minItems":3,"maxItems":10},
+                },"required":["name","train_shape","test_shape"],"additionalProperties":False},
+                "seeds":{"type":"array","items":{"type":"integer","minimum":1,"maximum":2147483647},"minItems":3,"maxItems":10},
                 "epochs":{"type":"integer","minimum":1,"maximum":100},
                 "candidates":{"type":"array","items":{"type":"object","properties":{
                     "local_width":{"type":"integer","minimum":1}
@@ -154,7 +155,7 @@ avoid the already used seeds [11,22,33,44,55,66,77,88,99,111],
 For a 100-epoch confirmation proposal, requested_budget.max_epochs MUST be exactly 100,
 not a looser ceiling such as 200. The structured procedure MUST set same_preregistered_seeds=true and record train_samples=100, test_samples=100, aggregate_predictions_per_model=500. Candidate and
 concurrent control are trained/evaluated on the same preregistered seeds, for 100 epochs,
-using the same ECG200 train/test split (100 train and 100 test samples), with results
+using the same ECG200 train/test split (dataset.train_shape=[100,96], dataset.test_shape=[100,96]; 100 train and 100 test samples), with results
 aggregated over 500 test predictions per model. Do not encode procedure as free-text labels. Any true replication must use a fresh preregistered seed
 set not used by the experiment being replicated. Keep the proposal bounded and use
 structured seeds and epochs in experiment_design. PNN Experiment Engine v1 is a reviewed executable family for local-width confirmation
