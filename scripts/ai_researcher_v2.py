@@ -18,7 +18,7 @@ def groq(messages):
             "experiment_design":{"type":"object","properties":{
                 "dataset":{"type":"object","properties":{
                     "name":{"type":"string","const":"ECG200"},
-                    "test_shape":{"type":"array","prefixItems":[{"type":"integer","const":100},{"type":"integer","const":96}],"minItems":2,"maxItems":2}
+                    "test_shape":{"type":"array","items":{"type":"integer","enum":[100,96]},"minItems":2,"maxItems":2}
                 },"required":["name","test_shape"],"additionalProperties":False},
                 "candidates":{"type":"array","items":{"type":"object","properties":{
                     "local_width":{"type":"integer","minimum":1}
