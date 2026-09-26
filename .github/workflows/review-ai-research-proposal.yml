@@ -46,6 +46,8 @@ jobs:
 
           raw=proposal_path.read_bytes()
           p=json.loads(raw)
+          cycle_path=Path("research_queue/cycle/latest.json")
+          cycle=json.loads(cycle_path.read_text()) if cycle_path.exists() else {}
           compiled=json.loads(compiled_path.read_text()) if compiled_path.exists() else None
           stamp=datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
           out={
@@ -58,6 +60,8 @@ jobs:
               "comment":os.environ["COMMENT"],
               "reviewer":os.environ["ACTOR"],
               "workflow_run_id":os.environ["RUN_ID"],
+              "proposal_workflow_run_id":cycle.get("proposal_workflow_run_id"),
+              "proposal_mode":cycle.get("proposal_mode"),
               "reviewed_at_utc":stamp,
           }
           root=Path("research_queue/human_review")
@@ -90,10 +94,39 @@ jobs:
           p=Path("research_queue/cycle/latest.json")
           cycle=json.loads(p.read_text()) if p.exists() else {}
           allowed=cycle.get("automatic_revision_allowed") is True
+          proposal_run_id=cycle.get("proposal_workflow_run_id")
+          if not isinstance(proposal_run_id,str) or not proposal_run_id.isdigit():
+              raise SystemExit("Missing/invalid proposal_workflow_run_id; refusing to cancel an unbound run")
           with open(os.environ["GITHUB_OUTPUT"],"a") as out:
               out.write(f"auto_revision={'true' if allowed else 'false'}\n")
+              out.write(f"proposal_run_id={proposal_run_id}\n")
           print("Automatic revision allowed:",allowed)
+          print("Bound proposal workflow run:",proposal_run_id)
           PY
+      - name: Cancel rejected proposal workflow
+        if: inputs.decision == 'reject'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROPOSAL_RUN_ID: ${{ steps.rejection.outputs.proposal_run_id }}
+        run: |
+          gh api --method POST "repos/${{ github.repository }}/actions/runs/$PROPOSAL_RUN_ID/cancel"
+          echo "Cancelled rejected AI Researcher run $PROPOSAL_RUN_ID."
+      - name: Wait for rejected run to release concurrency
+        if: inputs.decision == 'reject' && steps.rejection.outputs.auto_revision == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PROPOSAL_RUN_ID: ${{ steps.rejection.outputs.proposal_run_id }}
+        run: |
+          for i in {1..30}; do
+            status="$(gh api "repos/${{ github.repository }}/actions/runs/$PROPOSAL_RUN_ID" --jq .status)"
+            echo "Rejected run status: $status"
+            if [ "$status" = "completed" ]; then
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "Rejected run did not complete cancellation in time."
+          exit 1
       - name: Start one automatic revision
         if: inputs.decision == 'reject' && steps.rejection.outputs.auto_revision == 'true'
         env:
