@@ -14,7 +14,18 @@ def groq(messages):
     schema={"type":"object","properties":{
         "researcher":{"type":"string"},"model":{"type":"string"},"evidence_frontier":{},"analysis":{},"hypothesis":{},
         "proposal":{"type":"object","properties":{
-            "title":{"type":"string"},"research_question":{"type":"string"},"rationale":{},"experiment_design":{},"success_criteria":{},
+            "title":{"type":"string"},"research_question":{"type":"string"},"rationale":{},
+            "experiment_design":{"type":"object","properties":{
+                "dataset":{"type":"object","properties":{
+                    "name":{"type":"string","const":"ECG200"},
+                    "test_shape":{"type":"array","items":{"type":"integer","minimum":1},"minItems":1}
+                },"required":["name","test_shape"],"additionalProperties":True},
+                "candidates":{"type":"array","items":{"type":"object","properties":{
+                    "local_width":{"type":"integer","minimum":1}
+                },"required":["local_width"],"additionalProperties":True},"minItems":1},
+                "procedure":{"type":"array","items":{"type":"string"},"minItems":1}
+            },"required":["dataset","candidates","procedure"],"additionalProperties":True},
+            "success_criteria":{},
             "requested_budget":{"type":"object","properties":{
                 "max_parameters":{"type":"integer","minimum":1},"max_candidates":{"type":"integer","minimum":1},
                 "max_epochs":{"type":"integer","minimum":1},"max_train_samples":{"type":"integer","minimum":1},"max_test_samples":{"type":"integer","minimum":1}},
