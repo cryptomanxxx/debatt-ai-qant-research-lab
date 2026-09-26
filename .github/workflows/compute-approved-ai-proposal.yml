@@ -19,20 +19,30 @@ jobs:
         with:
           ref: main
       - name: Verify scientific approval and compiler readiness
+        env:
+          DISPATCH_PROPOSAL_SHA256: ${{ github.event.client_payload.proposal_sha256 }}
+          DISPATCH_PROPOSAL_RUN_ID: ${{ github.event.client_payload.proposal_workflow_run_id }}
         run: |
           python - <<'PY'
-          import hashlib, json
+          import hashlib, json, os
           from pathlib import Path
           proposal=Path("research_queue/ai_researcher/latest.json").read_bytes()
           review=json.load(open("research_queue/human_review/latest.json"))
           compiled=json.load(open("research_queue/compiled/latest.json"))
+          current_sha=hashlib.sha256(proposal).hexdigest()
+          dispatched_sha=os.environ.get("DISPATCH_PROPOSAL_SHA256","")
+          dispatched_run=os.environ.get("DISPATCH_PROPOSAL_RUN_ID","")
+          if not dispatched_sha or not dispatched_run:
+              raise SystemExit("Compute dispatch is missing immutable proposal binding")
           if review.get("decision")!="approve":
               raise SystemExit("Latest scientific review is not approve")
-          if review.get("proposal_sha256")!=hashlib.sha256(proposal).hexdigest():
-              raise SystemExit("Scientific approval does not match the current proposal")
+          if review.get("proposal_sha256")!=dispatched_sha or str(review.get("proposal_workflow_run_id"))!=dispatched_run:
+              raise SystemExit("Compute dispatch does not match the recorded scientific approval")
+          if current_sha!=dispatched_sha:
+              raise SystemExit("Current proposal changed after scientific approval; refusing compute")
           if compiled.get("status")!="validated_executable_template" or compiled.get("approval_readiness")!="READY_FOR_HUMAN_COMPUTE_DECISION":
               raise SystemExit("Compiler has not cleared current proposal for compute")
-          print("Scientific approval is bound to current proposal; compute authorization received.")
+          print("Scientific approval, dispatch, and current proposal are immutably bound; compute authorization received.")
           PY
 
   prepare-qant:
