@@ -20,6 +20,7 @@ permissions:
 jobs:
   # Legacy workflow retained for history; direct publication to main is disabled.
   approve:
+    if: ${{ false }}
     if: ${{ inputs.confirm }}
     runs-on: ubuntu-latest
     steps:
