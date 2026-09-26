@@ -45,8 +45,10 @@ pnn_analyses=[]
 for path in sorted(Path("pnn-v1/analyses").glob("analysis*.md")):
  pnn_analyses.append({"file":path.name,"text":path.read_text()})
 
+human_review=load_json(Path("research_queue/human_review/latest.json"))
+
 packet={
- "schema_version":3,
+ "schema_version":4,
  "purpose":"Evidence packet for the next falsifiable research proposal.",
  "rules":[
   "Use repository results as experimental evidence.",
@@ -63,6 +65,7 @@ packet={
   "ecg200_parameter_count":8550,
   "model_file":"pnn-v1/models/alpha5.md"
  },
+ "latest_human_review":human_review,
  "current_frontier":{
   "latest_completed_experiment":"PNN-v1-Exp021",
   "status":"Alpha5 remains active. Exp021 found a 4,278-parameter w8 compression candidate at exactly 10 fewer Q.ANT correct predictions out of 1000 than the Alpha5 control; the preregistered floating-point gate recorded retain_alpha5.",
