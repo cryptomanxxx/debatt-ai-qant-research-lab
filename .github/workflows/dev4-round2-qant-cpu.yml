@@ -1,0 +1,90 @@
+name: Dev-4 Round 2 Q.ANT CPU Evaluation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: dev4-round2-qant-cpu-single-use
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    container:
+      image: ghcr.io/cryptomanxxx/debatt-ai-qant-research-lab@sha256:f0f6303bd7f08a055f4befcad8bac2ff0185adc2e1d50cdf734442b8b5b64735
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Block duplicate dispatches and reruns before training
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          test "$RUN_NUMBER" = "1" && test "$RUN_ATTEMPT" = "1" || {
+            echo "::error::Round-two compute is single-use; reruns prohibited."
+            exit 1
+          }
+      - uses: actions/checkout@v4
+        with:
+          # Reviewed immutable code snapshot including the frozen round-two selections.
+          ref: 8ada15f36006c6f29dfe6dd8200e9d0d2b1bedb9
+      - name: Verify reviewed checkout
+        shell: bash
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          test "$(git rev-parse HEAD)" = "8ada15f36006c6f29dfe6dd8200e9d0d2b1bedb9"
+      - name: Download original round-two selection via authenticated GitHub Action
+        uses: actions/download-artifact@v4
+        with:
+          name: dev4-round2-selection
+          run-id: 36562982457
+          repository: cryptomanxxx/debatt-ai-qant-research-lab
+          github-token: ${{ github.token }}
+          path: /tmp/dev4-round2-selection
+      - name: Verify actual frozen round-two selection before training
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          p=Path("/tmp/dev4-round2-selection/dev4_round2_selection.json")
+          raw=p.read_bytes()
+          assert hashlib.sha256(raw).hexdigest()=="90540e37dd1bcd556634ba8e9363b2bbaff3aeed28e1d84122abf3ddfc71e195"
+          d=json.loads(raw)
+          assert d["round"]==2 and d["mode"]=="selection_only_no_qant_compute"
+          assert d["groq_calls"]==1 and d["training_runs"]==0 and d["holdout_access"] is False
+          assert d["response_id"]=="chatcmpl-8731bac1-d96a-45cf-8561-da0934ef4285"
+          assert d["response_model"]=="openai/gpt-oss-120b"
+          assert d["raw_model_response"]=='{"local_width": 8}'
+          assert d["gpt_local_width"]==8 and d["gpt_proposal_error"] is None
+          assert d["other_selections"]=={"random-search":8,"grid-search":5,"bayesian-optimization":4}
+          assert d["adapter_versions"]=={"numpy":"1.26.4","scikit_learn":"1.5.2"}
+          assert d["history_sha256"]=="sha256:6991e3614f17360a91e8ec4a2155260e2fcdfe13078de73d2ee94d6135f32a7d"
+          assert d["prompt_sha256"]=="sha256:ac4a1a38a082a75d4a967a73c25f1aa0491a08c978cb30e898eeec2a1e90641a"
+          assert d["source_round1_run_id"]==36559946601
+          assert d["source_round1_artifact_sha256"]=="43eca34825b363497440717dea1af56fc3e00b9c01cac2f39f76d298eec10172"
+          print("Authentic frozen round-two selections verified; no new Groq request.")
+          PY
+      - name: Verify Q.ANT CPU environment and preregistration
+        run: |
+          python -c "import torch,numpy,ml_dtypes,aeon,qant_native_computing_toolkit; print('Q.ANT CPU environment ready')"
+          python -m scripts.validate_dev4_selection_protocol --ready-for-execution
+          python -m unittest discover -s tests -p 'test_dev4_round2_qant_cpu_contract.py' -v
+      - name: Run four frozen policy labels and shared paired control
+        run: python -m scripts.dev4_round2_qant_cpu
+      - name: Preserve full and partial results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dev4-round2-qant-cpu-results
+          path: |
+            local_results/dev4_round2_qant_cpu.json
+            local_results/dev4_round2_partial.json
+          if-no-files-found: warn
+          retention-days: 90
