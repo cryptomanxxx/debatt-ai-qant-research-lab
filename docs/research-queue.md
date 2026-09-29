@@ -1,3 +1,5 @@
+> **Historical early queue design.** The `ready` status and arbitrary `command` example below are not valid under today's [`job.schema.json`](../research_queue/job.schema.json); follow the [current systems/protocol map](current-systems-and-protocols.md) for the real guarded job lifecycle and code/approval bindings.
+
 # Research Queue and Compute Orchestration
 
 Level 2 separates the research request from the compute backend.

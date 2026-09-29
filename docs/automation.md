@@ -1,3 +1,5 @@
+> **Historical Phase 1 automation note; operational references below are superseded.** The referenced `.github/workflows/qant-research.yml` does not exist on current `main`; the current chain uses scientific review, separate compute authorization, and the reusable guarded `qant-research-queue-v2.yml` (not a manual shortcut). See the [current systems/protocol map](current-systems-and-protocols.md).
+
 # Research automation
 
 The lab is moving from interactive Colab runs toward a runner-independent

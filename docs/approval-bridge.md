@@ -1,3 +1,5 @@
+> **Historical v1 bridge, not an executable current approval guide.** Direct legacy approval jobs are disabled. Follow the SHA-bound scientific review, separate human compute authorization and pinned guarded job described in the [current systems/protocol map](current-systems-and-protocols.md).
+
 # Human approval bridge
 
 The approval bridge converts a reviewed AI Researcher proposal into an approved
