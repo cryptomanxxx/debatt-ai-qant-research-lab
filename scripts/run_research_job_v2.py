@@ -1,5 +1,5 @@
 """Guarded research-job executor."""
-import json, os, re, subprocess, sys
+import hashlib, json, os, re, subprocess, sys
 from pathlib import Path
 
 ALLOWED_ROOTS=("experiments/","scripts/","pnn-v1/experiments/")
@@ -37,6 +37,16 @@ for key,limit in MAX.items():
  if not isinstance(value,int) or isinstance(value,bool) or value<1 or value>limit:
   fail(f"{key} outside allowed range")
 
+if job.get("engine_family")=="pnn-local-width-confirmation-v1":
+ pid=job.get("proposal_id")
+ digest=job.get("proposal_sha256")
+ if not isinstance(pid,str) or not re.fullmatch(r"research-[0-9]{8}T[0-9]{12}Z-[0-9a-f]{32}",pid):
+  fail("approved engine job missing registered proposal ID")
+ if not isinstance(digest,str) or not re.fullmatch(r"[0-9a-f]{64}",digest):
+  fail("approved engine job missing proposal digest")
+ snapshot=Path("research_queue/ai_researcher/proposals")/(pid+".json")
+ if not snapshot.is_file() or hashlib.sha256(snapshot.read_bytes()).hexdigest()!=digest:
+  fail("approved engine job is not bound to archived proposal")
 print("JOB APPROVED:",job_id)
 print("EXPERIMENT:",experiment)
 print("BUDGET:",json.dumps(budget,sort_keys=True))
