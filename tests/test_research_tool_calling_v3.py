@@ -65,6 +65,17 @@ class ResearchToolCallingContract(unittest.TestCase):
             with self.assertRaises(ValueError):
                 ResearchSession(strategy="gpt-oss-120b", max_session_bytes=bad)
 
+    def test_io_failure_closes_session_without_retry(self):
+        s = ResearchSession(strategy="gpt-oss-120b")
+        with patch("scripts.research_tool_calling_v3.memory.get_pareto_front",
+                   side_effect=OSError("pinned evidence unavailable")):
+            with self.assertRaisesRegex(OSError, "unavailable"):
+                s.call({"tool": "get_pareto_front", "arguments": {}})
+        self.assertTrue(s.closed)
+        self.assertEqual(s.calls, 0)
+        with self.assertRaisesRegex(ValueError, "closed"):
+            s.call({"tool": "get_pareto_front", "arguments": {}})
+
     def test_no_network_or_training(self):
         with patch("urllib.request.urlopen", side_effect=AssertionError("network forbidden")):
             data = offline_demonstration()
