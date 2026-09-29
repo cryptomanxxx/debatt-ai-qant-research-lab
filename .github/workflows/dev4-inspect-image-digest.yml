@@ -1,0 +1,20 @@
+name: Inspect Q.ANT Research Image Digest (No Compute)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Authenticate to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+      - name: Print immutable multi-platform image digest
+        shell: bash
+        run: |
+          docker buildx imagetools inspect ghcr.io/cryptomanxxx/debatt-ai-qant-research-lab:research-py313-v1
+          echo "Inspection only: no training, no Groq call, no image rebuild."
