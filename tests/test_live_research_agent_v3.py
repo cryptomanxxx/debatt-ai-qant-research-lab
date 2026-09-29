@@ -1,6 +1,8 @@
 """Injected fake model tests: no real Groq requests or compute."""
+import http.client
 import io
 import json
+import traceback
 import urllib.error
 import unittest
 from unittest.mock import patch
@@ -195,6 +197,34 @@ class LiveResearchAgentContract(unittest.TestCase):
                 with patch("urllib.request.urlopen", side_effect=error):
                     with self.assertRaisesRegex(RuntimeError, expected):
                         GroqHTTPAdapter(enabled=True, api_key="fake").complete([])
+
+    def test_truncated_chunked_http_error_body_never_leaks_partial_response(self):
+        secret = "secret-partial-response-and-provider-reason"
+        failures = (
+            http.client.IncompleteRead(secret.encode(), 42),
+            http.client.HTTPException(secret),
+        )
+        for failure in failures:
+            with self.subTest(failure_type=type(failure).__name__):
+                # The HTTPError's fp can throw while consuming a truncated
+                # chunked error body. Use a fake stream and no real network.
+                stream = unittest.mock.Mock()
+                stream.read.side_effect = failure
+                error = urllib.error.HTTPError(
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    403, secret, {"Content-Type": "text/html"}, stream)
+                with patch("urllib.request.urlopen", side_effect=error) as opener:
+                    with self.assertRaises(RuntimeError) as caught:
+                        GroqHTTPAdapter(enabled=True, api_key=secret).complete([])
+                self.assertEqual(opener.call_count, 1)  # No hidden retries.
+                self.assertEqual(str(caught.exception),
+                                 "Groq API HTTP 403; unable to read safe error details")
+                self.assertIsNone(caught.exception.__cause__)
+                self.assertTrue(caught.exception.__suppress_context__)
+                rendered = "".join(traceback.format_exception(
+                    type(caught.exception), caught.exception,
+                    caught.exception.__traceback__))
+                self.assertNotIn(secret, rendered)
 
     def test_adapter_requires_explicit_enable_and_key(self):
         with self.assertRaisesRegex(RuntimeError, "enabled=True"):
