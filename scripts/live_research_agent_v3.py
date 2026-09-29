@@ -20,14 +20,35 @@ MAX_RESPONSE_BYTES = 8192
 MAX_MESSAGES_BYTES = 32000
 MAX_OUTPUT_TOKENS = 1024
 MAX_INPUT_TOKENS_PER_CALL = 4000
-SYSTEM = ("You are a scientific research assistant. You may request one read-only "
-          "research tool at a time. Output ONLY JSON: either "
-          '{"kind":"tool","payload":{"tool":"search_experiments","arguments":{}}} '
-          'or {"kind":"proposal","payload":{...}} or '
-          '{"kind":"insufficient_evidence","payload":{"reason":"..."}}. '
-          "Only cite experiment IDs actually returned by tools. "
-          "Never request training, GitHub operations, or cross-strategy evidence. "
-          "A proposal is not permission to execute an experiment.")
+PROPOSAL_SCHEMA_INSTRUCTIONS = (
+    'For a proposal, output exactly {"kind":"proposal","payload":{'
+    '"hypothesis":"testable explanation of 10 to 1000 characters",'
+    '"rationale":"evidence-based rationale of 10 to 1000 characters",'
+    '"local_width":10,"dataset":"ECG200","epochs":100,'
+    '"evidence_ids":["dev4-r1-gpt-oss-120b"],'
+    '"expected_measurements":["candidate_correct","candidate_parameters","gate_pass"]}}. '
+    "The payload must contain exactly these seven fields, with no extras. "
+    "local_width must be an integer from 4 to 15 (not a boolean); dataset must "
+    "be ECG200 and epochs must be the integer 100. evidence_ids must be a list "
+    "of 1 to 5 distinct IDs actually returned to you by this session's tools, "
+    "all belonging to your assigned strategy. The three expected_measurements "
+    "must appear exactly once each, with no additional measurements. "
+    "The example evidence ID is illustrative only: never cite it unless it was "
+    "actually returned by a tool in this session. "
+)
+SYSTEM = (
+    "You are a scientific research assistant. You may request one read-only "
+    "research tool at a time. Output ONLY one JSON object per turn. "
+    'A tool request is {"kind":"tool","payload":{"tool":"search_experiments",'
+    '"arguments":{"dataset":"ECG200"}}}; allowed tool names are '
+    "search_experiments, get_experiment, and get_pareto_front. "
+    + PROPOSAL_SCHEMA_INSTRUCTIONS +
+    'Alternatively, abstain with {"kind":"insufficient_evidence",'
+    '"payload":{"reason":"at least ten characters explaining the limitation"}}. '
+    "Only cite experiment IDs actually returned by tools. "
+    "Never request training, GitHub operations, or cross-strategy evidence. "
+    "A proposal is not permission to execute an experiment."
+)
 
 
 class GroqHTTPAdapter:
