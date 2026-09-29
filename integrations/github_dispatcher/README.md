@@ -10,7 +10,7 @@ The integration must be registered in ChatGPT as an accessible MCP/plugin before
 
 ## Enabling a workflow
 
-After a separate review, add an exact workflow name and expected round to `ALLOWED` in `server.py`. Only `main`, exact inputs, and a user-approved dispatch are accepted. Training workflows must **never** enter this allowlist. Keep one-shot protection in the GitHub workflow itself; checking prior runs from the dispatcher is not an atomic lock and GitHub Actions may not return a run immediately after dispatch.
+After a separate review, create a **dedicated one-shot workflow file per round** (for example `dev4-round3-selection.yml` for round 3) and add that exact filename and expected round to `ALLOWED` in `server.py`. Reusing `dev4-reusable-selection.yml` is explicitly rejected: its existing round-2 dispatch must not block round 3, and GitHub run listings do not provide an authoritative round-specific lock. The dispatcher checks prior manual runs for the dedicated filename on `main`; the workflow must separately enforce its own one-shot guard. Only `main`, exact inputs, and a user-approved dispatch are accepted. Training workflows must **never** enter this allowlist. Keep one-shot protection in the GitHub workflow itself; checking prior runs from the dispatcher is not an atomic lock and GitHub Actions may not return a run immediately after dispatch.
 
 Test without credentials: `python -m unittest discover -s tests -p 'test_github_dispatcher_contract.py' -v`.
 
