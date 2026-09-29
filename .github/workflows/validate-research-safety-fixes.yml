@@ -1,0 +1,30 @@
+name: Validate Research Safety Fixes
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/**'
+      - 'tests/**'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile modified Python entrypoints
+        run: |
+          python -m py_compile scripts/proposal_lineage.py scripts/compile_ai_researcher_proposal.py scripts/materialize_ai_approved_job.py scripts/run_research_job_v2.py scripts/link_research_proposal_outcomes.py
+      - name: Run focused regression tests
+        run: |
+          python -m unittest discover -s tests -p 'test_link_research_proposal_outcomes.py' -v
+          python -m unittest discover -s tests -p 'test_dev3_entrypoints.py' -v
+          python -m unittest discover -s tests -p 'test_merged_branch_cleanup_safety.py' -v
+          python -m unittest discover -s tests -p 'test_proposal_lineage.py' -v
