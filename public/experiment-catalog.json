@@ -1,0 +1,4367 @@
+{
+  "catalog_kind": "debatt_ai_global_experiment_discovery",
+  "purpose": "Read-only repository inventory for human/audit discovery; NOT a researcher tool, verified raw-artifact attestation, holdout set, or compute authorization.",
+  "records": [
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal001:v1",
+      "record_id": "pnn-v1-proposal001",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "637cf286246b32f565debdf281bec96d9f81156e",
+        "path": "pnn-v1/proposals/proposal001.json",
+        "sha256": "59cf3b6cc8172c763673b5b40a405d2ad10f54e38232ee4310fbe81398d7c4d8"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp001"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal002:v1",
+      "record_id": "pnn-v1-proposal002",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "7ad7b2ff778e03a49c6768c7c62a492b41515459",
+        "path": "pnn-v1/proposals/proposal002.json",
+        "sha256": "571db648d82a412bf9628084f55e284a8fcd8b549f14ee1b2656eee90da81fc0"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp002"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal003:v1",
+      "record_id": "pnn-v1-proposal003",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "a50e9cc7005bedb72902e4c0a84ac52a21ce09ba",
+        "path": "pnn-v1/proposals/proposal003.json",
+        "sha256": "60750915200b62e50e1cd3eb1ca6510d328b8381f6644c49337b8a7db0085245"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp003"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal004:v1",
+      "record_id": "pnn-v1-proposal004",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "ccf5ff2639f0e30270456d0a940bdd9cfc876f9d",
+        "path": "pnn-v1/proposals/proposal004.json",
+        "sha256": "2e9efc5f1bf65214f18130ecb49d242fb2d11bedfba0a46312648b879f1a8ccc"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp004"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal005:v1",
+      "record_id": "pnn-v1-proposal005",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "ffc4898146d9f982771771a7146961c74e535436",
+        "path": "pnn-v1/proposals/proposal005.json",
+        "sha256": "a49d10de099c629ba921295e9857326f657e4a5f2bc75678cbf8360073faea63"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp005"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal006:v1",
+      "record_id": "pnn-v1-proposal006",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "66a38ee04eb4ffa4995c192814c2c96db998d6ee",
+        "path": "pnn-v1/proposals/proposal006.json",
+        "sha256": "618861a47057e3a8c7075b76feda6fe2eda6255e5165d77704451966bfb35079"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp006"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal007:v1",
+      "record_id": "pnn-v1-proposal007",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "76659cc7eb1ce68068d81c84f6ca2a4a4e2e0c8f",
+        "path": "pnn-v1/proposals/proposal007.json",
+        "sha256": "75bec9e1b6f6b025eceab6110b77d74f76793ffed891440aa1c6c8b655fa0bd2"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp007"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal008:v1",
+      "record_id": "pnn-v1-proposal008",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "d17fc8a883b972259af973f3e4a89d5d2393c619",
+        "path": "pnn-v1/proposals/proposal008.json",
+        "sha256": "3f63c5b44e8a528265ed2c08ca467c1c20afb9ce8ce896cf557eb9deb721fb09"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp008"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal009:v1",
+      "record_id": "pnn-v1-proposal009",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "add43cff21d573b1f4a728fda7b5aa2fc9838d58",
+        "path": "pnn-v1/proposals/proposal009.json",
+        "sha256": "46b275b94ec3f86c840508bb3fe09cf7a2af1d176b16ea4422ad5d68180c644a"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp009"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal010:v1",
+      "record_id": "pnn-v1-proposal010",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "61a3b9ad08acb8edee1b228d1ea9f6d9c2526dfa",
+        "path": "pnn-v1/proposals/proposal010.json",
+        "sha256": "5a7fa20aafc38290b0bf34883424eaa99be8cb3f174cd504a1733888c54cc86b"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp010"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal011:v1",
+      "record_id": "pnn-v1-proposal011",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "5ab88396bf69796f8f86a29401c335909ae63016",
+        "path": "pnn-v1/proposals/proposal011.json",
+        "sha256": "b8d6f9fe3a487a57cf05212a844bf39aaf258e1bb4a06af12e08b758c83b3618"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp011"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal012:v1",
+      "record_id": "pnn-v1-proposal012",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "45b94fc2aefb5dbf5919551c5296925aadbd1b29",
+        "path": "pnn-v1/proposals/proposal012.json",
+        "sha256": "4f04d030e9375bd7a9531295ae5620e7e1e8c0a59c1dafcfce179762b145460c"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp012"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal013:v1",
+      "record_id": "pnn-v1-proposal013",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "961f7c7c11fc7826377d67c0df22aa04513c5359",
+        "path": "pnn-v1/proposals/proposal013.json",
+        "sha256": "323751bf4d0eadc76f6a566ef9cc7035d51d511199c95d773faf9e82aafa97a7"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp013"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal014:v1",
+      "record_id": "pnn-v1-proposal014",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "022c06e18bfe2e95a9b90553ea2122a65882fc18",
+        "path": "pnn-v1/proposals/proposal014.json",
+        "sha256": "c17b2231fae4438538506a759d23c1bd0aefa1997deec63600592472bf24b6ba"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp014"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal015:v1",
+      "record_id": "pnn-v1-proposal015",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "a9bab02bd39ceafc0e91ab3eb58c1f247079dd87",
+        "path": "pnn-v1/proposals/proposal015.json",
+        "sha256": "eb980123ccb9ff1865c1ea9a02e3b0c790afe13e7f84b4fbe720ff23965cfe14"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp015"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal016:v1",
+      "record_id": "pnn-v1-proposal016",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "80ecbbf60c82b2d0f6295e77481b238096e7c909",
+        "path": "pnn-v1/proposals/proposal016.json",
+        "sha256": "d3a9ea3ba8006d96ff84a166ef0a0334c75a045ce3f54e0bbab50751a2acdd50"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp016"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal017:v1",
+      "record_id": "pnn-v1-proposal017",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "655fc0a238d07ab6916e0b4dc3b1e65337e71b5a",
+        "path": "pnn-v1/proposals/proposal017.json",
+        "sha256": "2d3ea0c95ecc07fbfb0a3d9a3bf76089811b6d18b666d65bf2f46195717787c0"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp017"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal018:v1",
+      "record_id": "pnn-v1-proposal018",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "237fe24d295b0cd8e8906c91bbba59fb3189eac7",
+        "path": "pnn-v1/proposals/proposal018.json",
+        "sha256": "b3d2f75c3e5156e56fa2dec6a485a9170865211a3f79d55734e569ba51e9890e"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp018"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal019:v1",
+      "record_id": "pnn-v1-proposal019",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "2f36ade75fb6bd65a06037894ce7926ec05134dd",
+        "path": "pnn-v1/proposals/proposal019.json",
+        "sha256": "2a26cf451d7a9df0497cdad9314c16cd636e036e11e7e2a1ee05b18763c672bc"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp019"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal020:v1",
+      "record_id": "pnn-v1-proposal020",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "73d01cac1e910821b9c5874830c7422534c2233f",
+        "path": "pnn-v1/proposals/proposal020.json",
+        "sha256": "0ca66d0450702358c4f9ff59578e89f09b3bad784ac271cc32e767deb086dcc1"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp020"
+    },
+    {
+      "catalog_id": "pnn-v1:proposal:pnn-v1-proposal021:v1",
+      "record_id": "pnn-v1-proposal021",
+      "record_kind": "proposal",
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "77f5001f09dcbb5b90021614678c81e14a1a7a6a",
+        "path": "pnn-v1/proposals/proposal021.json",
+        "sha256": "08a0577ab65605c1f71b1ea220d0100cf059ca23ec0e58da17d98cbcaf344120"
+      },
+      "source_schema_version": null,
+      "status": "proposal_documented",
+      "target_experiment_id": "PNN-v1-Exp021"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Engine-alpha5_w10-100Epoch:v1",
+      "dataset": {
+        "name": "ECG200",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "880e6c244d0e93af0ba2963fa0cba885005d04a2",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36243106089",
+          "source": {
+            "git_blob_sha1": "e1e629d553a57f4f49c4338d6b097f849b9ec46f",
+            "path": "executions/ai-local-width-w10-100epoch-201-202-203-204-205-36243106089.json",
+            "sha256": "25308e27387880fd7961a6f2fcdd5f61b9aaed8ce5d9135339021b12d3754a71"
+          }
+        }
+      ],
+      "job_id": "ai-local-width-w10-100epoch-201-202-203-204-205",
+      "job_link_basis": "auxiliary_proposal_job_name_convention_only",
+      "job_source": {
+        "git_blob_sha1": "060822d1c31b49354878dcf8c7f13fa1253d4715",
+        "path": "research_queue/jobs/ai-local-width-w10-100epoch-201-202-203-204-205.json",
+        "sha256": "526955b47e9ab41f5ea3853afc5507f9c34a2a99dc0482bb97a8b3c6001cc5b3"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "a23d3343777599d9296e708fec52513226fff940",
+          "path": "results/result_engine_w10_100epoch_ai-local-width-w10-100epoch-201-202-203-204-205.json",
+          "sha256": "b74168cc623f6f1783a837ea496cc145d113200f75bad9d1d9a031352e6be265"
+        }
+      ],
+      "proposal_id": "ai-local-width-w10-100epoch-201-202-203-204-205",
+      "proposal_source": null,
+      "record_id": "PNN-v1-Engine-alpha5_w10-100Epoch",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        201,
+        202,
+        203,
+        204,
+        205
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "a23d3343777599d9296e708fec52513226fff940",
+        "path": "pnn-v1/results/result_engine_w10_100epoch_ai-local-width-w10-100epoch-201-202-203-204-205.json",
+        "sha256": "b74168cc623f6f1783a837ea496cc145d113200f75bad9d1d9a031352e6be265"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-26T12:52:16.179533+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Engine-alpha5_w13-100Epoch:v1",
+      "dataset": {
+        "name": "ECG200",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "d2b27989e7f15954463555df742210c6bf691504",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36258690963",
+          "source": {
+            "git_blob_sha1": "aa4d0621927c7a71b7cecd53c5dbec35e1e7bd8f",
+            "path": "executions/ai-local-width-w13-100epoch-301-302-303-304-305-36258690963.json",
+            "sha256": "d3f7a1a3e4c77f13ca618b24958058d23f3b8d1cdf13dbf43e599ac9bbb74bc1"
+          }
+        }
+      ],
+      "job_id": "ai-local-width-w13-100epoch-301-302-303-304-305",
+      "job_link_basis": "auxiliary_proposal_job_name_convention_only",
+      "job_source": {
+        "git_blob_sha1": "5d6be02dd266542049b8f413c038ec06a4944646",
+        "path": "research_queue/jobs/ai-local-width-w13-100epoch-301-302-303-304-305.json",
+        "sha256": "7bff4b5d5a3852dfee3d7c3a504363daf70e119a63bf9d979c97fc0bdd67d704"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "80774ce993de912ccf5ebe88698604a2fae35dc1",
+          "path": "results/result_engine_w13_100epoch_ai-local-width-w13-100epoch-301-302-303-304-305.json",
+          "sha256": "12debd07c6031bd7f8bb15d2232e03cd3f3fb91ab0777c808bb1e09db8c1f8e3"
+        }
+      ],
+      "proposal_id": "ai-local-width-w13-100epoch-301-302-303-304-305",
+      "proposal_source": null,
+      "record_id": "PNN-v1-Engine-alpha5_w13-100Epoch",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        301,
+        302,
+        303,
+        304,
+        305
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "80774ce993de912ccf5ebe88698604a2fae35dc1",
+        "path": "pnn-v1/results/result_engine_w13_100epoch_ai-local-width-w13-100epoch-301-302-303-304-305.json",
+        "sha256": "12debd07c6031bd7f8bb15d2232e03cd3f3fb91ab0777c808bb1e09db8c1f8e3"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-26T17:28:52.955877+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp001:v1",
+      "dataset": {
+        "name": "ECG200",
+        "split": "canonical TRAIN/TEST",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "dbb74eb5037d2e75629091856825ada42b56c3ef",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36129007996",
+          "source": {
+            "git_blob_sha1": "c8fca82312c97538c82a6923027b4bab324aef6b",
+            "path": "executions/pnn-v1-exp001-36129007996.json",
+            "sha256": "d8305f1a4344cf618fbf97174d472bb90a53b22dcd892c633d5abb04acc97906"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp001",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "4d0ffe598442c9add4f6d230b6cf7bf939170ddf",
+        "path": "research_queue/jobs/pnn-v1-exp001.json",
+        "sha256": "386ab65b6654b4bd0857d0267783b831405a25fa8b2fe24d78fd70aa50409f11"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "c94cfb5903519cfa959886b7eba1b0d9491a5225",
+          "path": "results/result001.json",
+          "sha256": "7ae4505f361210361a5c588f17747178b3167d5db43439cdeac84ad800643dd8"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal001",
+      "proposal_source": {
+        "git_blob_sha1": "637cf286246b32f565debdf281bec96d9f81156e",
+        "path": "pnn-v1/proposals/proposal001.json",
+        "sha256": "59cf3b6cc8172c763673b5b40a405d2ad10f54e38232ee4310fbe81398d7c4d8"
+      },
+      "record_id": "PNN-v1-Exp001",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "c94cfb5903519cfa959886b7eba1b0d9491a5225",
+        "path": "pnn-v1/results/result001.json",
+        "sha256": "7ae4505f361210361a5c588f17747178b3167d5db43439cdeac84ad800643dd8"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T11:24:38.607203+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp002:v1",
+      "dataset": {
+        "name": "ECG200",
+        "split": "canonical TRAIN/TEST",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "baf499bd4f79ee6adf4b253d7358a387fc4e26de",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36130556755",
+          "source": {
+            "git_blob_sha1": "ccc031eb6996df4834ca5c98d0a0ce3b71db2c5e",
+            "path": "executions/pnn-v1-exp002-36130556755.json",
+            "sha256": "f2063a3aeb3842ef148cd0ea5ae0ffa9d0293e6c6cffe63e26422241b600d26e"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp002",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "5ecf6d019ca68dd01a7e8f1d31289c7c39470b41",
+        "path": "research_queue/jobs/pnn-v1-exp002.json",
+        "sha256": "ba80cc9b2d40e4605fdd8c7d75609e800224b271cf09f4d222e5aec230f2cd44"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "751ac1c30e8ba88d5efb99def6f7664b7bb5960b",
+          "path": "results/result002.json",
+          "sha256": "a945a5e208c0cb1c8a1144c9040f61405a21515d5f6407f8545e9e2494a16750"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal002",
+      "proposal_source": {
+        "git_blob_sha1": "7ad7b2ff778e03a49c6768c7c62a492b41515459",
+        "path": "pnn-v1/proposals/proposal002.json",
+        "sha256": "571db648d82a412bf9628084f55e284a8fcd8b549f14ee1b2656eee90da81fc0"
+      },
+      "record_id": "PNN-v1-Exp002",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "751ac1c30e8ba88d5efb99def6f7664b7bb5960b",
+        "path": "pnn-v1/results/result002.json",
+        "sha256": "a945a5e208c0cb1c8a1144c9040f61405a21515d5f6407f8545e9e2494a16750"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T11:42:16.647688+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp003:v1",
+      "dataset": {
+        "name": "ECG200"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "e5ae40d1b110c36a78150065b6e9ff3f2992284b",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36140051980",
+          "source": {
+            "git_blob_sha1": "fee2b08f45f82c4424db9b4b45c3c37689a1e88e",
+            "path": "executions/pnn-v1-exp003-36140051980.json",
+            "sha256": "14816d893228782bd680254b452dc0ed3683227eed83b2baa5a0c5338e4da802"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp003",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "2de09c15793882bb28215a39b57f58db21325182",
+        "path": "research_queue/jobs/pnn-v1-exp003.json",
+        "sha256": "24ad027ec463907cc9260682711987406dd6f37eed4c9cea01e51d8bd6148feb"
+      },
+      "method": {
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "d803e5485cef4c5519502777ceefd8e113691a7f",
+          "path": "results/result003.json",
+          "sha256": "1810ce8b5052db6d4a35f83f10ca266c8c8369178191747b2829a09fdc9d378f"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal003",
+      "proposal_source": {
+        "git_blob_sha1": "a50e9cc7005bedb72902e4c0a84ac52a21ce09ba",
+        "path": "pnn-v1/proposals/proposal003.json",
+        "sha256": "60750915200b62e50e1cd3eb1ca6510d328b8381f6644c49337b8a7db0085245"
+      },
+      "record_id": "PNN-v1-Exp003",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "d803e5485cef4c5519502777ceefd8e113691a7f",
+        "path": "pnn-v1/results/result003.json",
+        "sha256": "1810ce8b5052db6d4a35f83f10ca266c8c8369178191747b2829a09fdc9d378f"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T13:20:56.131808+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp004:v1",
+      "dataset": {
+        "name": "ECG200"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "5d9beb21992a5a26ccf73299eb3eaacb8c04f59c",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36142199573",
+          "source": {
+            "git_blob_sha1": "30c31ff52f749540f90ebfb13949c6afb8ac695d",
+            "path": "executions/pnn-v1-exp004-36142199573.json",
+            "sha256": "3b15d125e07f17bfec040f71d7d60c772ee61dea3b13ac6e7e3fded3581a7daa"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp004",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "6fea2a94f9d75e51f774ed97cb0e92f1c6f8a12b",
+        "path": "research_queue/jobs/pnn-v1-exp004.json",
+        "sha256": "5849f92366438fd202c48b663fdcde034e96d9d93f404fd634fe988743de8c65"
+      },
+      "method": {
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "ebd42729661aa3fe06b0585f87ed56c7397e54a4",
+          "path": "results/result004.json",
+          "sha256": "3b81972470b7b2c03aa9098fd1e0809cd036206da47be9a094ae8636d645bef6"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal004",
+      "proposal_source": {
+        "git_blob_sha1": "ccf5ff2639f0e30270456d0a940bdd9cfc876f9d",
+        "path": "pnn-v1/proposals/proposal004.json",
+        "sha256": "2e9efc5f1bf65214f18130ecb49d242fb2d11bedfba0a46312648b879f1a8ccc"
+      },
+      "record_id": "PNN-v1-Exp004",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "ebd42729661aa3fe06b0585f87ed56c7397e54a4",
+        "path": "pnn-v1/results/result004.json",
+        "sha256": "3b81972470b7b2c03aa9098fd1e0809cd036206da47be9a094ae8636d645bef6"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T13:41:07.673090+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp005:v1",
+      "dataset": {
+        "name": "ECG200"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "ccdd4c7c12fd5925dfcd4ab2606f4e619f8821cd",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36143017341",
+          "source": {
+            "git_blob_sha1": "8a6eef4b2094ecfcb3b753918b29a54c8461c569",
+            "path": "executions/pnn-v1-exp005-36143017341.json",
+            "sha256": "e29ae7f7a299fe9f3bb6fb7291aca31788efb7a13ec571e0671cc3637db6e2a3"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp005",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "4e5dc1b44bc89aa8691c9f3e3a4bd8f4b3427583",
+        "path": "research_queue/jobs/pnn-v1-exp005.json",
+        "sha256": "bffd791bfb4176cfff0732226845ec2521e52d822189a49b188c4048a1d707be"
+      },
+      "method": {
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "84eef1b3fca867728843a5b4f1b558e22517d5d1",
+          "path": "results/result005.json",
+          "sha256": "390bf2d504af2eb5971cc118314cf9694aa9a9d79a451278c833b0b301253235"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal005",
+      "proposal_source": {
+        "git_blob_sha1": "ffc4898146d9f982771771a7146961c74e535436",
+        "path": "pnn-v1/proposals/proposal005.json",
+        "sha256": "a49d10de099c629ba921295e9857326f657e4a5f2bc75678cbf8360073faea63"
+      },
+      "record_id": "PNN-v1-Exp005",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "84eef1b3fca867728843a5b4f1b558e22517d5d1",
+        "path": "pnn-v1/results/result005.json",
+        "sha256": "390bf2d504af2eb5971cc118314cf9694aa9a9d79a451278c833b0b301253235"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T13:49:13.316955+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp006:v1",
+      "dataset": {
+        "name": "ECG200",
+        "split": "canonical TRAIN/TEST",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "c66cbed15967e190f72943708fcea7bd49b09c3c",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36144134231",
+          "source": {
+            "git_blob_sha1": "a926d947cf5dce6ca27f34c96201a2ef2a74ac8b",
+            "path": "executions/pnn-v1-exp006-36144134231.json",
+            "sha256": "c612ba51051795fd6c50163380fb40db0e738557548bd815df8aa47e276b7761"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp006",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "2540f633aa15c83f5f329c8b768451a5ed3f58d1",
+        "path": "research_queue/jobs/pnn-v1-exp006.json",
+        "sha256": "c126dd003faeba0ee2d0d6343bdf5bcf25da94dc46e9528ca4cc6029f4d44963"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "96195eaececf5c26ab8cd340869504c2159d7f57",
+          "path": "results/result006.json",
+          "sha256": "9fabd0f49412236d76df6feb89db3b44eb4ca228c5d375748fa9544627680592"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal006",
+      "proposal_source": {
+        "git_blob_sha1": "66a38ee04eb4ffa4995c192814c2c96db998d6ee",
+        "path": "pnn-v1/proposals/proposal006.json",
+        "sha256": "618861a47057e3a8c7075b76feda6fe2eda6255e5165d77704451966bfb35079"
+      },
+      "record_id": "PNN-v1-Exp006",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "96195eaececf5c26ab8cd340869504c2159d7f57",
+        "path": "pnn-v1/results/result006.json",
+        "sha256": "9fabd0f49412236d76df6feb89db3b44eb4ca228c5d375748fa9544627680592"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T13:59:11.064859+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp007:v1",
+      "dataset": {
+        "name": "ECG200",
+        "split": "canonical TRAIN/TEST",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "213d633006121e7e193588656d09df62a05bfddf",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36145390733",
+          "source": {
+            "git_blob_sha1": "c12550fea3501b45a677db1bea8d1dcc050be806",
+            "path": "executions/pnn-v1-exp007-36145390733.json",
+            "sha256": "331e267afb12d2160dc3389fd67d45da9e0351837522fbeaa87ab6bd75b52525"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp007",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "854b5620e1386953ee93454d95e9115859cf2c38",
+        "path": "research_queue/jobs/pnn-v1-exp007.json",
+        "sha256": "bc67c6d3a2ec80ac01d62583ed9265d60ce139873564b56a7d367cf9c095aafb"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "f458b88791d036f09cbbe2d533b358ee3a7f223a",
+          "path": "results/result007.json",
+          "sha256": "895fcf0f7665e2e60d29fb6614f54644ac42e9f75ce5fc168a2972eb5315ea34"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal007",
+      "proposal_source": {
+        "git_blob_sha1": "76659cc7eb1ce68068d81c84f6ca2a4a4e2e0c8f",
+        "path": "pnn-v1/proposals/proposal007.json",
+        "sha256": "75bec9e1b6f6b025eceab6110b77d74f76793ffed891440aa1c6c8b655fa0bd2"
+      },
+      "record_id": "PNN-v1-Exp007",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "f458b88791d036f09cbbe2d533b358ee3a7f223a",
+        "path": "pnn-v1/results/result007.json",
+        "sha256": "895fcf0f7665e2e60d29fb6614f54644ac42e9f75ce5fc168a2972eb5315ea34"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T14:10:49.287261+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp008:v1",
+      "dataset": {
+        "name": "ECG200"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "a45204c1c672b42a3a6272dc04bcecbe8ceed5d3",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36146443820",
+          "source": {
+            "git_blob_sha1": "6907d38e7f5def186fed225a3e11d72aae906722",
+            "path": "executions/pnn-v1-exp008-36146443820.json",
+            "sha256": "d8f7341232b0612b1f8e851d9fd04e650c7fa5c06e8ecd2b9b9946f35c5e2834"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp008",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "f9c26caac46342dfe17b2598afd6ea3b40240bb8",
+        "path": "research_queue/jobs/pnn-v1-exp008.json",
+        "sha256": "0772e44c3ec35200feca0b58a8329a67eead80bc2921764674127ecf9355ba89"
+      },
+      "method": {
+        "epochs": 100,
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "18cb1a0fba3d23d6880f17829535c2631a09181b",
+          "path": "results/result008.json",
+          "sha256": "5778c5620dece644cb045846f90cab7b6553876c5b881dae343cc84b73520545"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal008",
+      "proposal_source": {
+        "git_blob_sha1": "d17fc8a883b972259af973f3e4a89d5d2393c619",
+        "path": "pnn-v1/proposals/proposal008.json",
+        "sha256": "3f63c5b44e8a528265ed2c08ca467c1c20afb9ce8ce896cf557eb9deb721fb09"
+      },
+      "record_id": "PNN-v1-Exp008",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "18cb1a0fba3d23d6880f17829535c2631a09181b",
+        "path": "pnn-v1/results/result008.json",
+        "sha256": "5778c5620dece644cb045846f90cab7b6553876c5b881dae343cc84b73520545"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T14:20:46.758409+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp009:v1",
+      "dataset": {
+        "name": "ECG200",
+        "split": "canonical TRAIN/TEST",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "662ef3f73e0357b9be6689bda6a838d26f2de944",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36147329168",
+          "source": {
+            "git_blob_sha1": "4e55cf00b75b3bd7fadc72779688416c24593dc9",
+            "path": "executions/pnn-v1-exp009-36147329168.json",
+            "sha256": "1a0b2439b9b953c1b35ec76b6ad5d15bb498e203faa93354a569e5f5f2514e64"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp009",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "2b0bdea1eed8bd4000097bb9c3ca9ec985083f6f",
+        "path": "research_queue/jobs/pnn-v1-exp009.json",
+        "sha256": "3774919ef6b535b3aea62fbce2d1098118908f6eebad589f11e92d564cae146f"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "b2a426ce02fdce0276dabff50b06402f72f1bef2",
+          "path": "results/result009.json",
+          "sha256": "3d75176d55d71494093dfdd96c438af84b596e71dbbd962293465b19ee59341e"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal009",
+      "proposal_source": {
+        "git_blob_sha1": "add43cff21d573b1f4a728fda7b5aa2fc9838d58",
+        "path": "pnn-v1/proposals/proposal009.json",
+        "sha256": "46b275b94ec3f86c840508bb3fe09cf7a2af1d176b16ea4422ad5d68180c644a"
+      },
+      "record_id": "PNN-v1-Exp009",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "b2a426ce02fdce0276dabff50b06402f72f1bef2",
+        "path": "pnn-v1/results/result009.json",
+        "sha256": "3d75176d55d71494093dfdd96c438af84b596e71dbbd962293465b19ee59341e"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T14:28:08.557936+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp010:v1",
+      "dataset": {
+        "name": "ECG200"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "c0d7008a626106ec435588680571387b1213f787",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36148512809",
+          "source": {
+            "git_blob_sha1": "039a56fb75f8145d8eff294d93a4dc866d603a61",
+            "path": "executions/pnn-v1-exp010-36148512809.json",
+            "sha256": "26aabd39e010ac3fe1e316821f043ef60014c3cf21fc69f1f76ff0dc03e85e9f"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp010",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "264d6cdc4b776aa1d7c234cce3fe9c58906898da",
+        "path": "research_queue/jobs/pnn-v1-exp010.json",
+        "sha256": "715f130ae052afd12a363a5ca1ed539c94b148681530b96c7ccf725ee620194f"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "e6ab49fc3d9cda509584809664235b522dabb1ec",
+          "path": "results/result010.json",
+          "sha256": "86389cfddb19facfedae4d3216a040b5fedd3700546c93ed3110e0357b7d0fb6"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal010",
+      "proposal_source": {
+        "git_blob_sha1": "61a3b9ad08acb8edee1b228d1ea9f6d9c2526dfa",
+        "path": "pnn-v1/proposals/proposal010.json",
+        "sha256": "5a7fa20aafc38290b0bf34883424eaa99be8cb3f174cd504a1733888c54cc86b"
+      },
+      "record_id": "PNN-v1-Exp010",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "e6ab49fc3d9cda509584809664235b522dabb1ec",
+        "path": "pnn-v1/results/result010.json",
+        "sha256": "86389cfddb19facfedae4d3216a040b5fedd3700546c93ed3110e0357b7d0fb6"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T14:39:05.986287+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp011:v1",
+      "dataset": {
+        "name": "ECG200",
+        "split": "canonical TRAIN/TEST",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "74666c54453baf0479d0850118d005f39e8abcbf",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36155829923",
+          "source": {
+            "git_blob_sha1": "5f14ad03b8725b3245ea55d461a5f022367993c2",
+            "path": "executions/pnn-v1-exp011-36155829923.json",
+            "sha256": "b344593043ee0fc6414cda15fa8ff121ad63569b7fcc57c208847da70715c368"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp011",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "b338b753e4bb61da6341ad169a9bdafcb0d30fe0",
+        "path": "research_queue/jobs/pnn-v1-exp011.json",
+        "sha256": "ed54d3fc0192f30f892c6b6574f45b69b3323dbe9d55a39f29f111267aa13f19"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "2587deef67fe88b4910eeabafc1aeba84c3ef543",
+          "path": "results/result011.json",
+          "sha256": "a2d94118a64e309b64236618fc61c79e2e291acef91328d27b45021df88b3b43"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal011",
+      "proposal_source": {
+        "git_blob_sha1": "5ab88396bf69796f8f86a29401c335909ae63016",
+        "path": "pnn-v1/proposals/proposal011.json",
+        "sha256": "b8d6f9fe3a487a57cf05212a844bf39aaf258e1bb4a06af12e08b758c83b3618"
+      },
+      "record_id": "PNN-v1-Exp011",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "2587deef67fe88b4910eeabafc1aeba84c3ef543",
+        "path": "pnn-v1/results/result011.json",
+        "sha256": "a2d94118a64e309b64236618fc61c79e2e291acef91328d27b45021df88b3b43"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T15:44:15.516378+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp012:v1",
+      "dataset": {
+        "name": "GunPoint",
+        "split": "canonical TRAIN/TEST",
+        "test_shape": [
+          150,
+          144
+        ],
+        "train_shape": [
+          50,
+          144
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "9b14eef544bd99b3fbe19a70c11167ffd0f67262",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36167416228",
+          "source": {
+            "git_blob_sha1": "e98659bbff1b42a50d92f4e979017f605c266c07",
+            "path": "executions/pnn-v1-exp012-36167416228.json",
+            "sha256": "7d674f928c5d24854896bb762b362d2361ed299c757180ce7262a8fb6b1d389e"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp012",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "b77e317eae34cf63d7fd269b3da0a6a424029c76",
+        "path": "research_queue/jobs/pnn-v1-exp012.json",
+        "sha256": "a1f617f5b04b1eaeae7a791b98b8d3dcdc4a595534c8b9e192538ff5091497cb"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "aab3237f81c9fa3b384860685a1cd9b479ba4692",
+          "path": "results/result012.json",
+          "sha256": "6e76eabf37111cf6e8d6cfa91bf79cdc0c010f2dab059fc509087fd8f76a2543"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal012",
+      "proposal_source": {
+        "git_blob_sha1": "45b94fc2aefb5dbf5919551c5296925aadbd1b29",
+        "path": "pnn-v1/proposals/proposal012.json",
+        "sha256": "4f04d030e9375bd7a9531295ae5620e7e1e8c0a59c1dafcfce179762b145460c"
+      },
+      "record_id": "PNN-v1-Exp012",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "aab3237f81c9fa3b384860685a1cd9b479ba4692",
+        "path": "pnn-v1/results/result012.json",
+        "sha256": "6e76eabf37111cf6e8d6cfa91bf79cdc0c010f2dab059fc509087fd8f76a2543"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T17:32:12.681973+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp013:v1",
+      "dataset": {
+        "name": "Multi-dataset transfer"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "7ae285d3562b72ee13f6a1816abcfb35769a876e",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36168767268",
+          "source": {
+            "git_blob_sha1": "d8fc658287ef5469ba5b874a9f5198af8e12932e",
+            "path": "executions/pnn-v1-exp013-36168767268.json",
+            "sha256": "7386c5e032bafe34e0c7fe1494a0994bc44bae51773a935334b33ced858d915a"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp013",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "c6bc66ccc265527725efb8a1405b4e13ef2d92c8",
+        "path": "research_queue/jobs/pnn-v1-exp013.json",
+        "sha256": "2976cc3f403b539921d7c06ac5d89efb0d0969e673301ed1367740653fe63921"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "a07a0c460a7649afd342171197e62f82a2105d64",
+          "path": "results/result013.json",
+          "sha256": "a2a31091d5f1bc54c59d29508894b80d1a5d5170e62dcae56ae72268cbe69607"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal013",
+      "proposal_source": {
+        "git_blob_sha1": "961f7c7c11fc7826377d67c0df22aa04513c5359",
+        "path": "pnn-v1/proposals/proposal013.json",
+        "sha256": "323751bf4d0eadc76f6a566ef9cc7035d51d511199c95d773faf9e82aafa97a7"
+      },
+      "record_id": "PNN-v1-Exp013",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "a07a0c460a7649afd342171197e62f82a2105d64",
+        "path": "pnn-v1/results/result013.json",
+        "sha256": "a2a31091d5f1bc54c59d29508894b80d1a5d5170e62dcae56ae72268cbe69607"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T17:45:05.574124+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp014:v1",
+      "dataset": {
+        "name": "TwoLeadECG",
+        "test_shape": [
+          1139,
+          80
+        ],
+        "train_shape": [
+          23,
+          80
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "0aa89ca8ce958f773ae0e6fd06df7ad058cd1558",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36170120677",
+          "source": {
+            "git_blob_sha1": "194afd01de96db5931c9e49ecd52d6e35dca494d",
+            "path": "executions/pnn-v1-exp014-36170120677.json",
+            "sha256": "b858a971a85537ac64b050f2e713fda0c6e95f91a177b137e618f9b112871ebc"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp014",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "b03027f77d22abe075fef87fe01ec98e628cdb90",
+        "path": "research_queue/jobs/pnn-v1-exp014.json",
+        "sha256": "16c35b263ea619cee47399858b76ac7ba254fa781c1c070e4dbeebcbad69ce76"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "0b7c358c7f67a24b08d3941b3431bfd8e60493eb",
+          "path": "results/result014.json",
+          "sha256": "df820d0ce213725df8b671915c5cad24f7e0f1e5349ba2239ca34f2abe73158c"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal014",
+      "proposal_source": {
+        "git_blob_sha1": "022c06e18bfe2e95a9b90553ea2122a65882fc18",
+        "path": "pnn-v1/proposals/proposal014.json",
+        "sha256": "c17b2231fae4438538506a759d23c1bd0aefa1997deec63600592472bf24b6ba"
+      },
+      "record_id": "PNN-v1-Exp014",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "0b7c358c7f67a24b08d3941b3431bfd8e60493eb",
+        "path": "pnn-v1/results/result014.json",
+        "sha256": "df820d0ce213725df8b671915c5cad24f7e0f1e5349ba2239ca34f2abe73158c"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T17:56:57.888135+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp015:v1",
+      "dataset": {
+        "name": "TwoLeadECG",
+        "test_shape": [
+          1139,
+          80
+        ],
+        "train_shape": [
+          23,
+          80
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "81dee645d66a17e3e88b3546afc463fafad8afc8",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36170918992",
+          "source": {
+            "git_blob_sha1": "0bb8a9f8da76be349ed1c22c61b2582dfb613ca5",
+            "path": "executions/pnn-v1-exp015-36170918992.json",
+            "sha256": "8e69e3eb93fc41ccf96dd6e8eca617d218a9352a2ae69b0bcbf59eb576dacc8a"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp015",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "af1b9c9602cf444d943942afdb6181c1c532138a",
+        "path": "research_queue/jobs/pnn-v1-exp015.json",
+        "sha256": "ae3b3743e3b825e1ee0eeabb46a559545eec09c474a4bdcc70aa075d1b34d2cf"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "038c5336b71b0caa76d1d166615006b4ae4ff6f9",
+          "path": "results/result015.json",
+          "sha256": "9c1150c05c20b6ae64e54fd304978610076e57646fc6ad3b36c9dc4a94d838c4"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal015",
+      "proposal_source": {
+        "git_blob_sha1": "a9bab02bd39ceafc0e91ab3eb58c1f247079dd87",
+        "path": "pnn-v1/proposals/proposal015.json",
+        "sha256": "eb980123ccb9ff1865c1ea9a02e3b0c790afe13e7f84b4fbe720ff23965cfe14"
+      },
+      "record_id": "PNN-v1-Exp015",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "038c5336b71b0caa76d1d166615006b4ae4ff6f9",
+        "path": "pnn-v1/results/result015.json",
+        "sha256": "9c1150c05c20b6ae64e54fd304978610076e57646fc6ad3b36c9dc4a94d838c4"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T18:04:34.023421+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp016:v1",
+      "dataset": {
+        "name": "TwoLeadECG",
+        "test_shape": [
+          1139,
+          80
+        ],
+        "train_shape": [
+          23,
+          80
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "63bf7556b980c72a065bf96af4514296bfb7e418",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36171768990",
+          "source": {
+            "git_blob_sha1": "a44ac2d31eac3b38efcd749f15bfac334a05d558",
+            "path": "executions/pnn-v1-exp016-36171768990.json",
+            "sha256": "41ffc5d353e6cc3b8a35b0b5b029991c6defe28d246ff9b8403378fecd8682e5"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp016",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "92edd90522e8138e21b0ab570ecb04aee14d3caf",
+        "path": "research_queue/jobs/pnn-v1-exp016.json",
+        "sha256": "eb045a0b2fab7a827bc2c5305f6e2afa98dd0905687750d5dba4da2af7fd2065"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "96ecd2cf545da9f52757d81f54ae1f126dd7a24f",
+          "path": "results/result016.json",
+          "sha256": "4838cd1f739d2fe2aec359b2bdb540c0ba7b19aaf24c7cf02147a5bb756cd619"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal016",
+      "proposal_source": {
+        "git_blob_sha1": "80ecbbf60c82b2d0f6295e77481b238096e7c909",
+        "path": "pnn-v1/proposals/proposal016.json",
+        "sha256": "d3a9ea3ba8006d96ff84a166ef0a0334c75a045ce3f54e0bbab50751a2acdd50"
+      },
+      "record_id": "PNN-v1-Exp016",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "96ecd2cf545da9f52757d81f54ae1f126dd7a24f",
+        "path": "pnn-v1/results/result016.json",
+        "sha256": "4838cd1f739d2fe2aec359b2bdb540c0ba7b19aaf24c7cf02147a5bb756cd619"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T18:12:47.132524+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp017:v1",
+      "dataset": {
+        "name": "TwoLeadECG",
+        "test_shape": [
+          1139,
+          80
+        ],
+        "train_shape": [
+          23,
+          80
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "eedd8154942f0f7b513af9a3de341a9112178254",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36177131145",
+          "source": {
+            "git_blob_sha1": "39b0d6478222220d776f10b63f021db66399e59a",
+            "path": "executions/pnn-v1-exp017-36177131145.json",
+            "sha256": "eceb430ab43a8fae6297e8bd886b916abb25ee7082bbc3825deb9b68b79ea85d"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp017",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "ffd6785469f94f402ec879574006da020cc875ea",
+        "path": "research_queue/jobs/pnn-v1-exp017.json",
+        "sha256": "b3d40d7857794e0bb94347f2fa5de0b5599a6ac2f410d7b9c45344e3c39ecee7"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "5f5773e57d47fd2c35a600c0a4795bd7ed6ebecd",
+          "path": "results/result017.json",
+          "sha256": "1fac00d7d6e0a8412043de87de3bafc0eb7abd8c755a3c9eadb15fd7e898aaff"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal017",
+      "proposal_source": {
+        "git_blob_sha1": "655fc0a238d07ab6916e0b4dc3b1e65337e71b5a",
+        "path": "pnn-v1/proposals/proposal017.json",
+        "sha256": "2d3ea0c95ecc07fbfb0a3d9a3bf76089811b6d18b666d65bf2f46195717787c0"
+      },
+      "record_id": "PNN-v1-Exp017",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "5f5773e57d47fd2c35a600c0a4795bd7ed6ebecd",
+        "path": "pnn-v1/results/result017.json",
+        "sha256": "1fac00d7d6e0a8412043de87de3bafc0eb7abd8c755a3c9eadb15fd7e898aaff"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T19:03:06.059299+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp018:v1",
+      "dataset": {
+        "name": "GunPoint",
+        "test_shape": [
+          150,
+          144
+        ],
+        "train_shape": [
+          50,
+          144
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "745acaf1340e5476fe3b5315704ee04f01d65355",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36180773337",
+          "source": {
+            "git_blob_sha1": "262618a8cffa0192a5cbf2502c60ce112f9a458d",
+            "path": "executions/pnn-v1-exp018-36180773337.json",
+            "sha256": "12ae579d30410c84cad58579774586277d581921fc8d23dd193ab619f6ac8eba"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp018",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "62705901360904b923401b0391f65b6ff499d5d7",
+        "path": "research_queue/jobs/pnn-v1-exp018.json",
+        "sha256": "a032fedc4e12d40155179df016a682bb556bb3dc3e68e91920d7e7f5e4c9f828"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "d1b85f074d5c702d3208c4b00f6ee3a6dfadd4e9",
+          "path": "results/result018.json",
+          "sha256": "2d9fef2da45b72b575f488f56e44bccc4effb2e4ab4b7fe874002476d5be08d1"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal018",
+      "proposal_source": {
+        "git_blob_sha1": "237fe24d295b0cd8e8906c91bbba59fb3189eac7",
+        "path": "pnn-v1/proposals/proposal018.json",
+        "sha256": "b3d2f75c3e5156e56fa2dec6a485a9170865211a3f79d55734e569ba51e9890e"
+      },
+      "record_id": "PNN-v1-Exp018",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "d1b85f074d5c702d3208c4b00f6ee3a6dfadd4e9",
+        "path": "pnn-v1/results/result018.json",
+        "sha256": "2d9fef2da45b72b575f488f56e44bccc4effb2e4ab4b7fe874002476d5be08d1"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T19:38:31.919261+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp019:v1",
+      "dataset": {
+        "name": "SonyAIBORobotSurface1",
+        "test_shape": [
+          601,
+          64
+        ],
+        "train_shape": [
+          20,
+          64
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "6a7751dd116d8fcd4578dea5fde875e1797bebb5",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36183195198",
+          "source": {
+            "git_blob_sha1": "f68e98b50bd3d23a0539f14f7778065d905f6f2a",
+            "path": "executions/pnn-v1-exp019-36183195198.json",
+            "sha256": "57e0b86f62d8e7471371f1ff8432b2c0d1fabdbd9ae0522f12a7adf11a2da4bf"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp019",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "10c5919013f89e48ed54e8cce18dbe137921dbb9",
+        "path": "research_queue/jobs/pnn-v1-exp019.json",
+        "sha256": "d55f618b17522797e40c2f710d1c82fe29afa0e5d87b36093979b8e20cb701bd"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "6a8bd69ed267d4720516eae25dde0dc708a7336d",
+          "path": "results/result019.json",
+          "sha256": "bdb7a953bf2a04093f1686cbce0c3632b555861dc66b3055e363195fe7cefeb4"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal019",
+      "proposal_source": {
+        "git_blob_sha1": "2f36ade75fb6bd65a06037894ce7926ec05134dd",
+        "path": "pnn-v1/proposals/proposal019.json",
+        "sha256": "2a26cf451d7a9df0497cdad9314c16cd636e036e11e7e2a1ee05b18763c672bc"
+      },
+      "record_id": "PNN-v1-Exp019",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "6a8bd69ed267d4720516eae25dde0dc708a7336d",
+        "path": "pnn-v1/results/result019.json",
+        "sha256": "bdb7a953bf2a04093f1686cbce0c3632b555861dc66b3055e363195fe7cefeb4"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T20:02:42.878867+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp020:v1",
+      "dataset": {
+        "name": "ECG200",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "032c01c8a922a0c74f63ca6c2406ba89ac765cd1",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36183966290",
+          "source": {
+            "git_blob_sha1": "ef53ed0021badf57922082bc531dc518b0425406",
+            "path": "executions/pnn-v1-exp020-36183966290.json",
+            "sha256": "010c971166c21f11f03ea856205acc582670624d427ea6281587fc2069638ecf"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp020",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "214a8ca690040bacaffb674684d774a602d1c683",
+        "path": "research_queue/jobs/pnn-v1-exp020.json",
+        "sha256": "753b760cfce454a96d4b690965bf69af242c0026a3816a770e57b32c38db1e1d"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "0d88a88ec1c762d29a11856e787b0e109a78758b",
+          "path": "results/result020.json",
+          "sha256": "bf64493516006a0d4b5bbdf710f944e91897b34f5908d0bfe5af606e4a6984ea"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal020",
+      "proposal_source": {
+        "git_blob_sha1": "73d01cac1e910821b9c5874830c7422534c2233f",
+        "path": "pnn-v1/proposals/proposal020.json",
+        "sha256": "0ca66d0450702358c4f9ff59578e89f09b3bad784ac271cc32e767deb086dcc1"
+      },
+      "record_id": "PNN-v1-Exp020",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "0d88a88ec1c762d29a11856e787b0e109a78758b",
+        "path": "pnn-v1/results/result020.json",
+        "sha256": "bf64493516006a0d4b5bbdf710f944e91897b34f5908d0bfe5af606e4a6984ea"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T20:10:25.816952+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-Exp021:v1",
+      "dataset": {
+        "name": "ECG200",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "00e0ab831adcbff69aa7f3eea84b970528b02b41",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36185239339",
+          "source": {
+            "git_blob_sha1": "31a9f6d7347e54590fcc45307d26aaf305bab343",
+            "path": "executions/pnn-v1-exp021-36185239339.json",
+            "sha256": "5f97542b824d4df50afa84228e40b11bfebdae7e44b4fcb717bd924bb8d8d241"
+          }
+        }
+      ],
+      "job_id": "pnn-v1-exp021",
+      "job_link_basis": "numbered_experiment_job_convention_only",
+      "job_source": {
+        "git_blob_sha1": "be18d75f9c77674334cf65fdd1a06efb1e834fa6",
+        "path": "research_queue/jobs/pnn-v1-exp021.json",
+        "sha256": "9d485e30ed1865d573dfde132dffd9e2015b55bcf0560ec0df1dabaf95e2ba83"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "7506659feb2404205273907a1e55bba3a3aa7faf",
+          "path": "results/result021.json",
+          "sha256": "415b3f13d545140741093e964e121da2e4e64e54524a2cdd679c9e6b2d06a0ec"
+        }
+      ],
+      "proposal_id": "PNN-v1-Proposal021",
+      "proposal_source": {
+        "git_blob_sha1": "77f5001f09dcbb5b90021614678c81e14a1a7a6a",
+        "path": "pnn-v1/proposals/proposal021.json",
+        "sha256": "08a0577ab65605c1f71b1ea220d0100cf059ca23ec0e58da17d98cbcaf344120"
+      },
+      "record_id": "PNN-v1-Exp021",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55,
+        66,
+        77,
+        88,
+        99,
+        111
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "7506659feb2404205273907a1e55bba3a3aa7faf",
+        "path": "pnn-v1/results/result021.json",
+        "sha256": "415b3f13d545140741093e964e121da2e4e64e54524a2cdd679c9e6b2d06a0ec"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-25T20:23:06.255326+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-W12-100Epoch-Confirmation:v1",
+      "dataset": {
+        "name": "ECG200",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "5a39a5c57a16330f86a29b25c7dd75ea23c5afea",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36241676258",
+          "source": {
+            "git_blob_sha1": "aaaf683c4df6738dd2f0f685a2b0b0dd159c06a9",
+            "path": "executions/ai-w12-100epoch-confirmation-36241676258.json",
+            "sha256": "66e96c392aadbd0ca4bcb02b13cb6b57d0623b9419fe1ec5afd6db6f98058d55"
+          }
+        }
+      ],
+      "job_id": "ai-w12-100epoch-confirmation",
+      "job_link_basis": "legacy_result_filename_convention_only",
+      "job_source": {
+        "git_blob_sha1": "fe475189d0cc9e860159f2e1068b52c6c199a45d",
+        "path": "research_queue/jobs/ai-w12-100epoch-confirmation.json",
+        "sha256": "b7f728019fff8d5c7db1dd9af45be7b381eba33bd7293b23f2e282c085e0f406"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "aad9c9451caae268f255ec8dbf3a7fe4ab1845cc",
+          "path": "results/result_w12_100epoch_confirmation.json",
+          "sha256": "910cd06f5865552dedd85937f3f611ed15a917f3b6910cd55a176de7e20f37e6"
+        }
+      ],
+      "proposal_id": "AI-Researcher-w12-100epoch-confirmation",
+      "proposal_source": null,
+      "record_id": "PNN-v1-W12-100Epoch-Confirmation",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        101,
+        102,
+        103,
+        104,
+        105
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "aad9c9451caae268f255ec8dbf3a7fe4ab1845cc",
+        "path": "pnn-v1/results/result_w12_100epoch_confirmation.json",
+        "sha256": "910cd06f5865552dedd85937f3f611ed15a917f3b6910cd55a176de7e20f37e6"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-26T12:29:57.443224+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-W8-100Epoch-Confirmation:v1",
+      "dataset": {
+        "name": "ECG200",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "12b554307f3d44bc23db4355ffdfed9c8a4f1f14",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36239484498",
+          "source": {
+            "git_blob_sha1": "6b0c038b30cdc68d3999c542c89a83784f36d47c",
+            "path": "executions/ai-w8-100epoch-confirmation-36239484498.json",
+            "sha256": "dd01f4cc0fff09b8dca93e8cac64203cc004fdf8567243ae6e1a099c749e9794"
+          }
+        }
+      ],
+      "job_id": "ai-w8-100epoch-confirmation",
+      "job_link_basis": "legacy_result_filename_convention_only",
+      "job_source": {
+        "git_blob_sha1": "9142e6f5860670a3bbdb8a436c5d85fe13be0a49",
+        "path": "research_queue/jobs/ai-w8-100epoch-confirmation.json",
+        "sha256": "aa718f798b9e1da8e0bdf4f6e036937aa559b8286ef26605d90acc3484cba442"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 100,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "4a2e45a2ead29df499b579bf2ef217f8b6a4dffa",
+          "path": "results/result_w8_100epoch_confirmation.json",
+          "sha256": "7b7d7078920f3eb96b73a1fcbf147df82b9db07e696e8037284364c7ff0f8b72"
+        }
+      ],
+      "proposal_id": "AI-Researcher-w8-100epoch-confirmation",
+      "proposal_source": null,
+      "record_id": "PNN-v1-W8-100Epoch-Confirmation",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "4a2e45a2ead29df499b579bf2ef217f8b6a4dffa",
+        "path": "pnn-v1/results/result_w8_100epoch_confirmation.json",
+        "sha256": "7b7d7078920f3eb96b73a1fcbf147df82b9db07e696e8037284364c7ff0f8b72"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-26T11:42:32.014535+00:00"
+    },
+    {
+      "backend": "qant-cpu/software-simulation",
+      "catalog_id": "pnn-v1:result:PNN-v1-W8-Confirmation:v1",
+      "dataset": {
+        "name": "ECG200",
+        "test_shape": [
+          100,
+          96
+        ],
+        "train_shape": [
+          100,
+          96
+        ]
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "8cfebdabfca6b581706ca80a8be8fb329bb73162",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36236850317",
+          "source": {
+            "git_blob_sha1": "46eb95cece46f3148a994f347220ea6ed7135eed",
+            "path": "executions/ai-w8-confirmation-36236850317.json",
+            "sha256": "3360af82f1deac91df893eff3b73556e19566f969a266081d2e40e66dd17c286"
+          }
+        }
+      ],
+      "job_id": "ai-w8-confirmation",
+      "job_link_basis": "legacy_result_filename_convention_only",
+      "job_source": {
+        "git_blob_sha1": "1e3a31ec1db859f4cb1638d47e912e361f5c7e75",
+        "path": "research_queue/jobs/ai-w8-confirmation.json",
+        "sha256": "a60cb6c1ca5a75cc9ca2a646294b9ffaa72f157c53ffcb7a1335410cebd3df2c"
+      },
+      "method": {
+        "batch_size": 32,
+        "epochs": 50,
+        "frequencies": [
+          1,
+          2
+        ],
+        "learning_rate": 0.001
+      },
+      "mirrored_sources": [
+        {
+          "git_blob_sha1": "205bac263892a94da8bc0040a6a12db5d5277a5b",
+          "path": "results/result_w8_confirmation.json",
+          "sha256": "af68c6289caaeecdf9a46be983ca967d1063a029ff44e5598800354411e23eb5"
+        }
+      ],
+      "proposal_id": "AI-Researcher-w8-confirmation",
+      "proposal_source": null,
+      "record_id": "PNN-v1-W8-Confirmation",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        121,
+        131,
+        141,
+        151,
+        161
+      ],
+      "series": "pnn-v1",
+      "source": {
+        "git_blob_sha1": "205bac263892a94da8bc0040a6a12db5d5277a5b",
+        "path": "pnn-v1/results/result_w8_confirmation.json",
+        "sha256": "af68c6289caaeecdf9a46be983ca967d1063a029ff44e5598800354411e23eb5"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-26T10:52:15.442041+00:00"
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-001-replicate-expanding-topologies:v1",
+      "record_id": "proposal-001-replicate-expanding-topologies",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "7a7f94649d5a41cad4fda12b123f3a0ab7914c1b",
+        "path": "research_queue/proposals/proposal-001-replicate-expanding-topologies.json",
+        "sha256": "1e7a85773c952b16ab7c32547ecabad2159fdfa6e79523c46c821f585f856220"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-002-expansion-ratio:v1",
+      "record_id": "proposal-002-expansion-ratio",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "fb159951df701d2dbec919ae9eb3b141d14b70f3",
+        "path": "research_queue/proposals/proposal-002-expansion-ratio.json",
+        "sha256": "8520465f9bf354657a3ab89a94665bec05a343de5c3a2cd78c140820f8f2f695"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-003-stronger-mnist-validation:v1",
+      "record_id": "proposal-003-stronger-mnist-validation",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "837dc50df73a7624a7d4a83e6d8b982366610fbb",
+        "path": "research_queue/proposals/proposal-003-stronger-mnist-validation.json",
+        "sha256": "fb596cd9730572654ea5fe9594dd73b684619f9eae33b7c4b758a23086304861"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-004-cross-dataset-validation:v1",
+      "record_id": "proposal-004-cross-dataset-validation",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "38146260680e83e031e70bb47dc227bb59bb1c89",
+        "path": "research_queue/proposals/proposal-004-cross-dataset-validation.json",
+        "sha256": "51857d763a8f7e83a8ba8b3b34c2d72f3915eb6321f77a75c43e2cc048ee926f"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-005-qant-fourier-layer:v1",
+      "record_id": "proposal-005-qant-fourier-layer",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "76767d5d9e58ee3539714c757ac3102ac62aea4b",
+        "path": "research_queue/proposals/proposal-005-qant-fourier-layer.json",
+        "sha256": "a202509a0f438898482c2cfd119af6851cf12819e73624b7b941c5e6729f2a42"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-006-qant-fourier-capacity:v1",
+      "record_id": "proposal-006-qant-fourier-capacity",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "6fe269c1f6596e499d6942bdf500fabb6ed8adbd",
+        "path": "research_queue/proposals/proposal-006-qant-fourier-capacity.json",
+        "sha256": "f3c16f60d9b65eace94cb0b9dcbeba64bb82e7c69335c4ef657097db002ba607"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-007-qant-fourier-robust-training:v1",
+      "record_id": "proposal-007-qant-fourier-robust-training",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "9d3edff4cff94431a11b6c49c9b4f0f3b0ab7bf7",
+        "path": "research_queue/proposals/proposal-007-qant-fourier-robust-training.json",
+        "sha256": "958e3ad0bbcc357cf01bc3c2dd8641f3b8aa4d296a8c81a65f5039499434832b"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-008-qant-fourier-mismatch-diagnostic:v1",
+      "record_id": "proposal-008-qant-fourier-mismatch-diagnostic",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "b598f69904c3742b2af6d0ad98493cca02076500",
+        "path": "research_queue/proposals/proposal-008-qant-fourier-mismatch-diagnostic.json",
+        "sha256": "2e03c937511a0bb866e6b0bf5ff5ef9d54c33b879265a622bfe573d4a5234d05"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-009-qant-fourier-error-decomposition:v1",
+      "record_id": "proposal-009-qant-fourier-error-decomposition",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "abe972165ebe57a7066368465ed7582453b3a6b6",
+        "path": "research_queue/proposals/proposal-009-qant-fourier-error-decomposition.json",
+        "sha256": "dfa892e560f5d774ee48273ccf41a391fda1f007495e16ad3e112d095bf17baa"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-010-qant-aligned-training-surrogate:v1",
+      "record_id": "proposal-010-qant-aligned-training-surrogate",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "978e1d653829b3f0cd5299e413b8649fead72fbf",
+        "path": "research_queue/proposals/proposal-010-qant-aligned-training-surrogate.json",
+        "sha256": "fbc7d7a4c90c46805d8ed43b2ffa8f3ceb8b1e3f2f80fae898e1a9b6c5112327"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-011-qant-activation-error-occupancy:v1",
+      "record_id": "proposal-011-qant-activation-error-occupancy",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "c469bcd631af04901e3c70f782c45d62f61f470a",
+        "path": "research_queue/proposals/proposal-011-qant-activation-error-occupancy.json",
+        "sha256": "300ec90383673e8b10ebb2e101dc387a6ec0d9ce856e45347c7efcb8d53c0486"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-012-qant-logit-margin-diagnostic:v1",
+      "record_id": "proposal-012-qant-logit-margin-diagnostic",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "d95b4db53c8ba7aafc62ae9a07d303f41a4881fd",
+        "path": "research_queue/proposals/proposal-012-qant-logit-margin-diagnostic.json",
+        "sha256": "772716c52a8da112558460ed731e899c8f6844f04d38162d4933d62636c658f7"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-013-qant-frequency-controlled-g8:v1",
+      "record_id": "proposal-013-qant-frequency-controlled-g8",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "80d3db6ddc2370bd8fb8ff29cf4e00d3c5c4c48d",
+        "path": "research_queue/proposals/proposal-013-qant-frequency-controlled-g8.json",
+        "sha256": "22b5e791ea5e6956f522472f953574d6c87cee60b758244d1f6418e93b0da07b"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-014-qant-amplitude-error-accumulation:v1",
+      "record_id": "proposal-014-qant-amplitude-error-accumulation",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "d0e15425fbc395dd591ded48c8a7429de7503d94",
+        "path": "research_queue/proposals/proposal-014-qant-amplitude-error-accumulation.json",
+        "sha256": "e592a1bfdf01ce9d108d54c5dc07c78b086fa799998b9b39c2d38f539e53a788"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-015-qant-kan-additivity-ladder:v1",
+      "record_id": "proposal-015-qant-kan-additivity-ladder",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "b7eac7acdbf867d2b2a34cc6cab984ffa5a0f5c4",
+        "path": "research_queue/proposals/proposal-015-qant-kan-additivity-ladder.json",
+        "sha256": "0d3a9e2c2b6c86a45770a57308482164ffa884290d33dcf6694ee900a980631c"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-016-qant-accumulation-scaling-law:v1",
+      "record_id": "proposal-016-qant-accumulation-scaling-law",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "ac21c7e5e54be760f4c6abc835fc8e446e9e00e5",
+        "path": "research_queue/proposals/proposal-016-qant-accumulation-scaling-law.json",
+        "sha256": "f9aabd8e590f9d7251f7d3b3fbea5cf88103411afa3651a0b039c6c65cd61e52"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-017-qant-grouped-accumulation-architecture:v1",
+      "record_id": "proposal-017-qant-grouped-accumulation-architecture",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "27eab57185792cd757d055339d9e61a37c5a6377",
+        "path": "research_queue/proposals/proposal-017-qant-grouped-accumulation-architecture.json",
+        "sha256": "449c74b9c5d6606349245ab8c6429d702011ed9a2cc6f1de8615aeaf1c60f262"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-018-qant-hierarchical-low-fanin:v1",
+      "record_id": "proposal-018-qant-hierarchical-low-fanin",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "f97629511b4bdf06001da093145a26ed3890e154",
+        "path": "research_queue/proposals/proposal-018-qant-hierarchical-low-fanin.json",
+        "sha256": "bebe898f585f3d5a7e9a2a42e5a8eeb8a992c4e292c390e0788d9530c2369981"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-019-qant-hierarchical-architecture-search:v1",
+      "record_id": "proposal-019-qant-hierarchical-architecture-search",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "0d8dc320e8f274eea922c2416a38c0a9bb507cd4",
+        "path": "research_queue/proposals/proposal-019-qant-hierarchical-architecture-search.json",
+        "sha256": "463dc87ba57f13ed2d44c796cfa11ab41bfe74dfbd9fd319da9dc33f8bb54f0c"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-020-qant-hierarchical-error-localization:v1",
+      "record_id": "proposal-020-qant-hierarchical-error-localization",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "53f639a269ec625d43f280439ca3d3cfc354b764",
+        "path": "research_queue/proposals/proposal-020-qant-hierarchical-error-localization.json",
+        "sha256": "ddca5abd21a711cb5d63b08633969aeacdb1f65b84959f121dbf179b8407e706"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-021-qant-predictive-compatibility-model:v1",
+      "record_id": "proposal-021-qant-predictive-compatibility-model",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "cb2c69a52db30dcb984946775a1fa3eafd20a446",
+        "path": "research_queue/proposals/proposal-021-qant-predictive-compatibility-model.json",
+        "sha256": "f1893966bacd0a26ba09cc9d5f8a06099516bd10fd36855484c33d8184358f81"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-022-qant-factorial-accumulation-map:v1",
+      "record_id": "proposal-022-qant-factorial-accumulation-map",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "375ec371d1f9cd8290c6ec8b204b64f689b47e84",
+        "path": "research_queue/proposals/proposal-022-qant-factorial-accumulation-map.json",
+        "sha256": "46fadb42932922615e4873d34bc296b9f618ff2d39b7c600d0857f0ce31fc826"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-023-qant-predictive-compatibility-v2:v1",
+      "record_id": "proposal-023-qant-predictive-compatibility-v2",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "7cfa3344a6088a6d22df105c25d1cd390c5d3e54",
+        "path": "research_queue/proposals/proposal-023-qant-predictive-compatibility-v2.json",
+        "sha256": "b11c1eb45952d0a9dc7db8fb220aca57e72fa953a289b417331dcb698282c936"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-024-qant-7x2-residual-localization:v1",
+      "record_id": "proposal-024-qant-7x2-residual-localization",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "d1c81101357c271e06078e2888b7ad2172c97005",
+        "path": "research_queue/proposals/proposal-024-qant-7x2-residual-localization.json",
+        "sha256": "8fdc5ffbe350edcb62ac82a644428664ad0d42ac09496ae2b10321d2a3f0717a"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "catalog_id": "toolkit:proposal:proposal-025-qant-compatibility-model-v3:v1",
+      "record_id": "proposal-025-qant-compatibility-model-v3",
+      "record_kind": "proposal",
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "f7b2b479d4cea110f0efba49566680372646f4b1",
+        "path": "research_queue/proposals/proposal-025-qant-compatibility-model-v3.json",
+        "sha256": "232eb09b2aee53cf7cadbb5f2208deb94fd33e6291e3d0f3a98eca1b1cad7d60"
+      },
+      "source_schema_version": 1,
+      "status": "proposal_documented",
+      "target_experiment_id": null
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp001_baseline:v1",
+      "dataset": {
+        "name": "MNIST"
+      },
+      "execution_records": [],
+      "job_id": null,
+      "job_link_basis": "no_declared_job",
+      "job_source": null,
+      "method": {
+        "epochs": 3,
+        "test_samples": 1000,
+        "train_samples": 10000
+      },
+      "mirrored_sources": [],
+      "proposal_id": null,
+      "proposal_source": null,
+      "record_id": "exp001_baseline",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        42
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "aa13b01d9e88ae0662ad67516b5b1c29a6660481",
+        "path": "results/exp001_baseline.json",
+        "sha256": "e02001aa41dacd7038c470fcb26a9f6f1355ca862a8a3ea4769b37846c8e0d22"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-23T17:04:15.451903+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp002_width_search:v1",
+      "dataset": {
+        "name": "MNIST"
+      },
+      "execution_records": [],
+      "job_id": null,
+      "job_link_basis": "no_declared_job",
+      "job_source": null,
+      "method": {
+        "epochs": 3,
+        "test_samples": 1000,
+        "train_samples": 10000
+      },
+      "mirrored_sources": [],
+      "proposal_id": null,
+      "proposal_source": null,
+      "record_id": "exp002_width_search",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        42
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "1ad2c0894c77badd1fde01b0baf0af1939ebb3de",
+        "path": "results/exp002_width_search.json",
+        "sha256": "b15815e973ea05977a9f072adbbea99029232109726829d448f44541c97b2124"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-23T17:11:00+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp003_architecture_search:v1",
+      "dataset": {
+        "name": "MNIST"
+      },
+      "execution_records": [],
+      "job_id": null,
+      "job_link_basis": "no_declared_job",
+      "job_source": null,
+      "method": {
+        "epochs": 3,
+        "test_samples": 1000,
+        "train_samples": 10000
+      },
+      "mirrored_sources": [],
+      "proposal_id": null,
+      "proposal_source": null,
+      "record_id": "exp003_architecture_search",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        42
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "8b0812f80d8b56222bf27bbbd883258caaaba536",
+        "path": "results/exp003_architecture_search.json",
+        "sha256": "17275f08fbcf5d17dbc92f190ad30811b20cf019a808ccff1e1e75cd7cbd6385"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-23T17:17:58.434242+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp004_depth_topology:v1",
+      "dataset": {
+        "name": "MNIST"
+      },
+      "execution_records": [],
+      "job_id": null,
+      "job_link_basis": "no_declared_job",
+      "job_source": null,
+      "method": {
+        "epochs": 3,
+        "test_samples": 1000,
+        "train_samples": 10000
+      },
+      "mirrored_sources": [],
+      "proposal_id": null,
+      "proposal_source": null,
+      "record_id": "exp004_depth_topology",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        42
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "32cfe745ad80292a251cb4a155ff165aee28b236",
+        "path": "results/exp004_depth_topology.json",
+        "sha256": "e0f319d9f844b015bf3d3f1d0ce2437ce0860c2fbb2912736d85a2c98eb55787"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-23T17:26:26.708080+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp005_auto_topology_search:v1",
+      "dataset": {
+        "name": "MNIST"
+      },
+      "execution_records": [],
+      "job_id": null,
+      "job_link_basis": "no_declared_job",
+      "job_source": null,
+      "method": {
+        "epochs": 3,
+        "test_samples": 1000,
+        "train_samples": 10000
+      },
+      "mirrored_sources": [],
+      "proposal_id": null,
+      "proposal_source": null,
+      "record_id": "exp005_auto_topology_search",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        42
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "dae74cc2099d28c203de2d34e3e443f8cb532e8a",
+        "path": "results/exp005_auto_topology_search.json",
+        "sha256": "d34726ada6cee7d559a044dcc40dbba515f9f75bc23012023716c871ab6e1ac4"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-23T17:17:58.434242+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp006_multiseed_replication:v1",
+      "dataset": {
+        "name": "MNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "f1d123177c3db938dc8bfe7ccb474a382e4ce681",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "35912806764",
+          "source": {
+            "git_blob_sha1": "bb42e70bc270604607c6230b403660d2e438439a",
+            "path": "executions/exp006-multiseed-replication-35912806764.json",
+            "sha256": "8ac522e560cedade3cfc2e9afe07b58d3ca8c2c476904b6be43964f874ded83d"
+          }
+        }
+      ],
+      "job_id": "exp006-multiseed-replication",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "098529d486a456d3fe2305abcd345ce719a0a17c",
+        "path": "research_queue/jobs/exp006-multiseed-replication.json",
+        "sha256": "bfae5365223aee5964dbd5964841500e895876b0a7a564472fc39c130d4cd8d4"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 1000,
+        "train_samples": 10000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-001-replicate-expanding-topologies",
+      "proposal_source": {
+        "git_blob_sha1": "7a7f94649d5a41cad4fda12b123f3a0ab7914c1b",
+        "path": "research_queue/proposals/proposal-001-replicate-expanding-topologies.json",
+        "sha256": "1e7a85773c952b16ab7c32547ecabad2159fdfa6e79523c46c821f585f856220"
+      },
+      "record_id": "exp006_multiseed_replication",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33,
+        44,
+        55
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "1f3ab84b512771d810841bc8be3de74a15c41d9d",
+        "path": "results/exp006_multiseed_replication.json",
+        "sha256": "ce705806062f0b666d264488337c29aa63afec5cd00f58e384982cee9a4f8c85"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-23T20:01:24.537831+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp007_expansion_ratio:v1",
+      "dataset": {
+        "name": "MNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "8dc07a924d3ea905debcd066f84855913ae11a00",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "35917931057",
+          "source": {
+            "git_blob_sha1": "3936d2e5398cfab82449509a771f940ee375ec61",
+            "path": "executions/exp007-expansion-ratio-35917931057.json",
+            "sha256": "65c87b03a661f7d5e0c0c26e45b9a6ba9ecf3951e23dfa391e81d0110836df9a"
+          }
+        }
+      ],
+      "job_id": "exp007-expansion-ratio",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "d5b5a526f3119f0bd9cac9988590b42462ab4446",
+        "path": "research_queue/jobs/exp007-expansion-ratio.json",
+        "sha256": "33d10d2383f5adc02bece491537e1a5c55bbde33a0d758942f93da512546587d"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 1000,
+        "train_samples": 10000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-002-expansion-ratio",
+      "proposal_source": {
+        "git_blob_sha1": "fb159951df701d2dbec919ae9eb3b141d14b70f3",
+        "path": "research_queue/proposals/proposal-002-expansion-ratio.json",
+        "sha256": "8520465f9bf354657a3ab89a94665bec05a343de5c3a2cd78c140820f8f2f695"
+      },
+      "record_id": "exp007_expansion_ratio",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "fb293c55046d03c6dafbd1bbd4b659d17b1aaf44",
+        "path": "results/exp007_expansion_ratio.json",
+        "sha256": "0ca5c1a4b1b4951185e11652a59c86d92459c5dd9b8a1138e64c5fd173a5636e"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-23T20:48:34.705152+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp008_full_mnist_validation:v1",
+      "dataset": {
+        "name": "MNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "a9eca72c43dde185fe4b1c56643bfaf7f37413a6",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "35919432756",
+          "source": {
+            "git_blob_sha1": "7189dad91591d686f3302b1bc1f067d526e91ade",
+            "path": "executions/exp008-full-mnist-validation-35919432756.json",
+            "sha256": "f619873d02e2aebbe391720c69fff00c17e83ebd4a25f30a40eecb0461657173"
+          }
+        }
+      ],
+      "job_id": "exp008-full-mnist-validation",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "98ecf1af7a0bf14bdb3b155e0dd0a6848b08879c",
+        "path": "research_queue/jobs/exp008-full-mnist-validation.json",
+        "sha256": "8bfa1bf058cb63e07035a139099a4bee216938fc2af0605bc0ff9aebdce2ad18"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-003-stronger-mnist-validation",
+      "proposal_source": {
+        "git_blob_sha1": "837dc50df73a7624a7d4a83e6d8b982366610fbb",
+        "path": "research_queue/proposals/proposal-003-stronger-mnist-validation.json",
+        "sha256": "fb596cd9730572654ea5fe9594dd73b684619f9eae33b7c4b758a23086304861"
+      },
+      "record_id": "exp008_full_mnist_validation",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "a31327404e35a093a70547fc190e63c64957d443",
+        "path": "results/exp008_full_mnist_validation.json",
+        "sha256": "8313d1471c645313e104143051cadcf57a56ce085bc217ff9f9ffd16a7b6a219"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-23T21:07:33.447258+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp009_cross_dataset_validation:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "f0c888cfbc25076aa01fc4e946fda89093d7393d",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "35921272553",
+          "source": {
+            "git_blob_sha1": "3d3ed9f0034738ccab96ab3f9cf470bceacd1350",
+            "path": "executions/exp009-cross-dataset-validation-35921272553.json",
+            "sha256": "83b55c01abcc2e92cb250106fc538d22758caf02b04ab767210244b19eb99e34"
+          }
+        }
+      ],
+      "job_id": "exp009-cross-dataset-validation",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "cc0dec018c6e2f7b8ae34fef5dd5b57fde3802f5",
+        "path": "research_queue/jobs/exp009-cross-dataset-validation.json",
+        "sha256": "5c365584c6c29bcb449044c1a182bfb350d569d09ed110bd6a17c55b63171f39"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-004-cross-dataset-validation",
+      "proposal_source": {
+        "git_blob_sha1": "38146260680e83e031e70bb47dc227bb59bb1c89",
+        "path": "research_queue/proposals/proposal-004-cross-dataset-validation.json",
+        "sha256": "51857d763a8f7e83a8ba8b3b34c2d72f3915eb6321f77a75c43e2cc048ee926f"
+      },
+      "record_id": "exp009_cross_dataset_validation",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "f9fe629c57ff35d38f8e5334efdc2850a68b59c7",
+        "path": "results/exp009_cross_dataset_validation.json",
+        "sha256": "af483142ecc4eefb95d6a1abbf6e14c0fc4128100bb16f7fa3a60a9be2bab246"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-23T21:22:12.508048+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp010_qant_fourier_layer:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "ccb754c9b7bc8716d126dc8ed879030e2ae5dd92",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "35930437799",
+          "source": {
+            "git_blob_sha1": "22885acdafaf28a46afa86cc469dbe2c96c36971",
+            "path": "executions/exp010-qant-fourier-layer-35930437799.json",
+            "sha256": "3b295bc5140f7a86d203c7cd6e63a8e54de4e04ad7240428d60bf49b9397b64b"
+          }
+        }
+      ],
+      "job_id": "exp010-qant-fourier-layer",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "8661a58ac399dce0675ff325e1c54aa0594512e2",
+        "path": "research_queue/jobs/exp010-qant-fourier-layer.json",
+        "sha256": "4ef9337d78e7881944e737fa0ba864e201cd2f673d714308c07ceeb516403767"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-005-qant-fourier-layer",
+      "proposal_source": {
+        "git_blob_sha1": "76767d5d9e58ee3539714c757ac3102ac62aea4b",
+        "path": "research_queue/proposals/proposal-005-qant-fourier-layer.json",
+        "sha256": "a202509a0f438898482c2cfd119af6851cf12819e73624b7b941c5e6729f2a42"
+      },
+      "record_id": "exp010_qant_fourier_layer",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "2407ea1dce04889d5dbee00a2535a1604deadb3e",
+        "path": "results/exp010_qant_fourier_layer.json",
+        "sha256": "f0f2b2a1ab8254a2b6cc4457abddc9c948b7dd53c787883db7a6633b0aadc5ab"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-23T22:56:24.693028+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp011_qant_fourier_capacity:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "a5904d2d81a6a4958260ecf40223720c73f1e5e4",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "35936197843",
+          "source": {
+            "git_blob_sha1": "fc0400efae2b19b2791f14da40037d56dc41160a",
+            "path": "executions/exp011-qant-fourier-capacity-35936197843.json",
+            "sha256": "0635e1b947d847707ef915f008ab84ae9f3df9f8e1ac64f55a86c0ee6ae1cfba"
+          }
+        }
+      ],
+      "job_id": "exp011-qant-fourier-capacity",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "fb10e3c7eabbab0b74dec573fef1850c04bbd864",
+        "path": "research_queue/jobs/exp011-qant-fourier-capacity.json",
+        "sha256": "cee654602cbaafb2b9414b47d653d9759bf0c9a267eb808326d1e623c86237e1"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-006-qant-fourier-capacity",
+      "proposal_source": {
+        "git_blob_sha1": "6fe269c1f6596e499d6942bdf500fabb6ed8adbd",
+        "path": "research_queue/proposals/proposal-006-qant-fourier-capacity.json",
+        "sha256": "f3c16f60d9b65eace94cb0b9dcbeba64bb82e7c69335c4ef657097db002ba607"
+      },
+      "record_id": "exp011_qant_fourier_capacity",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "729a389ac4d4447464eec3ad370765f3dab1e12d",
+        "path": "results/exp011_qant_fourier_capacity.json",
+        "sha256": "fe434ca1d03e082952bbfa199120967664a8fa1cf6cb0c4f745cad74fb2ef970"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T00:09:35.579842+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp012_qant_fourier_robust_training:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "20f444cfb951f4350eae06f93ea6eee56ed7f942",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "35938369458",
+          "source": {
+            "git_blob_sha1": "21c2e694f16ad62ddb310cc47f79c59bc1741abc",
+            "path": "executions/exp012-qant-fourier-robust-training-35938369458.json",
+            "sha256": "8304834a8567a8a14ef422844d6c044d5f0fff3b2f562f21f9083dcd7caae4f2"
+          }
+        }
+      ],
+      "job_id": "exp012-qant-fourier-robust-training",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "9ce34eea4436c1233dfa013282439d4d62ee4912",
+        "path": "research_queue/jobs/exp012-qant-fourier-robust-training.json",
+        "sha256": "4fd3e239d7df092d1ef7adc35c8fc7e2f921288899f01c2008441ff0cbad9ecc"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-007-qant-fourier-robust-training",
+      "proposal_source": {
+        "git_blob_sha1": "9d3edff4cff94431a11b6c49c9b4f0f3b0ab7bf7",
+        "path": "research_queue/proposals/proposal-007-qant-fourier-robust-training.json",
+        "sha256": "958e3ad0bbcc357cf01bc3c2dd8641f3b8aa4d296a8c81a65f5039499434832b"
+      },
+      "record_id": "exp012_qant_fourier_robust_training",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "a36515276c99bf19af229e8da014edfc7d2c2b2d",
+        "path": "results/exp012_qant_fourier_robust_training.json",
+        "sha256": "3331fe01e14294983f019978fa1fb27f6368d17a7d958b901c8cef01d8ae37cd"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T00:35:16.071254+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp013_qant_fourier_mismatch_diagnostic:v1",
+      "dataset": {
+        "name": "synthetic_periodic_sweep"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "aad91297437933d8b3f3cca6a0c9ff4500890fd4",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "35979252996",
+          "source": {
+            "git_blob_sha1": "9de66f3e5a23902c60df3c3ea6a645fa27c09a6d",
+            "path": "executions/exp013-qant-fourier-mismatch-diagnostic-35979252996.json",
+            "sha256": "e90b9f2924b5bc39e6c8e9ec2b96908e099e5a8cbe951374c8876e467396c7a8"
+          }
+        }
+      ],
+      "job_id": "exp013-qant-fourier-mismatch-diagnostic",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "97a6743aa5a3f0e224be3781ad7480716522b5dd",
+        "path": "research_queue/jobs/exp013-qant-fourier-mismatch-diagnostic.json",
+        "sha256": "b7349ce52ad8acbcb6c24355e06d52133d09d6c54c6cd85e97f4aaac67e9799b"
+      },
+      "method": {
+        "frequencies": [
+          1,
+          2,
+          4,
+          8
+        ]
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-008-qant-fourier-mismatch-diagnostic",
+      "proposal_source": {
+        "git_blob_sha1": "b598f69904c3742b2af6d0ad98493cca02076500",
+        "path": "research_queue/proposals/proposal-008-qant-fourier-mismatch-diagnostic.json",
+        "sha256": "2e03c937511a0bb866e6b0bf5ff5ef9d54c33b879265a622bfe573d4a5234d05"
+      },
+      "record_id": "exp013_qant_fourier_mismatch_diagnostic",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": null,
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "bc91a3b549fa1fd7525fb03ccd99df50de503275",
+        "path": "results/exp013_qant_fourier_mismatch_diagnostic.json",
+        "sha256": "3f07abb69c810b2a3ba8d305fc3b68a49d59231b6dee4b87a061712207ad5782"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T09:09:02.787459+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp014_qant_fourier_error_decomposition:v1",
+      "dataset": {
+        "name": "synthetic_periodic_sweep"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "6b32a6efb63aa5d1bfc17406a082352c36acf25c",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "35980674289",
+          "source": {
+            "git_blob_sha1": "b2b4b96a304c21762ff6235640f9deb61c03bec3",
+            "path": "executions/exp014-qant-fourier-error-decomposition-35980674289.json",
+            "sha256": "a80f85439c9bdcdc3370d099d1d717390f1a44fb0e84859245dbd8bdecb58c8d"
+          }
+        }
+      ],
+      "job_id": "exp014-qant-fourier-error-decomposition",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "1478a88daffe27bb4d192c8fb753106e79bc3bd9",
+        "path": "research_queue/jobs/exp014-qant-fourier-error-decomposition.json",
+        "sha256": "9edd5907fc35c0484037df668f8c6254c9b8eaae00e1ff222a9f37c4284afc25"
+      },
+      "method": {
+        "frequencies": [
+          1,
+          2,
+          4,
+          8
+        ]
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-009-qant-fourier-error-decomposition",
+      "proposal_source": {
+        "git_blob_sha1": "abe972165ebe57a7066368465ed7582453b3a6b6",
+        "path": "research_queue/proposals/proposal-009-qant-fourier-error-decomposition.json",
+        "sha256": "dfa892e560f5d774ee48273ccf41a391fda1f007495e16ad3e112d095bf17baa"
+      },
+      "record_id": "exp014_qant_fourier_error_decomposition",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": null,
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "4e767c85a8af87f6e02a805995472a8076f7101a",
+        "path": "results/exp014_qant_fourier_error_decomposition.json",
+        "sha256": "e5274bbdee650d9ebaf869b2432eb816e6717ce71084cdf31a9d7507ee542276"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T09:23:38.699450+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp015_qant_aligned_training_surrogate:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "bbc6decd322b8d5697b4a8e94dea2d35b60dab78",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "35982044624",
+          "source": {
+            "git_blob_sha1": "c62cefd5bb2857e7f819347564a4f4c731ddf185",
+            "path": "executions/exp015-qant-aligned-training-surrogate-35982044624.json",
+            "sha256": "6988ee1944ab4b10f9b4e0fa9d3c019e1c6d03cbf58d67336412d67bda069ca2"
+          }
+        }
+      ],
+      "job_id": "exp015-qant-aligned-training-surrogate",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "bcad2de7e6f64f7ee5d7ee577ea906a71c675239",
+        "path": "research_queue/jobs/exp015-qant-aligned-training-surrogate.json",
+        "sha256": "13ce9361121e714e8ac98d96fc999eadbb8aeab5c69388e95a125ca3c532cc47"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-010-qant-aligned-training-surrogate",
+      "proposal_source": {
+        "git_blob_sha1": "978e1d653829b3f0cd5299e413b8649fead72fbf",
+        "path": "research_queue/proposals/proposal-010-qant-aligned-training-surrogate.json",
+        "sha256": "fbc7d7a4c90c46805d8ed43b2ffa8f3ceb8b1e3f2f80fae898e1a9b6c5112327"
+      },
+      "record_id": "exp015_qant_aligned_training_surrogate",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "f2855bc75413279a53d9d06f31cd387307b768e2",
+        "path": "results/exp015_qant_aligned_training_surrogate.json",
+        "sha256": "3b01b17c44a21e9c7ff1105d46a632d518e9e01f9bbd9932b81a829dbdd6c9dc"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T09:50:06.526424+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp016_qant_activation_error_occupancy:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "fbf61fca377bf1e77c1845909a1f6cd24f729036",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "35985314532",
+          "source": {
+            "git_blob_sha1": "da8ad5492323a88c7531671235a756e7cb2ce6b9",
+            "path": "executions/exp016-qant-activation-error-occupancy-35985314532.json",
+            "sha256": "23075d315728748ffbb0c8c9dadf0db87d9287df1b1f8448927b4b904a9e083a"
+          }
+        }
+      ],
+      "job_id": "exp016-qant-activation-error-occupancy",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "0a15040359c0c5a7d86ffb7579357ba9127a32af",
+        "path": "research_queue/jobs/exp016-qant-activation-error-occupancy.json",
+        "sha256": "bf5f3ae8b5712d8e14a53e384c59edb06ad365dc6795f96506194b8c1368d1d5"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-011-qant-activation-error-occupancy",
+      "proposal_source": {
+        "git_blob_sha1": "c469bcd631af04901e3c70f782c45d62f61f470a",
+        "path": "research_queue/proposals/proposal-011-qant-activation-error-occupancy.json",
+        "sha256": "300ec90383673e8b10ebb2e101dc387a6ec0d9ce856e45347c7efcb8d53c0486"
+      },
+      "record_id": "exp016_qant_activation_error_occupancy",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "4608f01db12c4484d70c6f984dafa2bb0c968035",
+        "path": "results/exp016_qant_activation_error_occupancy.json",
+        "sha256": "a27f27f9cfce2a3e65b821587fdc700c610e49e02d850a9da0aa671b730a5622"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T10:15:02.534983+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp017_qant_logit_margin_diagnostic:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "01987e4a66bd385b918a98d9a556c2b7a4c57366",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36026584814",
+          "source": {
+            "git_blob_sha1": "44a54ed75611e1728ee5ede7450da7a102e8b69b",
+            "path": "executions/exp017-qant-logit-margin-diagnostic-36026584814.json",
+            "sha256": "8ac23dc89d92c2fe34cd95aa9199431cd320afd9d6ae26d78d73b1cb84c4c53d"
+          }
+        }
+      ],
+      "job_id": "exp017-qant-logit-margin-diagnostic",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "2e39d0e57ba3b533af55cccf14993ff4ac357eb0",
+        "path": "research_queue/jobs/exp017-qant-logit-margin-diagnostic.json",
+        "sha256": "e9ee82143c2d5a724e6115c50ddfebef107030cfec6a5156b73c42b48f5d1e66"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-012-qant-logit-margin-diagnostic",
+      "proposal_source": {
+        "git_blob_sha1": "d95b4db53c8ba7aafc62ae9a07d303f41a4881fd",
+        "path": "research_queue/proposals/proposal-012-qant-logit-margin-diagnostic.json",
+        "sha256": "772716c52a8da112558460ed731e899c8f6844f04d38162d4933d62636c658f7"
+      },
+      "record_id": "exp017_qant_logit_margin_diagnostic",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "1cf408e2762f37c1d6b15b61d9407ef589091d1a",
+        "path": "results/exp017_qant_logit_margin_diagnostic.json",
+        "sha256": "70bbc2a3b6de619add178ddf135bba8213c42cc840e4d149ef614aeaced9d65c"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T16:28:34.851592+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp018_qant_frequency_controlled_g8:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "27b35fdb9832b855ece962098f3c6e4b53f9f7c1",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36039153357",
+          "source": {
+            "git_blob_sha1": "f2dd1cd4913f359b6362a88573bbc9bf4de70c4c",
+            "path": "executions/exp018-qant-frequency-controlled-g8-36039153357.json",
+            "sha256": "57bef0b0388b1e36e6a0142ba28d686bb98c29b92ced4ae2ee19f5b79adc63f2"
+          }
+        }
+      ],
+      "job_id": "exp018-qant-frequency-controlled-g8",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "9931cee68fd62b5ef0ed1cb9bbbd70cd42554821",
+        "path": "research_queue/jobs/exp018-qant-frequency-controlled-g8.json",
+        "sha256": "1081705ff0a2ebdefe7ff1a680035af5666c5acfe1b8b017f933e24048c96c88"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-013-qant-frequency-controlled-g8",
+      "proposal_source": {
+        "git_blob_sha1": "80d3db6ddc2370bd8fb8ff29cf4e00d3c5c4c48d",
+        "path": "research_queue/proposals/proposal-013-qant-frequency-controlled-g8.json",
+        "sha256": "22b5e791ea5e6956f522472f953574d6c87cee60b758244d1f6418e93b0da07b"
+      },
+      "record_id": "exp018_qant_frequency_controlled_g8",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "19037893f15fcf56c767624c09188c731eeaeb15",
+        "path": "results/exp018_qant_frequency_controlled_g8.json",
+        "sha256": "009ddefe6e2775443458260074c6fc3cdc4dd3c9aed414f2c0b3812a69333dd7"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T18:18:54.933755+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp019_qant_amplitude_error_accumulation:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "a58df3f67dc1275c344be98b55a47e78fddbbd84",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36041820022",
+          "source": {
+            "git_blob_sha1": "c7443e80ed1041024226a3aa2f0daa6465dd054e",
+            "path": "executions/exp019-qant-amplitude-error-accumulation-36041820022.json",
+            "sha256": "1d88e015f0988084487941706ec3775929409bd639537cd11aedf23fbe5002f0"
+          }
+        }
+      ],
+      "job_id": "exp019-qant-amplitude-error-accumulation",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "cd6aa2916d824b3058ae2b3e11424a259dae32c2",
+        "path": "research_queue/jobs/exp019-qant-amplitude-error-accumulation.json",
+        "sha256": "2836ff8e38d287bd77e9e93cec239f4c1c4813ae8a4aba01b0df913acc742c45"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 1000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-014-qant-amplitude-error-accumulation",
+      "proposal_source": {
+        "git_blob_sha1": "d0e15425fbc395dd591ded48c8a7429de7503d94",
+        "path": "research_queue/proposals/proposal-014-qant-amplitude-error-accumulation.json",
+        "sha256": "e592a1bfdf01ce9d108d54c5dc07c78b086fa799998b9b39c2d38f539e53a788"
+      },
+      "record_id": "exp019_qant_amplitude_error_accumulation",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "fd97b023f112026a9578908a291a9f2cda3fe664",
+        "path": "results/exp019_qant_amplitude_error_accumulation.json",
+        "sha256": "d09c6f2b0068280833417b22eba1eb73df268bf1c1dd91296392c7a7c12728d7"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T18:38:01.279966+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp020_qant_kan_additivity_ladder:v1",
+      "dataset": {
+        "name": "synthetic"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "6ce498bbfa31cad11c5eb67f63814e1045eb36bd",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36043336020",
+          "source": {
+            "git_blob_sha1": "03a3d5eb3f72543d1a58e26703b7b2f8c80c58d5",
+            "path": "executions/exp020-qant-kan-additivity-ladder-36043336020.json",
+            "sha256": "80096b056370e666b1cf0ce19d777c398a52e98c11d78dd395ab6b76fa8b769a"
+          }
+        }
+      ],
+      "job_id": "exp020-qant-kan-additivity-ladder",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "c8c174acdb9c9cadbf752515a967c2023b906976",
+        "path": "research_queue/jobs/exp020-qant-kan-additivity-ladder.json",
+        "sha256": "23b67456c178293da55e2ef0d95ed5ff640513d0d974e75a1f1d0ec53a03671a"
+      },
+      "method": {},
+      "mirrored_sources": [],
+      "proposal_id": "proposal-015-qant-kan-additivity-ladder",
+      "proposal_source": {
+        "git_blob_sha1": "b7eac7acdbf867d2b2a34cc6cab984ffa5a0f5c4",
+        "path": "research_queue/proposals/proposal-015-qant-kan-additivity-ladder.json",
+        "sha256": "0d3a9e2c2b6c86a45770a57308482164ffa884290d33dcf6694ee900a980631c"
+      },
+      "record_id": "exp020_qant_kan_additivity_ladder",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "35c828021c63d65b54d30a623b95062969d673ee",
+        "path": "results/exp020_qant_kan_additivity_ladder.json",
+        "sha256": "2691f0901f6ace024295ff9d5a70311c103476d37cfb0ea068231e90c714355a"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T18:47:27.752472+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp021_qant_accumulation_scaling_law:v1",
+      "dataset": {
+        "name": "synthetic"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "90458af400b279bf819fceaedf3a4789394f9e68",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36044569390",
+          "source": {
+            "git_blob_sha1": "e71708110c4cd1dba9b4604aef0ad164b0e2a16c",
+            "path": "executions/exp021-qant-accumulation-scaling-law-36044569390.json",
+            "sha256": "2437987dfc6612684ac0bef24ad8fdbb830d37fb9ecdc6340294abe0e0c84e31"
+          }
+        }
+      ],
+      "job_id": "exp021-qant-accumulation-scaling-law",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "880ea7882fb683b24ce9c770fd09f4d9c002f619",
+        "path": "research_queue/jobs/exp021-qant-accumulation-scaling-law.json",
+        "sha256": "9f2529448b4f7209a5c521475c5b18245bd9ecb8e722cfd797d471797dd00c62"
+      },
+      "method": {},
+      "mirrored_sources": [],
+      "proposal_id": "proposal-016-qant-accumulation-scaling-law",
+      "proposal_source": {
+        "git_blob_sha1": "ac21c7e5e54be760f4c6abc835fc8e446e9e00e5",
+        "path": "research_queue/proposals/proposal-016-qant-accumulation-scaling-law.json",
+        "sha256": "f9aabd8e590f9d7251f7d3b3fbea5cf88103411afa3651a0b039c6c65cd61e52"
+      },
+      "record_id": "exp021_qant_accumulation_scaling_law",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "5aab0f6738fc16ba7734840a7cf44e141041ef7e",
+        "path": "results/exp021_qant_accumulation_scaling_law.json",
+        "sha256": "c37000c35d5ac9d9b4aff3504ad3e99042e484b271b5250c523dfa059f5514bb"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T18:57:23.892845+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp022_qant_grouped_accumulation_architecture:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "0b2947ce38d891decaf79e867120ca860eb6beb6",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36046734260",
+          "source": {
+            "git_blob_sha1": "49294d904abbeae94627b0a947ce38191ea943b8",
+            "path": "executions/exp022-qant-grouped-accumulation-architecture-36046734260.json",
+            "sha256": "6861fad404028defa7c9143958010d16fd262aa7a33885d82d3ae9664264a4b1"
+          }
+        }
+      ],
+      "job_id": "exp022-qant-grouped-accumulation-architecture",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "17ca4f9cccf639636581ad19d82cf07c6fdd670f",
+        "path": "research_queue/jobs/exp022-qant-grouped-accumulation-architecture.json",
+        "sha256": "6ca6286de8760a48104bbb9a1c3d57af58d627253262689962d2cdd552aeefc6"
+      },
+      "method": {
+        "epochs": 3,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-017-qant-grouped-accumulation-architecture",
+      "proposal_source": {
+        "git_blob_sha1": "27eab57185792cd757d055339d9e61a37c5a6377",
+        "path": "research_queue/proposals/proposal-017-qant-grouped-accumulation-architecture.json",
+        "sha256": "449c74b9c5d6606349245ab8c6429d702011ed9a2cc6f1de8615aeaf1c60f262"
+      },
+      "record_id": "exp022_qant_grouped_accumulation_architecture",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "baf01e4ce51fc0542cd1d0765167282e34c2828b",
+        "path": "results/exp022_qant_grouped_accumulation_architecture.json",
+        "sha256": "ff537f95f5c9e984bbb1ca3e7beb6cc709b611dc06a814a69ce7a18898594dc9"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T19:19:27.138504+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp023_qant_hierarchical_low_fanin:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "4d13852bbae7f0aec9b51fad3cd25cc559aebba3",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36048772650",
+          "source": {
+            "git_blob_sha1": "a7566b5e918b4a3f7c284985fe1fb0bac8ede0e5",
+            "path": "executions/exp023-qant-hierarchical-low-fanin-36048772650.json",
+            "sha256": "8412754f26c96bec76f30e21fcae8a266581013f98ae5bc546fbb68a77b34614"
+          }
+        }
+      ],
+      "job_id": "exp023-qant-hierarchical-low-fanin",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "da836aeb4698079e1f59338a42297fe1672ad172",
+        "path": "research_queue/jobs/exp023-qant-hierarchical-low-fanin.json",
+        "sha256": "60ad8edc8f3310a770c249fb1fff35a587c9fd5685672f41b4de7cc31b842b00"
+      },
+      "method": {
+        "epochs": 3,
+        "frequencies": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-018-qant-hierarchical-low-fanin",
+      "proposal_source": {
+        "git_blob_sha1": "f97629511b4bdf06001da093145a26ed3890e154",
+        "path": "research_queue/proposals/proposal-018-qant-hierarchical-low-fanin.json",
+        "sha256": "bebe898f585f3d5a7e9a2a42e5a8eeb8a992c4e292c390e0788d9530c2369981"
+      },
+      "record_id": "exp023_qant_hierarchical_low_fanin",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "808336f531c885c7a0b7c565b580eb1b71e2ff7e",
+        "path": "results/exp023_qant_hierarchical_low_fanin.json",
+        "sha256": "67c0df73fb6f5b83cdc44ac823163f913506ce3612cf82870eeb78cc4e5a14bb"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T19:37:30.516658+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp024_qant_hierarchical_architecture_search:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "ec4f3015e1f82394d1f999c08e12509bd59fd66e",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36051055745",
+          "source": {
+            "git_blob_sha1": "d29bfc036d643bb75e2daeaa81fe007d2e80be1b",
+            "path": "executions/exp024-qant-hierarchical-architecture-search-36051055745.json",
+            "sha256": "2e5575184feb94b1178bdca0c0d537c286ac59e702335e6e3039df1cf2deae7c"
+          }
+        }
+      ],
+      "job_id": "exp024-qant-hierarchical-architecture-search",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "c7311e663b23c21a36e29d23da6e77bdc177f514",
+        "path": "research_queue/jobs/exp024-qant-hierarchical-architecture-search.json",
+        "sha256": "63a5d630bcd86ff771fdae580ecfb9dfff4d46b0d680e6e9f27778be9f6af7f6"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-019-qant-hierarchical-architecture-search",
+      "proposal_source": {
+        "git_blob_sha1": "0d8dc320e8f274eea922c2416a38c0a9bb507cd4",
+        "path": "research_queue/proposals/proposal-019-qant-hierarchical-architecture-search.json",
+        "sha256": "463dc87ba57f13ed2d44c796cfa11ab41bfe74dfbd9fd319da9dc33f8bb54f0c"
+      },
+      "record_id": "exp024_qant_hierarchical_architecture_search",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "ce58c4f80a8889d57e9bf91c76eea65083eab6b1",
+        "path": "results/exp024_qant_hierarchical_architecture_search.json",
+        "sha256": "e4d1016160159bc488810de00e47003f2d50ec4bf3ac4af955b50cc9402972a6"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T20:02:08.687536+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp025_qant_hierarchical_error_localization:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "7a2c49837771fa8b979e5f3eaac072d182088d23",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36053129581",
+          "source": {
+            "git_blob_sha1": "510b15c9d438ad6c76bd59b3346328c42f94a989",
+            "path": "executions/exp025-qant-hierarchical-error-localization-36053129581.json",
+            "sha256": "6b6b40be0f7841d427f9563c654625b8903b7ee0c3160bafff84388e4bc7667c"
+          }
+        }
+      ],
+      "job_id": "exp025-qant-hierarchical-error-localization",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "db7ad29f531f3c9583564e4335a337ebd9da5371",
+        "path": "research_queue/jobs/exp025-qant-hierarchical-error-localization.json",
+        "sha256": "160e380322a1e60c034471dae8592793ad885faf8df71806696c9eb1b36b8506"
+      },
+      "method": {
+        "epochs": 3,
+        "test_samples": 10000,
+        "train_samples": 60000
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-020-qant-hierarchical-error-localization",
+      "proposal_source": {
+        "git_blob_sha1": "53f639a269ec625d43f280439ca3d3cfc354b764",
+        "path": "research_queue/proposals/proposal-020-qant-hierarchical-error-localization.json",
+        "sha256": "ddca5abd21a711cb5d63b08633969aeacdb1f65b84959f121dbf179b8407e706"
+      },
+      "record_id": "exp025_qant_hierarchical_error_localization",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "c213e4b882d121a1718b03367daffc6bc65fcb8b",
+        "path": "results/exp025_qant_hierarchical_error_localization.json",
+        "sha256": "435f25fc57c494c5ad801b1002415702e0e75b33054d51b244baa70b521c751d"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T20:20:27.037253+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp026_qant_predictive_compatibility_model:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "fade5999fde63c7ad11da8b49281c372165932f9",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36057829157",
+          "source": {
+            "git_blob_sha1": "de0be989c3b6c9080e6ff175bcede5e02ee5341e",
+            "path": "executions/exp026-qant-predictive-compatibility-model-36057829157.json",
+            "sha256": "d678d1516c2f08dfb5992349a152f98d2c6785cb418a806583d5fb1b0f2d0068"
+          }
+        }
+      ],
+      "job_id": "exp026-qant-predictive-compatibility-model",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "ed4bd86e2089a723f14b61db11f2fb95f9e023b0",
+        "path": "research_queue/jobs/exp026-qant-predictive-compatibility-model.json",
+        "sha256": "2decea9188d80e11069594818bf2feea4147216143fa6f5e4f70515674a07876"
+      },
+      "method": {},
+      "mirrored_sources": [],
+      "proposal_id": "proposal-021-qant-predictive-compatibility-model",
+      "proposal_source": {
+        "git_blob_sha1": "cb2c69a52db30dcb984946775a1fa3eafd20a446",
+        "path": "research_queue/proposals/proposal-021-qant-predictive-compatibility-model.json",
+        "sha256": "f1893966bacd0a26ba09cc9d5f8a06099516bd10fd36855484c33d8184358f81"
+      },
+      "record_id": "exp026_qant_predictive_compatibility_model",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "c2376c07b9c9b0681da75d8efc0df397d9a938ae",
+        "path": "results/exp026_qant_predictive_compatibility_model.json",
+        "sha256": "036704a3c843dceacaf7a4f83599e46ab1d5a031cff9179949d715eaab15f339"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T21:01:41.347501+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp027_qant_factorial_accumulation_map:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "6b0dd9adb537cc178e0f0733a8cc979d383605f5",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36066613814",
+          "source": {
+            "git_blob_sha1": "1c8adeba8744b907b6fc36fa7f6bf8c4d55b8959",
+            "path": "executions/exp027-qant-factorial-accumulation-map-36066613814.json",
+            "sha256": "d0f83585742285e2e753f42d6947046edd65bccae7291ad5e943a6221b6deed9"
+          }
+        }
+      ],
+      "job_id": "exp027-qant-factorial-accumulation-map",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "fee0e09d771ac4fe3c383738c90fc67fc67c1661",
+        "path": "research_queue/jobs/exp027-qant-factorial-accumulation-map.json",
+        "sha256": "542db8863228fb7b44e2f663258c98325eb7a2ed5ac11be8d26bf5a28c1a5282"
+      },
+      "method": {
+        "epochs": 3
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-022-qant-factorial-accumulation-map",
+      "proposal_source": {
+        "git_blob_sha1": "375ec371d1f9cd8290c6ec8b204b64f689b47e84",
+        "path": "research_queue/proposals/proposal-022-qant-factorial-accumulation-map.json",
+        "sha256": "46fadb42932922615e4873d34bc296b9f618ff2d39b7c600d0857f0ce31fc826"
+      },
+      "record_id": "exp027_qant_factorial_accumulation_map",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "4efaa1f7c45f6d839e999902c7ab9c881002d667",
+        "path": "results/exp027_qant_factorial_accumulation_map.json",
+        "sha256": "bbfb7b9e50797e628786969e5143232af1439679dfb5756ffb1803545072c4ec"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T22:32:45.572748+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp028_qant_predictive_compatibility_v2:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "fe0376ebdbabec5b96a620a9af972de70d6bad8d",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36068612102",
+          "source": {
+            "git_blob_sha1": "347e6080980101bd2be13686106c942a01c37751",
+            "path": "executions/exp028-qant-predictive-compatibility-v2-36068612102.json",
+            "sha256": "06e1b12994d12f43a1a8b25c95478c3cbcce9d36bb3db5e7d8dd81d9685d259c"
+          }
+        }
+      ],
+      "job_id": "exp028-qant-predictive-compatibility-v2",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "6333e5b2de264d056d31910c338d28e036dae6af",
+        "path": "research_queue/jobs/exp028-qant-predictive-compatibility-v2.json",
+        "sha256": "fb3f1caceb9d64a58fc7cba724f988f07823ec5ff67c1ad70e33150c9be48085"
+      },
+      "method": {},
+      "mirrored_sources": [],
+      "proposal_id": "proposal-023-qant-predictive-compatibility-v2",
+      "proposal_source": {
+        "git_blob_sha1": "7cfa3344a6088a6d22df105c25d1cd390c5d3e54",
+        "path": "research_queue/proposals/proposal-023-qant-predictive-compatibility-v2.json",
+        "sha256": "b11c1eb45952d0a9dc7db8fb220aca57e72fa953a289b417331dcb698282c936"
+      },
+      "record_id": "exp028_qant_predictive_compatibility_v2",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "ec33870f67eec3ca0b938b5a1fa34fd106fbe4ce",
+        "path": "results/exp028_qant_predictive_compatibility_v2.json",
+        "sha256": "6feccac61b3b352b2add85f9a27050916a14de498145d2ee42e167370b3cd29f"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T22:46:24.160775+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp029_qant_7x2_residual_localization:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "8aefdfb1f31fc883ea33bc90437f26ba5be8d137",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36069704418",
+          "source": {
+            "git_blob_sha1": "cc399c6b0040b8f24926f47095153b5fbd9aa1fd",
+            "path": "executions/exp029-qant-7x2-residual-localization-36069704418.json",
+            "sha256": "8998ee66c7e1c6e48c74d1d4256109e02e47b740f027e08fd5ec6cbea7fe760f"
+          }
+        }
+      ],
+      "job_id": "exp029-qant-7x2-residual-localization",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "4f8a0e4aa96617456d69442a110a08f4dbbd7d0b",
+        "path": "research_queue/jobs/exp029-qant-7x2-residual-localization.json",
+        "sha256": "95eb0975d72a4af5adce7802681e4a53ee579e0047cd33c0f8c25f7d0997053a"
+      },
+      "method": {
+        "epochs": 3
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-024-qant-7x2-residual-localization",
+      "proposal_source": {
+        "git_blob_sha1": "d1c81101357c271e06078e2888b7ad2172c97005",
+        "path": "research_queue/proposals/proposal-024-qant-7x2-residual-localization.json",
+        "sha256": "8fdc5ffbe350edcb62ac82a644428664ad0d42ac09496ae2b10321d2a3f0717a"
+      },
+      "record_id": "exp029_qant_7x2_residual_localization",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "045da18e397ccbb019bc27bb5c70fab2a8bea721",
+        "path": "results/exp029_qant_7x2_residual_localization.json",
+        "sha256": "3613637bd106087f5e7b060bb6c1939fe3015be11907ebaeb62e2369ebb611da"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T22:57:43.380562+00:00"
+    },
+    {
+      "backend": "qant-cpu",
+      "catalog_id": "toolkit:result:exp030_qant_compatibility_model_v3:v1",
+      "dataset": {
+        "name": "FashionMNIST"
+      },
+      "execution_records": [
+        {
+          "recorded_execution_commit": "dc70ac6b58cbdab72292cf17abfb4879b239c08f",
+          "recorded_runner": "github-actions",
+          "recorded_status": "completed",
+          "run_id": "36071445413",
+          "source": {
+            "git_blob_sha1": "7343f6e01351b1c749692eb7a9db2cb02b61bf0d",
+            "path": "executions/exp030-qant-compatibility-model-v3-36071445413.json",
+            "sha256": "1ccecad3ed568edfba2115d07b19bbfc617fd1de4e59e79d595584734205a432"
+          }
+        }
+      ],
+      "job_id": "exp030-qant-compatibility-model-v3",
+      "job_link_basis": "explicit_result_job_id",
+      "job_source": {
+        "git_blob_sha1": "16edbbe811a9a723192f14325587e13b98bd1948",
+        "path": "research_queue/jobs/exp030-qant-compatibility-model-v3.json",
+        "sha256": "8189460f60d6d6701f36661a31578ec0cc1b6aa838a03eb4ea8a3881ecb2a8b2"
+      },
+      "method": {
+        "epochs": 3
+      },
+      "mirrored_sources": [],
+      "proposal_id": "proposal-025-qant-compatibility-model-v3",
+      "proposal_source": {
+        "git_blob_sha1": "f7b2b479d4cea110f0efba49566680372646f4b1",
+        "path": "research_queue/proposals/proposal-025-qant-compatibility-model-v3.json",
+        "sha256": "232eb09b2aee53cf7cadbb5f2208deb94fd33e6291e3d0f3a98eca1b1cad7d60"
+      },
+      "record_id": "exp030_qant_compatibility_model_v3",
+      "record_kind": "result",
+      "result_artifact_independently_authenticated": false,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
+      "series": "toolkit",
+      "source": {
+        "git_blob_sha1": "22ea405084291c8064d6adeaf92db57d651c889b",
+        "path": "results/exp030_qant_compatibility_model_v3.json",
+        "sha256": "4bd164110807643fd3ffc83970d062dbf62cde2b35b85c15e5c0377817e2812b"
+      },
+      "source_note": "A committed result JSON is not by itself an externally authenticated raw run artifact; execution linkage is a recorded ID/convention, not a cryptographic binding to result bytes.",
+      "source_schema_version": 1,
+      "status": "completed_recorded",
+      "timestamp_utc": "2026-09-24T23:21:56.182266+00:00"
+    },
+    {
+      "catalog_id": "v3:hypothesis:v3-live-36597959269-width11:v1",
+      "origin_report_sha256_claim": "8d436214e35b45fb713b912b64eeee4bd1d10f36667ec0faa7019e5771f9f6a1",
+      "origin_workflow_run_id": 36597959269,
+      "record_id": "v3-live-36597959269-width11",
+      "record_kind": "hypothesis",
+      "result": null,
+      "series": "v3",
+      "source": {
+        "git_blob_sha1": "33ab704550c726ee314070c649d17f2fabc4cf8d",
+        "path": "research_queue/v3_hypotheses/registry.json",
+        "sha256": "e17c8bd9eb09a16a38fa48d4bb763f4ba55db1bd2bec645d42be7eb4988d2bc8"
+      },
+      "source_schema_version": 1,
+      "status": "proposed_unexecuted"
+    },
+    {
+      "catalog_id": "v3:hypothesis:v3-reviewed-36601207596-width10:v1",
+      "origin_report_sha256_claim": "b4c40fa679c573e61eef5edba38301071ef638d3c6ad5380b35749b5d4064fe9",
+      "origin_workflow_run_id": 36601207596,
+      "record_id": "v3-reviewed-36601207596-width10",
+      "record_kind": "hypothesis",
+      "result": null,
+      "series": "v3",
+      "source": {
+        "git_blob_sha1": "33ab704550c726ee314070c649d17f2fabc4cf8d",
+        "path": "research_queue/v3_hypotheses/registry.json",
+        "sha256": "e17c8bd9eb09a16a38fa48d4bb763f4ba55db1bd2bec645d42be7eb4988d2bc8"
+      },
+      "source_schema_version": 1,
+      "status": "proposed_unexecuted"
+    },
+    {
+      "catalog_id": "v3:protocol_draft:v3-ecg200-width10-11-fresh-control16-draft1:v1",
+      "dataset": {
+        "name": "ECG200"
+      },
+      "record_id": "v3-ecg200-width10-11-fresh-control16-draft1",
+      "record_kind": "protocol_draft",
+      "result": null,
+      "series": "v3",
+      "source": {
+        "git_blob_sha1": "bd667e7451273c94abb86900d06b447d0464f239",
+        "path": "research_queue/v3_protocols/first_standalone_draft.json",
+        "sha256": "31b35aa3219ef6dcceb47bb0f01eb20121955fa71eedb75fa8efeb764aa45249"
+      },
+      "source_schema_version": 1,
+      "status": "draft_unapproved_unexecuted"
+    }
+  ],
+  "schema_version": 1,
+  "scope": {
+    "excluded": [
+      "research_queue/benchmarks/** (frozen strategy/holdout evidence)",
+      "research_queue/human_review/** (approval/history, not experiment data)",
+      "research_queue/ai_researcher/** (live proposal snapshots)",
+      "local_results/** (transient/uncommitted outputs)",
+      "GitHub Actions artifact contents (not committed result JSON)"
+    ],
+    "included": [
+      "results/expNNN_*.json (Toolkit canonical completed records)",
+      "pnn-v1/results/*.json (PNN-v1 canonical completed records)",
+      "results/result*.json (exact PNN mirrors, never new experiments)",
+      "pnn-v1/proposals/*.json and research_queue/proposals/*.json (proposal documents)",
+      "research_queue/v3_hypotheses/registry.json (hypothesis metadata only)",
+      "research_queue/v3_protocols/first_standalone_draft.json (unexecuted draft metadata)",
+      "research_queue/jobs/*.json and executions/*.json (recorded linkage metadata)"
+    ],
+    "model_access_policy": "Do not feed this global index or its pointers to Dev-4 strategy selectors or strategy-isolated v3 Research Memory. Their frozen, independent allowlists/provenance and budgets are unchanged.",
+    "photonic_performance_claims": false,
+    "timestamp_policy": "No wall-clock build timestamp; source_manifest_sha256 and per-source digests identify the inspected bytes."
+  },
+  "source_manifest_sha256": "dfe9e6f4ade5bc41154be1bfcc5fb2c8fac18b08e8708aeab9a1fab55dafb685",
+  "summary": {
+    "canonical_completed_result_records": 56,
+    "exact_pnn_mirror_files": 26,
+    "execution_records_without_catalog_result": [
+      "executions/smoke-test-v2-35909262454.json"
+    ],
+    "linked_job_ids": 51,
+    "records_by_kind": {
+      "hypothesis": 2,
+      "proposal": 46,
+      "protocol_draft": 1,
+      "result": 56
+    }
+  }
+}

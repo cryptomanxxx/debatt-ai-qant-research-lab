@@ -1,0 +1,49 @@
+name: Validate Global Experiment Catalog
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/build_experiment_catalog.py'
+      - 'tests/test_build_experiment_catalog.py'
+      - 'docs/global-experiment-catalog.md'
+      - 'docs/current-systems-and-protocols.md'
+      - 'docs/README.md'
+      - 'README.md'
+      - 'public/experiment-catalog.json'
+      # Every source read by build_experiment_catalog.py must invalidate the
+      # committed derived snapshot. This includes bot-published result PRs.
+      - 'results/**'
+      - 'pnn-v1/results/**'
+      - 'research_queue/proposals/**'
+      - 'pnn-v1/proposals/**'
+      - 'research_queue/jobs/**'
+      - 'executions/**'
+      - 'research_queue/v3_hypotheses/**'
+      - 'research_queue/v3_protocols/**'
+      - '.github/workflows/validate-global-experiment-catalog.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline_catalog:
+    name: Read-only catalog and provenance contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Synthetic fixtures and real repository inventory
+        run: python -m unittest discover -s tests -p 'test_build_experiment_catalog.py' -v
+      - name: Generate catalog without provider/API/compute usage
+        run: python -m scripts.build_experiment_catalog --output /tmp/experiment-catalog.json
+      - name: Verify checked-in catalog matches its exact source bytes
+        run: python -m scripts.build_experiment_catalog --check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: global-experiment-catalog
+          path: /tmp/experiment-catalog.json
+          retention-days: 30
+          if-no-files-found: error

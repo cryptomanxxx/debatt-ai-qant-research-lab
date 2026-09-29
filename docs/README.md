@@ -9,4 +9,4 @@ That map points to the governing versioned data/contracts; it is not an approval
 - [Experiment 030 AST-preserving refactor audit](experiment030_readability_refactor.md).
 - [Researcher selection baseline](researcher-selection-baseline.md): offline, read-only.
 
-Earlier architecture documents remain for traceability, but their historical instructions must not override the current workflow chain. The proposed **global experiment catalog** is a *separate next project*; it does not yet exist.
+Earlier architecture documents remain for traceability, but their historical instructions must not override the current workflow chain. The [global experiment catalog](global-experiment-catalog.md) is now a separate, read-only derived human/audit index. It is not Dev-4/v3 Research Memory or a permission to invoke external APIs/compute.
