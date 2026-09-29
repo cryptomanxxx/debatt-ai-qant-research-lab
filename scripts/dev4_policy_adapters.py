@@ -61,7 +61,10 @@ def choose_bayesian(protocol, own_ledger, own_completed_outcomes):
     if not own_ledger:
         return 10
     evaluated = {row["round"]: row for row in own_ledger if row["status"] == "evaluated" and row["valid"] is True}
-    if len(own_completed_outcomes) != len(evaluated):
+    outcome_rounds = [item.get("round") if isinstance(item, dict) else None
+                      for item in own_completed_outcomes]
+    if (len(outcome_rounds) != len(set(outcome_rounds))
+            or set(outcome_rounds) != set(evaluated)):
         raise ValueError("completed outcome ledger mismatch")
     observations = []
     for item in own_completed_outcomes:
@@ -72,6 +75,10 @@ def choose_bayesian(protocol, own_ledger, own_completed_outcomes):
             "candidate_correct", "control_correct", "candidate_parameters", "control_parameters"
         } or any(type(v) is not int or v < 0 for v in paired.values()):
             raise ValueError("invalid paired outcome")
+        maximum = len(protocol["evaluation"]["seeds"]) * protocol["dataset"]["test_shape"][0]
+        if (paired["candidate_correct"] > maximum or paired["control_correct"] > maximum
+                or paired["candidate_parameters"] == 0 or paired["control_parameters"] == 0):
+            raise ValueError("paired outcome outside evaluation bounds")
         width = evaluated[item["round"]]["local_width"]
         if width not in widths:
             raise ValueError("outcome width outside search space")
