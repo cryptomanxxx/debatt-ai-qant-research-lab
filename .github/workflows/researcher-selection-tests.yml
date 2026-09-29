@@ -1,0 +1,31 @@
+name: Researcher Selection Tests
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/measure_researcher_selection.py'
+      - 'tests/test_measure_researcher_selection.py'
+      - '.github/workflows/researcher-selection-tests.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/measure_researcher_selection.py'
+      - 'tests/test_measure_researcher_selection.py'
+      - '.github/workflows/researcher-selection-tests.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  selection-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run selection regression tests
+        run: python -m unittest discover -s tests -p 'test_measure_researcher_selection.py' -v
+      - name: Check script syntax
+        run: python -m py_compile scripts/measure_researcher_selection.py
