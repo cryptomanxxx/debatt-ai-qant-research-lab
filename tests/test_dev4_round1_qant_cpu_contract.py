@@ -25,6 +25,8 @@ class RoundOneCPUContract(unittest.TestCase):
         workflow=(ROOT/".github/workflows/dev4-round1-qant-cpu.yml").read_text()
         self.assertIn("workflow_dispatch:",workflow)
         self.assertIn("cancel-in-progress: false",workflow)
+        self.assertIn("ghcr.io/cryptomanxxx/debatt-ai-qant-research-lab@sha256:f0f6303bd7f08a055f4befcad8bac2ff0185adc2e1d50cdf734442b8b5b64735",workflow)
+        self.assertNotIn("research-py313-v1",workflow)
         self.assertIn('github.run_number',workflow)
         self.assertIn('github.run_attempt',workflow)
         self.assertLess(workflow.index("Block duplicate dispatches"),
