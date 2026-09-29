@@ -1,0 +1,22 @@
+name: AI Researcher v3 Fake Session (No Groq, No Training)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fake_research_session:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate pinned history and simulated client dialogue
+        run: |
+          python -m unittest discover -s tests -p 'test_research_memory_v3.py' -v
+          python -m unittest discover -s tests -p 'test_research_tool_calling_v3.py' -v
+          python -m unittest discover -s tests -p 'test_scientific_reasoning_v3.py' -v
+          python -m unittest discover -s tests -p 'test_live_research_agent_v3.py' -v
