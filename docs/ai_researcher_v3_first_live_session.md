@@ -7,3 +7,9 @@ The session uses only the pinned GPT-OSS strategy's completed ECG200 Round 1/2 h
 After a successful run, download artifact `ai-researcher-v3-first-live-report` (30-day retention): `research_session.json` contains structured validated output, audit hashes and provider-reported usage; `research_session.md` contains a readable turn summary and scientific conclusion. The output is a bounded audit summary, **not** full raw hidden reasoning or full model message transcript. If the model/provider rejects a request or validation fails, the job fails closed; no successful research artifact is published.
 
 The PR's automated CI and the separate `ai-researcher-v3-fake-session.yml` only use injected fake clients and never require the Groq secret. Provider usage is validated after each response; no exact preflight tokenizer is claimed.
+
+## HTTP compatibility diagnostics (PR #144)
+
+Two manually approved sessions received HTTP 403 before the research dialogue could begin. The adapter now sends a fixed explicit `User-Agent: debatt-ai-research-lab/1.0` rather than the Python `urllib` default. This is a targeted compatibility hypothesis, not proof of the 403 root cause. When a 403 response is HTML with Cloudflare branding/headers or a fixed 1010 error-code pattern, the adapter reports `possible Cloudflare edge HTML rejection`, without printing the response body or headers. A valid JSON error with an allowlisted provider code takes precedence over edge classification; unrecognized responses still receive generic safe diagnostics. No API keys, raw HTML or provider messages enter the exception text.
+
+This patch changes neither the model/request budgets nor the manual approval gate. All new tests mock HTTP; do not interpret CI success as proof that Groq connectivity has been restored. Any additional paid Groq live request must be separately approved.
