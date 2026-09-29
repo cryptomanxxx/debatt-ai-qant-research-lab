@@ -1,5 +1,6 @@
 """Dev-4 preregistration contract tests; no compute."""
 import copy
+import hashlib
 import json
 import unittest
 from pathlib import Path
@@ -18,6 +19,13 @@ class Dev4ProtocolTests(unittest.TestCase):
         unpinned = copy.deepcopy(self.p)
         unpinned["information_policy"]["shared_initial_history_snapshot"] = "TO_BE_PINNED_BEFORE_RUN"
         self.assertTrue(any("history" in e for e in validate(unpinned, ready=True)))
+
+    def test_prompt_digest_matches_committed_template(self):
+        prompt = PROTOCOL.with_name("dev4_gpt_oss_selection_prompt.txt").read_bytes()
+        expected = "sha256:" + hashlib.sha256(prompt).hexdigest()
+        self.assertEqual(self.p["strategy_specifications"]["gpt-oss-120b"]["prompt_template_sha256"], expected)
+        self.assertIn(b"ONLY this strategy", prompt)
+        self.assertIn(b"No Q.ANT training", prompt)
 
     def test_pinned_history_enables_readiness_validation_only(self):
         self.p["information_policy"]["shared_initial_history_snapshot"] = "sha256:" + "a" * 64
