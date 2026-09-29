@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 360
     container:
-      image: ghcr.io/cryptomanxxx/debatt-ai-qant-research-lab:research-py313-v1
+      image: ghcr.io/cryptomanxxx/debatt-ai-qant-research-lab@sha256:f0f6303bd7f08a055f4befcad8bac2ff0185adc2e1d50cdf734442b8b5b64735
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
