@@ -58,14 +58,20 @@ jobs:
           if actual_sha!=expected_sha:
               raise SystemExit("Proposal changed before review was recorded; refusing to attach feedback to a different proposal")
           p=json.loads(raw)
+          from scripts.proposal_lineage import verified_proposal, verify_binding
+          lineage=verified_proposal(raw)
           cycle_path=Path("research_queue/cycle/latest.json")
           cycle=json.loads(cycle_path.read_text()) if cycle_path.exists() else {}
           compiled=json.loads(compiled_path.read_text()) if compiled_path.exists() else None
+          if compiled is None:
+              raise SystemExit("Missing compiler output for reviewed proposal")
+          verify_binding(compiled, lineage)
           stamp=datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
           out={
               "proposal_title":p["proposal"]["title"],
               "proposal_status_at_review":p["status"],
               "proposal_sha256":actual_sha,
+              "proposal_id":lineage["proposal_id"],
               "reviewed_proposal":p,
               "compiler_status":compiled.get("status") if compiled else None,
               "approval_readiness":compiled.get("approval_readiness") if compiled else None,
