@@ -89,8 +89,9 @@ def validate(p, ready=False):
                         # Strategy policies must be explicit, non-placeholder text.
                         # Reject booleans, empty containers, and whitespace-only values.
                         valid = (isinstance(value, str) and bool(value.strip())
+                                 and not value.strip().upper().startswith("TO_BE_")
                                  and value.strip().upper() not in
-                                 ("TO_BE_DEFINED", "TBD", "TODO", "NONE", "NULL", "N/A"))
+                                 ("TBD", "TODO", "NONE", "NULL", "N/A"))
                     if not valid:
                         errors.append("execution blocked: invalid " + name + "." + key)
     if p.get("primary_metric") != METRIC:
