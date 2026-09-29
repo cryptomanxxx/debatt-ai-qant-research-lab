@@ -19,7 +19,7 @@ jobs:
   first_live_research:
     if: ${{ inputs.approval == 'I_APPROVE_ONE_LIVE_GROQ_RESEARCH_SESSION' }}
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
