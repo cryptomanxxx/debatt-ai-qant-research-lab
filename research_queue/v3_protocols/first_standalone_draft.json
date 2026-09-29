@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "record_kind": "standalone_v3_protocol_draft",
+  "protocol_id": "v3-ecg200-width10-11-fresh-control16-draft1",
+  "status": "draft_unapproved_unexecuted",
+  "hypotheses": [
+    {
+      "hypothesis_id": "v3-reviewed-36601207596-width10",
+      "local_width": 10,
+      "proposal_sha256": "036520e5857c05a76f8326cb1ee11048fa38a266247159e66c469478a9e4e44c"
+    },
+    {
+      "hypothesis_id": "v3-live-36597959269-width11",
+      "local_width": 11,
+      "proposal_sha256": "d3a53ed7f3b2adcb4e903dcb1803b6a58ec263933e172bc7994808a5f3b13eae"
+    }
+  ],
+  "dataset": "ECG200",
+  "evaluation_data": {
+    "split": "existing_ECG200_test_set",
+    "predictions_per_seed": 100,
+    "new_independent_holdout": false,
+    "caution": "Seeds 401-405 are new training seeds, NOT independent held-out test data. A prior completed width-10 ECG200 repository result used training seeds 201-205, and other previous hypothesis selection involved ECG200 evaluation; findings are exploratory, not a new independent holdout."
+  },
+  "method": {
+    "backend": "not_selected",
+    "reference_backend_only": "qant-cpu/software-simulation",
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "exploratory_training_seeds": [
+      401,
+      402,
+      403,
+      404,
+      405
+    ],
+    "candidate_widths": [
+      10,
+      11
+    ],
+    "control_width": 16,
+    "shared_fresh_control_per_seed": true,
+    "expected_model_fits_if_separately_approved": 15,
+    "candidate_roles": {
+      "10": "replication_of_prior_repository_width10_configuration_new_training_seeds",
+      "11": "new_v3_hypothesis_not_completed_in_isolated_own_strategy_memory"
+    }
+  },
+  "analysis": {
+    "primary_descriptive_endpoint": "paired_correct_difference_per_seed = candidate_correct_of_100 - fresh_control_correct_of_100",
+    "aggregate": "For each candidate width, report total paired_correct_difference over exactly five seeds, candidate correct out of 500, and fresh control correct out of 500.",
+    "descriptive_outcome_labels": [
+      "above_fresh_control",
+      "ties_fresh_control",
+      "below_fresh_control"
+    ],
+    "uncertainty": "Show all five per-seed paired differences, their range and sample standard deviation. n=5 and reused ECG200 test data do not justify claims of confirmatory independence or statistical significance.",
+    "parameter_tradeoff": "Report actual parameter_count per width and the accuracy/parameter Pareto relation versus the fresh control. Never infer parameters from width alone.",
+    "multiplicity": "Width 10 repeats a previously tested architecture using new paired training seeds; width 11 is the other v3 hypothesis. Report both exploratory comparisons without an unadjusted confirmatory winner claim.",
+    "historical_reference_only": "The old Dev-4 gate 442/500, historical control 452/500 and strict historic exceedance >=453/500 are descriptive context, NOT prospective v3 success thresholds."
+  },
+  "result_contract": {
+    "expected_width_seed_rows": 15,
+    "per_fit_fields": [
+      "seed",
+      "local_width",
+      "correct_of_100",
+      "parameter_count"
+    ],
+    "complete_cartesian_width_seed_grid_required": true,
+    "exact_one_shared_fresh_control_per_seed": true,
+    "artifact_authenticity": "Separate post-run provenance verification required; a structurally validated result is not completed Research Memory evidence."
+  },
+  "execution": {
+    "status": "not_authorized",
+    "approval_record": null,
+    "selected_backend": null,
+    "runnable_workflow": null,
+    "training_runs": 0,
+    "groq_calls": 0,
+    "modifies_dev4": false,
+    "requires_separate_human_compute_approval": true
+  },
+  "prior_width10_repository_result": {
+    "classification": "previous_recorded_width10_test_outside_isolated_own_strategy_memory",
+    "source_path": "results/result_engine_w10_100epoch_ai-local-width-w10-100epoch-201-202-203-204-205.json",
+    "source_git_blob_sha1": "a23d3343777599d9296e708fec52513226fff940",
+    "experiment_id": "PNN-v1-Engine-alpha5_w10-100Epoch",
+    "proposal_id": "ai-local-width-w10-100epoch-201-202-203-204-205",
+    "backend": "qant-cpu/software-simulation",
+    "seeds": [
+      201,
+      202,
+      203,
+      204,
+      205
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "candidate_width": 10,
+    "candidate_correct_out_of_500": 444,
+    "candidate_parameter_count": 5346,
+    "paired_control_width": 16,
+    "paired_control_correct_out_of_500": 453,
+    "paired_control_parameter_count": 8550,
+    "paired_correct_difference": -9,
+    "provenance_scope": "Completed repository JSON record, not in frozen isolated Dev-4 strategy memory; no independent external artifact attestation."
+  }
+}
