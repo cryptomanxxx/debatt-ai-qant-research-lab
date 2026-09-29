@@ -5,6 +5,7 @@ The HTTP adapter requires an explicit enable flag and GROQ_API_KEY; importing
 this module or running tests cannot send a live request.
 """
 import hashlib
+import http.client
 import json
 import os
 import urllib.error
@@ -66,7 +67,9 @@ def _safe_groq_http_error(error):
     content_type = headers.get("Content-Type", "") if headers is not None else ""
     try:
         raw = error.read(4097)
-    except (OSError, ValueError, TypeError):
+    except (OSError, ValueError, TypeError, http.client.HTTPException):
+        # IncompleteRead/other HTTPException can include partial response
+        # content. Never let them escape while handling an HTTPError.
         return RuntimeError(f"Groq API HTTP {status}; unable to read safe error details")
 
     # Parse an actual provider JSON code before classifying Cloudflare, since
