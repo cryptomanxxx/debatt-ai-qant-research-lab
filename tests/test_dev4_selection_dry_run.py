@@ -5,7 +5,7 @@ import json
 import unittest
 
 from scripts.dev4_selection_dry_run import (
-    HISTORY, PROMPT, PROTOCOL, first_round, validate_proposal, verify_inputs,
+    HISTORY, PROMPT, PROTOCOL, first_round, own_round_context, validate_proposal, verify_inputs,
 )
 
 
@@ -43,6 +43,27 @@ class SelectionDryRunTests(unittest.TestCase):
                     '{"local_width":8,"extra":1}', 'not json', '{"local_width":null}'):
             self.assertIsNotNone(validate_proposal(raw, list(range(4, 16)))[1])
         self.assertEqual(validate_proposal('{"local_width":8}', list(range(4, 16)), (8,)), (None, "duplicate_width"))
+
+    def test_failed_width_visible_without_cross_strategy_outcomes(self):
+        ledger = [
+            {"strategy": "gpt-oss-120b", "round": 1, "local_width": 8, "valid": True, "status": "evaluation_failed"},
+            {"strategy": "random-search", "round": 1, "local_width": 9, "valid": True, "status": "evaluated"},
+            {"strategy": "gpt-oss-120b", "round": 2, "local_width": 7, "valid": True, "status": "evaluated"},
+        ]
+        outcomes = [
+            {"strategy": "random-search", "round": 1, "status": "evaluated", "paired_outcome": {"secret": 99}},
+            {"strategy": "gpt-oss-120b", "round": 2, "status": "evaluated", "paired_outcome": {"correct_margin": -2}},
+        ]
+        context = own_round_context("gpt-oss-120b", ledger, outcomes)
+        self.assertEqual([row["local_width"] for row in context["proposal_status_ledger"]], [8, 7])
+        self.assertEqual(context["proposal_status_ledger"][0]["status"], "evaluation_failed")
+        self.assertEqual(context["completed_paired_outcomes"], [{"round": 2, "paired_outcome": {"correct_margin": -2}}])
+        self.assertNotIn("secret", json.dumps(context))
+        with self.assertRaisesRegex(ValueError, "only completed paired outcomes"):
+            own_round_context("gpt-oss-120b", ledger, outcomes + [
+                {"strategy": "gpt-oss-120b", "round": 1, "status": "evaluation_failed",
+                 "paired_outcome": {"correct_margin": 0}}
+            ])
 
     def test_modified_history_and_prompt_fail_closed(self):
         with self.assertRaisesRegex(ValueError, "history digest mismatch"):
