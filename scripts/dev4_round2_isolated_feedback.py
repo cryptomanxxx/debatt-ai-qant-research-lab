@@ -26,7 +26,7 @@ PINNED_BLOBS={
 }
 
 def git_blob_sha(data):
-    return hashlib.sha1(b"blob "+str(len(data)).encode()+b"\\0"+data).hexdigest()
+    return hashlib.sha1(b"blob "+str(len(data)).encode()+bytes([0])+data).hexdigest()
 
 def verify_pinned_records():
     for name,expected in PINNED_BLOBS.items():
