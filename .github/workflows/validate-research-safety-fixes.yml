@@ -28,3 +28,4 @@ jobs:
           python -m unittest discover -s tests -p 'test_dev3_entrypoints.py' -v
           python -m unittest discover -s tests -p 'test_merged_branch_cleanup_safety.py' -v
           python -m unittest discover -s tests -p 'test_proposal_lineage.py' -v
+          python -m unittest discover -s tests -p 'test_dev3_integration.py' -v
