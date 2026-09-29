@@ -1,5 +1,7 @@
 """Injected fake model tests: no real Groq requests or compute."""
+import io
 import json
+import urllib.error
 import unittest
 from unittest.mock import patch
 from scripts.live_research_agent_v3 import GroqHTTPAdapter, run_research, SYSTEM, PROPOSAL_SCHEMA_INSTRUCTIONS
@@ -81,6 +83,39 @@ class LiveResearchAgentContract(unittest.TestCase):
                            "exactly these seven fields"):
             self.assertIn(constraint, SYSTEM)
         self.assertNotIn('"payload":{...}', SYSTEM)
+
+    def test_http_403_reports_only_safe_code_without_secrets(self):
+        secret = "sensitive-key-must-not-appear"
+        cases = [
+            ({"error": {"code": "permission_denied", "message": secret}},
+             "provider error code: permission_denied"),
+            ({"error": {"code": secret + " / unsafe", "message": secret}},
+             "no safe provider error code"),
+            ({"error": {"message": secret}}, "no safe provider error code"),
+        ]
+        for payload, expected in cases:
+            with self.subTest(expected=expected):
+                error = urllib.error.HTTPError(
+                    "https://api.groq.com/openai/v1/chat/completions", 403,
+                    secret, {"Authorization": secret},
+                    io.BytesIO(json.dumps(payload).encode()))
+                with patch("urllib.request.urlopen", side_effect=error):
+                    with self.assertRaises(RuntimeError) as caught:
+                        GroqHTTPAdapter(enabled=True, api_key=secret).complete([])
+                self.assertIn("Groq API HTTP 403", str(caught.exception))
+                self.assertIn(expected, str(caught.exception))
+                self.assertNotIn(secret, str(caught.exception))
+                self.assertIsNone(caught.exception.__cause__)
+
+    def test_http_error_invalid_and_oversized_body(self):
+        for body, expected in ((b"<html>private content</html>", "no safe provider error code"),
+                               (b"x" * 5000, "error details oversized")):
+            with self.subTest(expected=expected):
+                error = urllib.error.HTTPError("https://api.groq.com", 403,
+                                               "Forbidden", {}, io.BytesIO(body))
+                with patch("urllib.request.urlopen", side_effect=error):
+                    with self.assertRaisesRegex(RuntimeError, expected):
+                        GroqHTTPAdapter(enabled=True, api_key="fake").complete([])
 
     def test_adapter_requires_explicit_enable_and_key(self):
         with self.assertRaisesRegex(RuntimeError, "enabled=True"):
