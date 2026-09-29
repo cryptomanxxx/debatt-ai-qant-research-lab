@@ -9,6 +9,8 @@ would initiate a real training job and dataset access in the legacy script.
 import ast
 import hashlib
 import io
+import subprocess
+import sys
 import tokenize
 import unittest
 from pathlib import Path
@@ -20,9 +22,12 @@ EXPERIMENT = (
     / "run.py"
 )
 LEGACY_GIT_BLOB_SHA1 = "64b1465edbaf65b57a33ab67a083cab522bba9d4"
-LEGACY_AST_SHA256 = (
-    "870783abe27a066ea932deb0a7515aa31b4c412fad4c844ad0ec26383b04a05a"
-)
+# ast.dump() is version dependent. Both digests are from the original
+# verified blob, using each supported interpreter's AST representation.
+LEGACY_AST_SHA256_BY_VERSION = {
+    (3, 11): "46102e911ec43c0ed95c9950abb4f8ce3b4ed39975dcaa5e73182dcfa9bb6852",
+    (3, 13): "870783abe27a066ea932deb0a7515aa31b4c412fad4c844ad0ec26383b04a05a",
+}
 
 
 class Experiment030FormattingContract(unittest.TestCase):
@@ -35,8 +40,37 @@ class Experiment030FormattingContract(unittest.TestCase):
         signature = ast.dump(
             syntax_tree, annotate_fields=True, include_attributes=False
         )
-        self.assertEqual(hashlib.sha256(signature.encode()).hexdigest(),
-                         LEGACY_AST_SHA256)
+        interpreter = sys.version_info[:2]
+        self.assertIn(interpreter, LEGACY_AST_SHA256_BY_VERSION)
+        self.assertEqual(
+            hashlib.sha256(signature.encode()).hexdigest(),
+            LEGACY_AST_SHA256_BY_VERSION[interpreter],
+        )
+
+        # For checkouts retaining the pre-refactor base tree, compare the
+        # original Git blob's AST under this SAME Python interpreter too.
+        # Future shallow checkouts might not contain that historical blob;
+        # in that case the version-specific pinned digest still applies.
+        original = subprocess.run(
+            ["git", "cat-file", "blob", LEGACY_GIT_BLOB_SHA1],
+            cwd=EXPERIMENT.parents[2], capture_output=True, check=False,
+        )
+        if original.returncode == 0:
+            self.assertEqual(
+                hashlib.sha1(
+                    b"blob " + str(len(original.stdout)).encode()
+                    + b"\\x00" + original.stdout
+                ).hexdigest(),
+                LEGACY_GIT_BLOB_SHA1,
+            )
+            old_tree = ast.parse(
+                original.stdout.decode("utf-8"), filename="exp030_legacy.py"
+            )
+            self.assertEqual(
+                signature, ast.dump(
+                    old_tree, annotate_fields=True, include_attributes=False
+                ),
+            )
         # Syntax-to-bytecode compilation does NOT execute imports, dataset
         # downloads, Q.ANT toolkit operations, training or result writes.
         self.assertIsNotNone(compile(syntax_tree, str(EXPERIMENT), "exec"))
