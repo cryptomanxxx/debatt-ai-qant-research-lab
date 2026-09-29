@@ -48,17 +48,61 @@ def verified_feedback(protocol, feedback, source_bytes=None):
         if actual["configuration"]["seeds"] != evaluation["seeds"] or actual["configuration"]["selections"] != {
                 name: row["local_width"] for name, row in feedback["strategies"].items()}:
             raise ValueError("original selections mismatch")
-        if len(actual["rows"]) != 25:
-            raise ValueError("incomplete original seed rows")
-        for name, row in feedback["strategies"].items():
+        # The authoritative artifact must itself match the preregistration,
+        # not merely agree with the committed feedback record.
+        if actual["dataset"] != protocol["dataset"]:
+            raise ValueError("original dataset mismatch")
+        expected_config = {key: evaluation[key] for key in
+                           ("seeds", "epochs", "learning_rate", "batch_size",
+                            "frequencies", "gate_margin_correct")}
+        expected_config["control_local_width"] = protocol["search_space"]["control_local_width"]
+        expected_config["selections"] = {
+            name: row["local_width"] for name, row in feedback["strategies"].items()}
+        if actual["configuration"] != expected_config:
+            raise ValueError("original full evaluation configuration mismatch")
+        if actual["control_reused_across_strategies"] is not True:
+            raise ValueError("shared control declaration mismatch")
+        expected_names = set(protocol["strategies"]) | {"control"}
+        expected_pairs = {(name, seed) for name in expected_names for seed in evaluation["seeds"]}
+        rows = actual["rows"]
+        pairs = [(row["candidate"], row["seed"]) for row in rows]
+        if len(rows) != len(expected_pairs) or len(set(pairs)) != len(pairs) or set(pairs) != expected_pairs:
+            raise ValueError("incomplete or duplicate original candidate/seed rows")
+        if set(actual["summary"]) != expected_names:
+            raise ValueError("original summary candidate set mismatch")
+        test_size = protocol["dataset"]["test_shape"][0]
+        for name in expected_names:
+            group = [row for row in rows if row["candidate"] == name]
+            expected_width = (expected_config["control_local_width"] if name == "control"
+                              else expected_config["selections"][name])
+            parameters = {row["parameter_count"] for row in group}
+            if (any(row["local_width"] != expected_width for row in group)
+                    or len(parameters) != 1 or next(iter(parameters)) <= 0):
+                raise ValueError("original row width/parameter mismatch: " + name)
+            for row in group:
+                if (any(type(row[key]) is not int or not 0 <= row[key] <= test_size
+                        for key in ("qant_correct", "reference_correct"))
+                        or type(row["prediction_disagreements"]) is not int
+                        or not 0 <= row["prediction_disagreements"] <= test_size):
+                    raise ValueError("invalid original per-seed measurement: " + name)
             summary = actual["summary"][name]
-            if (summary["local_width"], summary["aggregate_qant_correct"], summary["parameter_count"]) != (
-                    row["local_width"], row["candidate_correct"], row["candidate_parameters"]):
+            qant = sum(row["qant_correct"] for row in group)
+            reference = sum(row["reference_correct"] for row in group)
+            if (summary["local_width"] != expected_width
+                    or summary["parameter_count"] != next(iter(parameters))
+                    or summary["aggregate_qant_correct"] != qant
+                    or summary["aggregate_reference_correct"] != reference):
+                raise ValueError("original summary disagrees with seed rows: " + name)
+            expected = (feedback["control"] if name == "control"
+                        else feedback["strategies"][name])
+            if (qant, summary["parameter_count"]) != (
+                    expected["candidate_correct"], expected["candidate_parameters"]):
                 raise ValueError("original measured result mismatch: " + name)
-        control = actual["summary"]["control"]
-        if (control["aggregate_qant_correct"], control["parameter_count"]) != (
-                feedback["control"]["candidate_correct"], feedback["control"]["candidate_parameters"]):
-            raise ValueError("original control result mismatch")
+            if name != "control":
+                gate = qant >= feedback["control"]["candidate_correct"] - evaluation["gate_margin_correct"]
+                saving = 1 - summary["parameter_count"] / feedback["control"]["candidate_parameters"]
+                if summary["gate_pass"] is not gate or abs(summary["parameter_saving"] - saving) > 1e-12:
+                    raise ValueError("original gate/parameter saving mismatch: " + name)
     return feedback
 
 
