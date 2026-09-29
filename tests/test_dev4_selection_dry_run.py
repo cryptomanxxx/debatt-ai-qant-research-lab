@@ -65,6 +65,17 @@ class SelectionDryRunTests(unittest.TestCase):
                  "paired_outcome": {"correct_margin": 0}}
             ])
 
+    def test_random_matches_exact_preregistered_five_draw_stream(self):
+        import numpy as np
+        result = first_round(self.protocol, self.history, include_random=True)
+        expected = np.random.Generator(np.random.PCG64(202604)).choice(
+            list(range(4, 16)), size=5, replace=False
+        )
+        random = result["selections"]["random-search"]
+        self.assertEqual(random["local_width"], int(expected[0]))
+        self.assertEqual(random["preregistered_draw_count"], 5)
+        self.assertEqual(result["training_runs"], 0)
+
     def test_modified_history_and_prompt_fail_closed(self):
         with self.assertRaisesRegex(ValueError, "history digest mismatch"):
             verify_inputs(self.protocol, self.history_bytes + b" ", self.prompt_bytes)
