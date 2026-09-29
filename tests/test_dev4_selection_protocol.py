@@ -81,6 +81,8 @@ class Dev4ProtocolTests(unittest.TestCase):
                  ("bayesian-optimization", "surrogate", []),
                  ("bayesian-optimization", "acquisition", "   "),
                  ("bayesian-optimization", "initialization", "TBD"),
+                 ("bayesian-optimization", "initialization", "TO_BE_PINNED_BEFORE_RUN"),
+                 ("random-search", "sampling_policy", "  TO_BE_IMPLEMENTED  "),
                  ("bayesian-optimization", "optimizer_policy", {}),
                  ("gpt-oss-120b", "decoding_policy", {}),
                  ("gpt-oss-120b", "context_policy", False),
