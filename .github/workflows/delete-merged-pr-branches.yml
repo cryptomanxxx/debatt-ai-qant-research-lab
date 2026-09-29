@@ -1,0 +1,65 @@
+name: Delete merged PR branches
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+concurrency:
+  group: merged-pr-branch-cleanup
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.merged == true }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete only verified merged PR head branches
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const protectedNames = new Set(['main', 'dev']);
+            // A push to main also sweeps branches left by earlier squash merges.
+            // Never delete a branch just because its name appeared in a merged PR:
+            // require its current tip to match that PR's actual merged head SHA.
+            const closed = await github.paginate(github.rest.pulls.list, {
+              owner, repo, state: 'closed', per_page: 100
+            });
+            const merged = closed.filter(pr => pr.merged_at && pr.head.repo?.full_name === `${owner}/${repo}`);
+            const byName = new Map();
+            for (const pr of merged) {
+              const name = pr.head.ref;
+              if (protectedNames.has(name)) continue;
+              if (!byName.has(name)) byName.set(name, new Set());
+              byName.get(name).add(pr.head.sha);
+            }
+            for (const [name, mergedHeads] of byName) {
+              let current;
+              try {
+                current = await github.rest.git.getRef({owner, repo, ref: `heads/${name}`});
+              } catch (error) {
+                if (error.status === 404) continue; // Already deleted.
+                throw error;
+              }
+              if (!mergedHeads.has(current.data.object.sha)) {
+                core.info(`Keeping ${name}: current tip is not an already-merged PR head`);
+                continue;
+              }
+              try {
+                await github.rest.git.deleteRef({owner, repo, ref: `heads/${name}`});
+                core.info(`Deleted merged PR branch: ${name}`);
+              } catch (error) {
+                if (error.status === 404 || error.status === 422) {
+                  core.warning(`Skipped ${name}: already deleted or protected by GitHub`);
+                  continue;
+                }
+                throw error;
+              }
+            }
