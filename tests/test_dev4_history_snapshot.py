@@ -1,6 +1,9 @@
 """Snapshot integrity and seed leakage tests; no Q.ANT compute."""
 import hashlib
 import json
+import subprocess
+import sys
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -39,6 +42,40 @@ class HistoryTests(unittest.TestCase):
         a.write_text(a.read_text() + " ")
         with self.assertRaisesRegex(ValueError, "differs"):
             verify_snapshot(snap, files, self.protocol)
+
+    def test_absolute_checkout_paths_produce_identical_snapshot(self):
+        left = self.root / "checkout_one" / "results"
+        right = self.root / "checkout_two" / "results"
+        left.mkdir(parents=True)
+        right.mkdir(parents=True)
+        (left / "a.json").write_text(json.dumps(self.record([201, 202, 203, 204, 205])))
+        shutil.copy2(left / "a.json", right / "a.json")
+        one = build_snapshot([left / "a.json"], self.protocol, source_root=left)
+        two = build_snapshot([right / "a.json"], self.protocol, source_root=right)
+        self.assertEqual(canonical(one), canonical(two))
+        self.assertEqual(one["included"][0]["source"], "a.json")
+        self.assertEqual(verify_snapshot(one, [right / "a.json"], self.protocol, source_root=right),
+                         hashlib.sha256(canonical(one)).hexdigest())
+
+    def test_cli_output_inside_results_does_not_self_include(self):
+        results = self.root / "results"
+        results.mkdir()
+        (results / "a.json").write_text(json.dumps(self.record([201, 202, 203, 204, 205])))
+        output = results / "snapshot.json"
+        protocol_file = self.root / "protocol.json"
+        protocol_file.write_text(json.dumps(self.protocol))
+        command = [sys.executable, "-m", "scripts.build_dev4_history_snapshot",
+                   "--results", str(results), "--protocol", str(protocol_file),
+                   "--output", str(output)]
+        repo_root = Path(__file__).resolve().parents[1]
+        first = subprocess.run(command, cwd=repo_root, capture_output=True, text=True, check=True)
+        original = output.read_bytes()
+        verified = subprocess.run(command + ["--verify"], cwd=repo_root,
+                                  capture_output=True, text=True, check=True)
+        self.assertIn(first.stdout.splitlines()[0], verified.stdout)
+        subprocess.run(command, cwd=repo_root, capture_output=True, text=True, check=True)
+        self.assertEqual(output.read_bytes(), original)
+        self.assertEqual(len(json.loads(original)["excluded"]), 0)
 
     def test_incomplete_schema_excluded(self):
         a = self.root / "a.json"
