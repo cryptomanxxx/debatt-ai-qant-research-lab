@@ -23,12 +23,19 @@ The initial `main` source used for the refactor was independently checked
 against its Git blob:
 `64b1465edbaf65b57a33ab67a083cab522bba9d4`.
 
-For **Python 3.11**, `ast.dump(ast.parse(source),
-annotate_fields=True, include_attributes=False)` is pinned to SHA-256:
+AST serializations are Python-version sensitive. For the **same original
+source**, `ast.dump(ast.parse(source), annotate_fields=True,
+include_attributes=False)` has these interpreter-specific SHA-256 pins:
 
-```text
-870783abe27a066ea932deb0a7515aa31b4c412fad4c844ad0ec26383b04a05a
-```
+| Interpreter | Original-source AST SHA-256 |
+|---|---|
+| Python 3.11 (CI) | `46102e911ec43c0ed95c9950abb4f8ce3b4ed39975dcaa5e73182dcfa9bb6852` |
+| Python 3.13 (local preflight) | `870783abe27a066ea932deb0a7515aa31b4c412fad4c844ad0ec26383b04a05a` |
+
+When the checkout retains the original Git blob (as PR CI does using a
+two-commit shallow checkout), the offline test also compares the original
+and reformatted ASTs **directly under the same interpreter**, rather than
+relying on hashes computed across interpreter versions.
 
 The reformatted source has **exactly the same AST**, not merely the same
 strings appearing somewhere in a file. This comparison includes all executable
