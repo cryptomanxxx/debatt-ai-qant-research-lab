@@ -7,15 +7,19 @@ stdlib and read-only data validators. No Groq / Q.ANT client.
 import hashlib
 import itertools
 import json
+import math
 import re
 import statistics
 from pathlib import Path
 
 from scripts.research_memory_v3 import ROOT
+from scripts.dev4_round2_isolated_feedback import git_blob_sha
 from scripts.scientific_reasoning_v3 import _encoded
 from scripts.v3_hypothesis_registry import build_offline_study_draft, load_hypotheses
 
 PROTOCOL_PATH = ROOT / "research_queue" / "v3_protocols" / "first_standalone_draft.json"
+PRIOR_WIDTH10_REL_PATH = "results/result_engine_w10_100epoch_ai-local-width-w10-100epoch-201-202-203-204-205.json"
+PRIOR_WIDTH10_BLOB_SHA1 = "a23d3343777599d9296e708fec52513226fff940"
 MAX_PROTOCOL_BYTES = 12000
 MAX_RESULT_BYTES = 12000
 NEW_SEEDS = (401, 402, 403, 404, 405)
@@ -29,6 +33,91 @@ SOURCE_FIELDS = frozenset((
     "backend", "workflow_run_id", "approval_record_sha256", "raw_artifact_sha256",
 ))
 HEX_SHA256 = re.compile(r"[0-9a-f]{64}\Z")
+
+
+
+def prior_width10_reference():
+    """A repository-recorded completed WIDTH 10 study, outside isolated Dev-4 memory.
+
+    Prior experiment seeds 201-205 predate the new v3 hypothesis. Pin the Git
+    blob, validate its configuration, and independently reconcile per-seed
+    accuracies with published summary totals. A repository record is not
+    external provenance attestation or photonic hardware evidence.
+    """
+    raw = (ROOT / PRIOR_WIDTH10_REL_PATH).read_bytes()
+    if len(raw) > 32768 or git_blob_sha(raw) != PRIOR_WIDTH10_BLOB_SHA1:
+        raise ValueError("previous width10 source changed or too large")
+    source = json.loads(raw)
+    if (type(source) is not dict or source.get("schema_version") != 1
+            or source.get("backend") != "qant-cpu/software-simulation"
+            or source.get("dataset", {}).get("name") != "ECG200"
+            or source.get("dataset", {}).get("test_shape") != [100, 96]):
+        raise ValueError("invalid prior width10 source")
+    config = source["configuration"]
+    if (config["seeds"] != [201, 202, 203, 204, 205]
+            or type(config["epochs"]) is not int or config["epochs"] != 100
+            or type(config["learning_rate"]) is not float
+            or config["learning_rate"] != 0.001
+            or type(config["batch_size"]) is not int or config["batch_size"] != 32
+            or config["frequencies"] != [1, 2]
+            or config["candidates"] != {
+                "alpha5_w10": [10, 3], "alpha5_w16_control": [16, 3]}):
+        raise ValueError("prior width10 study has incompatible settings")
+    rows = source["rows"]
+    if type(rows) is not list or len(rows) != 10:
+        raise ValueError("invalid prior width10 seed rows")
+    totals, parameters = {}, {}
+    for candidate in ("alpha5_w10", "alpha5_w16_control"):
+        records = [row for row in rows if row.get("candidate") == candidate]
+        if len(records) != 5 or {r["seed"] for r in records} != set(range(201, 206)):
+            raise ValueError("prior width10 has incomplete or repeated seed pairs")
+        scores, param_values = [], set()
+        for row in records:
+            accuracy, params = row["qant_accuracy"], row["parameter_count"]
+            if (type(accuracy) is not float or not 0 <= accuracy <= 1
+                    or type(params) is not int or params <= 0
+                    or not math.isclose(100 * accuracy, round(100 * accuracy),
+                                        abs_tol=1e-8)):
+                raise ValueError("invalid prior width10 recorded score")
+            scores.append(round(100 * accuracy))
+            param_values.add(params)
+        if len(param_values) != 1:
+            raise ValueError("prior width10 inconsistent parameter counts")
+        totals[candidate] = sum(scores)
+        parameters[candidate] = param_values.pop()
+        summary = source["summary"][candidate]
+        if (type(summary["aggregate_qant_correct"]) is not int
+                or summary["aggregate_qant_correct"] != totals[candidate]
+                or type(summary["parameter_count"]) is not int
+                or summary["parameter_count"] != parameters[candidate]):
+            raise ValueError("prior width10 source row-summary mismatch")
+    if (totals != {"alpha5_w10": 444, "alpha5_w16_control": 453}
+            or parameters != {"alpha5_w10": 5346, "alpha5_w16_control": 8550}):
+        raise ValueError("unexpected prior width10 benchmark comparison")
+    return {
+        "classification": "previous_recorded_width10_test_outside_isolated_own_strategy_memory",
+        "source_path": PRIOR_WIDTH10_REL_PATH,
+        "source_git_blob_sha1": PRIOR_WIDTH10_BLOB_SHA1,
+        "experiment_id": source["experiment_id"],
+        "proposal_id": source["proposal_id"],
+        "backend": source["backend"],
+        "seeds": list(config["seeds"]),
+        "epochs": config["epochs"],
+        "learning_rate": config["learning_rate"],
+        "batch_size": config["batch_size"],
+        "frequencies": list(config["frequencies"]),
+        "candidate_width": 10,
+        "candidate_correct_out_of_500": totals["alpha5_w10"],
+        "candidate_parameter_count": parameters["alpha5_w10"],
+        "paired_control_width": 16,
+        "paired_control_correct_out_of_500": totals["alpha5_w16_control"],
+        "paired_control_parameter_count": parameters["alpha5_w16_control"],
+        "paired_correct_difference": (
+            totals["alpha5_w10"] - totals["alpha5_w16_control"]),
+        "provenance_scope": (
+            "Completed repository JSON record, not in frozen isolated Dev-4 "
+            "strategy memory; no independent external artifact attestation."),
+    }
 
 
 def protocol_template():
@@ -57,6 +146,7 @@ def protocol_template():
         "protocol_id": "v3-ecg200-width10-11-fresh-control16-draft1",
         "status": "draft_unapproved_unexecuted",
         "hypotheses": hypothesis_refs,
+        "prior_width10_repository_result": prior_width10_reference(),
         "dataset": "ECG200",
         "evaluation_data": {
             "split": "existing_ECG200_test_set",
@@ -64,8 +154,9 @@ def protocol_template():
             "new_independent_holdout": False,
             "caution": (
                 "Seeds 401-405 are new training seeds, NOT independent held-out test data. "
-                "Previous hypothesis selection has already involved ECG200 evaluation; "
-                "findings are exploratory."
+                "A prior completed width-10 ECG200 repository result used training seeds 201-205, "
+                "and other previous hypothesis selection involved ECG200 evaluation; "
+                "findings are exploratory, not a new independent holdout."
             ),
         },
         "method": {
@@ -77,6 +168,10 @@ def protocol_template():
             "frequencies": list(history["frequencies"]),
             "exploratory_training_seeds": list(NEW_SEEDS),
             "candidate_widths": [10, 11],
+            "candidate_roles": {
+                "10": "replication_of_prior_repository_width10_configuration_new_training_seeds",
+                "11": "new_v3_hypothesis_not_completed_in_isolated_own_strategy_memory",
+            },
             "control_width": 16,
             "shared_fresh_control_per_seed": True,
             "expected_model_fits_if_separately_approved": 15,
@@ -105,8 +200,9 @@ def protocol_template():
                 "from width alone."
             ),
             "multiplicity": (
-                "Width 10 and width 11 are two previously selected hypotheses; "
-                "report both comparisons, with no unadjusted confirmatory winner claim."
+                "Width 10 repeats a previously tested architecture using new paired "
+                "training seeds; width 11 is the other v3 hypothesis. Report both "
+                "exploratory comparisons without an unadjusted confirmatory winner claim."
             ),
             "historical_reference_only": (
                 "The old Dev-4 gate 442/500, historical control 452/500 and strict "
