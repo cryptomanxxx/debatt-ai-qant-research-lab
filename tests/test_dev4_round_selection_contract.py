@@ -1,8 +1,10 @@
 """Dev-4 round selection must remain isolated and no-compute until separately approved."""
 import json
+import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
+from io import BytesIO
 
 from scripts.dev4_round_selection import prepare, select
 
@@ -37,6 +39,27 @@ class RoundSelectionContract(unittest.TestCase):
   self.assertEqual(result["other_selections"]["random-search"],int(__import__("scripts.dev4_policy_adapters",fromlist=["choose_random"]).choose_random(
       json.loads((ROOT/"research_queue/benchmarks/dev4_selection_protocol.json").read_text()),2)))
   self.assertNotEqual(result["other_selections"]["bayesian-optimization"],10)
+
+ def test_malformed_success_is_preserved_without_retry(self):
+  class Response:
+   def __init__(self,raw):self.raw=BytesIO(raw)
+   def __enter__(self):return self
+   def __exit__(self,*args):return False
+   def read(self):return self.raw.read()
+  for raw in (b'{"choices":',b'{"choices":[]}',b'{"choices":[{}]}'):
+   calls=[]
+   def opener(request,timeout):
+    calls.append(1)
+    return Response(raw)
+   with tempfile.TemporaryDirectory() as directory,patch.dict("os.environ",{"GROQ_API_KEY":"fake"}):
+    audit=select(2,Path(directory),execute=True,opener=opener)
+    saved=json.loads((Path(directory)/"dev4_round2_selection.json").read_text())
+    self.assertEqual(len(calls),1)
+    self.assertEqual(audit["gpt_proposal_error"],"malformed_api_response")
+    self.assertEqual(saved["raw_http_response_utf8"],raw.decode())
+    self.assertIn("response_parse_error",saved)
+    self.assertEqual(saved["adapter_versions"]["numpy"],"1.26.4")
+    self.assertEqual(saved["adapter_versions"]["scikit_learn"],"1.5.2")
 
  def test_workflow_requires_manual_dispatch_and_pre_call_guard(self):
   s=(ROOT/".github/workflows/dev4-reusable-selection.yml").read_text()
