@@ -38,7 +38,7 @@ class PolicyAdapterTests(unittest.TestCase):
         self.assertEqual(choice, choose_bayesian(self.p, ledger, outcomes))
         with self.assertRaisesRegex(ValueError, "mismatch"):
             choose_bayesian(self.p, ledger, [])
-        with self.assertRaisesRegex(ValueError, "unexpected"):
+        with self.assertRaisesRegex(ValueError, "completed outcome ledger mismatch"):
             choose_bayesian(self.p, ledger, outcomes + [{"round": 99, "paired_outcome": outcomes[0]["paired_outcome"]}])
 
     def test_external_gpt_rejects_duplicate_even_after_failure(self):
