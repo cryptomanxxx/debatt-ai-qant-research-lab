@@ -2,8 +2,8 @@
 
 Baseline: experiments/030_qant_compatibility_model_v3/run.py as it existed on
 main before PR #152, Git blob 64b1465edbaf65b57a33ab67a083cab522bba9d4.
-Original parsed using Python 3.11 and ast.dump(annotate_fields=True,
-include_attributes=False). This test NEVER imports/executes run.py: doing so
+Original parsed with interpreter-specific ast.dump(annotate_fields=True,
+include_attributes=False) signatures; CI uses Python 3.11. This test NEVER imports/executes run.py: doing so
 would initiate a real training job and dataset access in the legacy script.
 """
 import ast
@@ -59,7 +59,7 @@ class Experiment030FormattingContract(unittest.TestCase):
             self.assertEqual(
                 hashlib.sha1(
                     b"blob " + str(len(original.stdout)).encode()
-                    + b"\\x00" + original.stdout
+                    + b"\x00" + original.stdout
                 ).hexdigest(),
                 LEGACY_GIT_BLOB_SHA1,
             )
