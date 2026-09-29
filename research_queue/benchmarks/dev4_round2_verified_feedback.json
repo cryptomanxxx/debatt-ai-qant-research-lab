@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "source": {
+    "workflow_run_id": 36564585508,
+    "artifact_id": 11031810235,
+    "artifact_file": "dev4_round2_qant_cpu.json",
+    "artifact_sha256": "e36071190ccf278aece6c303d05bcaf57de8bf575ec1efd4c954ec862d2c3a3f",
+    "source_selection_run": 36562982457,
+    "source_selection_artifact_id": 11030004166,
+    "source_selection_artifact_sha256": "90540e37dd1bcd556634ba8e9363b2bbaff3aeed28e1d84122abf3ddfc71e195",
+    "source_response_id": "chatcmpl-8731bac1-d96a-45cf-8561-da0934ef4285",
+    "backend": "qant-cpu/software-simulation",
+    "training_runs": 25
+  },
+  "evaluation": {
+    "seeds": [
+      301,
+      302,
+      303,
+      304,
+      305
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "control_local_width": 16,
+    "gate_margin_correct": 10
+  },
+  "control": {
+    "candidate_correct": 452,
+    "candidate_parameters": 8550
+  },
+  "strategies": {
+    "gpt-oss-120b": {
+      "local_width": 8,
+      "candidate_correct": 438,
+      "candidate_parameters": 4278
+    },
+    "random-search": {
+      "local_width": 8,
+      "candidate_correct": 438,
+      "candidate_parameters": 4278
+    },
+    "grid-search": {
+      "local_width": 5,
+      "candidate_correct": 431,
+      "candidate_parameters": 2676
+    },
+    "bayesian-optimization": {
+      "local_width": 4,
+      "candidate_correct": 424,
+      "candidate_parameters": 2142
+    }
+  }
+}
