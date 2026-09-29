@@ -29,23 +29,8 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_build_experiment_catalog.py' -v
       - name: Generate catalog without provider/API/compute usage
         run: python -m scripts.build_experiment_catalog --output /tmp/experiment-catalog.json
-      - name: Expose initial derived snapshot for review
-        run: |
-          python - <<'PY'
-          import base64
-          from pathlib import Path
-          data = Path("/tmp/experiment-catalog.json").read_bytes()
-          print("CATALOG_B64_BEGIN")
-          print(base64.b64encode(data).decode("ascii"))
-          print("CATALOG_B64_END")
-          PY
-      - name: Check committed snapshot freshness if present
-        run: |
-          if test -f public/experiment-catalog.json; then
-            python -m scripts.build_experiment_catalog --check
-          else
-            echo "Initial catalog snapshot not yet committed; checking generated artifact only."
-          fi
+      - name: Verify checked-in catalog matches its exact source bytes
+        run: python -m scripts.build_experiment_catalog --check
       - uses: actions/upload-artifact@v4
         with:
           name: global-experiment-catalog
