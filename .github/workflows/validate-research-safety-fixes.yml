@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 jobs:
   regression:
@@ -22,6 +23,13 @@ jobs:
           python-version: '3.11'
       - name: Install dry-run RNG dependency
         run: python -m pip install "numpy==1.26.4" "scikit-learn==1.5.2"
+      - name: Inspect existing Q.ANT research image digest (no compute)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          echo "$GH_TOKEN" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
+          docker buildx imagetools inspect ghcr.io/cryptomanxxx/debatt-ai-qant-research-lab:research-py313-v1
       - name: Compile modified Python entrypoints
         run: |
           python -m py_compile scripts/proposal_lineage.py scripts/compile_ai_researcher_proposal.py scripts/materialize_ai_approved_job.py scripts/run_research_job_v2.py scripts/link_research_proposal_outcomes.py
@@ -43,3 +51,4 @@ jobs:
           python -m unittest discover -s tests -p 'test_dev4_policy_adapters.py' -v
           python -m unittest discover -s tests -p 'test_dev4_verified_policy_replay.py' -v
           python -m unittest discover -s tests -p 'test_dev4_first_live_groq_selection.py' -v
+          python -m unittest discover -s tests -p 'test_dev4_round1_qant_cpu_contract.py' -v

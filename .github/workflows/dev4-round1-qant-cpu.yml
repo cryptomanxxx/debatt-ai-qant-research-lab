@@ -1,0 +1,79 @@
+name: Dev-4 Round 1 Q.ANT CPU Evaluation
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: dev4-round1-qant-cpu-single-use
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    container:
+      image: ghcr.io/cryptomanxxx/debatt-ai-qant-research-lab@sha256:f0f6303bd7f08a055f4befcad8bac2ff0185adc2e1d50cdf734442b8b5b64735
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Block duplicate dispatches and reruns before training
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          test "$RUN_NUMBER" = "1" && test "$RUN_ATTEMPT" = "1" || {
+            echo "::error::Round-one compute is single-use; no retries or duplicate selections."
+            exit 1
+          }
+      - uses: actions/checkout@v4
+        with:
+          # Immutable reviewed execution tree; workflow dispatch branch cannot change code.
+          ref: 6b0affac238459c87b3111203468f0468e4baea8
+      - name: Verify immutable reviewed execution checkout
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "6b0affac238459c87b3111203468f0468e4baea8" || {
+            echo "::error::Reviewed execution commit mismatch."
+            exit 1
+          }
+      - name: Verify actual frozen selection artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,os,urllib.request,zipfile,io
+          url="https://api.github.com/repos/cryptomanxxx/debatt-ai-qant-research-lab/actions/artifacts/11026878054/zip"
+          req=urllib.request.Request(url,headers={"Authorization":"Bearer "+os.environ["GH_TOKEN"],"Accept":"application/vnd.github+json"})
+          with urllib.request.urlopen(req,timeout=60) as r: archive=r.read()
+          with zipfile.ZipFile(io.BytesIO(archive)) as z:
+           d=json.loads(z.read("dev4_first_live_selection.json"))
+          assert d["response_id"]=="chatcmpl-b47f2f0a-e9f8-4864-bb80-2a288726a91f"
+          assert d["raw_model_response"]=='{"local_width": 9}'
+          assert d["gpt_local_width"]==9 and d["gpt_proposal_error"] is None
+          assert d["other_first_round_selections"]=={"random-search":15,"grid-search":4,"bayesian-optimization":10}
+          assert d["history_sha256"]=="sha256:6991e3614f17360a91e8ec4a2155260e2fcdfe13078de73d2ee94d6135f32a7d"
+          assert d["training_runs"]==0 and d["holdout_access"] is False
+          print("Frozen live selection verified. No model selection or rerun permitted.")
+          PY
+      - name: Verify Q.ANT CPU environment and preregistration
+        run: |
+          python -c "import torch,numpy,ml_dtypes,aeon,qant_native_computing_toolkit; print('Q.ANT CPU environment ready')"
+          python -m scripts.validate_dev4_selection_protocol --ready-for-execution
+      - name: Run four locked widths and shared paired control
+        run: python -m scripts.dev4_round1_qant_cpu
+      - name: Preserve results, including partial failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dev4-round1-qant-cpu-results
+          path: |
+            local_results/dev4_round1_qant_cpu.json
+            local_results/dev4_round1_partial.json
+          if-no-files-found: warn
+          retention-days: 90
