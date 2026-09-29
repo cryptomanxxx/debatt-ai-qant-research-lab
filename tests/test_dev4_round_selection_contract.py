@@ -26,9 +26,20 @@ class RoundSelectionContract(unittest.TestCase):
   self.assertEqual(payload["model"],"openai/gpt-oss-120b")
 
  def test_no_future_round_without_audited_history(self):
-  for n in (1,3,4,5,6):
-   with self.subTest(round=n),self.assertRaisesRegex(ValueError,"Only round 2"):
+  for n in (1,4,5,6):
+   with self.subTest(round=n),self.assertRaisesRegex(ValueError,"Only rounds 2 and 3"):
     prepare(n)
+
+ def test_round_three_own_only_pinned_context(self):
+  protocol,contexts,payload,_,_=prepare(3)
+  user=json.loads(payload["messages"][1]["content"])
+  self.assertEqual(user["round"],3)
+  self.assertEqual([r["local_width"] for r in user["own_proposal_status_ledger"]],[9,8])
+  self.assertEqual([r["paired_outcome"]["candidate_correct"] for r in user["own_completed_paired_outcomes"]],[445,438])
+  for other in ("random-search","grid-search","bayesian-optimization"):
+   self.assertNotIn(other,payload["messages"][1]["content"])
+  self.assertEqual(select(3,ROOT/"unused",execute=False)["training_runs"],0)
+  self.assertEqual(select(3,ROOT/"unused",execute=False)["groq_calls"],0)
 
  def test_dry_run_never_calls_api(self):
   with patch("urllib.request.urlopen",side_effect=AssertionError("network prohibited")):
@@ -60,6 +71,16 @@ class RoundSelectionContract(unittest.TestCase):
     self.assertIn("response_parse_error",saved)
     self.assertEqual(saved["adapter_versions"]["numpy"],"1.26.4")
     self.assertEqual(saved["adapter_versions"]["scikit_learn"],"1.5.2")
+
+ def test_round_three_manual_one_shot_workflow(self):
+  s=(ROOT/".github/workflows/dev4-round3-selection.yml").read_text()
+  self.assertIn("workflow_dispatch:",s)
+  self.assertIn('test "$REF_NAME" = "main"',s)
+  self.assertIn('test "$RUN_ATTEMPT" = "1"',s)
+  self.assertIn('result["total_count"]==1',s)
+  self.assertLess(s.index("Block non-main"),s.index("Make exactly one GPT-OSS"))
+  self.assertNotIn("qant_native_computing_toolkit",s)
+  self.assertNotIn("dev4_round2_qant_cpu",s)
 
  def test_workflow_requires_manual_dispatch_and_pre_call_guard(self):
   s=(ROOT/".github/workflows/dev4-reusable-selection.yml").read_text()

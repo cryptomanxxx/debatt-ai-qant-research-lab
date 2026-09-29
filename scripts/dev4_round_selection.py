@@ -1,4 +1,4 @@
-"""Dev-4 selection-only runner. Round 2 is enabled; future rounds fail closed until audited histories exist."""
+"""Dev-4 selection-only runner. Rounds 2 and 3 use frozen histories; rounds 4-5 fail closed."""
 import argparse
 import hashlib
 import json
@@ -12,37 +12,53 @@ from scripts.dev4_policy_adapters import choose_grid, choose_random, choose_baye
 
 ROOT = Path(__file__).resolve().parents[1]
 ROUND2 = ROOT / "research_queue/benchmarks/dev4_round2_isolated_contexts.json"
+ROUND3 = ROOT / "research_queue/benchmarks/dev4_round3_isolated_contexts.json"
 SOURCE_SHA = "43eca34825b363497440717dea1af56fc3e00b9c01cac2f39f76d298eec10172"
 
 
 def prepare(round_number=2):
-    if type(round_number) is not int or round_number != 2:
-        raise ValueError("Only round 2 is enabled; rounds 3-5 require independently verified own-history artifacts")
+    if type(round_number) is not int or round_number not in (2, 3):
+        raise ValueError("Only rounds 2 and 3 are enabled; other rounds require independently verified own-history artifacts")
     protocol = json.loads(PROTOCOL.read_text())
     history_bytes, prompt_bytes = HISTORY.read_bytes(), PROMPT.read_bytes()
     history = verify_inputs(protocol, history_bytes, prompt_bytes)
-    raw = ROUND2.read_bytes()
+    raw = (ROUND2 if round_number == 2 else ROUND3).read_bytes()
     contexts = json.loads(raw)
-    if contexts["mode"] != "round_two_feedback_only_no_selection_no_compute":
-        raise ValueError("wrong context mode")
-    if contexts["shared_initial_history_sha256"] != protocol["information_policy"]["shared_initial_history_snapshot"]:
-        raise ValueError("frozen initial history mismatch")
-    if contexts["source"]["workflow_run_id"] != 36559946601 or contexts["source"]["artifact_id"] != 11029104019 or contexts["source"]["artifact_sha256"] != SOURCE_SHA:
-        raise ValueError("round 1 source mismatch")
-    if set(contexts["contexts"]) != set(protocol["strategies"]):
-        raise ValueError("strategy context set mismatch")
-    from scripts.dev4_round1_isolated_feedback import build_contexts, FEEDBACK
-    feedback = json.loads(FEEDBACK.read_text())
-    if contexts != build_contexts(protocol, feedback):
-        raise ValueError("round 2 context differs from source-validated feedback")
-    own = contexts["contexts"]["gpt-oss-120b"]
-    ledger = own["proposal_status_ledger"]
-    outcomes = own["completed_paired_outcomes"]
-    if ledger != [{"round": 1, "local_width": 9, "valid": True, "status": "evaluated"}]:
-        raise ValueError("GPT own ledger mismatch")
-    if outcomes != [{"round": 1, "paired_outcome": {"candidate_correct": 445, "control_correct": 452,
-                                                       "candidate_parameters": 4812, "control_parameters": 8550}}]:
-        raise ValueError("GPT own outcome mismatch")
+    if round_number == 3:
+        from scripts.dev4_round2_isolated_feedback import verify_pinned_records, build, ROUND1, ROUND2 as FEEDBACK2
+        verify_pinned_records()
+        expected = build(protocol, json.loads(ROUND1.read_text()), json.loads(FEEDBACK2.read_text()), None)
+        if contexts != expected:
+            raise ValueError("round 3 contexts disagree with independently pinned histories")
+        if contexts["shared_initial_history_sha256"] != protocol["information_policy"]["shared_initial_history_snapshot"]:
+            raise ValueError("frozen initial history mismatch")
+        if set(contexts["contexts"]) != set(protocol["strategies"]):
+            raise ValueError("strategy context set mismatch")
+        own = contexts["contexts"]["gpt-oss-120b"]
+        ledger, outcomes = own["proposal_status_ledger"], own["completed_paired_outcomes"]
+        if [x["local_width"] for x in ledger] != [9, 8] or [x["paired_outcome"]["candidate_correct"] for x in outcomes] != [445, 438]:
+            raise ValueError("GPT own round 3 history mismatch")
+    else:
+        if contexts["mode"] != "round_two_feedback_only_no_selection_no_compute":
+            raise ValueError("wrong context mode")
+        if contexts["shared_initial_history_sha256"] != protocol["information_policy"]["shared_initial_history_snapshot"]:
+            raise ValueError("frozen initial history mismatch")
+        if contexts["source"]["workflow_run_id"] != 36559946601 or contexts["source"]["artifact_id"] != 11029104019 or contexts["source"]["artifact_sha256"] != SOURCE_SHA:
+            raise ValueError("round 1 source mismatch")
+        if set(contexts["contexts"]) != set(protocol["strategies"]):
+            raise ValueError("strategy context set mismatch")
+        from scripts.dev4_round1_isolated_feedback import build_contexts, FEEDBACK
+        feedback = json.loads(FEEDBACK.read_text())
+        if contexts != build_contexts(protocol, feedback):
+            raise ValueError("round 2 context differs from source-validated feedback")
+        own = contexts["contexts"]["gpt-oss-120b"]
+        ledger = own["proposal_status_ledger"]
+        outcomes = own["completed_paired_outcomes"]
+        if ledger != [{"round": 1, "local_width": 9, "valid": True, "status": "evaluated"}]:
+            raise ValueError("GPT own ledger mismatch")
+        if outcomes != [{"round": 1, "paired_outcome": {"candidate_correct": 445, "control_correct": 452,
+                                                           "candidate_parameters": 4812, "control_parameters": 8550}}]:
+            raise ValueError("GPT own outcome mismatch")
     context = {"shared_initial_history_snapshot": history,
                "own_proposal_status_ledger": ledger,
                "own_completed_paired_outcomes": outcomes,
@@ -71,7 +87,7 @@ def select(round_number, output_dir, execute=False, opener=urllib.request.urlope
              "source_round1_run_id": 36559946601, "source_round1_artifact_sha256": SOURCE_SHA,
              "history_sha256": "sha256:" + hashlib.sha256(history_bytes).hexdigest(),
              "prompt_sha256": "sha256:" + hashlib.sha256(prompt_bytes).hexdigest(),
-             "round2_context_sha256": "sha256:" + hashlib.sha256(ROUND2.read_bytes()).hexdigest(),
+             "isolated_context_sha256": "sha256:" + hashlib.sha256((ROUND2 if round_number == 2 else ROUND3).read_bytes()).hexdigest(),
              "request_payload_sha256": "sha256:" + hashlib.sha256(
                  json.dumps(payload, sort_keys=True).encode()).hexdigest(),
              "request_parameters": {"model": payload["model"], "temperature": 0, "max_completion_tokens": 512},
@@ -116,7 +132,7 @@ def select(round_number, output_dir, execute=False, opener=urllib.request.urlope
             audit["api_error"] = {"type": type(exc).__name__, "http_status": getattr(exc, "code", None)}
             raise
         finally:
-            (output_dir / "dev4_round2_selection.json").write_text(json.dumps(audit, indent=2, sort_keys=True) + "\n")
+            (output_dir / f"dev4_round{round_number}_selection.json").write_text(json.dumps(audit, indent=2, sort_keys=True) + "\n")
     return audit
 
 
