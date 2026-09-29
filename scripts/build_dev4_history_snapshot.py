@@ -41,7 +41,7 @@ def build_snapshot(files, protocol, source_root=None):
         if reason:
             excluded.append({"source": source, "sha256": digest, "reason": reason})
             continue
-        included.append({"source": str(path), "sha256": digest,
+        included.append({"source": source, "sha256": digest,
                          "observations": observations})
     return {"schema_version": 1, "purpose": "common pre-benchmark history, not holdout evidence",
             "evaluation_seeds_excluded": sorted(eval_seeds),
