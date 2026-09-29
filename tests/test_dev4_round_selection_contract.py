@@ -72,6 +72,16 @@ class RoundSelectionContract(unittest.TestCase):
     self.assertEqual(saved["adapter_versions"]["numpy"],"1.26.4")
     self.assertEqual(saved["adapter_versions"]["scikit_learn"],"1.5.2")
 
+ def test_round_three_manual_one_shot_workflow(self):
+  s=(ROOT/".github/workflows/dev4-round3-selection.yml").read_text()
+  self.assertIn("workflow_dispatch:",s)
+  self.assertIn('test "$REF_NAME" = "main"',s)
+  self.assertIn('test "$RUN_ATTEMPT" = "1"',s)
+  self.assertIn('result["total_count"]==1',s)
+  self.assertLess(s.index("Block non-main"),s.index("Make exactly one GPT-OSS"))
+  self.assertNotIn("qant_native_computing_toolkit",s)
+  self.assertNotIn("dev4_round2_qant_cpu",s)
+
  def test_workflow_requires_manual_dispatch_and_pre_call_guard(self):
   s=(ROOT/".github/workflows/dev4-reusable-selection.yml").read_text()
   self.assertIn("workflow_dispatch:",s)
