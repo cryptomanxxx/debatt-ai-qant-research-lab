@@ -6,11 +6,25 @@ on:
 permissions:
   contents: read
 
+# Serialize all dispatches, including concurrent manual/API attempts.
+concurrency:
+  group: dev4-first-live-groq-selection-once
+  cancel-in-progress: false
+
 jobs:
   select-only:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - name: Enforce first workflow run and first attempt only
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          if [ "$RUN_NUMBER" != "1" ] || [ "$RUN_ATTEMPT" != "1" ]; then
+            echo "::error::Dev-4 first selection is single-use. Later dispatches and reruns are prohibited."
+            exit 1
+          fi
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
