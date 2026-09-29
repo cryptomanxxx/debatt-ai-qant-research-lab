@@ -47,6 +47,15 @@ def replay(protocol, records):
             if not isinstance(proposal, str):
                 raise ValueError("proposal must be raw JSON text")
             width, error = validate_proposal(proposal, allowed, seen[strategy])
+            # Preserve parseable invalid widths (duplicate or out of range).
+            parsed_width = width
+            if error is not None:
+                try:
+                    raw_value = json.loads(proposal)
+                    if isinstance(raw_value, dict) and type(raw_value.get("local_width")) is int:
+                        parsed_width = raw_value["local_width"]
+                except ValueError:
+                    pass
             if width is None:
                 if row["status"] != "invalid" or row["paired_outcome"] is not None:
                     raise ValueError("invalid proposal cannot have an evaluation")
@@ -69,9 +78,9 @@ def replay(protocol, records):
                         raise ValueError("parameter counts must be positive")
                     outcomes.append({"strategy": strategy, "round": round_number, "status": "evaluated", "paired_outcome": paired})
                 seen[strategy].add(width)
-            ledger.append({"strategy": strategy, "round": round_number, "local_width": width,
+            ledger.append({"strategy": strategy, "round": round_number, "local_width": parsed_width,
                            "valid": error is None, "status": row["status"]})
-            audit.append({"round": round_number, "strategy": strategy, "local_width": width,
+            audit.append({"round": round_number, "strategy": strategy, "local_width": parsed_width,
                           "proposal_error": error, "status": row["status"],
                           "prior_own_attempts": len(context["proposal_status_ledger"]),
                           "prior_own_completed_outcomes": len(context["completed_paired_outcomes"])})
