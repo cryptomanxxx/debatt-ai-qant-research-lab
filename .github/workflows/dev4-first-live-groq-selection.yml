@@ -1,0 +1,33 @@
+name: Dev-4 First Live GPT-OSS Selection
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  select-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install preregistered adapter versions
+        run: python -m pip install "numpy==1.26.4" "scikit-learn==1.5.2"
+      - name: Verify frozen inputs before any API call
+        run: python -m scripts.validate_dev4_selection_protocol --ready-for-execution && python -m scripts.dev4_selection_dry_run
+      - name: Make exactly one GPT-OSS selection (no training)
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python -m scripts.dev4_first_live_groq_selection --output-dir "$RUNNER_TEMP/dev4-live"
+      - name: Archive response and audit even if proposal invalid
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dev4-first-live-selection
+          path: ${{ runner.temp }}/dev4-live/dev4_first_live_selection.json
+          if-no-files-found: warn
+          retention-days: 90
