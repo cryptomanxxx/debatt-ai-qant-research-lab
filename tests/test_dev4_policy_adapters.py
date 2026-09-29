@@ -41,6 +41,29 @@ class PolicyAdapterTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "completed outcome ledger mismatch"):
             choose_bayesian(self.p, ledger, outcomes + [{"round": 99, "paired_outcome": outcomes[0]["paired_outcome"]}])
 
+    def test_bayesian_rejects_duplicate_outcome_round_and_missing_other_round(self):
+        ledger = [
+            {"round": 1, "local_width": 10, "valid": True, "status": "evaluated"},
+            {"round": 2, "local_width": 4, "valid": True, "status": "evaluated"},
+        ]
+        paired = {"candidate_correct": 420, "control_correct": 425,
+                  "candidate_parameters": 20, "control_parameters": 30}
+        outcomes = [{"round": 1, "paired_outcome": paired},
+                    {"round": 1, "paired_outcome": paired}]
+        with self.assertRaisesRegex(ValueError, "completed outcome ledger mismatch"):
+            choose_bayesian(self.p, ledger, outcomes)
+
+    def test_bayesian_rejects_out_of_bounds_completed_results(self):
+        ledger = [{"round": 1, "local_width": 10, "valid": True, "status": "evaluated"}]
+        paired = {"candidate_correct": 420, "control_correct": 425,
+                  "candidate_parameters": 20, "control_parameters": 30}
+        for key, bad in (("candidate_correct", 501), ("control_correct", 501),
+                         ("candidate_parameters", 0), ("control_parameters", 0)):
+            malformed = dict(paired)
+            malformed[key] = bad
+            with self.subTest(key=key), self.assertRaisesRegex(ValueError, "outside evaluation bounds"):
+                choose_bayesian(self.p, ledger, [{"round": 1, "paired_outcome": malformed}])
+
     def test_external_gpt_rejects_duplicate_even_after_failure(self):
         ledger = [{"round": 1, "local_width": 8, "valid": True, "status": "evaluation_failed"}]
         self.assertEqual(choose_gpt_external(self.p, '{"local_width":8}', ledger), (None, "duplicate_width"))
