@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "source": {
+    "workflow_run_id": 36559946601,
+    "artifact_id": 11029104019,
+    "artifact_file": "dev4_round1_qant_cpu.json",
+    "artifact_sha256": "43eca34825b363497440717dea1af56fc3e00b9c01cac2f39f76d298eec10172",
+    "source_selection_run": 36555941972,
+    "source_response_id": "chatcmpl-b47f2f0a-e9f8-4864-bb80-2a288726a91f",
+    "backend": "qant-cpu/software-simulation",
+    "training_runs": 25
+  },
+  "evaluation": {
+    "seeds": [
+      301,
+      302,
+      303,
+      304,
+      305
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "control_local_width": 16,
+    "gate_margin_correct": 10
+  },
+  "control": {
+    "candidate_correct": 452,
+    "candidate_parameters": 8550
+  },
+  "strategies": {
+    "gpt-oss-120b": {
+      "local_width": 9,
+      "candidate_correct": 445,
+      "candidate_parameters": 4812
+    },
+    "random-search": {
+      "local_width": 15,
+      "candidate_correct": 450,
+      "candidate_parameters": 8016
+    },
+    "grid-search": {
+      "local_width": 4,
+      "candidate_correct": 424,
+      "candidate_parameters": 2142
+    },
+    "bayesian-optimization": {
+      "local_width": 10,
+      "candidate_correct": 445,
+      "candidate_parameters": 5346
+    }
+  }
+}
