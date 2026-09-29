@@ -1,5 +1,5 @@
 """PNN Experiment Engine v1: reviewed parameterized local-width confirmation runner."""
-import json, platform
+import json, platform, hashlib
 from datetime import datetime, timezone
 from pathlib import Path
 import numpy as np, torch
@@ -11,6 +11,13 @@ from ml_dtypes import bfloat16
 
 CONFIG_PATH=Path(__import__("os").environ["QANT_JOB_CONFIG"])
 JOB=json.loads(CONFIG_PATH.read_text())
+PID=JOB.get("proposal_id")
+DIGEST=JOB.get("proposal_sha256")
+if not isinstance(PID,str) or not isinstance(DIGEST,str) or len(DIGEST)!=64:
+ raise SystemExit("ENGINE REJECTED: missing registered proposal lineage")
+SNAPSHOT=Path("research_queue/ai_researcher/proposals")/(PID+".json")
+if not SNAPSHOT.is_file() or hashlib.sha256(SNAPSHOT.read_bytes()).hexdigest()!=DIGEST:
+ raise SystemExit("ENGINE REJECTED: approved job does not match archived proposal")
 CFG=JOB["engine_config"]
 SEEDS=CFG["seeds"]; EPOCHS=CFG["epochs"]; LR=1e-3; K=[1,2]
 CANDIDATE_WIDTH=CFG["candidate_local_width"]; CONTROL_WIDTH=CFG["control_local_width"]
@@ -84,7 +91,7 @@ control=summary[CONTROL_ID]
 candidate=summary[CANDIDATE_ID]
 gate_margin=CFG["gate_margin_correct"]
 confirmed=candidate["aggregate_qant_correct"] >= control["aggregate_qant_correct"]-gate_margin
-payload={"schema_version":1,"project":"Debatt-AI Photonic Neural Network v1","proposal_id":JOB["job_id"],"experiment_id":f"PNN-v1-Engine-{CANDIDATE_ID}-{EPOCHS}Epoch","timestamp_utc":datetime.now(timezone.utc).isoformat(),"backend":"qant-cpu/software-simulation","dataset":{"name":"ECG200","train_shape":list(Xtr.shape),"test_shape":list(Xte.shape)},"configuration":{"seeds":SEEDS,"epochs":EPOCHS,"learning_rate":LR,"batch_size":32,"frequencies":K,"candidates":CANDIDATES,"preregistered_gate":JOB["gate"]},"rows":rows,"summary":summary,"success_criteria_met":confirmed,"decision":"local_width_confirmation_passed" if confirmed else "local_width_confirmation_failed","notes":"PNN Experiment Engine v1. Reviewed parameterized local-width confirmation family; same preregistered seeds for candidate and concurrent control. Software/simulation backend only."}
+payload={"schema_version":1,"project":"Debatt-AI Photonic Neural Network v1","proposal_id":PID,"proposal_sha256":DIGEST,"job_id":JOB["job_id"],"experiment_id":f"PNN-v1-Engine-{CANDIDATE_ID}-{EPOCHS}Epoch","timestamp_utc":datetime.now(timezone.utc).isoformat(),"backend":"qant-cpu/software-simulation","dataset":{"name":"ECG200","train_shape":list(Xtr.shape),"test_shape":list(Xte.shape)},"configuration":{"seeds":SEEDS,"epochs":EPOCHS,"learning_rate":LR,"batch_size":32,"frequencies":K,"candidates":CANDIDATES,"preregistered_gate":JOB["gate"]},"rows":rows,"summary":summary,"success_criteria_met":confirmed,"decision":"local_width_confirmation_passed" if confirmed else "local_width_confirmation_failed","notes":"PNN Experiment Engine v1. Reviewed parameterized local-width confirmation family; same preregistered seeds for candidate and concurrent control. Software/simulation backend only."}
 Path("pnn-v1/results").mkdir(parents=True,exist_ok=True)
 out=Path("pnn-v1/results")/f"result_engine_w{CANDIDATE_WIDTH}_{EPOCHS}epoch_{JOB['job_id']}.json"
 out.write_text(json.dumps(payload,indent=2)+chr(10))

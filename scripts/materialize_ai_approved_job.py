@@ -6,6 +6,7 @@ reviewed compiler job_id to a repository-owned template.
 """
 import json
 from pathlib import Path
+from scripts.proposal_lineage import verified_proposal, verify_binding
 
 COMPILED=Path("research_queue/compiled/latest.json")
 ENGINE_PATH="pnn-v1/experiments/local_width_confirmation/run.py"
@@ -23,6 +24,15 @@ if compiled.get("status")!="validated_executable_template":
     fail("compiled proposal is not executable")
 if compiled.get("approval_readiness")!="READY_FOR_HUMAN_COMPUTE_DECISION":
     fail("proposal is not ready for a human compute decision")
+try:
+    lineage=verified_proposal()
+    verify_binding(compiled, lineage)
+    review=json.loads(Path("research_queue/human_review/latest.json").read_text())
+    if review.get("decision")!="approve" or review.get("proposal_sha256")!=lineage["proposal_sha256"]:
+        fail("human scientific approval does not match archived proposal")
+    verify_binding(review, lineage)
+except (ValueError, OSError, KeyError) as exc:
+    fail("proposal provenance check failed: "+str(exc))
 job_id=compiled.get("job_id")
 if compiled.get("engine_family")==ENGINE_FAMILY:
     cfg=compiled.get("engine_config",{})
@@ -44,6 +54,7 @@ if compiled.get("engine_family")==ENGINE_FAMILY:
     if not valid:
         fail("PNN Experiment Engine compilation is outside reviewed bounds")
     job={"job_id":job_id,"status":"approved","experiment":ENGINE_PATH,"runner":"github-actions","description":"Human-approved AI Researcher experiment using PNN Experiment Engine v1","budget":budget,"source_compilation":"research_queue/compiled/latest.json","preregistered_seeds":seeds,"gate":expected_gate,"engine_family":ENGINE_FAMILY,"engine_config":cfg}
+    job.update(lineage)
     OUT=Path("research_queue/jobs")/(job_id+".json")
     OUT.parent.mkdir(parents=True,exist_ok=True)
     OUT.write_text(json.dumps(job,indent=2)+"\n")
@@ -78,6 +89,7 @@ job={
     "preregistered_seeds":template["preregistered_seeds"],
     "gate":template["gate"],
 }
+job.update(lineage)
 OUT=Path("research_queue/jobs")/(job_id+".json")
 OUT.parent.mkdir(parents=True,exist_ok=True)
 OUT.write_text(json.dumps(job,indent=2)+"\n")
