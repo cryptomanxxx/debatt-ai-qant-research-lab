@@ -92,11 +92,17 @@ research_queue/
 docs/current-systems-and-protocols.md
                              Maintained status/protocol map
 public/research-dashboard.json
-                             Derived summary, not raw evidence
+                             Derived public dashboard, not raw evidence
+public/experiment-catalog.json
+                             Derived, mirror-deduplicated discovery snapshot
 .github/workflows/           Current, manual-only, disabled legacy, validation
 ```
 
 Identifiers are scoped to their experiment family. Some PNN output is mirrored into root `results/`; a future global catalog must reconcile identities and provenance instead of counting mirrors as independent experiments.
+
+## Global experiment discovery
+
+A [global experiment catalog](docs/global-experiment-catalog.md) now indexes committed Toolkit/PNN-v1 results, proposal documents and explicitly unexecuted v3 planning records. It uses composite identities, source hashes, per-record status and source/recorded-execution pointers, and deduplicates byte-identical PNN mirrors in root `results/`. The [committed JSON snapshot](public/experiment-catalog.json) is **derived**; regenerate or freshness-check it after new results. It is for human/audit discovery, **not** a new Dev-4/v3 model memory source, a general experiment ranking, or a means of bypassing human compute approval.
 
 ## Reproducibility and compute
 
