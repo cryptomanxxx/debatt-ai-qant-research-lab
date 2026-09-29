@@ -1,4 +1,4 @@
-"""PNN Experiment Engine v1: reviewed parameterized local-width confirmation runner."""
+"""Dev-4 first-round Q.ANT CPU evaluation of four frozen, real selections."""
 import json, platform, hashlib
 from datetime import datetime, timezone
 from pathlib import Path
@@ -61,6 +61,8 @@ Xtr,Xte=as2d(Xtr),as2d(Xte)
 labels=sorted(set(np.asarray(ytr0).astype(str))|set(np.asarray(yte0).astype(str))); lm={v:i for i,v in enumerate(labels)}
 ytr=np.asarray([lm[str(v)] for v in ytr0],dtype=np.int64); yte=np.asarray([lm[str(v)] for v in yte0],dtype=np.int64)
 rows=[]
+Path("local_results").mkdir(parents=True,exist_ok=True)
+checkpoint=Path("local_results/dev4_round1_partial.json")
 for cid,(local_width,nheads) in CANDIDATES.items():
  for seed in SEEDS:
   m=train(seed,Xtr,ytr,local_width,nheads); m.eval(); vx=torch.from_numpy(Xte)
@@ -72,6 +74,7 @@ for cid,(local_width,nheads) in CANDIDATES.items():
                "qant_correct":int((qp==yte).sum()),
                "prediction_disagreements":int((rp!=qp).sum()),
                "mean_absolute_logit_error":float(np.abs(q-ref).mean())})
+  checkpoint.write_text(json.dumps({"status":"in_progress","source_selection_run":36555941972,"rows":rows},indent=2)+"\n")
   print(f"completed {cid} seed={seed}",flush=True)
 
 summary={}
