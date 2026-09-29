@@ -1,0 +1,49 @@
+name: Audit Original Dev-4 Round 1 and Round 2 Evidence
+# Optional provenance audit while original GitHub artifacts remain available.
+# Not a required PR check: Actions artifacts expire.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  audit_original_sources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dev4-round1-qant-cpu-results
+          run-id: 36559946601
+          repository: cryptomanxxx/debatt-ai-qant-research-lab
+          github-token: ${{ github.token }}
+          path: /tmp/round1
+      - uses: actions/download-artifact@v4
+        with:
+          name: dev4-round2-qant-cpu-results
+          run-id: 36564585508
+          repository: cryptomanxxx/debatt-ai-qant-research-lab
+          github-token: ${{ github.token }}
+          path: /tmp/round2
+      - uses: actions/download-artifact@v4
+        with:
+          name: dev4-round2-selection
+          run-id: 36562982457
+          repository: cryptomanxxx/debatt-ai-qant-research-lab
+          github-token: ${{ github.token }}
+          path: /tmp/selection2
+      - name: Independently verify original source bytes
+        run: |
+          python -m scripts.dev4_round2_isolated_feedback \
+            --round1-source-artifact /tmp/round1/dev4_round1_qant_cpu.json \
+            --source-artifact /tmp/round2/dev4_round2_qant_cpu.json \
+            --selection-artifact /tmp/selection2/dev4_round2_selection.json \
+            --output /tmp/round3-rebuilt.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          assert json.loads(Path("/tmp/round3-rebuilt.json").read_text()) == json.loads(Path("research_queue/benchmarks/dev4_round3_isolated_contexts.json").read_text())
+          print("Both original evaluation artifacts authenticated and histories reproduced.")
+          PY

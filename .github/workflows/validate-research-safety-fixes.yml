@@ -61,36 +61,19 @@ jobs:
           python -m unittest discover -s tests -p 'test_dev4_round2_qant_cpu_contract.py' -v
           python -m unittest discover -s tests -p 'test_dev4_round3_context_contract.py' -v
 
-  round2_artifact_evidence:
+  durable_round3_evidence:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
-        with:
-          name: dev4-round2-qant-cpu-results
-          run-id: 36564585508
-          repository: cryptomanxxx/debatt-ai-qant-research-lab
-          github-token: ${{ github.token }}
-          path: /tmp/dev4-round2-source
-      - uses: actions/download-artifact@v4
-        with:
-          name: dev4-round2-selection
-          run-id: 36562982457
-          repository: cryptomanxxx/debatt-ai-qant-research-lab
-          github-token: ${{ github.token }}
-          path: /tmp/dev4-round2-selection
-      - name: Verify original evidence and regenerate isolated contexts without compute
+      - name: Verify independently pinned historical records and regenerate contexts
         run: |
-          python -m scripts.dev4_round2_isolated_feedback \
-            --source-artifact /tmp/dev4-round2-source/dev4_round2_qant_cpu.json \
-            --selection-artifact /tmp/dev4-round2-selection/dev4_round2_selection.json \
-            --output /tmp/dev4-round3-regenerated.json
+          python -m scripts.dev4_round2_isolated_feedback --output /tmp/dev4-round3-regenerated.json
           python - <<'PY'
           import json
           from pathlib import Path
           actual=json.loads(Path("/tmp/dev4-round3-regenerated.json").read_text())
           frozen=json.loads(Path("research_queue/benchmarks/dev4_round3_isolated_contexts.json").read_text())
-          assert actual==frozen, "committed isolated contexts differ from authenticated source"
+          assert actual==frozen, "Round 3 contexts differ from independently pinned evidence"
           assert all(len(c["proposal_status_ledger"])==len(c["completed_paired_outcomes"])==2 for c in actual["contexts"].values())
-          print("Four own-only histories verified from authenticated original evidence.")
+          print("Four isolated histories verified from content-addressed records.")
           PY
