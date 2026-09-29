@@ -7,11 +7,14 @@ from pathlib import Path
 from unittest.mock import patch
 
 from scripts.research_memory_v3 import search_experiments
+from scripts.dev4_round2_isolated_feedback import git_blob_sha
 from scripts.scientific_reasoning_v3 import _encoded
 from scripts.v3_experiment_protocol import (
-    NEW_SEEDS, PROTOCOL_PATH, WIDTHS, inspect_future_result_structure,
-    load_protocol, protocol_sha256, protocol_template,
+    NEW_SEEDS, PROTOCOL_PATH, PRIOR_WIDTH10_REL_PATH, PRIOR_WIDTH10_BLOB_SHA1,
+    WIDTHS, inspect_future_result_structure, load_protocol, protocol_sha256,
+    protocol_template, prior_width10_reference,
 )
+from scripts import v3_experiment_protocol as protocol_module
 
 
 def synthetic_submission():
@@ -56,6 +59,10 @@ class UnapprovedV3ProtocolContract(unittest.TestCase):
         self.assertEqual(p["record_kind"], "standalone_v3_protocol_draft")
         self.assertEqual([h["local_width"] for h in p["hypotheses"]], [10, 11])
         self.assertEqual(p["method"]["control_width"], 16)
+        self.assertEqual(p["method"]["candidate_roles"]["10"],
+                         "replication_of_prior_repository_width10_configuration_new_training_seeds")
+        self.assertEqual(p["method"]["candidate_roles"]["11"],
+                         "new_v3_hypothesis_not_completed_in_isolated_own_strategy_memory")
         self.assertEqual(p["method"]["exploratory_training_seeds"], list(NEW_SEEDS))
         self.assertEqual(p["method"]["expected_model_fits_if_separately_approved"], 15)
         self.assertEqual(p["method"]["backend"], "not_selected")
@@ -70,6 +77,44 @@ class UnapprovedV3ProtocolContract(unittest.TestCase):
         self.assertEqual(p["evaluation_data"]["split"], "existing_ECG200_test_set")
         self.assertEqual(set(WIDTHS), {10, 11, 16})
         self.assertTrue(set(NEW_SEEDS).isdisjoint({301, 302, 303, 304, 305}))
+        self.assertTrue(set(NEW_SEEDS).isdisjoint({201, 202, 203, 204, 205}))
+
+    def test_preexisting_width10_result_is_pinned_and_not_promoted_into_dev4_memory(self):
+        before = search_experiments(strategy="gpt-oss-120b")
+        prior = prior_width10_reference()
+        self.assertEqual(prior, load_protocol()["prior_width10_repository_result"])
+        self.assertEqual(prior["source_git_blob_sha1"], PRIOR_WIDTH10_BLOB_SHA1)
+        self.assertEqual(prior["backend"], "qant-cpu/software-simulation")
+        self.assertEqual(prior["seeds"], [201, 202, 203, 204, 205])
+        self.assertEqual(prior["candidate_width"], 10)
+        self.assertEqual(prior["candidate_correct_out_of_500"], 444)
+        self.assertEqual(prior["paired_control_correct_out_of_500"], 453)
+        self.assertEqual(prior["paired_correct_difference"], -9)
+        self.assertEqual(prior["candidate_parameter_count"], 5346)
+        self.assertEqual(prior["paired_control_parameter_count"], 8550)
+        self.assertEqual(search_experiments(strategy="gpt-oss-120b"), before)
+        self.assertTrue(all(x["local_width"] != 10 for x in before["results"]))
+        self.assertIn("new training seeds", load_protocol()["method"]["candidate_roles"]["10"])
+
+    def test_prior_width10_source_must_match_pin_even_if_summary_claim_is_modified(self):
+        path = protocol_module.ROOT / PRIOR_WIDTH10_REL_PATH
+        original = path.read_bytes()
+        self.assertEqual(git_blob_sha(original), PRIOR_WIDTH10_BLOB_SHA1)
+        with tempfile.TemporaryDirectory() as tmp:
+            new_path = Path(tmp) / PRIOR_WIDTH10_REL_PATH
+            new_path.parent.mkdir(parents=True)
+            doc = json.loads(original)
+            doc["summary"]["alpha5_w10"]["aggregate_qant_correct"] = 499
+            changed = (json.dumps(doc, indent=2) + "\\n").encode()
+            new_path.write_bytes(changed)
+            with patch.object(protocol_module, "ROOT", Path(tmp)):
+                with self.assertRaisesRegex(ValueError, "source changed"):
+                    prior_width10_reference()
+                # Even repinning modified bytes cannot bypass the row-summary check.
+                with patch.object(protocol_module, "PRIOR_WIDTH10_BLOB_SHA1",
+                                  git_blob_sha(changed)):
+                    with self.assertRaisesRegex(ValueError, "row-summary mismatch"):
+                        prior_width10_reference()
 
     def test_fail_closed_if_any_protocol_field_changes(self):
         canonical = load_protocol()
@@ -88,6 +133,10 @@ class UnapprovedV3ProtocolContract(unittest.TestCase):
                 new_independent_holdout=True),
             "new_hypothesis_hash": lambda p: p["hypotheses"][0].update(
                 proposal_sha256="f" * 64),
+            "fake_prior_width10_score": lambda p: p["prior_width10_repository_result"].update(
+                candidate_correct_out_of_500=490),
+            "promote_prior_result_to_memory": lambda p: p["prior_width10_repository_result"].update(
+                classification="completed_v3_hypothesis_evidence"),
             "unexpected_extra_field": lambda p: p.update(execute=True),
             "false_instead_of_zero": lambda p: p["execution"].update(training_runs=False),
         }
