@@ -76,17 +76,23 @@ def validate(p, ready=False):
         else:
             for name, keys in required.items():
                 spec = specs[name]
-                if not isinstance(spec, dict) or any(
-                    key not in spec or spec[key] is None or spec[key] == "" or spec[key] == "TO_BE_DEFINED"
-                    for key in keys
-                ):
+                if not isinstance(spec, dict):
                     errors.append("execution blocked: incomplete strategy specification: " + name)
-            if isinstance(specs.get("random-search"), dict) and type(specs["random-search"].get("seed")) is not int:
-                errors.append("random-search seed must be an integer")
-            if isinstance(specs.get("bayesian-optimization"), dict) and type(specs["bayesian-optimization"].get("random_seed")) is not int:
-                errors.append("bayesian random seed must be an integer")
-            if isinstance(specs.get("gpt-oss-120b"), dict) and not pinned_digest(specs["gpt-oss-120b"].get("prompt_template_sha256")):
-                errors.append("GPT prompt template must be pinned by SHA-256")
+                    continue
+                for key in keys:
+                    value = spec.get(key)
+                    if key in ("seed", "random_seed", "start_offset"):
+                        valid = type(value) is int and value >= 0
+                    elif key == "prompt_template_sha256":
+                        valid = pinned_digest(value)
+                    else:
+                        # Strategy policies must be explicit, non-placeholder text.
+                        # Reject booleans, empty containers, and whitespace-only values.
+                        valid = (isinstance(value, str) and bool(value.strip())
+                                 and value.strip().upper() not in
+                                 ("TO_BE_DEFINED", "TBD", "TODO", "NONE", "NULL", "N/A"))
+                    if not valid:
+                        errors.append("execution blocked: invalid " + name + "." + key)
     if p.get("primary_metric") != METRIC:
         errors.append("primary metric changed")
     guard = p.get("guardrails", {})
