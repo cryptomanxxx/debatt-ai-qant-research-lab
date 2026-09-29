@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "status": "preregistered_design_only",
+  "purpose": "Compare experiment selection policies, not photonic hardware performance",
+  "strategies": [
+    "gpt-oss-120b",
+    "random-search",
+    "grid-search",
+    "bayesian-optimization"
+  ],
+  "dataset": {
+    "name": "ECG200",
+    "train_shape": [
+      100,
+      96
+    ],
+    "test_shape": [
+      100,
+      96
+    ]
+  },
+  "search_space": {
+    "candidate_local_widths": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "control_local_width": 16
+  },
+  "evaluation": {
+    "seeds": [
+      301,
+      302,
+      303,
+      304,
+      305
+    ],
+    "epochs": 100,
+    "learning_rate": 0.001,
+    "batch_size": 32,
+    "frequencies": [
+      1,
+      2
+    ],
+    "gate_margin_correct": 10
+  },
+  "budget": {
+    "selection_rounds": 5,
+    "proposals_per_round": 1,
+    "max_evaluated_candidates_per_strategy": 5,
+    "max_training_runs_per_strategy": 50
+  },
+  "information_policy": {
+    "shared_initial_history_snapshot": "TO_BE_PINNED_BEFORE_RUN",
+    "history_visibility": "identical initial snapshot and only own prior evaluated rounds",
+    "candidate_feedback": "same structured paired outcome schema for every strategy",
+    "holdout_policy": "no access to evaluation results before selection",
+    "api_token_budget": "record separately; not counted as training compute"
+  },
+  "selection_policy": {
+    "duplicate_candidates": "reject and record; no replacement without predeclared rule",
+    "tie_break": "lower parameter count, then lower local width",
+    "failed_runs": "count attempted candidate against budget; report separately"
+  },
+  "primary_metric": "number_of_valid_gate_passing_pareto_candidates_within_budget",
+  "secondary_metrics": [
+    "gate_pass_rate",
+    "best_parameter_saving_among_gate_passers",
+    "evaluations_to_first_gate_pass",
+    "invalid_proposal_rate"
+  ],
+  "guardrails": {
+    "human_approval_required": true,
+    "automatic_compute": false,
+    "synthetic_results_are_not_scientific_evidence": true,
+    "backend": "Q.ANT Native Computing Toolkit CPU; no photonic hardware claims"
+  }
+}
