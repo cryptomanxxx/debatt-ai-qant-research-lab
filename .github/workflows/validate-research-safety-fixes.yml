@@ -39,3 +39,4 @@ jobs:
           python -m scripts.validate_dev4_selection_protocol --ready-for-execution
           python -m scripts.dev4_selection_dry_run
           python -m scripts.dev4_selection_dry_run --include-random
+          python -m unittest discover -s tests -p 'test_dev4_five_round_replay.py' -v
