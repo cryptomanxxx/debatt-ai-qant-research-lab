@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Read-only, explicit proposal-to-result evidence linkage. Never authorizes compute."""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 from scripts.measure_researcher_selection import summarize
@@ -23,7 +24,14 @@ def link(manifest, result_paths):
             raise ValueError("proposal_id and proposal_file are required")
         if pid in by_id:
             raise ValueError("duplicate proposal_id in manifest: " + pid)
-        proposal = json.loads(Path(source).read_text(encoding="utf-8"))
+        expected_digest = entry.get("proposal_sha256")
+        if (not isinstance(expected_digest, str) or len(expected_digest) != 64
+            or any(c not in "0123456789abcdef" for c in expected_digest)):
+            raise ValueError("missing or invalid immutable proposal digest: " + pid)
+        raw = Path(source).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != expected_digest:
+            raise ValueError("archived proposal content digest mismatch: " + pid)
+        proposal = json.loads(raw.decode("utf-8"))
         if not isinstance(proposal, dict):
             raise ValueError("proposal must be an object: " + source)
         declared = proposal.get("proposal_id")
@@ -46,6 +54,10 @@ def link(manifest, result_paths):
             excluded.append({"file": str(path), "reason": "unknown_or_missing_proposal_id", "proposal_id": pid})
             continue
         entry, proposal = by_id[pid]
+        result_digest = result.get("proposal_sha256")
+        if result_digest != entry.get("proposal_sha256"):
+            excluded.append({"file": str(path), "reason": "missing_or_mismatched_result_proposal_digest", "proposal_id": pid})
+            continue
         rows = summarize(result)
         if not rows:
             excluded.append({"file": str(path), "reason": "incomplete_or_invalid_paired_result", "proposal_id": pid})
@@ -76,11 +88,28 @@ def link(manifest, result_paths):
         if len(actual) != len(recorded) or actual != (widths | {16}):
             excluded.append({"file": str(path), "reason": "candidate_width_mismatch", "proposal_id": pid})
             continue
+        # A matching width set cannot validate observations attributed to other names.
+        summary = result.get("summary")
+        if (not isinstance(summary, dict) or set(summary) != set(recorded)
+            or len([name for name in recorded if name.endswith("_control")]) != 1
+            or next(name for name in recorded if name.endswith("_control")) not in summary
+            or any(row["candidate"] not in recorded or row["control"] not in recorded for row in rows)):
+            excluded.append({"file": str(path), "reason": "summary_candidate_name_mismatch", "proposal_id": pid})
+            continue
+        per_seed = result.get("rows")
+        if (not isinstance(per_seed, list) or len(per_seed) != len(recorded) * len(config["seeds"])
+            or any(not isinstance(r, dict) or r.get("candidate") not in recorded
+                   or r.get("seed") not in config["seeds"] for r in per_seed)
+            or {(r["candidate"], r["seed"]) for r in per_seed}
+               != {(name, seed) for name in recorded for seed in config["seeds"]}):
+            excluded.append({"file": str(path), "reason": "incomplete_or_mismatched_per_seed_rows", "proposal_id": pid})
+            continue
         matches[pid].append({"result_file": str(path), "experiment_id": result.get("experiment_id"),
                              "observations": rows})
     linked = []
     for pid, (entry, _) in by_id.items():
         linked.append({"proposal_id": pid, "proposal_file": entry["proposal_file"],
+                       "proposal_sha256": entry["proposal_sha256"],
                        "strategy": entry.get("strategy", "unclassified"),
                        "status": "linked" if matches[pid] else "no_verified_result",
                        "results": matches[pid]})

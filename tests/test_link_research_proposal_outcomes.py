@@ -1,5 +1,6 @@
 """Tests for explicit proposal/result provenance; no guessed joins."""
 import json
+import hashlib
 import tempfile
 import unittest
 from pathlib import Path
@@ -22,7 +23,13 @@ class LinkageTests(unittest.TestCase):
                                        "candidates": {"alpha5_w8": [8, 3], "alpha5_w16_control": [16, 3]}},
                      "summary": {"alpha5_w8": {"aggregate_qant_correct": 444, "parameter_count": 4278},
                                  "alpha5_w16_control": {"aggregate_qant_correct": 448, "parameter_count": 8550}}}
-        self.manifest = [{"proposal_id": "p1", "proposal_file": str(self.proposal), "strategy": "gpt-oss"}]
+        digest = hashlib.sha256(self.proposal.read_bytes()).hexdigest()
+        self.data["proposal_sha256"] = digest
+        self.data["rows"] = [{"candidate": name, "seed": seed}
+                             for name in self.data["configuration"]["candidates"]
+                             for seed in self.design["seeds"]]
+        self.manifest = [{"proposal_id": "p1", "proposal_file": str(self.proposal),
+                          "proposal_sha256": digest, "strategy": "gpt-oss"}]
 
     def run_link(self):
         self.result.write_text(json.dumps(self.data))
@@ -50,6 +57,30 @@ class LinkageTests(unittest.TestCase):
     def test_incomplete_result_excluded(self):
         del self.data["configuration"]["learning_rate"]
         self.assertEqual(self.run_link()["excluded_results"][0]["reason"], "incomplete_or_invalid_paired_result")
+
+    def test_edited_proposal_rejected(self):
+        draft = json.loads(self.proposal.read_text())
+        draft["hypothesis"] = "changed after approval"
+        self.proposal.write_text(json.dumps(draft))
+        with self.assertRaisesRegex(ValueError, "digest mismatch"):
+            self.run_link()
+
+    def test_result_digest_mismatch_excluded(self):
+        self.data["proposal_sha256"] = "f" * 64
+        self.assertEqual(self.run_link()["excluded_results"][0]["reason"],
+                         "missing_or_mismatched_result_proposal_digest")
+
+    def test_unrelated_summary_names_excluded(self):
+        self.data["summary"] = {
+            "unrelated": self.data["summary"]["alpha5_w8"],
+            "other_control": self.data["summary"]["alpha5_w16_control"]}
+        self.assertEqual(self.run_link()["excluded_results"][0]["reason"],
+                         "summary_candidate_name_mismatch")
+
+    def test_incomplete_seed_rows_excluded(self):
+        self.data["rows"].pop()
+        self.assertEqual(self.run_link()["excluded_results"][0]["reason"],
+                         "incomplete_or_mismatched_per_seed_rows")
 
     def test_duplicate_manifest_rejected(self):
         with self.assertRaises(ValueError):
