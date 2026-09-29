@@ -88,7 +88,7 @@ def validate_critical_review(payload, *, proposal, observed, strategy):
         raise ValueError("invalid critical review schema")
     if len(_encoded(payload)) > MAX_REVIEW_BYTES:
         raise ValueError("critical review too large")
-    if payload["assessment"] not in REVIEW_ASSESSMENTS:
+    if type(payload["assessment"]) is not str or payload["assessment"] not in REVIEW_ASSESSMENTS:
         raise ValueError("invalid critical review assessment")
     for name in ("limitations", "alternative_explanations"):
         items = payload[name]
