@@ -1,0 +1,64 @@
+name: Dev-4 Round 3 Selection Only
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: dev4-round3-selection-one-shot
+  cancel-in-progress: false
+
+jobs:
+  selection-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Block non-main, reruns and duplicate dispatch before any API call
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CURRENT_RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          REF_NAME: ${{ github.ref_name }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          test "$REF_NAME" = "main" || { echo "::error::Only main permitted"; exit 1; }
+          test "$RUN_ATTEMPT" = "1" || { echo "::error::Reruns prohibited"; exit 1; }
+          python - <<'PY'
+          import json, os, urllib.request
+          url=f'https://api.github.com/repos/{os.environ["REPOSITORY"]}/actions/workflows/dev4-round3-selection.yml/runs?event=workflow_dispatch&per_page=100'
+          req=urllib.request.Request(url,headers={"Authorization":"Bearer "+os.environ["GH_TOKEN"],
+            "Accept":"application/vnd.github+json","User-Agent":"dev4-round3-one-shot"})
+          with urllib.request.urlopen(req,timeout=30) as response:
+           result=json.load(response)
+          # A failed or cancelled previous attempt still consumes the single authorized dispatch.
+          runs=result["workflow_runs"]
+          assert result["total_count"]==1 and len(runs)==1 and str(runs[0]["id"])==os.environ["CURRENT_RUN_ID"], "Round 3 dispatch already attempted or history cannot be verified"
+          print("Round 3 first-dispatch guard passed.")
+          PY
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install frozen selection adapter dependencies
+        run: python -m pip install "numpy==1.26.4" "scikit-learn==1.5.2"
+      - name: Validate pinned evidence and dry-run selection without API or training
+        run: |
+          python -m scripts.validate_dev4_selection_protocol --ready-for-execution
+          python -m scripts.dev4_round_selection --round 3 --output-dir "$RUNNER_TEMP/dev4-round3"
+      - name: Make exactly one GPT-OSS selection request (no Q.ANT training)
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python -m scripts.dev4_round_selection --round 3 --output-dir "$RUNNER_TEMP/dev4-round3" --execute
+      - name: Archive proposal and audit even if response invalid
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dev4-round3-selection
+          path: ${{ runner.temp }}/dev4-round3/dev4_round3_selection.json
+          if-no-files-found: warn
+          retention-days: 90
