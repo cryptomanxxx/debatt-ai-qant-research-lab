@@ -9,6 +9,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from scripts.proposal_lineage import verified_proposal
 
 DRAFT=Path("research_queue/ai_researcher/latest.json")
 OUT=Path("research_queue/compiled/latest.json")
@@ -43,6 +44,10 @@ def review_checks(training_protocol=False, aggregate_gate=False, template_match=
 def main():
     if not DRAFT.exists(): reject("AI Researcher draft is missing")
     data=json.loads(DRAFT.read_text())
+    try:
+        lineage=verified_proposal(DRAFT.read_bytes())
+    except (ValueError, OSError) as exc:
+        reject("registered proposal lineage verification failed: "+str(exc))
     p=data.get("proposal",{})
     if data.get("status")!="draft_requires_human_review": reject("draft status is not reviewable")
     if p.get("requires_human_approval") is not True: reject("human approval is not mandatory")
@@ -191,6 +196,7 @@ def main():
     )
     if clean_w12_100epoch:
         compiled={"status":"validated_executable_template","approval_readiness":"READY_FOR_HUMAN_COMPUTE_DECISION","source":"research_queue/ai_researcher/latest.json","proposal_title":p.get("title"),"template":"pnn-v1/experiments/w12_100epoch_confirmation/run.py","job_id":"ai-w12-100epoch-confirmation","preregistered_seeds":[101,102,103,104,105],"epochs":100,"gate":"alpha5_w12.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10","automated_checks":review_checks(training_protocol,aggregate_gate,True),"human_decision":"Awaiting scientific review.","message":"Draft structurally matches the reviewed w12 100-epoch robustness confirmation template, including exact preregistered seeds, paired w12/w16 protocol, and aggregate relative gate. Human approval is still required before compute."}
+        compiled.update(lineage)
         OUT.parent.mkdir(parents=True,exist_ok=True); OUT.write_text(json.dumps(compiled,indent=2)+"\n")
         print(json.dumps(compiled,indent=2)); return
 
@@ -214,6 +220,7 @@ def main():
             "human_decision":"Awaiting scientific review.",
             "message":"Draft structurally matches the reviewed w8 confirmation template, including exact preregistered seeds and aggregate relative gate. Human approval is still required before compute."
         }
+        compiled.update(lineage)
         OUT.parent.mkdir(parents=True,exist_ok=True)
         OUT.write_text(json.dumps(compiled,indent=2)+"\n")
         print(json.dumps(compiled,indent=2))
@@ -269,6 +276,7 @@ def main():
                 reject("generated job_id exceeds guarded executor limit")
             gate=f"alpha5_w{cw}.aggregate_qant_correct >= alpha5_w16_control.aggregate_qant_correct - 10"
             compiled={"status":"validated_executable_template","approval_readiness":"READY_FOR_HUMAN_COMPUTE_DECISION","source":"research_queue/ai_researcher/latest.json","proposal_title":p.get("title"),"template":"pnn-v1/experiments/local_width_confirmation/run.py","engine_family":"pnn-local-width-confirmation-v1","job_id":job_id,"preregistered_seeds":seed_numbers,"epochs":100,"gate":gate,"budget":budget,"engine_config":{"candidate_local_width":cw,"control_local_width":16,"seeds":seed_numbers,"epochs":100,"gate_margin_correct":10},"automated_checks":review_checks(False,True,True)+[{"check":"Structured paired candidate/control protocol","status":"passed"},{"check":"Exact 100-epoch structured protocol","status":"passed"},{"check":"Exact ECG200 100/100 budget contract","status":"passed"},{"check":"Fresh seeds against recorded PNN results","status":"passed"},{"check":"PNN Experiment Engine v1 parameter bounds","status":"passed"}],"human_decision":"Awaiting scientific review.","message":"Draft matches the reviewed PNN Experiment Engine v1 local-width confirmation family. Human scientific approval and separate compute authorization are still required."}
+            compiled.update(lineage)
             OUT.parent.mkdir(parents=True,exist_ok=True); OUT.write_text(json.dumps(compiled,indent=2)+"\n")
             print(json.dumps(compiled,indent=2)); return
 
@@ -281,6 +289,7 @@ def main():
         "human_decision":"No compute decision is requested yet.",
         "message":"Automated structural checks passed, but no reviewed executable template matches this draft yet. This is not a claim of scientific correctness."
     }
+    compiled.update(lineage)
     OUT.parent.mkdir(parents=True,exist_ok=True)
     OUT.write_text(json.dumps(compiled,indent=2)+"\n")
     print(json.dumps(compiled,indent=2))
