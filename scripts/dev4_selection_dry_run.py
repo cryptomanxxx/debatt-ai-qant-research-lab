@@ -101,7 +101,10 @@ def first_round(protocol, history, gpt_response=None, include_random=False):
         except ImportError as exc:
             raise RuntimeError("NumPy PCG64 required; refusing to substitute a different RNG") from exc
         seed = protocol["strategy_specifications"]["random-search"]["seed"]
-        draws = np.random.Generator(np.random.PCG64(seed)).choice(\n            widths, size=protocol["budget"]["selection_rounds"], replace=False\n        )\n        width = int(draws[0])
+        draws = np.random.Generator(np.random.PCG64(seed)).choice(
+            widths, size=protocol["budget"]["selection_rounds"], replace=False
+        )
+        width = int(draws[0])
         result["selections"]["random-search"] = {
             "local_width": width, "status": "proposed", "numpy_version": np.__version__,
             "seed": seed, "preregistered_draw_count": len(draws),
