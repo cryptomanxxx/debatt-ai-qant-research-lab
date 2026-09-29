@@ -4,7 +4,7 @@ import json
 import urllib.error
 import unittest
 from unittest.mock import patch
-from scripts.live_research_agent_v3 import GroqHTTPAdapter, run_research, SYSTEM, PROPOSAL_SCHEMA_INSTRUCTIONS
+from scripts.live_research_agent_v3 import GroqHTTPAdapter, run_research, SYSTEM, PROPOSAL_SCHEMA_INSTRUCTIONS, USER_AGENT
 
 
 class FakeClient:
@@ -83,6 +83,24 @@ class LiveResearchAgentContract(unittest.TestCase):
                            "exactly these seven fields"):
             self.assertIn(constraint, SYSTEM)
         self.assertNotIn('"payload":{...}', SYSTEM)
+
+    def test_groq_request_identifies_client_and_safe_edge_1010(self):
+        # Simulated Cloudflare-style response: no network or charged model calls.
+        secret = "fake-secret-do-not-log"
+        error = urllib.error.HTTPError(
+            "https://api.groq.com/openai/v1/chat/completions", 403,
+            "Forbidden", {}, io.BytesIO(
+                b"<html>error code: 1010 " + secret.encode() + b"</html>"))
+        with patch("urllib.request.urlopen", side_effect=error) as opener:
+            with self.assertRaises(RuntimeError) as caught:
+                GroqHTTPAdapter(enabled=True, api_key=secret).complete([])
+        request = opener.call_args.args[0]
+        self.assertEqual(request.get_header("User-agent"), USER_AGENT)
+        self.assertEqual(request.get_method(), "POST")
+        self.assertEqual(opener.call_count, 1)  # No hidden retry.
+        self.assertEqual(str(caught.exception),
+                         "Groq API HTTP 403; edge rejection code: 1010")
+        self.assertNotIn(secret, str(caught.exception))
 
     def test_http_403_reports_only_safe_code_without_secrets(self):
         secret = "sensitive-key-must-not-appear"
