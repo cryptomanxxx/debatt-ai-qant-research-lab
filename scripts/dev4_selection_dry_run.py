@@ -31,6 +31,30 @@ def verify_inputs(protocol, history_bytes, prompt_bytes):
     return history
 
 
+def own_round_context(strategy, ledger, outcomes):
+    """Fail closed: expose only this policy's attempt statuses and completed outcomes."""
+    allowed_status = {"invalid", "evaluation_failed", "evaluated"}
+    own_ledger = []
+    for row in ledger:
+        if row.get("strategy") != strategy:
+            continue
+        if row.get("status") not in allowed_status:
+            raise ValueError("unknown proposal status")
+        if set(row) != {"strategy", "round", "local_width", "valid", "status"}:
+            raise ValueError("proposal ledger has unexpected fields")
+        own_ledger.append({k: row[k] for k in ("round", "local_width", "valid", "status")})
+    own_outcomes = []
+    for row in outcomes:
+        if row.get("strategy") != strategy:
+            continue
+        if row.get("status") != "evaluated" or set(row) != {"strategy", "round", "status", "paired_outcome"}:
+            raise ValueError("only completed paired outcomes may be shown")
+        if not any(item["round"] == row["round"] and item["status"] == "evaluated" for item in own_ledger):
+            raise ValueError("paired outcome without matching completed proposal")
+        own_outcomes.append({"round": row["round"], "paired_outcome": row["paired_outcome"]})
+    return {"proposal_status_ledger": own_ledger, "completed_paired_outcomes": own_outcomes}
+
+
 def validate_proposal(raw, allowed, previously_proposed=()):
     """Parse one strict GPT response; invalid attempts consume their round."""
     try:
