@@ -55,3 +55,4 @@ jobs:
           python -m unittest discover -s tests -p 'test_dev4_round1_recovery_contract.py' -v
           python -m unittest discover -s tests -p 'test_dev4_round1_recovery2_contract.py' -v
           python -m unittest discover -s tests -p 'test_dev4_round1_isolated_feedback.py' -v
+          python -m unittest discover -s tests -p 'test_dev4_round_selection_contract.py' -v
