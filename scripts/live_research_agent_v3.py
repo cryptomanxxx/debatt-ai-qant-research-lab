@@ -150,6 +150,24 @@ class GroqHTTPAdapter:
         return {"content": choice["message"]["content"], "usage": usage}
 
 
+
+def _checked_model_response(response):
+    """Validate one injected-client response identically across research and review."""
+    if type(response) is not dict or set(response) != {"content", "usage"}:
+        raise ValueError("invalid model response")
+    content, usage = response["content"], response["usage"]
+    if type(content) is not str or len(content.encode("utf-8")) > MAX_RESPONSE_BYTES:
+        raise ValueError("invalid model content")
+    if type(usage) is not dict or any(type(usage.get(k)) is not int or usage[k] < 0
+                                     for k in ("prompt_tokens", "completion_tokens", "total_tokens")):
+        raise ValueError("invalid token usage")
+    if usage["total_tokens"] != usage["prompt_tokens"] + usage["completion_tokens"]:
+        raise ValueError("inconsistent token usage")
+    if usage["prompt_tokens"] > MAX_INPUT_TOKENS_PER_CALL or usage["completion_tokens"] > MAX_OUTPUT_TOKENS:
+        raise ValueError("per-call token budget exceeded")
+    return content, usage
+
+
 def run_research(*, client, strategy="gpt-oss-120b", research_question,
                  max_model_calls=MAX_MODEL_CALLS, max_total_tokens=MAX_TOTAL_TOKENS):
     """Client-driven read-only dialogue. No external side effects beyond client.complete."""
@@ -167,19 +185,7 @@ def run_research(*, client, strategy="gpt-oss-120b", research_question,
     for index in range(max_model_calls):
         if len(_encoded(messages)) > MAX_MESSAGES_BYTES:
             raise ValueError("message context byte budget exceeded")
-        response = client.complete(messages)
-        if type(response) is not dict or set(response) != {"content", "usage"}:
-            raise ValueError("invalid model response")
-        content, usage = response["content"], response["usage"]
-        if type(content) is not str or len(content.encode("utf-8")) > MAX_RESPONSE_BYTES:
-            raise ValueError("invalid model content")
-        if type(usage) is not dict or any(type(usage.get(k)) is not int or usage[k] < 0
-                                         for k in ("prompt_tokens", "completion_tokens", "total_tokens")):
-            raise ValueError("invalid token usage")
-        if usage["total_tokens"] != usage["prompt_tokens"] + usage["completion_tokens"]:
-            raise ValueError("inconsistent token usage")
-        if usage["prompt_tokens"] > MAX_INPUT_TOKENS_PER_CALL or usage["completion_tokens"] > MAX_OUTPUT_TOKENS:
-            raise ValueError("per-call token budget exceeded")
+        content, usage = _checked_model_response(client.complete(messages))
         total_tokens += usage["total_tokens"]
         if total_tokens > max_total_tokens:
             raise ValueError("total model token budget exceeded")
@@ -200,7 +206,8 @@ def run_research(*, client, strategy="gpt-oss-120b", research_question,
         elif kind == "proposal":
             validated = validate_proposal(payload, evidence, strategy)
             audit.append(entry)
-            return {"result": validated, "audit": audit, "model_calls": index + 1,
+            return {"result": validated, "observed_evidence": [evidence[k] for k in sorted(evidence)],
+                    "audit": audit, "model_calls": index + 1,
                     "tool_calls": session.calls, "total_tokens": total_tokens, "training_runs": 0}
         elif kind == "insufficient_evidence":
             if type(payload) is not dict or set(payload) != {"reason"} or type(payload["reason"]) is not str or not 10 <= len(payload["reason"]) <= 1000:
@@ -209,6 +216,7 @@ def run_research(*, client, strategy="gpt-oss-120b", research_question,
             return {"result": {"schema_version": 1, "status": "insufficient_evidence",
                                "strategy": strategy, "reason": payload["reason"],
                                "requires_separate_human_compute_approval": True},
+                    "observed_evidence": [evidence[k] for k in sorted(evidence)],
                     "audit": audit, "model_calls": index + 1, "tool_calls": session.calls,
                     "total_tokens": total_tokens, "training_runs": 0}
         else:
