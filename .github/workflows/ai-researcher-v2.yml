@@ -71,7 +71,7 @@ jobs:
           python -c 'import json; d=json.load(open("research_queue/ai_researcher/latest.json")); p=d["proposal"]; assert d["status"]=="draft_requires_human_review"; assert p["requires_human_approval"] is True; keys=("max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"); assert all(isinstance(p["requested_budget"].get(k),int) and p["requested_budget"][k]>0 for k in keys)'
       - name: Compile proposal safety check
         run: |
-          python scripts/compile_ai_researcher_proposal.py
+          python -m scripts.compile_ai_researcher_proposal
       - name: Show readable research proposal
         if: success()
         run: |

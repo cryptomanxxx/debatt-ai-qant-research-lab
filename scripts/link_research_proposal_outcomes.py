@@ -98,8 +98,9 @@ def link(manifest, result_paths):
             continue
         per_seed = result.get("rows")
         if (not isinstance(per_seed, list) or len(per_seed) != len(recorded) * len(config["seeds"])
-            or any(not isinstance(r, dict) or r.get("candidate") not in recorded
-                   or r.get("seed") not in config["seeds"] for r in per_seed)
+            or any(not isinstance(r, dict) or not isinstance(r.get("candidate"), str)
+                   or r["candidate"] not in recorded or type(r.get("seed")) is not int
+                   or r["seed"] not in config["seeds"] for r in per_seed)
             or {(r["candidate"], r["seed"]) for r in per_seed}
                != {(name, seed) for name in recorded for seed in config["seeds"]}):
             excluded.append({"file": str(path), "reason": "incomplete_or_mismatched_per_seed_rows", "proposal_id": pid})

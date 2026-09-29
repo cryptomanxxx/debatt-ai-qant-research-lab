@@ -80,7 +80,7 @@ jobs:
         run: |
           test "$(git rev-parse HEAD)" = "$VERIFIED_COMMIT_SHA"
       - name: Materialize allowlisted approved job
-        run: python scripts/materialize_ai_approved_job.py
+        run: python -m scripts.materialize_ai_approved_job
       - name: Publish approved job via PR
         env:
           GITHUB_TOKEN: ${{ github.token }}

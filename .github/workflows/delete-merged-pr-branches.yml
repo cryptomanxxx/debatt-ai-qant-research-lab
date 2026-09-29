@@ -20,11 +20,15 @@ jobs:
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.merged == true }}
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
       - name: Delete only verified merged PR head branches
         uses: actions/github-script@v7
         with:
           script: |
             const {owner, repo} = context.repo;
+            const exec = require("@actions/exec");
             const protectedNames = new Set(['main', 'dev']);
             // A push to main also sweeps branches left by earlier squash merges.
             // Never delete a branch just because its name appeared in a merged PR:
@@ -33,10 +37,15 @@ jobs:
               owner, repo, state: 'closed', per_page: 100
             });
             const merged = closed.filter(pr => pr.merged_at && pr.head.repo?.full_name === `${owner}/${repo}`);
+            const open = await github.paginate(github.rest.pulls.list, {
+              owner, repo, state: 'open', per_page: 100
+            });
+            const activeHeads = new Set(open.filter(pr => pr.head.repo?.full_name === `${owner}/${repo}`)
+              .map(pr => pr.head.ref));
             const byName = new Map();
             for (const pr of merged) {
               const name = pr.head.ref;
-              if (protectedNames.has(name)) continue;
+              if (protectedNames.has(name) || activeHeads.has(name)) continue;
               if (!byName.has(name)) byName.set(name, new Set());
               byName.get(name).add(pr.head.sha);
             }
@@ -52,14 +61,24 @@ jobs:
                 core.info(`Keeping ${name}: current tip is not an already-merged PR head`);
                 continue;
               }
-              try {
-                await github.rest.git.deleteRef({owner, repo, ref: `heads/${name}`});
-                core.info(`Deleted merged PR branch: ${name}`);
-              } catch (error) {
-                if (error.status === 404 || error.status === 422) {
-                  core.warning(`Skipped ${name}: already deleted or protected by GitHub`);
-                  continue;
-                }
-                throw error;
+              // GitHub's deleteRef API deletes by name, with no expected-SHA guard.
+              // Git push --force-with-lease performs an atomic server-side ref
+              // comparison: a concurrent push makes the deletion fail safely.
+              // Recheck open PRs immediately before the deletion as well.
+              const stillOpen = await github.paginate(github.rest.pulls.list, {
+                owner, repo, state: 'open', head: `${owner}:${name}`, per_page: 100
+              });
+              if (stillOpen.some(pr => pr.head.repo?.full_name === `${owner}/${repo}` && pr.head.ref === name)) {
+                core.info(`Keeping ${name}: it backs an open PR`);
+                continue;
               }
+              const result = await exec.getExecOutput('git', [
+                'push', `--force-with-lease=refs/heads/${name}:${current.data.object.sha}`,
+                'origin', `:refs/heads/${name}`
+              ], {ignoreReturnCode: true});
+              if (result.exitCode !== 0) {
+                core.warning(`Skipped ${name}: tip changed, branch protected or deletion rejected`);
+                continue;
+              }
+              core.info(`Deleted merged PR branch: ${name}`);
             }
