@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+from scripts.dev4_round1_isolated_feedback import verified_feedback as verify_round1
 from scripts.dev4_round1_isolated_feedback import build_contexts as round2_contexts
 from scripts.dev4_selection_dry_run import own_round_context
 from scripts.validate_dev4_selection_protocol import validate
@@ -15,6 +16,23 @@ SELECTIONS={"gpt-oss-120b":8,"random-search":8,"grid-search":5,"bayesian-optimiz
 ROUND1=BENCH/"dev4_round1_verified_feedback.json"
 ROUND2=BENCH/"dev4_round2_verified_feedback.json"
 CONTEXT2=BENCH/"dev4_round2_isolated_contexts.json"
+# Independently reviewed Git blob identities; changing feedback and its context together
+# must not permit an invented historical Round 1 outcome.
+PINNED_BLOBS={
+ "dev4_round1_verified_feedback.json":"7e6a55513c60f0d314d0aece06090c09e645e06d",
+ "dev4_round2_isolated_contexts.json":"18cab758d2457f3b3a776601c8754e54e203f21f",
+ "dev4_round2_verified_feedback.json":"7efc0cf19900672ecc333ed7d44644bf0bd9510a",
+ "dev4_round3_isolated_contexts.json":"d1657632517c3f564a6570b422c3cc5ec42177dd",
+}
+
+def git_blob_sha(data):
+    return hashlib.sha1(b"blob "+str(len(data)).encode()+b"\\0"+data).hexdigest()
+
+def verify_pinned_records():
+    for name,expected in PINNED_BLOBS.items():
+        if git_blob_sha((BENCH/name).read_bytes())!=expected:
+            raise ValueError("historical committed record digest mismatch: "+name)
+
 PROTOCOL=BENCH/"dev4_selection_protocol.json"
 
 def verify(protocol,feedback,source_bytes,selection_bytes=None):
@@ -91,7 +109,9 @@ def verify(protocol,feedback,source_bytes,selection_bytes=None):
                 raise ValueError("gate/saving mismatch: "+name)
     return actual
 
-def build(protocol,first,second,source_bytes,selection_bytes=None):
+def build(protocol,first,second,source_bytes,selection_bytes=None,round1_source_bytes=None):
+    verify_pinned_records()
+    verify_round1(protocol,first,round1_source_bytes)
     verify(protocol,second,source_bytes,selection_bytes)
     prior=json.loads(CONTEXT2.read_text())
     if prior!=round2_contexts(protocol,first):
@@ -119,6 +139,7 @@ def build(protocol,first,second,source_bytes,selection_bytes=None):
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--source-artifact",type=Path,required=True)
+    p.add_argument("--round1-source-artifact",type=Path)
     p.add_argument("--selection-artifact",type=Path)
     p.add_argument("--output",type=Path,required=True)
     args=p.parse_args()
@@ -126,7 +147,8 @@ def main():
     first=json.loads(ROUND1.read_text())
     second=json.loads(ROUND2.read_text())
     output=build(protocol,first,second,args.source_artifact.read_bytes(),
-                 args.selection_artifact.read_bytes() if args.selection_artifact else None)
+                 args.selection_artifact.read_bytes() if args.selection_artifact else None,
+                 args.round1_source_artifact.read_bytes() if args.round1_source_artifact else None)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(output,indent=2,sort_keys=True)+"\n")
     print("Round 2 source verified; four isolated Round 3 histories built. No API or training.")
