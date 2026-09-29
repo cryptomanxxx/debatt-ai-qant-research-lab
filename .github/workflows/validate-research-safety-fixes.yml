@@ -60,6 +60,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_dev4_authoritative_artifact_contract.py' -v
           python -m unittest discover -s tests -p 'test_dev4_round2_qant_cpu_contract.py' -v
           python -m unittest discover -s tests -p 'test_dev4_round3_context_contract.py' -v
+          python -m unittest discover -s tests -p 'test_github_dispatcher_contract.py' -v
 
   round2_artifact_evidence:
     runs-on: ubuntu-latest
