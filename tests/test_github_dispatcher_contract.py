@@ -14,34 +14,49 @@ class DispatcherTests(unittest.TestCase):
 
     def test_fail_closed_default(self):
         with self.assertRaisesRegex(ValueError,"allowlisted"):
-            server.dispatch("dev4-reusable-selection.yml","main",{"round":"3"},
+            server.dispatch("dev4-round3-selection.yml","main",{"round":"3"},
                             token="dummy",requester_approved=True,api=self.api)
         self.assertEqual(self.calls,[])
 
     def test_explicit_authorization_and_exact_inputs(self):
-        with patch.dict(server.ALLOWED,{"dev4-reusable-selection.yml":{"round":3}}):
+        with patch.dict(server.ALLOWED,{"dev4-round3-selection.yml":{"round":3}}):
             for approved,workflow,ref,inputs in [
-                (False,"dev4-reusable-selection.yml","main",{"round":"3"}),
+                (False,"dev4-round3-selection.yml","main",{"round":"3"}),
                 (True,"dev4-round2-qant-cpu.yml","main",{"round":"3"}),
-                (True,"dev4-reusable-selection.yml","dev",{"round":"3"}),
-                (True,"dev4-reusable-selection.yml","main",{"round":"2"}),
-                (True,"dev4-reusable-selection.yml","main",{"round":"3","extra":"1"})]:
+                (True,"dev4-round3-selection.yml","dev",{"round":"3"}),
+                (True,"dev4-round3-selection.yml","main",{"round":"2"}),
+                (True,"dev4-round3-selection.yml","main",{"round":"3","extra":"1"})]:
                 with self.assertRaises(ValueError):
                     server.dispatch(workflow,ref,inputs,token="dummy",
                                     requester_approved=approved,api=self.api)
             self.assertEqual(self.calls,[])
-            result=server.dispatch("dev4-reusable-selection.yml","main",{"round":"3"},
+            result=server.dispatch("dev4-round3-selection.yml","main",{"round":"3"},
                                    token="dummy",requester_approved=True,api=self.api)
             self.assertTrue(result["accepted"])
             self.assertEqual([c[0] for c in self.calls],["GET","POST"])
+            self.assertIn("dev4-round3-selection.yml",self.calls[0][1])
+
+    def test_reusable_workflow_rejected_even_if_allowlisted(self):
+        with patch.dict(server.ALLOWED,{"dev4-reusable-selection.yml":{"round":3}}):
+            with self.assertRaisesRegex(ValueError,"round-specific"):
+                server.dispatch("dev4-reusable-selection.yml","main",{"round":"3"},
+                                token="dummy",requester_approved=True,api=self.api)
+        self.assertEqual(self.calls,[])
+
+    def test_mismatched_round_workflow_rejected(self):
+        with patch.dict(server.ALLOWED,{"dev4-round3-selection.yml":{"round":4}}):
+            with self.assertRaisesRegex(ValueError,"round-specific"):
+                server.dispatch("dev4-round3-selection.yml","main",{"round":"4"},
+                                token="dummy",requester_approved=True,api=self.api)
+        self.assertEqual(self.calls,[])
 
     def test_duplicate_attempt_rejected(self):
-        with patch.dict(server.ALLOWED,{"dev4-reusable-selection.yml":{"round":3}}):
+        with patch.dict(server.ALLOWED,{"dev4-round3-selection.yml":{"round":3}}):
             def duplicate(method,path,token,payload=None):
                 self.calls.append(method)
                 return {"total_count":1}
             with self.assertRaisesRegex(ValueError,"already exists"):
-                server.dispatch("dev4-reusable-selection.yml","main",{"round":"3"},
+                server.dispatch("dev4-round3-selection.yml","main",{"round":"3"},
                                 token="dummy",requester_approved=True,api=duplicate)
             self.assertEqual(self.calls,["GET"])
 
