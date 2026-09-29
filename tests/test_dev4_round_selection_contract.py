@@ -26,9 +26,20 @@ class RoundSelectionContract(unittest.TestCase):
   self.assertEqual(payload["model"],"openai/gpt-oss-120b")
 
  def test_no_future_round_without_audited_history(self):
-  for n in (1,3,4,5,6):
-   with self.subTest(round=n),self.assertRaisesRegex(ValueError,"Only round 2"):
+  for n in (1,4,5,6):
+   with self.subTest(round=n),self.assertRaisesRegex(ValueError,"Only rounds 2 and 3"):
     prepare(n)
+
+ def test_round_three_own_only_pinned_context(self):
+  protocol,contexts,payload,_,_=prepare(3)
+  user=json.loads(payload["messages"][1]["content"])
+  self.assertEqual(user["round"],3)
+  self.assertEqual([r["local_width"] for r in user["own_proposal_status_ledger"]],[9,8])
+  self.assertEqual([r["paired_outcome"]["candidate_correct"] for r in user["own_completed_paired_outcomes"]],[445,438])
+  for other in ("random-search","grid-search","bayesian-optimization"):
+   self.assertNotIn(other,payload["messages"][1]["content"])
+  self.assertEqual(select(3,ROOT/"unused",execute=False)["training_runs"],0)
+  self.assertEqual(select(3,ROOT/"unused",execute=False)["groq_calls"],0)
 
  def test_dry_run_never_calls_api(self):
   with patch("urllib.request.urlopen",side_effect=AssertionError("network prohibited")):
