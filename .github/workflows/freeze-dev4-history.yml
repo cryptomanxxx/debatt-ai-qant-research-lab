@@ -4,6 +4,7 @@ on:
     branches: [dev4/frozen-history]
     paths:
       - '.github/workflows/freeze-dev4-history.yml'
+      - 'tests/test_dev4_selection_protocol.py'
   workflow_dispatch:
 permissions:
   contents: write
