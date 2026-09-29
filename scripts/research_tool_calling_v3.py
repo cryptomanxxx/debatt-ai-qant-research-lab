@@ -65,7 +65,7 @@ class ResearchSession:
             self.calls += 1
             self.used_bytes += result_bytes
             return result
-        except (ValueError, TypeError, KeyError, OverflowError):
+        except Exception:
             self.closed = True
             raise
 
