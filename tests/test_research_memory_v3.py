@@ -49,8 +49,14 @@ class ResearchMemoryV3Contract(unittest.TestCase):
 
     def test_pareto_is_own_only(self):
         front = memory.get_pareto_front(strategy="gpt-oss-120b")
-        self.assertEqual({r["round"] for r in front["results"]}, {1, 2})
-        self.assertEqual(front["count"], 2)
+        self.assertEqual({r["round"] for r in front["results"]}, {1})
+        self.assertEqual(front["count"], 1)
+        self.assertTrue(all(r["gate_pass"] for r in front["results"]))
+        self.assertEqual(memory.search_experiments(strategy="gpt-oss-120b")["count"], 2)
+        self.assertFalse(memory.get_experiment(strategy="gpt-oss-120b", experiment_id="dev4-r2-gpt-oss-120b")["results"][0]["gate_pass"])
+        self.assertEqual(memory.get_pareto_front(strategy="grid-search")["results"], [])
+        self.assertEqual(memory.get_pareto_front(strategy="grid-search")["count"], 0)
+        self.assertEqual({r["round"] for r in memory.get_pareto_front(strategy="random-search")["results"]}, {1})
 
     def test_pinned_source_tampering_fails_closed(self):
         with patch.dict(memory.PINNED_BLOBS,
