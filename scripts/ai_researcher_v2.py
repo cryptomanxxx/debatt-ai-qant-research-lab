@@ -5,6 +5,7 @@ approves or executes compute. Human approval remains a separate workflow.
 """
 import json, os, sys, time, urllib.error, urllib.request
 from pathlib import Path
+from scripts.register_research_proposal import register
 
 MODEL="openai/gpt-oss-120b"
 CONTEXT=Path("research_queue/context/latest.json")
@@ -211,8 +212,9 @@ If latest_human_review contains a rejected proposal, treat its comment as mandat
     data["researcher"]="AI Researcher v2"
     data["model"]=MODEL
     data["status"]="draft_requires_human_review"
-    OUT.parent.mkdir(parents=True,exist_ok=True)
-    OUT.write_text(json.dumps(data,indent=2,ensure_ascii=False)+"\n")
+    registration=register(data, OUT)
+    print("AI Researcher v2 archived",registration["proposal_file"])
+    print("Proposal ID:",registration["proposal_id"])
     print("AI Researcher v2 wrote",OUT)
     print("Hypothesis:",data["hypothesis"])
     print("Proposal:",p["title"])
