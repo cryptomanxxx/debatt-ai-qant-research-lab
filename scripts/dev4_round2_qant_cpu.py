@@ -90,7 +90,7 @@ for cid in SELECTIONS:
  summary[cid]["parameter_saving"]=1-summary[cid]["parameter_count"]/control["parameter_count"]
 payload={"schema_version":1,"experiment_id":"dev4_round2_qant_cpu",
  "timestamp_utc":datetime.now(timezone.utc).isoformat(),
- "source_selection_run":36555941972,"source_selection_artifact_id":11030004166,
+ "source_selection_run":36562982457,"source_selection_artifact_id":11030004166,
  "source_response_id":"chatcmpl-8731bac1-d96a-45cf-8561-da0934ef4285",
  "backend":"qant-cpu/software-simulation",
  "source_selection_artifact_sha256":"90540e37dd1bcd556634ba8e9363b2bbaff3aeed28e1d84122abf3ddfc71e195",
