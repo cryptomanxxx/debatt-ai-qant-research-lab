@@ -20,5 +20,6 @@ jobs:
           python -m unittest discover -s tests -p 'test_research_tool_calling_v3.py' -v
           python -m unittest discover -s tests -p 'test_scientific_reasoning_v3.py' -v
           python -m unittest discover -s tests -p 'test_live_research_agent_v3.py' -v
+          python -m unittest discover -s tests -p 'test_scientific_evaluation_v3.py' -v
           python -m unittest discover -s tests -p 'test_critical_review_v3.py' -v
           python -m unittest discover -s tests -p 'test_reviewed_research_session_v3.py' -v

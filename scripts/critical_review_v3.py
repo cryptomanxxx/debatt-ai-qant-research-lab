@@ -12,6 +12,7 @@ from scripts.live_research_agent_v3 import (
     MAX_OUTPUT_TOKENS, MAX_TOTAL_TOKENS, _checked_model_response, run_research,
 )
 from scripts.research_memory_v3 import _strategy
+from scripts.scientific_evaluation_v3 import build_evaluation_plan
 from scripts.scientific_reasoning_v3 import _encoded
 
 # Reserve both one model turn and the maximum provider-reported per-call token
@@ -35,7 +36,11 @@ REVIEW_SYSTEM = (
     "seed variation, sampling noise, non-monotonic width effects), and a "
     "concrete falsification test with measurable comparison against control. "
     "Two observed widths cannot establish a general trend or predict another "
-    "width's accuracy. The provided automatic cautions are deterministic "
+    "width's accuracy. Apply the supplied FORMAL evaluation thresholds: "
+    "the historical gate, exact tie with control, and strict outperformance "
+    "are distinct outcomes. Tying the control does NOT exceed it. An "
+    "undefined 'approaches control' phrase is not a numeric success target. "
+    "The provided automatic cautions are deterministic "
     "warnings that must be considered, not model-derived proof. Do not run or "
     "request experiments, tools, repository edits, or cross-strategy results. "
     "Output exactly ONE JSON object with this shape: "
@@ -144,12 +149,15 @@ def run_reviewed_research(*, client, research_question, strategy="gpt-oss-120b")
     if any(row["strategy"] != strategy for row in observed):
         raise ValueError("review evidence strategy mismatch")
     cautions = automatic_cautions(proposal, observed)
+    plan = build_evaluation_plan(proposal=proposal, observed=observed, strategy=strategy)
     # Fresh messages: no original proposal dialogue, raw history or chain of thought.
     review_input = {
         "research_question": research_question,
         "proposal": proposal,
         "observed_verified_evidence": observed,
         "automatic_cautions": cautions,
+        "formal_thresholds": plan["thresholds"],
+        "formal_interpretation_rules": plan["interpretation_rules"],
     }
     messages = [
         {"role": "system", "content": REVIEW_SYSTEM},
@@ -167,6 +175,7 @@ def run_reviewed_research(*, client, research_question, strategy="gpt-oss-120b")
         raise ValueError("invalid critical review model step")
     validated = validate_critical_review(
         response["payload"], proposal=proposal, observed=observed, strategy=strategy)
+    output["result"]["formal_evaluation_plan"] = plan
     output["result"]["critical_review"] = validated
     output["audit"].append({
         "step": output["model_calls"],

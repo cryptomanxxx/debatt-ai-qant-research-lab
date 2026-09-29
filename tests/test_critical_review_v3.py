@@ -70,6 +70,13 @@ class ScientificCritiqueContract(unittest.TestCase):
         with patch("urllib.request.urlopen", side_effect=AssertionError("network forbidden")):
             output = run_reviewed_research(client=fake, research_question=QUESTION)
         self.assertEqual(output["result"]["status"], "proposal_only")
+        plan = output["result"]["formal_evaluation_plan"]
+        self.assertEqual(plan["status"], "planning_only")
+        self.assertEqual(plan["thresholds"]["historical_gate_pass_at_least_correct"], 442)
+        self.assertEqual(plan["thresholds"]["ties_control_exact_correct"], 452)
+        self.assertEqual(plan["thresholds"]["strictly_exceeds_control_at_least_correct"], 453)
+        self.assertIsNone(plan["candidate"]["measured_candidate_correct"])
+        self.assertEqual(plan["training_runs"], 0)
         self.assertEqual(output["model_calls"], 3)
         self.assertEqual(output["review_model_calls"], 1)
         self.assertEqual(output["tool_calls"], 1)
@@ -93,6 +100,11 @@ class ScientificCritiqueContract(unittest.TestCase):
         critique_input = json.loads(fake.calls[2][1]["content"])
         self.assertEqual(len(critique_input["observed_verified_evidence"]), 2)
         self.assertEqual(critique_input["proposal"], PROPOSAL["payload"])
+        self.assertEqual(
+            critique_input["formal_thresholds"]["strictly_exceeds_control_at_least_correct"],
+            453)
+        self.assertIn("formal_interpretation_rules", critique_input)
+        self.assertIn("distinct outcomes", REVIEW_SYSTEM)
 
     def test_abstention_does_not_spend_critic_call(self):
         fake = FakeClient([{"kind": "insufficient_evidence", "payload": {
@@ -102,6 +114,7 @@ class ScientificCritiqueContract(unittest.TestCase):
         self.assertEqual(out["review_model_calls"], 0)
         self.assertEqual(out["result"]["status"], "insufficient_evidence")
         self.assertEqual(out["result"]["review_status"], "not_applicable_no_proposal")
+        self.assertNotIn("formal_evaluation_plan", out["result"])
         self.assertEqual(len(fake.calls), 1)
 
     def test_reviewer_cannot_request_tools_or_make_unverified_citations(self):
