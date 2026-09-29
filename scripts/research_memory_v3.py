@@ -110,8 +110,8 @@ def get_experiment(*, strategy, experiment_id):
 
 
 def get_pareto_front(*, strategy, limit=DEFAULT_LIMIT):
-    """Own-only non-dominated records: maximize correct, minimize parameters."""
-    records = _records(strategy)
+    """Gate-passing own-only non-dominated records: maximize correct, minimize parameters."""
+    records = [row for row in _records(strategy) if row["gate_pass"]]
     front = [row for row in records if not any(
         (other["candidate_correct"] >= row["candidate_correct"]
          and other["candidate_parameters"] <= row["candidate_parameters"])
