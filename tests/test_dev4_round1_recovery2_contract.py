@@ -18,5 +18,5 @@ class RecoveryTwoContract(unittest.TestCase):
   self.assertIn("sha256:f0f6303bd7f08a055f4befcad8bac2ff0185adc2e1d50cdf734442b8b5b64735",s)
   self.assertIn('test "$RUN_NUMBER" = "1"',s)
   self.assertIn('test "$RUN_ATTEMPT" = "1"',s)
-  self.assertLess(s.index("Download original frozen artifact"),s.index("Run four locked widths"))
+  self.assertLess(s.index("Download original frozen artifact"),s.index("      - name: Run four locked widths and shared paired control"))
 if __name__=="__main__": unittest.main()
