@@ -2,7 +2,7 @@
 import json
 import unittest
 from unittest.mock import patch
-from scripts.live_research_agent_v3 import GroqHTTPAdapter, run_research
+from scripts.live_research_agent_v3 import GroqHTTPAdapter, run_research, SYSTEM, PROPOSAL_SCHEMA_INSTRUCTIONS
 
 
 class FakeClient:
@@ -68,6 +68,19 @@ class LiveResearchAgentContract(unittest.TestCase):
             run_research(client=FakeClient([TOOL], usage={"prompt_tokens": 10,
                 "completion_tokens": 10, "total_tokens": 11}),
                 research_question="Study the parameter accuracy trade-off.")
+
+    def test_prompt_exposes_exact_validator_schema(self):
+        required = ("hypothesis", "rationale", "local_width", "dataset",
+                    "epochs", "evidence_ids", "expected_measurements")
+        for field in required:
+            with self.subTest(field=field):
+                self.assertIn('"' + field + '"', PROPOSAL_SCHEMA_INSTRUCTIONS)
+        for constraint in ("4 to 15", "ECG200", "integer 100",
+                           "1 to 5 distinct", "actually returned",
+                           "candidate_correct", "candidate_parameters", "gate_pass",
+                           "exactly these seven fields"):
+            self.assertIn(constraint, SYSTEM)
+        self.assertNotIn('"payload":{...}', SYSTEM)
 
     def test_adapter_requires_explicit_enable_and_key(self):
         with self.assertRaisesRegex(RuntimeError, "enabled=True"):
