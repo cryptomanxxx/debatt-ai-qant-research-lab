@@ -10,6 +10,16 @@ on:
       - 'docs/README.md'
       - 'README.md'
       - 'public/experiment-catalog.json'
+      # Every source read by build_experiment_catalog.py must invalidate the
+      # committed derived snapshot. This includes bot-published result PRs.
+      - 'results/**'
+      - 'pnn-v1/results/**'
+      - 'research_queue/proposals/**'
+      - 'pnn-v1/proposals/**'
+      - 'research_queue/jobs/**'
+      - 'executions/**'
+      - 'research_queue/v3_hypotheses/**'
+      - 'research_queue/v3_protocols/**'
       - '.github/workflows/validate-global-experiment-catalog.yml'
   workflow_dispatch:
 

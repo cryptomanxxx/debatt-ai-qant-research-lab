@@ -11,7 +11,7 @@
 - Check that the committed snapshot matches the currently checked-out source files, without writing: `python -m scripts.build_experiment_catalog --check`.
 - Generate a throwaway snapshot: `python -m scripts.build_experiment_catalog --output /tmp/experiment-catalog.json`.
 
-Regenerate and review the derived snapshot whenever newly approved results or their associated proposal/job/execution records are added. The PR-only offline catalog validation workflow tests the builder and checks freshness when a snapshot is present; it does **not** automatically approve experiments, alter an existing guarded execution workflow, or publish future catalogs on every data push. A user relying on a stored snapshot should run `--check` against the desired checkout.
+Regenerate and review the derived snapshot whenever newly approved results or their associated proposal/job/execution records are added. The PR validation workflow watches **all consumed source directories** (both result locations, both proposal locations, job and execution records, and the v3 hypothesis/protocol records), in addition to the builder, tests, docs, and snapshot. It **always** requires the committed snapshot to match current source bytes using `--check`; a result-publication PR that only adds results/executions will therefore fail this check until it also regenerates `public/experiment-catalog.json`. Run the regeneration command above on the candidate branch and include that derived file in the same PR. The workflow does not automatically approve experiments, alter an existing guarded execution workflow, or publish future catalogs on every data push. The check must be enforced by normal PR review/branch rules to block merges; a passing workflow alone does not configure branch protection.
 
 ## Scope and record identities
 
@@ -26,6 +26,8 @@ Regenerate and review the derived snapshot whenever newly approved results or th
 | `research_queue/jobs/*.json`, `executions/*.json` | Referenced by recorded job and execution identifiers where a link exists. Filenames, job IDs, run IDs and recorded Git commit formats are checked. Some older/auxiliary links use naming conventions and are explicitly labeled **not artifact-attested**. |
 
 Every record has a composite `catalog_id`, for example `toolkit:result:exp021_qant_accumulation_scaling_law:v1` versus `pnn-v1:result:PNN-v1-Exp021:v1`. `record_kind` distinguishes `result`, `proposal`, `hypothesis` and `protocol_draft`. `source_schema_version` is null if absent from the original file; the trailing `v1` is the **catalog record version**, not a guessed source schema.
+
+Seed metadata uses a declared `configuration.seeds`, top-level `seeds` or scalar `seed` when available. If none is declared but individual `results` or `rows` entries contain seeds, it validates every entry and deduplicates repeated candidate-by-seed observations while preserving first-seen order. Unseeded diagnostic studies remain `seeds: null`; missing/invalid seeds in a partially seeded result are rejected.
 
 Each source pointer includes the relative path, its SHA-256 over the checked-out bytes and the standard Git blob SHA-1 for those same bytes. These identify content but do **not** independently establish that a claimed experiment actually ran, that an approval existed at execution time, or that a GitHub Actions artifact was authentic. The recorded `execution_records` and `job_link_basis` make that distinction visible. Individual metrics remain in the original result files, not silently rounded or combined into cross-protocol rankings.
 

@@ -240,6 +240,55 @@ class GlobalCatalogTests(unittest.TestCase):
         self.assertIsNone(record["proposal_source"])
         self.assertEqual(record["job_link_basis"], "unlinked_auxiliary_result")
 
+    def test_seed_fallback_deduplicates_results_rows_without_guessing(self):
+        source = self.root / "results/exp006_demo.json"
+        data = json.loads(source.read_text())
+        data.pop("seeds")
+        data["results"] = [
+            {"seed": 11, "candidate_id": "a"},
+            {"seed": 11, "candidate_id": "b"},
+            {"seed": 22, "candidate_id": "a"},
+            {"seed": 33, "candidate_id": "a"},
+            {"seed": 22, "candidate_id": "b"},
+        ]
+        put(self.root, "results/exp006_demo.json", data)
+        record = next(item for item in build_catalog(self.root)["records"]
+                      if item["catalog_id"] == "toolkit:result:exp006_demo:v1")
+        self.assertEqual(record["seeds"], [11, 22, 33])
+
+    def test_seed_fallback_supports_rows_and_prefers_explicit_configuration(self):
+        data = json.loads(self.primary.read_text())
+        del data["configuration"]["seeds"]
+        data["rows"] = [{"seed": 7}, {"seed": 7}, {"seed": 9}]
+        put(self.root, "pnn-v1/results/result001.json", data)
+        self.mirror.write_bytes(self.primary.read_bytes())
+        record = next(item for item in build_catalog(self.root)["records"]
+                      if item["catalog_id"] == "pnn-v1:result:PNN-v1-Exp001:v1")
+        self.assertEqual(record["seeds"], [7, 9])
+        data["configuration"]["seeds"] = [101, 202]
+        put(self.root, "pnn-v1/results/result001.json", data)
+        self.mirror.write_bytes(self.primary.read_bytes())
+        record = next(item for item in build_catalog(self.root)["records"]
+                      if item["catalog_id"] == "pnn-v1:result:PNN-v1-Exp001:v1")
+        self.assertEqual(record["seeds"], [101, 202])
+
+    def test_partial_or_invalid_row_level_seeds_fail_closed(self):
+        source = self.root / "results/exp006_demo.json"
+        original = json.loads(source.read_text())
+        original.pop("seeds")
+        for rows, expected_error in (
+            ([{"seed": 11}, {"candidate_id": "missing"}], "partial row-level seeds"),
+            ([{"seed": True}, {"seed": 22}], "invalid row-level seed"),
+            ([{"seed": "11"}, {"seed": 22}], "invalid row-level seed"),
+            ([{"seed": -1}, {"seed": 22}], "invalid row-level seed"),
+        ):
+            with self.subTest(rows=rows):
+                data = dict(original)
+                data["results"] = rows
+                put(self.root, "results/exp006_demo.json", data)
+                with self.assertRaisesRegex(CatalogError, expected_error):
+                    build_catalog(self.root)
+
     def test_actual_repository_is_parseable_and_series_are_distinct(self):
         # This is read-only: validates the real source inventory in the PR.
         real = build_catalog(ROOT)
@@ -249,6 +298,20 @@ class GlobalCatalogTests(unittest.TestCase):
         self.assertIn("v3:protocol_draft:v3-ecg200-width10-11-fresh-control16-draft1:v1", ids)
         self.assertGreaterEqual(real["summary"]["canonical_completed_result_records"], 56)
         self.assertGreaterEqual(real["summary"]["exact_pnn_mirror_files"], 26)
+        indexed = {r["source"]["path"]: r for r in real["records"]
+                   if r["record_kind"] == "result"}
+        for filename in (
+            "results/exp026_qant_predictive_compatibility_model.json",
+            "results/exp028_qant_predictive_compatibility_v2.json",
+        ):
+            with self.subTest(filename=filename):
+                self.assertEqual(indexed[filename]["seeds"], [11, 22, 33])
+        for filename in (
+            "results/exp013_qant_fourier_mismatch_diagnostic.json",
+            "results/exp014_qant_fourier_error_decomposition.json",
+        ):
+            # These deterministic numerical diagnostics have no source seeds.
+            self.assertIsNone(indexed[filename]["seeds"])
 
 
 if __name__ == "__main__":

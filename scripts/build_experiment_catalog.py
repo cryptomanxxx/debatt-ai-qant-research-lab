@@ -119,6 +119,31 @@ def _seeds(data: dict[str, Any], path: str) -> list[int] | None:
     if candidate is None:
         candidate = data.get("seeds", data.get("seed"))
     if candidate is None:
+        # Historical diagnostic records may be unseeded, while some seeded
+        # experiments (e.g. Exp026/Exp028) declare seeds only per result row.
+        # Preserve first-seen row order and de-duplicate the repeated
+        # candidate-by-seed measurements. Do not infer seeds from filenames.
+        for field in ("results", "rows"):
+            observations = data.get(field)
+            if not isinstance(observations, list) or not observations:
+                continue
+            if not any(isinstance(row, dict) and "seed" in row
+                       for row in observations):
+                continue
+            if any(not isinstance(row, dict) or "seed" not in row
+                   for row in observations):
+                raise CatalogError("partial row-level seeds in " + path)
+            candidate = []
+            observed: set[int] = set()
+            for row in observations:
+                seed = row["seed"]
+                if isinstance(seed, bool) or not isinstance(seed, int) or seed < 0:
+                    raise CatalogError("invalid row-level seed in " + path)
+                if seed not in observed:
+                    candidate.append(seed)
+                    observed.add(seed)
+            break
+    if candidate is None:
         return None
     if isinstance(candidate, int) and not isinstance(candidate, bool):
         candidate = [candidate]

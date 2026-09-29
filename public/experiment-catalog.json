@@ -4043,7 +4043,11 @@
       "record_id": "exp026_qant_predictive_compatibility_model",
       "record_kind": "result",
       "result_artifact_independently_authenticated": false,
-      "seeds": null,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
       "series": "toolkit",
       "source": {
         "git_blob_sha1": "c2376c07b9c9b0681da75d8efc0df397d9a938ae",
@@ -4147,7 +4151,11 @@
       "record_id": "exp028_qant_predictive_compatibility_v2",
       "record_kind": "result",
       "result_artifact_independently_authenticated": false,
-      "seeds": null,
+      "seeds": [
+        11,
+        22,
+        33
+      ],
       "series": "toolkit",
       "source": {
         "git_blob_sha1": "ec33870f67eec3ca0b938b5a1fa34fd106fbe4ce",
