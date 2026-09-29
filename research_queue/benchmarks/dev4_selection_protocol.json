@@ -61,7 +61,7 @@
   },
   "information_policy": {
     "shared_initial_history_snapshot": "sha256:6991e3614f17360a91e8ec4a2155260e2fcdfe13078de73d2ee94d6135f32a7d",
-    "history_visibility": "identical initial snapshot and only own prior evaluated rounds",
+    "history_visibility": "identical initial snapshot, own proposal/status ledger (including failed and invalid attempts), and only own prior completed paired outcomes",
     "candidate_feedback": "same structured paired outcome schema for every strategy",
     "holdout_policy": "no access to evaluation results before selection",
     "api_token_budget": "record separately; not counted as training compute"
@@ -87,9 +87,9 @@
   "strategy_specifications": {
     "gpt-oss-120b": {
       "model_identifier": "openai/gpt-oss-120b",
-      "prompt_template_sha256": "sha256:c8455998a42bf89a32759a610e73b8783d34b67fb0c96d9ff8af601bd7cec181",
+      "prompt_template_sha256": "sha256:ac4a1a38a082a75d4a967a73c25f1aa0491a08c978cb30e898eeec2a1e90641a",
       "decoding_policy": "temperature=0; one JSON object; record Groq request parameters, response, token use and model revision if supplied; no retry or replacement after invalid proposal",
-      "context_policy": "same SHA-pinned initial snapshot and own prior completed paired outcomes only; no future holdout, cross-strategy feedback, external tools or retrieval"
+      "context_policy": "same SHA-pinned initial snapshot; own round/width/validity/status ledger including failed attempts; own completed paired outcomes only; no fabricated failed-run scores, future holdout, cross-strategy feedback, tools or retrieval"
     },
     "random-search": {
       "rng_algorithm": "NumPy Generator PCG64; record numpy version",

@@ -20,6 +20,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install dry-run RNG dependency
+        run: python -m pip install "numpy==1.26.4"
       - name: Compile modified Python entrypoints
         run: |
           python -m py_compile scripts/proposal_lineage.py scripts/compile_ai_researcher_proposal.py scripts/materialize_ai_approved_job.py scripts/run_research_job_v2.py scripts/link_research_proposal_outcomes.py
@@ -33,3 +35,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_dev4_selection_protocol.py' -v
           python -m scripts.validate_dev4_selection_protocol
           python -m unittest discover -s tests -p 'test_dev4_history_snapshot.py' -v
+          python -m unittest discover -s tests -p 'test_dev4_selection_dry_run.py' -v
+          python -m scripts.validate_dev4_selection_protocol --ready-for-execution
+          python -m scripts.dev4_selection_dry_run
+          python -m scripts.dev4_selection_dry_run --include-random

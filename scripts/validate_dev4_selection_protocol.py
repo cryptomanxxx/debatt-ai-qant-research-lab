@@ -57,7 +57,7 @@ def validate(p, ready=False):
             errors.append("preregistered budget must be exactly 5/1/5/50")
     info = p.get("information_policy", {})
     if (not isinstance(info, dict)
-        or info.get("history_visibility") != "identical initial snapshot and only own prior evaluated rounds"
+        or info.get("history_visibility") != "identical initial snapshot, own proposal/status ledger (including failed and invalid attempts), and only own prior completed paired outcomes"
         or info.get("candidate_feedback") != "same structured paired outcome schema for every strategy"
         or info.get("holdout_policy") != "no access to evaluation results before selection"):
         errors.append("unequal or unspecified information policy")
