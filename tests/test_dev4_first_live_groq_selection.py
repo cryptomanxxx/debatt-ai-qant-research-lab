@@ -2,6 +2,7 @@
 import json
 import os
 import tempfile
+from pathlib import Path
 import unittest
 from unittest.mock import patch
 from scripts.dev4_first_live_groq_selection import select_once
@@ -20,6 +21,18 @@ class FakeResponse:
 
 
 class FirstLiveSelectionTests(unittest.TestCase):
+    def test_workflow_rejects_later_dispatches_and_reruns_before_api(self):
+        workflow = (Path(__file__).resolve().parents[1] /
+                    ".github/workflows/dev4-first-live-groq-selection.yml").read_text()
+        self.assertIn("group: dev4-first-live-groq-selection-once", workflow)
+        self.assertIn("cancel-in-progress: false", workflow)
+        self.assertIn("github.run_number", workflow)
+        self.assertIn("github.run_attempt", workflow)
+        self.assertIn('"$RUN_NUMBER" != "1"', workflow)
+        self.assertIn('"$RUN_ATTEMPT" != "1"', workflow)
+        self.assertLess(workflow.index("Enforce first workflow run"),
+                        workflow.index("Make exactly one GPT-OSS selection"))
+
     def test_missing_secret_fails_before_network(self):
         with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {}, clear=True):
             with self.assertRaisesRegex(RuntimeError, "not configured"):
