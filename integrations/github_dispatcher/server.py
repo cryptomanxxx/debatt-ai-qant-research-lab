@@ -14,9 +14,7 @@ from urllib.parse import quote
 
 REPO = "cryptomanxxx/debatt-ai-qant-research-lab"
 # Intentionally excludes any Q.ANT training workflow.
-ALLOWED = {
-    "dev4-reusable-selection.yml": {"round": 3},
-}
+ALLOWED = {}  # Fail closed until Round 3 workflow is independently reviewed and merged.
 API = "https://api.github.com/repos/" + REPO
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
 
