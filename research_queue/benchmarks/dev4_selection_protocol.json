@@ -83,5 +83,29 @@
     "automatic_compute": false,
     "synthetic_results_are_not_scientific_evidence": true,
     "backend": "Q.ANT Native Computing Toolkit CPU; no photonic hardware claims"
+  },
+  "strategy_specifications": {
+    "gpt-oss-120b": {
+      "model_identifier": "openai/gpt-oss-120b",
+      "prompt_template_sha256": "sha256:c8455998a42bf89a32759a610e73b8783d34b67fb0c96d9ff8af601bd7cec181",
+      "decoding_policy": "temperature=0; one JSON object; record Groq request parameters, response, token use and model revision if supplied; no retry or replacement after invalid proposal",
+      "context_policy": "same SHA-pinned initial snapshot and own prior completed paired outcomes only; no future holdout, cross-strategy feedback, external tools or retrieval"
+    },
+    "random-search": {
+      "rng_algorithm": "NumPy Generator PCG64; record numpy version",
+      "seed": 202604,
+      "sampling_policy": "uniform draw without replacement from ascending 4..15; fixed five-draw stream; consume one draw per round; history does not alter distribution"
+    },
+    "grid-search": {
+      "traversal_order": "ascending candidate widths 4..15; take next width each round without feedback-dependent reordering",
+      "start_offset": 0
+    },
+    "bayesian-optimization": {
+      "surrogate": "GaussianProcessRegressor with Matern(nu=2.5), normalize_y=True, alpha=1e-6; width is one-dimensional numeric input; fit only own completed valid paired outcomes; record scikit-learn version",
+      "acquisition": "Expected Improvement xi=0.01 for scalar objective candidate_correct minus control_correct, with parameter saving as deterministic tie-break; maximize over unproposed discrete widths; no held-out future information",
+      "initialization": "first proposal width=10 (fixed independent of history); fit surrogate after first valid paired outcome; if no valid observations, choose smallest remaining width",
+      "random_seed": 202604,
+      "optimizer_policy": "enumerate all remaining widths 4..15; deterministic lowest-width tie-break for equal acquisition; invalid/failed proposals consume a round; never refit on another strategy's observations"
+    }
   }
 }
