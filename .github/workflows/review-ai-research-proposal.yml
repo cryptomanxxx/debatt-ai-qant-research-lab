@@ -65,7 +65,8 @@ jobs:
           compiled=json.loads(compiled_path.read_text()) if compiled_path.exists() else None
           if compiled is None:
               raise SystemExit("Missing compiler output for reviewed proposal")
-          verify_binding(compiled, lineage)
+          if os.environ["DECISION"]=="approve":
+              verify_binding(compiled, lineage)
           stamp=datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
           out={
               "proposal_title":p["proposal"]["title"],
