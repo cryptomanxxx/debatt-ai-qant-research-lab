@@ -52,3 +52,4 @@ jobs:
           python -m unittest discover -s tests -p 'test_dev4_verified_policy_replay.py' -v
           python -m unittest discover -s tests -p 'test_dev4_first_live_groq_selection.py' -v
           python -m unittest discover -s tests -p 'test_dev4_round1_qant_cpu_contract.py' -v
+          python -m unittest discover -s tests -p 'test_dev4_round1_recovery_contract.py' -v
