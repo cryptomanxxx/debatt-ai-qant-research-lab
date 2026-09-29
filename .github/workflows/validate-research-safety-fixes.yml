@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'scripts/**'
+      - 'experiments/030_qant_compatibility_model_v3/run.py'
       - 'integrations/**'
       - 'research_queue/benchmarks/**'
       - 'research_queue/v3_hypotheses/**'
@@ -47,6 +48,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_link_research_proposal_outcomes.py' -v
           python -m unittest discover -s tests -p 'test_dev3_entrypoints.py' -v
           python -m unittest discover -s tests -p 'test_merged_branch_cleanup_safety.py' -v
+          python -m unittest discover -s tests -p 'test_experiment030_refactor_contract.py' -v
           python -m unittest discover -s tests -p 'test_proposal_lineage.py' -v
           python -m unittest discover -s tests -p 'test_dev3_integration.py' -v
           python -m unittest discover -s tests -p 'test_dev4_selection_protocol.py' -v
