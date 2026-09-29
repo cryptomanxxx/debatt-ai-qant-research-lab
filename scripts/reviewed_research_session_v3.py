@@ -20,8 +20,39 @@ def format_reviewed_report(output):
     result = output["result"]
     if result["status"] == "insufficient_evidence":
         return report + "\n\n## Critical review\n\nNo proposal to review; the model abstained.\n"
+    plan = result["formal_evaluation_plan"]
+    if plan["status"] != "planning_only" or plan["training_runs"] != 0:
+        raise ValueError("report requires a non-executable scientific evaluation plan")
+    thresholds = plan["thresholds"]
+    reference = plan["historical_reference_only"]
     review = result["critical_review"]
     sections = [
+        "## Machine-derived scientific evaluation plan (not executed)",
+        "Candidate: ECG200, width " + str(plan["candidate"]["local_width"]) +
+        ", epochs " + str(plan["candidate"]["epochs"]) +
+        ", proposed comparison seeds " +
+        ", ".join(str(x) for x in plan["candidate"]["comparison_seeds"]),
+        "Pinned reference: control width " + str(reference["control_local_width"]) +
+        ", " + str(reference["control_correct"]) +
+        "/" + str(reference["correct_out_of"]) + " correct, " +
+        str(reference["control_parameters"]) + " parameters.",
+        "Historical Dev-4 reference gate: at least " +
+        str(thresholds["historical_gate_pass_at_least_correct"]) +
+        " correct. This is **not** a preapproved v3 success criterion.",
+        "Exactly matches the control: **" +
+        str(thresholds["ties_control_exact_correct"]) + "** correct.",
+        "Strictly exceeds the control: at least **" +
+        str(thresholds["strictly_exceeds_control_at_least_correct"]) +
+        "** correct. A tie never counts as outperformance.",
+        "Best retrieved own-strategy candidate: " +
+        str(thresholds["best_observed_own_strategy_correct"]) +
+        "; strictly exceeds it at **" +
+        str(thresholds["strictly_exceeds_best_observed_at_least_correct"]) +
+        "** correct.",
+        "Candidate measurements: **not performed**; candidate_correct and " +
+        "candidate_parameters are both null.",
+        "### Interpretation safeguards",
+        *["- " + item for item in plan["interpretation_rules"]],
         "## Fresh-context scientific critical review (same AI model)",
         "Assessment: **" + review["assessment"] + "**",
         "The critique is model-generated, not independent human peer review or "
