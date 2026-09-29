@@ -112,7 +112,10 @@ def verify(protocol,feedback,source_bytes,selection_bytes=None):
 def build(protocol,first,second,source_bytes,selection_bytes=None,round1_source_bytes=None):
     verify_pinned_records()
     verify_round1(protocol,first,round1_source_bytes)
-    verify(protocol,second,source_bytes,selection_bytes)
+    if source_bytes is not None:
+        verify(protocol,second,source_bytes,selection_bytes)
+    elif selection_bytes is not None:
+        raise ValueError("selection evidence requires original result evidence")
     prior=json.loads(CONTEXT2.read_text())
     if prior!=round2_contexts(protocol,first):
         raise ValueError("round-two contexts disagree with verified first-round feedback")
@@ -138,7 +141,7 @@ def build(protocol,first,second,source_bytes,selection_bytes=None,round1_source_
 
 def main():
     p=argparse.ArgumentParser()
-    p.add_argument("--source-artifact",type=Path,required=True)
+    p.add_argument("--source-artifact",type=Path)
     p.add_argument("--round1-source-artifact",type=Path)
     p.add_argument("--selection-artifact",type=Path)
     p.add_argument("--output",type=Path,required=True)
@@ -146,7 +149,7 @@ def main():
     protocol=json.loads(PROTOCOL.read_text())
     first=json.loads(ROUND1.read_text())
     second=json.loads(ROUND2.read_text())
-    output=build(protocol,first,second,args.source_artifact.read_bytes(),
+    output=build(protocol,first,second,args.source_artifact.read_bytes() if args.source_artifact else None,
                  args.selection_artifact.read_bytes() if args.selection_artifact else None,
                  args.round1_source_artifact.read_bytes() if args.round1_source_artifact else None)
     args.output.parent.mkdir(parents=True,exist_ok=True)
