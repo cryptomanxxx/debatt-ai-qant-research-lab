@@ -30,6 +30,10 @@ jobs:
           proposal=Path("research_queue/ai_researcher/latest.json").read_bytes()
           review=json.load(open("research_queue/human_review/latest.json"))
           compiled=json.load(open("research_queue/compiled/latest.json"))
+          from scripts.proposal_lineage import verified_proposal, verify_binding
+          lineage=verified_proposal(proposal)
+          verify_binding(review, lineage)
+          verify_binding(compiled, lineage)
           current_sha=hashlib.sha256(proposal).hexdigest()
           dispatched_sha=os.environ.get("DISPATCH_PROPOSAL_SHA256","")
           dispatched_run=os.environ.get("DISPATCH_PROPOSAL_RUN_ID","")
