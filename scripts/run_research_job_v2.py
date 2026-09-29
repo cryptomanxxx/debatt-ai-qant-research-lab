@@ -37,7 +37,13 @@ for key,limit in MAX.items():
  if not isinstance(value,int) or isinstance(value,bool) or value<1 or value>limit:
   fail(f"{key} outside allowed range")
 
-if job.get("engine_family")=="pnn-local-width-confirmation-v1":
+# All newly materialized AI jobs, including reusable fixed-template IDs, carry
+# source_compilation. Only genuinely historical jobs without any AI lineage
+# metadata retain the legacy executor path.
+ai_lineage = (job.get("source_compilation") == "research_queue/compiled/latest.json"
+              or job.get("engine_family") == "pnn-local-width-confirmation-v1"
+              or "proposal_id" in job or "proposal_sha256" in job)
+if ai_lineage:
  pid=job.get("proposal_id")
  digest=job.get("proposal_sha256")
  if not isinstance(pid,str) or not re.fullmatch(r"research-[0-9]{8}T[0-9]{12}Z-[0-9a-f]{32}",pid):
