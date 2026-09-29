@@ -10,6 +10,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from scripts.link_research_proposal_outcomes import link
+
 ROOT = Path(__file__).resolve().parents[1]
 COMPILER = [sys.executable, "-m", "scripts.compile_ai_researcher_proposal"]
 BRIDGE = [sys.executable, "-m", "scripts.materialize_ai_approved_job"]
@@ -86,6 +88,68 @@ class Dev3IntegrationTests(unittest.TestCase):
         self.assertEqual((job["proposal_id"], job["proposal_sha256"]), (self.pid, self.digest))
         self.assertEqual(job["source_compilation"], "research_queue/compiled/latest.json")
         self.assertEqual(job["engine_config"]["candidate_local_width"], 9)
+
+    def synthetic_result(self):
+        """A labelled fixture, NOT an observed Q.ANT run or benchmark evidence."""
+        return {
+            "proposal_id": self.pid, "proposal_sha256": self.digest,
+            "experiment_id": "synthetic-dev3-linkage-fixture",
+            "dataset": {"name": "ECG200", "train_shape": [100, 96], "test_shape": [100, 96]},
+            "configuration": {
+                "seeds": [201, 202, 203, 204, 205], "epochs": 100,
+                "learning_rate": 0.001, "batch_size": 32, "frequencies": [1, 2],
+                "candidates": {"alpha5_w9": [9, 3], "alpha5_w16_control": [16, 3]}
+            },
+            "summary": {
+                "alpha5_w9": {"aggregate_qant_correct": 440, "parameter_count": 5000},
+                "alpha5_w16_control": {"aggregate_qant_correct": 445, "parameter_count": 8550}
+            },
+            "rows": [{"candidate": name, "seed": seed}
+                     for name in ("alpha5_w9", "alpha5_w16_control")
+                     for seed in (201, 202, 203, 204, 205)]
+        }
+
+    def test_dry_run_through_explicit_result_linker(self):
+        self.compile()
+        self.approve()
+        self.run_module(BRIDGE)
+        job = json.loads(self.job.read_text())
+        result_path = self.cwd / "synthetic_result.json"
+        result = self.synthetic_result()
+        # Synthetic data exercises provenance and schema only; no training or
+        # scientific performance claim is made from these invented counts.
+        result["proposal_id"] = job["proposal_id"]
+        result["proposal_sha256"] = job["proposal_sha256"]
+        result_path.write_text(json.dumps(result))
+        manifest = [{"proposal_id": job["proposal_id"],
+                     "proposal_file": str(self.archive),
+                     "proposal_sha256": job["proposal_sha256"],
+                     "strategy": "synthetic-integration-fixture"}]
+        report = link(manifest, [result_path])
+        self.assertEqual(report["excluded_results"], [])
+        linked = report["linked_proposals"][0]
+        self.assertEqual(linked["status"], "linked")
+        self.assertEqual(linked["proposal_sha256"], self.digest)
+        self.assertEqual(linked["results"][0]["experiment_id"],
+                         "synthetic-dev3-linkage-fixture")
+        self.assertEqual(linked["results"][0]["observations"][0]["correct_margin"], -5)
+
+        # A plausible-looking result must never be joined using ID alone.
+        result["proposal_sha256"] = "0" * 64
+        result_path.write_text(json.dumps(result))
+        rejected = link(manifest, [result_path])
+        self.assertEqual(rejected["linked_proposals"][0]["status"], "no_verified_result")
+        self.assertEqual(rejected["excluded_results"][0]["reason"],
+                         "missing_or_mismatched_result_proposal_digest")
+
+        # Even with matching ID/digest, a different protocol is excluded.
+        result["proposal_sha256"] = self.digest
+        result["configuration"]["epochs"] = 50
+        result_path.write_text(json.dumps(result))
+        rejected = link(manifest, [result_path])
+        self.assertEqual(rejected["linked_proposals"][0]["status"], "no_verified_result")
+        self.assertEqual(rejected["excluded_results"][0]["reason"],
+                         "proposal_result_protocol_mismatch")
 
     def test_modified_archive_rejected_by_compiler(self):
         self.archive.write_bytes(self.raw + b" ")
