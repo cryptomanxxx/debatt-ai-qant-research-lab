@@ -18,7 +18,7 @@ class AuthoritativeArtifactContract(unittest.TestCase):
   cfg.update(control_local_width=16,selections={k:v["local_width"] for k,v in self.feedback["strategies"].items()})
   self.actual={"training_runs":25,"source_selection_run":36555941972,
     "source_response_id":self.feedback["source"]["source_response_id"],
-    "backend":self.feedback["source"]["backend"],"dataset":self.protocol["dataset"],
+    "backend":self.feedback["source"]["backend"],"dataset":copy.deepcopy(self.protocol["dataset"]),
     "configuration":cfg,"control_reused_across_strategies":True,"rows":[],"summary":{}}
   for name,entry in {**self.feedback["strategies"],"control":dict(local_width=16,**self.feedback["control"])}.items():
    total=entry["candidate_correct"]
