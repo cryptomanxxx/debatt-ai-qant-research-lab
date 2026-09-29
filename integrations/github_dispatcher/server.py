@@ -16,7 +16,7 @@ REPO = "cryptomanxxx/debatt-ai-qant-research-lab"
 # Intentionally excludes any Q.ANT training workflow.
 ALLOWED = {}  # Fail closed until Round 3 workflow is independently reviewed and merged.
 API = "https://api.github.com/repos/" + REPO
-SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+ROUND_WORKFLOW_RE = re.compile(r"^dev4-round([3-5])-selection\\.yml$")
 
 
 def request(method, endpoint, token, payload=None):
@@ -44,6 +44,11 @@ def dispatch(workflow, ref, inputs, *, token, requester_approved=False, api=requ
         raise ValueError("Explicit human authorization for this dispatch is required")
     if workflow not in ALLOWED:
         raise ValueError("Workflow not allowlisted")
+    # A dedicated workflow file per round makes workflow-level duplicate detection
+    # unambiguous. Reusable selection workflows (with prior-round runs) are forbidden.
+    match = ROUND_WORKFLOW_RE.fullmatch(workflow)
+    if match is None or int(match.group(1)) != ALLOWED[workflow]["round"]:
+        raise ValueError("A dedicated, matching round-specific selection workflow is required")
     if ref != "main":
         raise ValueError("Only main is dispatchable")
     if type(inputs) is not dict or inputs != {"round": str(ALLOWED[workflow]["round"])}:
@@ -51,7 +56,7 @@ def dispatch(workflow, ref, inputs, *, token, requester_approved=False, api=requ
     # Refuse if an attempt exists for this round, including failures and in-progress runs.
     # GitHub run discovery is a convenience, not an atomic lock: the workflow must also
     # implement a server-side one-shot guard before any API calls or training.
-    result = api("GET", "/actions/workflows/" + quote(workflow, safe="") + "/runs?event=workflow_dispatch&per_page=100", token)
+    result = api("GET", "/actions/workflows/" + quote(workflow, safe="") + "/runs?event=workflow_dispatch&branch=main&per_page=100", token)
     if result.get("total_count", 0):
         raise ValueError("A manual dispatch already exists; refusing duplicate")
     api("POST", "/actions/workflows/" + quote(workflow, safe="") + "/dispatches", token,
