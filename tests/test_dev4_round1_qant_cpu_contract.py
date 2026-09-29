@@ -29,6 +29,8 @@ class RoundOneCPUContract(unittest.TestCase):
         self.assertIn('github.run_attempt',workflow)
         self.assertLess(workflow.index("Block duplicate dispatches"),
                         workflow.index("Run four locked widths"))
+        self.assertIn("ref: 6b0affac238459c87b3111203468f0468e4baea8",workflow)
+        self.assertIn("Reviewed execution commit mismatch",workflow)
         self.assertIn("actions/artifacts/11026878054/zip",workflow)
         self.assertIn("dev4_round1_partial.json",workflow)
 
