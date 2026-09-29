@@ -1,0 +1,54 @@
+name: Freeze Dev-4 Initial History
+on:
+  push:
+    branches: [dev4/frozen-history]
+    paths:
+      - '.github/workflows/freeze-dev4-history.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  freeze:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build and pin deterministic snapshot (no compute)
+        run: |
+          python -m scripts.build_dev4_history_snapshot --results pnn-v1/results --protocol research_queue/benchmarks/dev4_selection_protocol.json --output research_queue/benchmarks/dev4_initial_history_snapshot.json
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          from scripts.build_dev4_history_snapshot import canonical, verify_snapshot
+          root = Path("research_queue/benchmarks")
+          snapshot = root / "dev4_initial_history_snapshot.json"
+          protocol_file = root / "dev4_selection_protocol.json"
+          protocol = json.loads(protocol_file.read_text())
+          content = snapshot.read_bytes()
+          assert content == canonical(json.loads(content)), "snapshot is not canonical"
+          digest = "sha256:" + hashlib.sha256(content).hexdigest()
+          protocol["information_policy"]["shared_initial_history_snapshot"] = digest
+          protocol_file.write_text(json.dumps(protocol, indent=2, ensure_ascii=False) + "\n")
+          files = sorted(Path("pnn-v1/results").glob("*.json"))
+          assert verify_snapshot(json.loads(content), files, protocol, source_root=Path("pnn-v1/results")) == digest[7:]
+          assert json.loads(content)["included"], "no usable historical observations"
+          assert all(not (set(row["seeds"]) & set(protocol["evaluation"]["seeds"]))
+                     for item in json.loads(content)["included"] for row in item["observations"])
+          print("Frozen snapshot:", digest)
+          print("Included:", [item["source"] for item in json.loads(content)["included"]])
+          print("Excluded:", [(item["source"], item["reason"]) for item in json.loads(content)["excluded"]])
+          PY
+          python -m unittest tests.test_dev4_history_snapshot tests.test_dev4_selection_protocol
+          python -m scripts.validate_dev4_selection_protocol
+          python -m scripts.build_dev4_history_snapshot --results pnn-v1/results --protocol research_queue/benchmarks/dev4_selection_protocol.json --output research_queue/benchmarks/dev4_initial_history_snapshot.json --verify
+      - name: Commit frozen evidence to PR branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research_queue/benchmarks/dev4_initial_history_snapshot.json research_queue/benchmarks/dev4_selection_protocol.json
+          git diff --cached --quiet || { git commit -m "Freeze and pin Dev-4 initial historical evidence"; git push origin HEAD:dev4/frozen-history; }
