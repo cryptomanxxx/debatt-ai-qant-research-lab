@@ -1,0 +1,33 @@
+name: Dev-4 Verify Round 1 Isolated Feedback
+on:
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download original immutable Q.ANT CPU result
+        uses: actions/download-artifact@v4
+        with:
+          name: dev4-round1-qant-cpu-results
+          run-id: 36559946601
+          repository: cryptomanxxx/debatt-ai-qant-research-lab
+          github-token: ${{ github.token }}
+          path: /tmp/dev4-original
+      - name: Verify source SHA, original measurements and committed isolated contexts
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from scripts.dev4_round1_isolated_feedback import verified_feedback, build_contexts, PROTOCOL, FEEDBACK, ROOT
+          protocol=json.loads(PROTOCOL.read_text())
+          feedback=json.loads(FEEDBACK.read_text())
+          verified_feedback(protocol,feedback,Path("/tmp/dev4-original/dev4_round1_qant_cpu.json").read_bytes())
+          generated=build_contexts(protocol,feedback)
+          committed=json.loads((ROOT/"research_queue/benchmarks/dev4_round2_isolated_contexts.json").read_text())
+          assert committed==generated, "committed feedback differs from generated isolated contexts"
+          print("Original GitHub artifact verified; all four committed strategy contexts match exactly. Zero training/API calls.")
+          PY
