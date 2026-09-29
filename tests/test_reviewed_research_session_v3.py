@@ -6,13 +6,15 @@ from pathlib import Path
 from unittest.mock import patch
 
 from scripts.first_live_research_session_v3 import APPROVAL as OLD_APPROVAL
+from scripts.research_memory_v3 import search_experiments
+from scripts.scientific_evaluation_v3 import build_evaluation_plan
 from scripts.reviewed_research_session_v3 import (
     REVIEW_APPROVAL, format_reviewed_report, main,
 )
 
 
 def example():
-    return {
+    output = {
         "result": {
             "status": "proposal_only",
             "proposal": {
@@ -57,6 +59,12 @@ def example():
         "total_tokens": 600,
         "training_runs": 0,
     }
+    output["result"]["formal_evaluation_plan"] = build_evaluation_plan(
+        proposal=output["result"]["proposal"],
+        observed=search_experiments(strategy="gpt-oss-120b")["results"],
+        strategy="gpt-oss-120b",
+    )
+    return output
 
 
 class ReviewedSessionContract(unittest.TestCase):
@@ -82,7 +90,13 @@ class ReviewedSessionContract(unittest.TestCase):
                 "Width 11", "revise_before_testing",
                 "Two data points do not establish",
                 "Sampling noise", "Falsification test",
-                "No Q.ANT/CPU training", "Training runs: **0**"):
+                "No Q.ANT/CPU training", "Training runs: **0**",
+                "Machine-derived scientific evaluation plan",
+                "Historical Dev-4 reference gate: at least 442",
+                "Exactly matches the control: **452**",
+                "Strictly exceeds the control: at least **453**",
+                "Candidate measurements: **not performed**",
+                "Approaching the control is undefined"):
             self.assertIn(expected, report)
 
     def test_fake_client_writes_two_reports_only_after_new_approval(self):
@@ -100,6 +114,10 @@ class ReviewedSessionContract(unittest.TestCase):
             readable = (destination / "reviewed_research_session.md").read_text()
             self.assertEqual(structured["model_calls"], 3)
             self.assertEqual(structured["training_runs"], 0)
+            plan = structured["result"]["formal_evaluation_plan"]
+            self.assertEqual(plan["record_kind"], "unexecuted_evaluation_plan")
+            self.assertEqual(plan["thresholds"]["strictly_exceeds_control_at_least_correct"], 453)
+            self.assertIsNone(plan["candidate"]["measured_candidate_correct"])
             self.assertIn("Alternative explanations", readable)
 
     def test_abstention_report_has_no_fabricated_review(self):
