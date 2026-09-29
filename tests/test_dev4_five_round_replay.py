@@ -44,11 +44,21 @@ class ReplayTests(unittest.TestCase):
         data[4]["paired_outcome"] = None
         result = replay(self.protocol, data)
         self.assertEqual(result["audit"][4]["proposal_error"], "duplicate_width")
+        self.assertEqual(result["audit"][4]["local_width"], 4)
         self.assertEqual(result["audit"][8]["prior_own_attempts"], 2)
         self.assertEqual(result["audit"][8]["prior_own_completed_outcomes"], 0)
         data[0]["paired_outcome"] = {"candidate_correct": 500}
         with self.assertRaisesRegex(ValueError, "failed evaluation"):
             replay(self.protocol, data)
+
+    def test_out_of_range_width_remains_visible_in_invalid_ledger(self):
+        data = records()
+        data[0]["proposal"] = '{"local_width":99}'
+        data[0]["status"] = "invalid"
+        data[0]["paired_outcome"] = None
+        result = replay(self.protocol, data)
+        self.assertEqual(result["audit"][0]["proposal_error"], "invalid_width")
+        self.assertEqual(result["audit"][0]["local_width"], 99)
 
     def test_no_partial_or_unordered_replay(self):
         data = records()
