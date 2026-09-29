@@ -64,7 +64,10 @@ def select(round_number, output_dir, execute=False, opener=urllib.request.urlope
                   "bayesian-optimization": choose_bayesian(
                       protocol, own["bayesian-optimization"]["proposal_status_ledger"],
                       own["bayesian-optimization"]["completed_paired_outcomes"])}
-    audit = {"schema_version": 1, "round": round_number, "mode": "selection_only_no_qant_compute",
+    import numpy
+    import sklearn
+    audit = {"adapter_versions": {"numpy": numpy.__version__, "scikit_learn": sklearn.__version__},
+             "schema_version": 1, "round": round_number, "mode": "selection_only_no_qant_compute",
              "source_round1_run_id": 36559946601, "source_round1_artifact_sha256": SOURCE_SHA,
              "history_sha256": "sha256:" + hashlib.sha256(history_bytes).hexdigest(),
              "prompt_sha256": "sha256:" + hashlib.sha256(prompt_bytes).hexdigest(),
@@ -87,15 +90,28 @@ def select(round_number, output_dir, execute=False, opener=urllib.request.urlope
                 headers={"Authorization": "Bearer " + key, "Content-Type": "application/json",
                          "Accept": "application/json", "User-Agent": "debatt-ai-qant-research-lab/dev4"})
             with opener(request, timeout=90) as response:
-                body = json.load(response)
-            choice = body["choices"][0]
-            raw = choice["message"].get("content") or ""
-            width, error = choose_gpt_external(
-                protocol, raw, own["gpt-oss-120b"]["proposal_status_ledger"])
-            audit.update({"response_id": body.get("id"), "response_model": body.get("model"),
-                          "created": body.get("created"), "system_fingerprint": body.get("system_fingerprint"),
-                          "usage": body.get("usage"), "finish_reason": choice.get("finish_reason"),
-                          "raw_model_response": raw, "gpt_local_width": width, "gpt_proposal_error": error})
+                response_bytes = response.read()
+            audit["raw_http_response_sha256"] = "sha256:" + hashlib.sha256(response_bytes).hexdigest()
+            audit["raw_http_response_utf8"] = response_bytes.decode("utf-8", errors="replace")
+            try:
+                body = json.loads(response_bytes)
+                choice = body["choices"][0]
+                if not isinstance(choice, dict) or not isinstance(choice.get("message"), dict):
+                    raise ValueError("missing choice message")
+                raw = choice["message"].get("content")
+                if not isinstance(raw, str):
+                    raise ValueError("missing string choice content")
+            except (ValueError, TypeError, KeyError, IndexError) as exc:
+                audit["response_parse_error"] = type(exc).__name__ + ": " + str(exc)
+                audit["gpt_local_width"] = None
+                audit["gpt_proposal_error"] = "malformed_api_response"
+            else:
+                width, error = choose_gpt_external(
+                    protocol, raw, own["gpt-oss-120b"]["proposal_status_ledger"])
+                audit.update({"response_id": body.get("id"), "response_model": body.get("model"),
+                              "created": body.get("created"), "system_fingerprint": body.get("system_fingerprint"),
+                              "usage": body.get("usage"), "finish_reason": choice.get("finish_reason"),
+                              "raw_model_response": raw, "gpt_local_width": width, "gpt_proposal_error": error})
         except (urllib.error.HTTPError, urllib.error.URLError) as exc:
             audit["api_error"] = {"type": type(exc).__name__, "http_status": getattr(exc, "code", None)}
             raise
