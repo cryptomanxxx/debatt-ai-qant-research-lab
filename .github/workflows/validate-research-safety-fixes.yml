@@ -23,6 +23,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Include the PR's base parent so the prior experiment Git blob can
+          # also be compared under the SAME Python interpreter where possible.
+          fetch-depth: 2
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
