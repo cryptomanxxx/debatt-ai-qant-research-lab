@@ -60,7 +60,7 @@
     "max_training_runs_per_strategy": 50
   },
   "information_policy": {
-    "shared_initial_history_snapshot": "TO_BE_PINNED_BEFORE_RUN",
+    "shared_initial_history_snapshot": "sha256:6991e3614f17360a91e8ec4a2155260e2fcdfe13078de73d2ee94d6135f32a7d",
     "history_visibility": "identical initial snapshot and only own prior evaluated rounds",
     "candidate_feedback": "same structured paired outcome schema for every strategy",
     "holdout_policy": "no access to evaluation results before selection",
