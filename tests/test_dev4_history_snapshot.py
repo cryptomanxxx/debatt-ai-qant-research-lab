@@ -43,6 +43,23 @@ class HistoryTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "differs"):
             verify_snapshot(snap, files, self.protocol)
 
+    def test_all_observations_are_checked_for_leakage(self):
+        from unittest.mock import patch
+        a = self.root / "mixed.json"
+        a.write_text(json.dumps(self.record([201, 202, 203, 204, 205])))
+        from scripts.measure_researcher_selection import summarize
+        first = summarize(self.record([201, 202, 203, 204, 205]))[0]
+        leaked = summarize(self.record([301, 302, 303, 304, 305]))[0]
+        with patch("scripts.build_dev4_history_snapshot.summarize", return_value=[first, leaked]):
+            snap = build_snapshot([a], self.protocol)
+        self.assertEqual(snap["included"], [])
+        self.assertEqual(snap["excluded"][0]["reason"], "evaluation_seed_overlap")
+        different = dict(first)
+        different["protocol"] = dict(first["protocol"], dataset_name="OTHER")
+        with patch("scripts.build_dev4_history_snapshot.summarize", return_value=[first, different]):
+            snap = build_snapshot([a], self.protocol)
+        self.assertEqual(snap["excluded"][0]["reason"], "different_dataset_or_shape")
+
     def test_absolute_checkout_paths_produce_identical_snapshot(self):
         left = self.root / "checkout_one" / "results"
         right = self.root / "checkout_two" / "results"

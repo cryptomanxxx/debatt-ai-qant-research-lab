@@ -32,11 +32,12 @@ def build_snapshot(files, protocol, source_root=None):
         reason = None
         if not observations:
             reason = "invalid_or_nonpaired_schema"
-        elif set(observations[0]["seeds"]) & eval_seeds:
+        elif any(set(row["seeds"]) & eval_seeds for row in observations):
             reason = "evaluation_seed_overlap"
-        elif (observations[0]["protocol"]["dataset_name"] != protocol["dataset"]["name"]
-              or observations[0]["protocol"]["train_shape"] != protocol["dataset"]["train_shape"]
-              or observations[0]["protocol"]["test_shape"] != protocol["dataset"]["test_shape"]):
+        elif any(row["protocol"]["dataset_name"] != protocol["dataset"]["name"]
+                 or row["protocol"]["train_shape"] != protocol["dataset"]["train_shape"]
+                 or row["protocol"]["test_shape"] != protocol["dataset"]["test_shape"]
+                 for row in observations):
             reason = "different_dataset_or_shape"
         if reason:
             excluded.append({"source": source, "sha256": digest, "reason": reason})
