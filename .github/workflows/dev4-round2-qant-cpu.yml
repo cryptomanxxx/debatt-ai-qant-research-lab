@@ -33,12 +33,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           # Reviewed immutable code snapshot including the frozen round-two selections.
-          ref: 8ada15f36006c6f29dfe6dd8200e9d0d2b1bedb9
+          ref: f30d5897008ec731248f42e5dec917c55d52607e
       - name: Verify reviewed checkout
         shell: bash
         run: |
           git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          test "$(git rev-parse HEAD)" = "8ada15f36006c6f29dfe6dd8200e9d0d2b1bedb9"
+          test "$(git rev-parse HEAD)" = "f30d5897008ec731248f42e5dec917c55d52607e"
       - name: Download original round-two selection via authenticated GitHub Action
         uses: actions/download-artifact@v4
         with:
