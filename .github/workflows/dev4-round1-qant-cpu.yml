@@ -31,6 +31,16 @@ jobs:
             exit 1
           }
       - uses: actions/checkout@v4
+        with:
+          # Immutable reviewed execution tree; workflow dispatch branch cannot change code.
+          ref: 6b0affac238459c87b3111203468f0468e4baea8
+      - name: Verify immutable reviewed execution checkout
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "6b0affac238459c87b3111203468f0468e4baea8" || {
+            echo "::error::Reviewed execution commit mismatch."
+            exit 1
+          }
       - name: Verify actual frozen selection artifact
         env:
           GH_TOKEN: ${{ github.token }}
