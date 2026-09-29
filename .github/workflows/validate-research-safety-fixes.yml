@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'scripts/**'
+      - 'integrations/**'
       - 'research_queue/benchmarks/**'
       - 'tests/**'
       - '.github/workflows/**'
@@ -60,6 +61,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_dev4_authoritative_artifact_contract.py' -v
           python -m unittest discover -s tests -p 'test_dev4_round2_qant_cpu_contract.py' -v
           python -m unittest discover -s tests -p 'test_dev4_round3_context_contract.py' -v
+          python -m unittest discover -s tests -p 'test_github_dispatcher_contract.py' -v
 
   durable_round3_evidence:
     runs-on: ubuntu-latest
