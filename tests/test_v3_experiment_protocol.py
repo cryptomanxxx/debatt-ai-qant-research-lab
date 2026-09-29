@@ -105,7 +105,7 @@ class UnapprovedV3ProtocolContract(unittest.TestCase):
             new_path.parent.mkdir(parents=True)
             doc = json.loads(original)
             doc["summary"]["alpha5_w10"]["aggregate_qant_correct"] = 499
-            changed = (json.dumps(doc, indent=2) + "\\n").encode()
+            changed = json.dumps(doc, indent=2).encode()
             new_path.write_bytes(changed)
             with patch.object(protocol_module, "ROOT", Path(tmp)):
                 with self.assertRaisesRegex(ValueError, "source changed"):
