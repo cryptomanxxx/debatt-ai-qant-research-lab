@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'scripts/**'
+      - 'integrations/**'
       - 'research_queue/benchmarks/**'
       - 'tests/**'
       - '.github/workflows/**'
