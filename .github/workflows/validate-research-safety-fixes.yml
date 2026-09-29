@@ -64,6 +64,8 @@ jobs:
           python -m unittest discover -s tests -p 'test_github_dispatcher_contract.py' -v
           python -m unittest discover -s tests -p 'test_research_memory_v3.py' -v
           python -m scripts.research_memory_v3
+          python -m unittest discover -s tests -p 'test_research_tool_calling_v3.py' -v
+          python -m scripts.research_tool_calling_v3
 
   durable_round3_evidence:
     runs-on: ubuntu-latest
