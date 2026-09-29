@@ -53,6 +53,7 @@ class ScientificReasoningV3Contract(unittest.TestCase):
                 steps=[{"kind": "proposal", "payload": proposal()}])
         with self.assertRaisesRegex(ValueError, "terminate"):
             run_scripted_session(strategy="gpt-oss-120b", steps=[
+                {"kind": "tool", "payload": {"tool": "search_experiments", "arguments": {"local_width": 9}}},
                 {"kind": "proposal", "payload": proposal()},
                 {"kind": "tool", "payload": {"tool": "get_pareto_front", "arguments": {}}}])
 
