@@ -25,6 +25,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
       - name: Install dry-run RNG dependency
         run: python -m pip install "numpy==1.26.4" "scikit-learn==1.5.2"
       - name: Inspect existing Q.ANT research image digest (no compute)
@@ -37,6 +40,8 @@ jobs:
       - name: Compile modified Python entrypoints
         run: |
           python -m py_compile scripts/proposal_lineage.py scripts/compile_ai_researcher_proposal.py scripts/materialize_ai_approved_job.py scripts/run_research_job_v2.py scripts/link_research_proposal_outcomes.py
+      - name: Test branch cleanup behavior with mocked GitHub APIs and real local Git
+        run: node --test tests/test_merged_branch_cleanup_behavior.cjs
       - name: Run focused regression tests
         run: |
           python -m unittest discover -s tests -p 'test_link_research_proposal_outcomes.py' -v

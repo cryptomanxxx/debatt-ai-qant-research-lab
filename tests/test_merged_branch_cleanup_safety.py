@@ -1,22 +1,29 @@
-"""Static safety regressions for merged-branch cleanup."""
+"""Workflow wiring checks; security behavior is tested by the Node suite.
+
+The important safety claims are covered by executing the SAME production
+module in tests/test_merged_branch_cleanup_behavior.cjs, including actual
+compare-and-delete operations on disposable local bare Git repositories.
+"""
 import unittest
 from pathlib import Path
 
 
-class CleanupSafetyTests(unittest.TestCase):
-    def test_atomic_compare_and_delete(self):
-        workflow = Path(".github/workflows/delete-merged-pr-branches.yml").read_text()
-        self.assertIn("--force-with-lease=refs/heads/", workflow)
-        self.assertIn("current.data.object.sha", workflow)
-        self.assertNotIn("github.rest.git.deleteRef", workflow.replace(
-            "// GitHub's deleteRef API deletes by name, with no expected-SHA guard.", ""))
+class CleanupWorkflowWiringTests(unittest.TestCase):
+    def test_workflow_invokes_production_module_instead_of_inline_copy(self):
+        source = Path(".github/workflows/delete-merged-pr-branches.yml").read_text()
+        self.assertIn("scripts/merged_branch_cleanup.cjs", source)
+        self.assertIn("await cleanupMergedPrBranches({ github, context, core, exec });",
+                      source)
+        self.assertNotIn("const byName = new Map()", source)
+        self.assertIn("uses: actions/github-script@v7", source)
 
-    def test_open_pr_branches_are_excluded(self):
-        workflow = Path(".github/workflows/delete-merged-pr-branches.yml").read_text()
-        self.assertIn("state: 'open'", workflow)
-        self.assertIn("activeHeads.has(name)", workflow)
-        self.assertIn("stillOpen.some(", workflow)
-        self.assertIn("protectedNames = new Set(['main', 'dev'])", workflow)
+    def test_workflow_preserves_scope_and_permissions(self):
+        source = Path(".github/workflows/delete-merged-pr-branches.yml").read_text()
+        self.assertIn("branches: [main]", source)
+        self.assertIn("types: [closed]", source)
+        self.assertIn("contents: write", source)
+        self.assertIn("pull-requests: read", source)
+        self.assertIn("cancel-in-progress: false", source)
 
 
 if __name__ == "__main__":
