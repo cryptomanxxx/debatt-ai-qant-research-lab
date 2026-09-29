@@ -7,7 +7,6 @@ this module or running tests cannot send a live request.
 import hashlib
 import json
 import os
-import re
 import urllib.error
 import urllib.request
 
@@ -67,7 +66,7 @@ def _safe_groq_http_error(error):
         data = json.loads(raw)
         value = data.get("error", {}) if type(data) is dict else {}
         code = value.get("code") if type(value) is dict else None
-        if type(code) is str and re.fullmatch(r"[a-zA-Z0-9_.-]{1,64}", code):
+        if type(code) is str and code in {"permission_denied", "invalid_api_key", "model_not_found", "model_permission_denied", "rate_limit_exceeded", "insufficient_quota", "organization_restricted", "access_denied"}:
             return RuntimeError(f"Groq API HTTP {status}; provider error code: {code}")
     except (ValueError, UnicodeError, OSError, TypeError):
         pass
