@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "mode": "round_three_feedback_only_no_selection_no_compute",
+  "source_round1": {
+    "workflow_run_id": 36559946601,
+    "artifact_id": 11029104019,
+    "artifact_file": "dev4_round1_qant_cpu.json",
+    "artifact_sha256": "43eca34825b363497440717dea1af56fc3e00b9c01cac2f39f76d298eec10172",
+    "source_selection_run": 36555941972,
+    "source_response_id": "chatcmpl-b47f2f0a-e9f8-4864-bb80-2a288726a91f",
+    "backend": "qant-cpu/software-simulation",
+    "training_runs": 25
+  },
+  "source_round2": {
+    "workflow_run_id": 36564585508,
+    "artifact_id": 11031810235,
+    "artifact_file": "dev4_round2_qant_cpu.json",
+    "artifact_sha256": "e36071190ccf278aece6c303d05bcaf57de8bf575ec1efd4c954ec862d2c3a3f",
+    "source_selection_run": 36562982457,
+    "source_selection_artifact_id": 11030004166,
+    "source_selection_artifact_sha256": "90540e37dd1bcd556634ba8e9363b2bbaff3aeed28e1d84122abf3ddfc71e195",
+    "source_response_id": "chatcmpl-8731bac1-d96a-45cf-8561-da0934ef4285",
+    "backend": "qant-cpu/software-simulation",
+    "training_runs": 25
+  },
+  "shared_initial_history_sha256": "sha256:6991e3614f17360a91e8ec4a2155260e2fcdfe13078de73d2ee94d6135f32a7d",
+  "contexts": {
+    "gpt-oss-120b": {
+      "proposal_status_ledger": [
+        {
+          "round": 1,
+          "local_width": 9,
+          "valid": true,
+          "status": "evaluated"
+        },
+        {
+          "round": 2,
+          "local_width": 8,
+          "valid": true,
+          "status": "evaluated"
+        }
+      ],
+      "completed_paired_outcomes": [
+        {
+          "round": 1,
+          "paired_outcome": {
+            "candidate_correct": 445,
+            "control_correct": 452,
+            "candidate_parameters": 4812,
+            "control_parameters": 8550
+          }
+        },
+        {
+          "round": 2,
+          "paired_outcome": {
+            "candidate_correct": 438,
+            "control_correct": 452,
+            "candidate_parameters": 4278,
+            "control_parameters": 8550
+          }
+        }
+      ]
+    },
+    "random-search": {
+      "proposal_status_ledger": [
+        {
+          "round": 1,
+          "local_width": 15,
+          "valid": true,
+          "status": "evaluated"
+        },
+        {
+          "round": 2,
+          "local_width": 8,
+          "valid": true,
+          "status": "evaluated"
+        }
+      ],
+      "completed_paired_outcomes": [
+        {
+          "round": 1,
+          "paired_outcome": {
+            "candidate_correct": 450,
+            "control_correct": 452,
+            "candidate_parameters": 8016,
+            "control_parameters": 8550
+          }
+        },
+        {
+          "round": 2,
+          "paired_outcome": {
+            "candidate_correct": 438,
+            "control_correct": 452,
+            "candidate_parameters": 4278,
+            "control_parameters": 8550
+          }
+        }
+      ]
+    },
+    "grid-search": {
+      "proposal_status_ledger": [
+        {
+          "round": 1,
+          "local_width": 4,
+          "valid": true,
+          "status": "evaluated"
+        },
+        {
+          "round": 2,
+          "local_width": 5,
+          "valid": true,
+          "status": "evaluated"
+        }
+      ],
+      "completed_paired_outcomes": [
+        {
+          "round": 1,
+          "paired_outcome": {
+            "candidate_correct": 424,
+            "control_correct": 452,
+            "candidate_parameters": 2142,
+            "control_parameters": 8550
+          }
+        },
+        {
+          "round": 2,
+          "paired_outcome": {
+            "candidate_correct": 431,
+            "control_correct": 452,
+            "candidate_parameters": 2676,
+            "control_parameters": 8550
+          }
+        }
+      ]
+    },
+    "bayesian-optimization": {
+      "proposal_status_ledger": [
+        {
+          "round": 1,
+          "local_width": 10,
+          "valid": true,
+          "status": "evaluated"
+        },
+        {
+          "round": 2,
+          "local_width": 4,
+          "valid": true,
+          "status": "evaluated"
+        }
+      ],
+      "completed_paired_outcomes": [
+        {
+          "round": 1,
+          "paired_outcome": {
+            "candidate_correct": 445,
+            "control_correct": 452,
+            "candidate_parameters": 5346,
+            "control_parameters": 8550
+          }
+        },
+        {
+          "round": 2,
+          "paired_outcome": {
+            "candidate_correct": 424,
+            "control_correct": 452,
+            "candidate_parameters": 2142,
+            "control_parameters": 8550
+          }
+        }
+      ]
+    }
+  }
+}
