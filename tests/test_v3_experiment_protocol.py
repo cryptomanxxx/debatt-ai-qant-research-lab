@@ -94,7 +94,7 @@ class UnapprovedV3ProtocolContract(unittest.TestCase):
         self.assertEqual(prior["paired_control_parameter_count"], 8550)
         self.assertEqual(search_experiments(strategy="gpt-oss-120b"), before)
         self.assertTrue(all(x["local_width"] != 10 for x in before["results"]))
-        self.assertIn("new training seeds", load_protocol()["method"]["candidate_roles"]["10"])
+        self.assertIn("new_training_seeds", load_protocol()["method"]["candidate_roles"]["10"])
 
     def test_prior_width10_source_must_match_pin_even_if_summary_claim_is_modified(self):
         path = protocol_module.ROOT / PRIOR_WIDTH10_REL_PATH
