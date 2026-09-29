@@ -7,6 +7,8 @@ this module or running tests cannot send a live request.
 import hashlib
 import json
 import os
+import re
+import urllib.error
 import urllib.request
 
 from scripts.research_tool_calling_v3 import ResearchSession, ALLOWED_TOOLS
@@ -51,6 +53,27 @@ SYSTEM = (
 )
 
 
+def _safe_groq_http_error(error):
+    """Expose only HTTP status and a bounded machine error code; never raw body.
+
+    Provider messages can echo prompts, credentials or arbitrary text. Do not
+    put the response body, request URL, headers or exception repr in logs.
+    """
+    status = error.code if type(error.code) is int else 0
+    try:
+        raw = error.read(4097)
+        if len(raw) > 4096:
+            return RuntimeError(f"Groq API HTTP {status}; error details oversized")
+        data = json.loads(raw)
+        value = data.get("error", {}) if type(data) is dict else {}
+        code = value.get("code") if type(value) is dict else None
+        if type(code) is str and re.fullmatch(r"[a-zA-Z0-9_.-]{1,64}", code):
+            return RuntimeError(f"Groq API HTTP {status}; provider error code: {code}")
+    except (ValueError, UnicodeError, OSError, TypeError):
+        pass
+    return RuntimeError(f"Groq API HTTP {status}; no safe provider error code")
+
+
 class GroqHTTPAdapter:
     """Explicit opt-in HTTP adapter; no implicit retries or fallback models."""
 
@@ -71,8 +94,11 @@ class GroqHTTPAdapter:
             headers={"Authorization": "Bearer " + self._key,
                      "Content-Type": "application/json"},
             method="POST")
-        with urllib.request.urlopen(request, timeout=45) as response:
-            raw = response.read(MAX_RESPONSE_BYTES + 1)
+        try:
+            with urllib.request.urlopen(request, timeout=45) as response:
+                raw = response.read(MAX_RESPONSE_BYTES + 1)
+        except urllib.error.HTTPError as error:
+            raise _safe_groq_http_error(error) from None
         if len(raw) > MAX_RESPONSE_BYTES:
             raise ValueError("Groq response too large")
         result = json.loads(raw)
