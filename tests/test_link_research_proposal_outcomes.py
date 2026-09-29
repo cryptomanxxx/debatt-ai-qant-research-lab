@@ -82,6 +82,24 @@ class LinkageTests(unittest.TestCase):
         self.assertEqual(self.run_link()["excluded_results"][0]["reason"],
                          "incomplete_or_mismatched_per_seed_rows")
 
+    def test_malformed_candidate_rows_do_not_abort_other_results(self):
+        valid = self.root / "valid.json"
+        valid.write_text(json.dumps(self.data))
+        for malformed in ([], {"unexpected": "object"}):
+            broken = json.loads(json.dumps(self.data))
+            broken["rows"][0]["candidate"] = malformed
+            self.result.write_text(json.dumps(broken))
+            report = link(self.manifest, [self.result, valid])
+            self.assertEqual(report["excluded_results"][0]["reason"],
+                             "incomplete_or_mismatched_per_seed_rows")
+            self.assertEqual(report["linked_proposals"][0]["status"], "linked")
+            self.assertEqual(len(report["linked_proposals"][0]["results"]), 1)
+
+    def test_malformed_seed_row_is_excluded(self):
+        self.data["rows"][0]["seed"] = []
+        self.assertEqual(self.run_link()["excluded_results"][0]["reason"],
+                         "incomplete_or_mismatched_per_seed_rows")
+
     def test_duplicate_manifest_rejected(self):
         with self.assertRaises(ValueError):
             link(self.manifest * 2, [])
