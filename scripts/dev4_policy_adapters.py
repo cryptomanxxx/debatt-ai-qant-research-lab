@@ -84,7 +84,6 @@ def choose_bayesian(protocol, own_ledger, own_completed_outcomes):
     model = GaussianProcessRegressor(
         kernel=Matern(nu=2.5), normalize_y=True, alpha=1e-6,
         random_state=protocol["strategy_specifications"]["bayesian-optimization"]["random_seed"],
-        optimizer=None,
     )
     model.fit(x, y)
     means, stds = model.predict(np.asarray(remaining, dtype=float).reshape(-1, 1), return_std=True)
