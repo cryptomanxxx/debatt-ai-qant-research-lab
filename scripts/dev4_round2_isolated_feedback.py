@@ -128,7 +128,7 @@ def main():
     output=build(protocol,first,second,args.source_artifact.read_bytes(),
                  args.selection_artifact.read_bytes() if args.selection_artifact else None)
     args.output.parent.mkdir(parents=True,exist_ok=True)
-    args.output.write_text(json.dumps(output,indent=2,sort_keys=True)+"\\n")
+    args.output.write_text(json.dumps(output,indent=2,sort_keys=True)+"\n")
     print("Round 2 source verified; four isolated Round 3 histories built. No API or training.")
 
 if __name__=="__main__":main()
