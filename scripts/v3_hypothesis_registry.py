@@ -65,7 +65,7 @@ def load_hypotheses(path=REGISTRY):
     if (type(doc["schema_version"]) is not int or doc["schema_version"] != 1
             or doc["record_kind"] != "unexecuted_hypothesis_registry"
             or doc["status"] != "hypotheses_only"
-            or doc["training_runs"] != 0
+            or type(doc["training_runs"]) is not int or doc["training_runs"] != 0
             or doc["requires_separate_human_compute_approval"] is not True):
         raise ValueError("registry cannot authorize or claim completed research")
     rows = doc["entries"]
@@ -189,9 +189,9 @@ def _pinned_protocol():
     return settings[0]
 
 
-def build_offline_study_draft():
+def build_offline_study_draft(registry_path=REGISTRY):
     """Produce two reproducible *planning-only* evaluations and study metadata."""
-    registry = load_hypotheses()
+    registry = load_hypotheses(registry_path)
     epochs, seeds, learning_rate, batch_size, frequencies, control_width = _pinned_protocol()
     known = {row["experiment_id"]: row for row in
              memory.search_experiments(strategy="gpt-oss-120b")["results"]}
@@ -212,6 +212,9 @@ def build_offline_study_draft():
             "review_metadata": item["review"],
             "evaluation_plan": plan,
         })
+    reference = proposals[0]["evaluation_plan"]["historical_reference_only"]
+    if any(p["evaluation_plan"]["historical_reference_only"] != reference for p in proposals):
+        raise ValueError("candidate plans disagree on historical reference")
     return {
         "schema_version": 1,
         "record_kind": "offline_study_draft",
@@ -224,8 +227,8 @@ def build_offline_study_draft():
             "epochs": epochs, "seeds": list(seeds),
             "learning_rate": learning_rate, "batch_size": batch_size,
             "frequencies": list(frequencies), "control_local_width": control_width,
-            "control_comparison_correct": 452,
-            "control_comparison_parameters": 8550,
+            "control_comparison_correct": reference["control_correct"],
+            "control_comparison_parameters": reference["control_parameters"],
         },
         "proposed_future_design_not_authorized": {
             "candidate_widths": sorted(item["proposal"]["local_width"]
