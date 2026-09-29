@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "record_kind": "unexecuted_hypothesis_registry",
+  "status": "hypotheses_only",
+  "entries": [
+    {
+      "hypothesis_id": "v3-live-36597959269-width11",
+      "state": "proposed_untested",
+      "strategy": "gpt-oss-120b",
+      "source": {
+        "workflow_run_id": 36597959269,
+        "workflow_commit_sha": "15442ba85ea33b12528f00e8870f3db2e7c5b7b5",
+        "artifact_id": 11047390153,
+        "artifact_member": "research_session.json",
+        "original_report_sha256": "8d436214e35b45fb713b912b64eeee4bd1d10f36667ec0faa7019e5771f9f6a1",
+        "proposal_model_output_sha256": "985b435b4d28698425e0733405d8791947cfa47b481b343f92eef227ef7a0932"
+      },
+      "proposal_sha256": "d3a53ed7f3b2adcb4e903dcb1803b6a58ec263933e172bc7994808a5f3b13eae",
+      "observed_evidence_ids": [
+        "dev4-r1-gpt-oss-120b",
+        "dev4-r2-gpt-oss-120b"
+      ],
+      "proposal": {
+        "dataset": "ECG200",
+        "epochs": 100,
+        "evidence_ids": [
+          "dev4-r1-gpt-oss-120b",
+          "dev4-r2-gpt-oss-120b"
+        ],
+        "expected_measurements": [
+          "candidate_correct",
+          "candidate_parameters",
+          "gate_pass"
+        ],
+        "hypothesis": "Increasing the local_width to 11 will modestly raise the candidate model's parameter count while improving its classification accuracy on ECG200 to exceed the control baseline.",
+        "local_width": 11,
+        "rationale": "In the gpt-oss-120b strategy, a higher local_width (9) yielded more candidate_correct (445) than a lower width (8) (438), indicating a positive relationship between width and accuracy. Although both were below the control (452), the trend suggests that further increasing width may allow the candidate to surpass control performance, even if parameters grow."
+      },
+      "review": {
+        "kind": "not_reviewed",
+        "assessment": null,
+        "reviewed_proposal_sha256": null
+      },
+      "completed_experiment_id": null,
+      "measured_candidate_correct": null,
+      "measured_candidate_parameters": null
+    },
+    {
+      "hypothesis_id": "v3-reviewed-36601207596-width10",
+      "state": "proposed_untested",
+      "strategy": "gpt-oss-120b",
+      "source": {
+        "workflow_run_id": 36601207596,
+        "workflow_commit_sha": "ec32cf42fe345a6fa0bc0416753dc7b2da9aee57",
+        "artifact_id": 11048933655,
+        "artifact_member": "reviewed_research_session.json",
+        "original_report_sha256": "b4c40fa679c573e61eef5edba38301071ef638d3c6ad5380b35749b5d4064fe9",
+        "proposal_model_output_sha256": "1897c8350523e2b90e525e777c8c4250f3cefaa824171c3f252b2aa76ef988b6"
+      },
+      "proposal_sha256": "036520e5857c05a76f8326cb1ee11048fa38a266247159e66c469478a9e4e44c",
+      "observed_evidence_ids": [
+        "dev4-r1-gpt-oss-120b",
+        "dev4-r2-gpt-oss-120b"
+      ],
+      "proposal": {
+        "dataset": "ECG200",
+        "epochs": 100,
+        "evidence_ids": [
+          "dev4-r1-gpt-oss-120b",
+          "dev4-r2-gpt-oss-120b"
+        ],
+        "expected_measurements": [
+          "candidate_correct",
+          "candidate_parameters",
+          "gate_pass"
+        ],
+        "hypothesis": "Increasing the local_width to 10 will raise the candidate model's correct predictions on ECG200, approaching or surpassing the control accuracy, while keeping the total parameter count below the control's 8550 parameters.",
+        "local_width": 10,
+        "rationale": "In round 1 (width 9) the candidate achieved 445 correct with 4 812 parameters; in round 2 (width 8) it achieved 438 correct with 4 278 parameters. Both are below the control's 452 correct and 8 550 parameters, indicating a positive correlation between width and accuracy but also a trade‑off with parameter count. A modest increase to width 10 is expected to improve accuracy further yet remain under the control's parameter budget."
+      },
+      "review": {
+        "kind": "model_critical_review",
+        "assessment": "testable_with_caveats",
+        "reviewed_proposal_sha256": "036520e5857c05a76f8326cb1ee11048fa38a266247159e66c469478a9e4e44c"
+      },
+      "completed_experiment_id": null,
+      "measured_candidate_correct": null,
+      "measured_candidate_parameters": null
+    }
+  ],
+  "training_runs": 0,
+  "requires_separate_human_compute_approval": true
+}
