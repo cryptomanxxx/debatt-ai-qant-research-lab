@@ -28,7 +28,7 @@ jobs:
         with:
           script: |
             const {owner, repo} = context.repo;
-            const exec = require("@actions/exec");
+            // github-script already supplies the exec helper.
             const protectedNames = new Set(['main', 'dev']);
             // A push to main also sweeps branches left by earlier squash merges.
             // Never delete a branch just because its name appeared in a merged PR:
