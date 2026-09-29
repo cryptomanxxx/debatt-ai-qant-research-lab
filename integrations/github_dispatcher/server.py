@@ -16,7 +16,7 @@ REPO = "cryptomanxxx/debatt-ai-qant-research-lab"
 # Intentionally excludes any Q.ANT training workflow.
 ALLOWED = {}  # Fail closed until Round 3 workflow is independently reviewed and merged.
 API = "https://api.github.com/repos/" + REPO
-ROUND_WORKFLOW_RE = re.compile(r"^dev4-round([3-5])-selection\\.yml$")
+ROUND_WORKFLOW_RE = re.compile("^dev4-round([3-5])-selection[.]yml$")
 
 
 def request(method, endpoint, token, payload=None):
