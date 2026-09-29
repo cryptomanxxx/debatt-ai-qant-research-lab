@@ -39,6 +39,10 @@ class VerifiedPolicyReplayTests(unittest.TestCase):
     def test_five_round_policy_verified_transcript(self):
         result = replay(self.protocol, fixture(self.protocol), verify_policies=True)
         self.assertTrue(result["policies_verified"])
+        import numpy
+        import sklearn
+        self.assertEqual(result["adapter_versions"], {"numpy": numpy.__version__,
+                                                       "scikit_learn": sklearn.__version__})
         self.assertEqual(len(result["audit"]), 20)
         self.assertEqual((result["training_runs"], result["groq_calls"], result["holdout_access"]),
                          (0, 0, False))
