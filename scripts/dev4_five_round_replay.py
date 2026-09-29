@@ -107,9 +107,15 @@ def replay(protocol, records, verify_policies=False):
                           "proposal_error": error, "status": row["status"],
                           "prior_own_attempts": len(context["proposal_status_ledger"]),
                           "prior_own_completed_outcomes": len(context["completed_paired_outcomes"])})
+    adapter_versions = None
+    if verify_policies:
+        import numpy
+        import sklearn
+        adapter_versions = {"numpy": numpy.__version__, "scikit_learn": sklearn.__version__}
     return {"schema_version": 1, "mode": "externally_supplied_replay_no_compute",
             "training_runs": 0, "groq_calls": 0, "holdout_access": False,
-            "rounds_per_strategy": n, "policies_verified": verify_policies, "audit": audit}
+            "rounds_per_strategy": n, "policies_verified": verify_policies,
+            "adapter_versions": adapter_versions, "audit": audit}
 
 
 def main():
