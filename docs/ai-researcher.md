@@ -1,3 +1,5 @@
+> **Historical v1 design, not the current connected workflow.** Start at the [current systems/protocol map](current-systems-and-protocols.md) for the active v2 scientific-review, separate compute authorization and pinned execution path.
+
 # AI Researcher v1
 
 AI Researcher v1 is deliberately separated from compute execution.

@@ -1,3 +1,5 @@
+> **General historical governance context, not a replacement for current code.** Schema ceilings below are upper bounds, not an authorization for any individual experiment. The [current systems/protocol map](current-systems-and-protocols.md) links the SHA-bound proposal/review, separate environment compute gate and pinned execution workflows.
+
 # Research job governance
 
 Before an AI researcher is allowed to propose compute work, the orchestration

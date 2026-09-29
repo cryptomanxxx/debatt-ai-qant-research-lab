@@ -14,6 +14,8 @@ This repository contains the experiments, results and research automation behind
 
 ## Current status
 
+**Start here:** [Current systems and protocols](docs/current-systems-and-protocols.md) is the maintained map of active vs historical systems, frozen evidence, protocol owners and human approval. This README is an overview, not an execution contract.
+
 The project is an early-stage research programme. Experiments currently run on **GitHub Actions standard CPU runners** using the **Q.ANT Native Computing Toolkit CPU backend**.
 
 The Q.ANT CPU backend is software that allows Native Computing Toolkit operations to be developed and evaluated without access to the photonic processor. **Q.ANT is not providing the CPU compute used by these experiments; GitHub Actions currently provides the CPU, RAM and runtime.**
@@ -34,33 +36,22 @@ Recent experiments have therefore moved from simply measuring accuracy to invest
 - interaction between logit perturbation and classification decision margins;
 - architecture interventions intended to retain model capacity while reducing deployment mismatch.
 
-**Experiment 018** is the current intervention. It compares a four-component Fourier model, a standard eight-component model using frequencies 1–8, and an eight-component frequency-controlled model that repeats frequencies 1–4. The goal is to test whether the higher frequencies themselves drive the larger deployment mismatch while holding the number of trainable components constant.
+**Experiment 018** was a historical intervention. The original Toolkit discovery series is preserved through **Exp030** (including the AST-equivalent readability-only refactor from #152). **PNN-v1** is a separately numbered architecture series with committed Exp001–Exp021 results and auxiliary paired confirmations at this snapshot. See [the current protocol map](docs/current-systems-and-protocols.md); do not treat a historical result as a currently authorized future protocol.
 
-## Autonomous research loop
+## AI-assisted research and approval boundaries
 
-The repository is also an experiment in **AI-assisted scientific research**.
-
-The current workflow is:
+**AI Researcher v2** is the connected, **Groq-backed** proposal/compiler/review path: its manual or authorized feedback-triggered workflow invokes `scripts.ai_researcher_v2`, requires `GROQ_API_KEY`, and makes real calls to Groq. The `deterministic` / `allow_paid_usage=false` settings in `research_queue/researcher_backend.json` belong to a separate non-wired prototype and **do not disable v2 API usage or guarantee zero provider cost**. **AI Researcher v3** has separate offline, read-only strategy-isolated Research Memory and manually approved bounded live Groq sessions. Its proposals, reviews and unapproved standalone drafts are not completed experiment results.
 
 ```text
-Experiment results
-      ↓
-GPT-5.6 Sol research analysis
-      ↓
-Falsifiable hypothesis
-      ↓
-Human review and approval
-      ↓
-Guarded GitHub Actions experiment
-      ↓
-Version-controlled results
-      ↓
-Next analysis
+Versioned results -> proposal + compiler checks
+ -> human scientific review of exact proposal SHA
+ -> separate human compute authorization
+ -> immutable approved job + pinned execution commit
+ -> guarded Q.ANT CPU/software-simulation run
+ -> result + execution record published via PR
 ```
 
-The AI Researcher can analyse completed experiments, formulate a falsifiable hypothesis, design the next experiment and prepare its implementation. Compute is deliberately behind a human approval boundary: a proposed experiment does not execute until its declared budget has been reviewed and approved.
-
-This separation is intentional. It makes the research loop increasingly autonomous without giving an AI system unrestricted compute execution.
+Older direct-approval workflows are retained but disabled. **Dev-4 selection evidence remains frozen and strategy-isolated**; it must not be silently merged into general agent memory. Entering either v3 live-workflow approval phrase **does authorize that bounded Groq API session**, possibly with multiple model calls, but never Q.ANT training. V2 workflow dispatch can likewise initiate external Groq usage. Code merge, an AI proposal and a Groq session are not human compute authorization. Consult the [current systems and protocol map](docs/current-systems-and-protocols.md) for exact entrypoints and approval scopes.
 
 ## Experimental progression
 
@@ -77,29 +68,39 @@ Broadly, the programme has progressed through:
 7. Numerical mismatch diagnostics and error decomposition.
 8. Activation-error occupancy and logit-margin diagnostics.
 9. Frequency-controlled architecture intervention.
+10. Accumulation, low-fan-in and predictive compatibility studies through original Toolkit **Exp030**.
+11. The separately numbered **PNN-v1** ECG200/architecture work, with committed **Exp001–Exp021**, plus distinct confirmation records.
 
 Negative results are kept because they constrain the next hypothesis. For example, adding output noise during training did not materially reduce the Q.ANT/reference disagreement, and a first Q.ANT-fitted training surrogate did not satisfy its preregistered criterion across both g4 and g8.
 
 ## Repository structure
 
 ```text
-experiments/                 Reproducible experiment implementations
-results/                     Version-controlled experiment results
+experiments/                 Historical Toolkit discovery Exp001–Exp030
+results/                     Published discovery and auxiliary results
+pnn-v1/                      Separate PNN proposal, experiment, result, analysis,
+                             model, dataset and benchmark namespaces
 research_queue/
-  proposals/                 AI Researcher hypotheses and proposed methods
-  analyses/                  Formal analyses of completed experiments
-  jobs/                      Human-approved compute jobs
-scripts/                     Setup, orchestration, progress and dashboard tools
+  proposals/                 Historical proposal lineage
+  ai_researcher/             Versioned v2 AI proposals
+  human_review/              Scientific decisions/history
+  compiled/                  Compiler checks, not compute authorization
+  jobs/                      Guarded jobs
+  benchmarks/                Frozen strategy-isolated Dev-4 records
+  v3_hypotheses/             Source-pinned but untested v3 proposals
+  v3_protocols/              Unapproved standalone v3 draft
+docs/current-systems-and-protocols.md
+                             Maintained status/protocol map
 public/research-dashboard.json
-                             Stable public research summary
-.github/workflows/           Guarded GitHub Actions automation
+                             Derived summary, not raw evidence
+.github/workflows/           Current, manual-only, disabled legacy, validation
 ```
 
-Each experiment is intended to leave a reproducible trail from **observation → hypothesis → approval → execution → result → analysis**.
+Identifiers are scoped to their experiment family. Some PNN output is mirrored into root `results/`; a future global catalog must reconcile identities and provenance instead of counting mirrors as independent experiments.
 
 ## Reproducibility and compute
 
-The experiments use fixed seeds where appropriate and store machine-readable JSON results in the repository. Current larger validation runs use FashionMNIST with multiple seeds, while earlier experiments used MNIST.
+The experiments use fixed seeds where appropriate and store machine-readable JSON results. Historical Toolkit discovery used MNIST/FashionMNIST; separately numbered PNN-v1 and the frozen selection benchmark use ECG200 with their own paired-control protocols. Seed lists, thresholds and permissions must be scoped to each study.
 
 The automation enforces declared limits such as maximum parameter count, number of runs, epochs and dataset size. This is designed so that inexpensive experiments can identify promising directions before more expensive validation is attempted.
 
@@ -152,4 +153,4 @@ This repository contains Debatt-AI's research code and results. Q.ANT's Native C
 
 ---
 
-**Status:** Active research. Current frontier: Q.ANT-specific Fourier/KAN numerical compatibility and architecture design.
+**Status (29 September 2026):** Toolkit discovery retained through Exp030; separate PNN-v1 results through Exp021; v2 guarded research orchestration; v3 research prototypes; frozen Dev-4 benchmark. Consult the [current protocol map](docs/current-systems-and-protocols.md) for source-of-truth links.
