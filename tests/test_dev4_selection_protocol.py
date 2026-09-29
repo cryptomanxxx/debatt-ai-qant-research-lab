@@ -24,7 +24,9 @@ class Dev4ProtocolTests(unittest.TestCase):
         prompt = PROTOCOL.with_name("dev4_gpt_oss_selection_prompt.txt").read_bytes()
         expected = "sha256:" + hashlib.sha256(prompt).hexdigest()
         self.assertEqual(self.p["strategy_specifications"]["gpt-oss-120b"]["prompt_template_sha256"], expected)
-        self.assertIn(b"ONLY this strategy", prompt)
+        self.assertIn(b"proposal/status ledger", prompt)
+        self.assertIn(b"evaluation_failed", prompt)
+        self.assertIn(b"other strategy", prompt)
         self.assertIn(b"No Q.ANT training", prompt)
 
     def test_pinned_history_enables_readiness_validation_only(self):
