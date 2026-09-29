@@ -1,0 +1,9 @@
+# PR #142 — First live research session (not executed)
+
+The new workflow `.github/workflows/ai-researcher-v3-first-live.yml` is **workflow_dispatch only**. It is not called by CI, cron, other workflows, or a PR merge. The job is skipped unless a human manually enters the exact approval phrase `I_APPROVE_ONE_LIVE_GROQ_RESEARCH_SESSION`. The Python entrypoint independently requires both `--live` and that exact phrase. A live run additionally requires the repository secret `GROQ_API_KEY`. Merely merging this PR does **not** authorize running the workflow; request separate human approval for the first live run.
+
+The session uses only the pinned GPT-OSS strategy's completed ECG200 Round 1/2 history. It can make at most six model calls and five read-only tool calls, with a maximum of 12,000 provider-reported total tokens and a strict output validator. The model may propose a hypothesis or abstain for insufficient evidence. Neither outcome can start training or mutate the Dev-4 record. The workflow token has `contents: read`, and there are no compute dispatch commands.
+
+After a successful run, download artifact `ai-researcher-v3-first-live-report` (30-day retention): `research_session.json` contains structured validated output, audit hashes and provider-reported usage; `research_session.md` contains a readable turn summary and scientific conclusion. The output is a bounded audit summary, **not** full raw hidden reasoning or full model message transcript. If the model/provider rejects a request or validation fails, the job fails closed; no successful research artifact is published.
+
+The PR's automated CI and the separate `ai-researcher-v3-fake-session.yml` only use injected fake clients and never require the Groq secret. Provider usage is validated after each response; no exact preflight tokenizer is claimed.

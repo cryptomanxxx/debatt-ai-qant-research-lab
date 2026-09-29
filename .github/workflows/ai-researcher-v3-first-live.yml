@@ -1,0 +1,48 @@
+name: AI Researcher v3 First Live Research (Manual Only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      approval:
+        description: 'Exact approval: I_APPROVE_ONE_LIVE_GROQ_RESEARCH_SESSION'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-researcher-v3-first-live
+  cancel-in-progress: false
+
+jobs:
+  first_live_research:
+    if: ${{ inputs.approval == 'I_APPROVE_ONE_LIVE_GROQ_RESEARCH_SESSION' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify offline contracts before secret exposure
+        run: |
+          python -m unittest discover -s tests -p 'test_research_memory_v3.py' -v
+          python -m unittest discover -s tests -p 'test_research_tool_calling_v3.py' -v
+          python -m unittest discover -s tests -p 'test_scientific_reasoning_v3.py' -v
+          python -m unittest discover -s tests -p 'test_live_research_agent_v3.py' -v
+          python -m unittest discover -s tests -p 'test_first_live_research_session_v3.py' -v
+      - name: Run one explicitly approved read-only Groq session
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          SESSION_APPROVAL: ${{ inputs.approval }}
+        run: |
+          python -m scripts.first_live_research_session_v3 --live --approval "$SESSION_APPROVAL" --output-dir research-session-report
+      - name: Publish research report (not on failed validation)
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-researcher-v3-first-live-report
+          path: research-session-report/
+          retention-days: 30
+          if-no-files-found: error
