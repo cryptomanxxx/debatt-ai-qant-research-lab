@@ -62,6 +62,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dev4-round1-qant-cpu-results
-          path: local_results/dev4_round1_qant_cpu.json
+          path: |
+            local_results/dev4_round1_qant_cpu.json
+            local_results/dev4_round1_partial.json
           if-no-files-found: warn
           retention-days: 90
