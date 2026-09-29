@@ -71,7 +71,7 @@ async function cleanupMergedPrBranches({ github, context, core, exec }) {
     // An active PR can be opened after the initial listing. Recheck just
     // before the Git operation; this check itself is NOT atomic with deletion.
     const stillOpen = await github.paginate(github.rest.pulls.list, {
-      owner, repo, state: "open", head: fullName + ":" + name, per_page: 100
+      owner, repo, state: "open", head: owner + ":" + name, per_page: 100
     });
     if (stillOpen.some(pr => ownRepositoryHead(pr) && pr.head.ref === name)) {
       core.info("Keeping " + name + ": it backs an open PR");
