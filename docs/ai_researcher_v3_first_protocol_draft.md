@@ -12,8 +12,38 @@ reports in `research_queue/v3_hypotheses/registry.json`:
 
 | Proposed candidate | Original live run | Current status |
 |---:|---|---|
-| 10 | [36601207596](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/actions/runs/36601207596) | Untested; fresh-context model review included |
-| 11 | [36597959269](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/actions/runs/36597959269) | Untested; original first-live proposal only |
+| 10 | [36601207596](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/actions/runs/36601207596) | **Replication of an already tested architecture using new seeds 401–405.** The AI-generated *v3 hypothesis* has not been prospectively executed; see the earlier repository experiment below. |
+| 11 | [36597959269](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/actions/runs/36597959269) | Proposed v3 candidate without a completed record in its isolated own-strategy Research Memory; no new-seed v3 test yet. |
+
+### Relevant previously completed width-10 result (outside the isolated Dev-4 memory)
+
+Codex identified an earlier **repository-recorded width-10 study**, which
+predates both successful v3 proposal sessions:
+
+- Source: `results/result_engine_w10_100epoch_ai-local-width-w10-100epoch-201-202-203-204-205.json`
+- Pinned Git blob SHA-1: `a23d3343777599d9296e708fec52513226fff940`
+- Backend: **`qant-cpu/software-simulation`**, *not* photonic hardware.
+- Same dataset (ECG200), 100 epochs, learning rate 0.001, batch size 32,
+  frequencies [1, 2], and paired width-16 control, but different training
+  seeds **201–205**.
+- Recorded width 10: **444/500 correct**, **5,346 parameters**.
+- Concurrent width-16 control: **453/500 correct**, **8,550 parameters**.
+  The candidate was **9 correct predictions below** that control. Its old
+  within-ten gate passed; it did **not** outperform the control.
+
+The code now checks the immutable repository Git blob, study configuration,
+each paired seed row, the per-fit parameters, and the published aggregate
+totals before presenting this reference in the new draft. This is a recorded
+completed result in the wider repository, **not** one of the two completed
+`gpt-oss-120b` observations admitted to the strategy-isolated, frozen Dev-4
+Research Memory (widths 8 and 9). The v3 model generated its hypothesis from
+that narrower view. We do not silently import this older experiment into
+Dev-4, pretend the width-10 architecture was never tested, or confuse the
+old control's 453/500 with the other Dev-4 historical control's 452/500.
+
+The proposed five width-10 fits on **401–405** are therefore a replication on
+new training seeds (still on the previously used ECG200 test split), not an
+architectural first trial. They have **not** been run.
 
 `scripts/v3_experiment_protocol.py` reconstructs the **entire expected
 protocol document** from this verified hypothesis registry and the existing
@@ -35,8 +65,9 @@ modified seeds, altered hashes, a preselected backend or invented authorization.
 | Potential future fits | Five seeds × three model widths = **15**, **not started** |
 | Backend | Not selected; historical evidence is software-simulation, *not* photonic-hardware output |
 
-Changing training seeds from the historically explored 301–305 reduces reuse
-of earlier random initialization settings. **It does NOT provide a new,
+Changing training seeds from the previously explored **201–205** for width
+10 and the isolated Dev-4 strategy's **301–305** provides a fresh set of random
+initializations, but does not erase either prior result. **It does NOT provide a new,
 independent holdout**: the model proposals were already informed by ECG200
 evaluations, and the same test split remains involved. Label this exploratory
 and do not call it independently validated or claim a new generalization
@@ -59,9 +90,11 @@ as above / ties / below **the fresh control**, without interpreting the sign
 alone as statistical significance or robust independent confirmation.
 
 Report measured parameter counts and the two-objective accuracy/parameter
-Pareto comparison. The two previously selected hypotheses are reported
-separately; the document makes no confirmatory winner selection and no
-unadjusted significance claim. Historical figures (Dev-4 gate 442/500,
+Pareto comparison. The new-seed width-10 replication and the other v3 hypothesis (width 11)
+are reported separately; the document makes no confirmatory winner selection
+and no unadjusted significance claim. The earlier width-10 reference is
+presented as context, **never** counted among the new 15 future fits or
+treated as a freshly paired 401–405 measurement. Historical figures (Dev-4 gate 442/500,
 historical control 452/500, strict historical outperformance >=453/500) are
 **descriptive context only**, not future pass thresholds.
 
