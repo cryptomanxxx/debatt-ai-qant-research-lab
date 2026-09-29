@@ -32,4 +32,4 @@ jobs:
           python -m unittest discover -s tests -p 'test_dev3_integration.py' -v
           python -m unittest discover -s tests -p 'test_dev4_selection_protocol.py' -v
           python -m scripts.validate_dev4_selection_protocol
-          python -m unittest discover -s tests -p 'test_dev4_history_snapshot.py' -v
+          python -m unittest discover -s tests -p 'test_dev4_history_snapshot.py' -v\n          python -m unittest discover -s tests -p 'test_dev4_selection_dry_run.py' -v\n          python -m scripts.validate_dev4_selection_protocol --ready-for-execution\n          python -m scripts.dev4_selection_dry_run
