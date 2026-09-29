@@ -40,7 +40,7 @@ Recent experiments have therefore moved from simply measuring accuracy to invest
 
 ## AI-assisted research and approval boundaries
 
-**AI Researcher v2** is the connected proposal/compiler/review path; the committed backend configuration currently declares `deterministic`, `proposal-only` and `allow_paid_usage=false`. **AI Researcher v3** is separate bounded, manually approved Groq research-session tooling with read-only, strategy-isolated Research Memory. Its proposals, reviews and unapproved standalone drafts are not completed experiment results.
+**AI Researcher v2** is the connected, **Groq-backed** proposal/compiler/review path: its manual or authorized feedback-triggered workflow invokes `scripts.ai_researcher_v2`, requires `GROQ_API_KEY`, and makes real calls to Groq. The `deterministic` / `allow_paid_usage=false` settings in `research_queue/researcher_backend.json` belong to a separate non-wired prototype and **do not disable v2 API usage or guarantee zero provider cost**. **AI Researcher v3** has separate offline, read-only strategy-isolated Research Memory and manually approved bounded live Groq sessions. Its proposals, reviews and unapproved standalone drafts are not completed experiment results.
 
 ```text
 Versioned results -> proposal + compiler checks
@@ -51,7 +51,7 @@ Versioned results -> proposal + compiler checks
  -> result + execution record published via PR
 ```
 
-Older direct-approval workflows are retained but disabled. **Dev-4 selection evidence remains frozen and strategy-isolated**; it must not be silently merged into general agent memory. Neither code merge, an AI proposal nor a Groq research-session approval grants permission to train. Consult the [current systems and protocol map](docs/current-systems-and-protocols.md) for exact workflow entrypoints.
+Older direct-approval workflows are retained but disabled. **Dev-4 selection evidence remains frozen and strategy-isolated**; it must not be silently merged into general agent memory. Entering either v3 live-workflow approval phrase **does authorize that bounded Groq API session**, possibly with multiple model calls, but never Q.ANT training. V2 workflow dispatch can likewise initiate external Groq usage. Code merge, an AI proposal and a Groq session are not human compute authorization. Consult the [current systems and protocol map](docs/current-systems-and-protocols.md) for exact entrypoints and approval scopes.
 
 ## Experimental progression
 
