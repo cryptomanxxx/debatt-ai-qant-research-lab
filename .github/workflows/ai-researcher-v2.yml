@@ -65,7 +65,7 @@ jobs:
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: |
-          python scripts/ai_researcher_v2.py
+          python -m scripts.ai_researcher_v2
       - name: Validate proposal draft
         run: |
           python -c 'import json; d=json.load(open("research_queue/ai_researcher/latest.json")); p=d["proposal"]; assert d["status"]=="draft_requires_human_review"; assert p["requires_human_approval"] is True; keys=("max_parameters","max_candidates","max_epochs","max_train_samples","max_test_samples"); assert all(isinstance(p["requested_budget"].get(k),int) and p["requested_budget"][k]>0 for k in keys)'
@@ -80,5 +80,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           AUTOMATION_GIT_NAME: "Debatt-AI AI Researcher"
-        run: python scripts/publish_via_pr.py "AI Researcher v2 draft proposal" research_queue/context/latest.json research_queue/ai_researcher/latest.json research_queue/compiled/latest.json research_queue/cycle/latest.json
+        run: python scripts/publish_via_pr.py "AI Researcher v2 draft proposal" research_queue/context/latest.json research_queue/ai_researcher/latest.json research_queue/ai_researcher/proposals/ research_queue/compiled/latest.json research_queue/cycle/latest.json
 
