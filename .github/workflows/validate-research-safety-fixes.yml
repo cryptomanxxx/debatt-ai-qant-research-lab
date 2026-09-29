@@ -7,6 +7,7 @@ on:
       - 'integrations/**'
       - 'research_queue/benchmarks/**'
       - 'research_queue/v3_hypotheses/**'
+      - 'research_queue/v3_protocols/**'
       - 'tests/**'
       - '.github/workflows/**'
   workflow_dispatch:
@@ -72,6 +73,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_live_research_agent_v3.py' -v
           python -m unittest discover -s tests -p 'test_scientific_evaluation_v3.py' -v
           python -m unittest discover -s tests -p 'test_v3_hypothesis_registry.py' -v
+          python -m unittest discover -s tests -p 'test_v3_experiment_protocol.py' -v
           python -m unittest discover -s tests -p 'test_critical_review_v3.py' -v
           python -m unittest discover -s tests -p 'test_reviewed_research_session_v3.py' -v
           python -m unittest discover -s tests -p 'test_first_live_research_session_v3.py' -v
