@@ -28,6 +28,15 @@ def summarize(record):
         or any(type(s) is not int or s <= 0 for s in seeds)
         or len(set(seeds)) != len(seeds)):
         return None
+    # Missing fields must never compare equal merely because dict.get returns None.
+    learning_rate = config.get("learning_rate")
+    batch_size = config.get("batch_size")
+    frequencies = config.get("frequencies")
+    if (type(learning_rate) not in (int, float) or not 0 < learning_rate < float("inf")
+        or type(batch_size) is not int or batch_size <= 0
+        or not isinstance(frequencies, list) or not frequencies
+        or any(type(v) is not int or v <= 0 for v in frequencies)):
+        return None
     controls = [k for k in summary if isinstance(k, str) and k.endswith("_control")]
     if len(controls) != 1 or len(summary) < 2:
         return None
@@ -48,9 +57,9 @@ def summarize(record):
         "test_shape": test_shape,
         "seeds": seeds,
         "epochs": epochs,
-        "learning_rate": config.get("learning_rate"),
-        "batch_size": config.get("batch_size"),
-        "frequencies": config.get("frequencies"),
+        "learning_rate": learning_rate,
+        "batch_size": batch_size,
+        "frequencies": frequencies,
     }
     rows = []
     for name, metrics in summary.items():

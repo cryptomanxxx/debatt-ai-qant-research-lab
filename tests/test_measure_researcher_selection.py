@@ -71,6 +71,25 @@ class MeasurementTests(unittest.TestCase):
         del bad["dataset"]
         self.assertIsNone(summarize(bad))
 
+    def test_missing_selected_protocol_fields_fail_closed(self):
+        for key in ("learning_rate", "batch_size", "frequencies"):
+            with self.subTest(field=key):
+                bad = result()
+                del bad["configuration"][key]
+                self.assertIsNone(summarize(bad))
+                bad = result()
+                bad["configuration"][key] = None
+                self.assertIsNone(summarize(bad))
+
+    def test_invalid_selected_protocol_values_fail_closed(self):
+        for key, value in (("learning_rate", 0), ("learning_rate", True),
+                           ("batch_size", 0), ("batch_size", True),
+                           ("frequencies", []), ("frequencies", [True])):
+            with self.subTest(field=key, value=value):
+                bad = result()
+                bad["configuration"][key] = value
+                self.assertIsNone(summarize(bad))
+
     def test_empty_input(self):
         self.assertEqual(build_report([])["completed_candidate_observations"], 0)
 
