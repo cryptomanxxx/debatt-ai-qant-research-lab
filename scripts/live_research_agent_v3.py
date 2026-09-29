@@ -15,6 +15,7 @@ from scripts.scientific_reasoning_v3 import validate_proposal, _encoded
 from scripts.research_memory_v3 import _strategy
 
 MODEL = "openai/gpt-oss-120b"
+USER_AGENT = "debatt-ai-researcher-v3/1.0"
 MAX_MODEL_CALLS = 6
 MAX_TOTAL_TOKENS = 12000
 MAX_RESPONSE_BYTES = 8192
@@ -63,6 +64,8 @@ def _safe_groq_http_error(error):
         raw = error.read(4097)
         if len(raw) > 4096:
             return RuntimeError(f"Groq API HTTP {status}; error details oversized")
+        if b"error code: 1010" in raw.lower():
+            return RuntimeError(f"Groq API HTTP {status}; edge rejection code: 1010")
         data = json.loads(raw)
         value = data.get("error", {}) if type(data) is dict else {}
         code = value.get("code") if type(value) is dict else None
@@ -91,7 +94,8 @@ class GroqHTTPAdapter:
             "https://api.groq.com/openai/v1/chat/completions",
             data=_encoded(payload),
             headers={"Authorization": "Bearer " + self._key,
-                     "Content-Type": "application/json"},
+                     "Content-Type": "application/json",
+                     "User-Agent": USER_AGENT},
             method="POST")
         try:
             with urllib.request.urlopen(request, timeout=45) as response:
