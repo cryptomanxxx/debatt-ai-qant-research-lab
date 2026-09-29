@@ -58,6 +58,39 @@ class Dev4ProtocolTests(unittest.TestCase):
         self.p["strategy_specifications"]["bayesian-optimization"].pop("acquisition")
         self.assertTrue(any("bayesian-optimization" in e for e in validate(self.p, ready=True)))
 
+    def test_unusable_strategy_values_fail_closed(self):
+        self.p["information_policy"]["shared_initial_history_snapshot"] = "sha256:" + "a" * 64
+        valid = {
+            "random-search": {"rng_algorithm": "PCG64", "seed": 17, "sampling_policy": "without replacement"},
+            "grid-search": {"traversal_order": "ascending", "start_offset": 0},
+            "bayesian-optimization": {"surrogate": "Gaussian process", "acquisition": "expected improvement",
+                                      "initialization": "fixed", "random_seed": 17,
+                                      "optimizer_policy": "enumerate discrete widths"},
+            "gpt-oss-120b": {"model_identifier": "openai/gpt-oss-120b",
+                             "prompt_template_sha256": "sha256:" + "b" * 64,
+                             "decoding_policy": "fixed temperature and sampling settings",
+                             "context_policy": "shared history and own prior feedback"}
+        }
+        import copy
+        self.p["strategy_specifications"] = valid
+        self.assertEqual(validate(self.p, ready=True), [])
+        cases = [("random-search", "seed", -1), ("random-search", "seed", False),
+                 ("grid-search", "start_offset", -1), ("grid-search", "traversal_order", {}),
+                 ("random-search", "sampling_policy", False),
+                 ("bayesian-optimization", "random_seed", -1),
+                 ("bayesian-optimization", "surrogate", []),
+                 ("bayesian-optimization", "acquisition", "   "),
+                 ("bayesian-optimization", "initialization", "TBD"),
+                 ("bayesian-optimization", "optimizer_policy", {}),
+                 ("gpt-oss-120b", "decoding_policy", {}),
+                 ("gpt-oss-120b", "context_policy", False),
+                 ("gpt-oss-120b", "prompt_template_sha256", "sha256:invalid")]
+        for name, key, value in cases:
+            with self.subTest(name=name, key=key, value=value):
+                self.p["strategy_specifications"] = copy.deepcopy(valid)
+                self.p["strategy_specifications"][name][key] = value
+                self.assertTrue(any(name + "." + key in e for e in validate(self.p, ready=True)))
+
     def test_automatic_compute_fails(self):
         self.p["guardrails"]["automatic_compute"] = True
         self.assertTrue(validate(self.p))
