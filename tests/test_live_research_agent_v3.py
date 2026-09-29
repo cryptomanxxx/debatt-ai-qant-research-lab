@@ -4,7 +4,7 @@ import json
 import urllib.error
 import unittest
 from unittest.mock import patch
-from scripts.live_research_agent_v3 import GroqHTTPAdapter, run_research, SYSTEM, PROPOSAL_SCHEMA_INSTRUCTIONS
+from scripts.live_research_agent_v3 import GroqHTTPAdapter, run_research, SYSTEM, PROPOSAL_SCHEMA_INSTRUCTIONS, USER_AGENT
 
 
 class FakeClient:
@@ -83,6 +83,85 @@ class LiveResearchAgentContract(unittest.TestCase):
                            "exactly these seven fields"):
             self.assertIn(constraint, SYSTEM)
         self.assertNotIn('"payload":{...}', SYSTEM)
+
+    def test_http_request_explicit_user_agent_without_real_network(self):
+        secret = "never-print-this-api-key"
+        error = urllib.error.HTTPError(
+            "https://api.groq.com/openai/v1/chat/completions",
+            403, "Forbidden", {"Content-Type": "text/plain"},
+            io.BytesIO(b"unrelated test failure"))
+        with patch("urllib.request.urlopen", side_effect=error) as urlopen:
+            with self.assertRaises(RuntimeError) as caught:
+                GroqHTTPAdapter(enabled=True, api_key=secret).complete([])
+        request = urlopen.call_args.args[0]
+        self.assertEqual(request.get_method(), "POST")
+        self.assertEqual(request.get_header("User-agent"), USER_AGENT)
+        self.assertEqual(request.get_header("Content-type"), "application/json")
+        self.assertIn("openai/gpt-oss-120b", request.data.decode("utf-8"))
+        self.assertNotIn(secret, str(caught.exception))
+
+    def test_html_403_identifies_possible_edge_block_without_leaking_body(self):
+        secret = "hidden-key-or-private-html-content"
+        cases = [
+            ({"Server": "cloudflare", "Content-Type": "text/html; charset=utf-8"},
+             ("<html><title>Access denied</title>" + secret + "</html>").encode()),
+            ({"Content-Type": "text/html"},
+             ("<!doctype html><html>Cloudflare " + secret + "</html>").encode()),
+        ]
+        for headers, body in cases:
+            with self.subTest(headers=headers):
+                error = urllib.error.HTTPError(
+                    "https://api.groq.com/openai/v1/chat/completions",
+                    403, secret, headers, io.BytesIO(body))
+                with patch("urllib.request.urlopen", side_effect=error):
+                    with self.assertRaises(RuntimeError) as caught:
+                        GroqHTTPAdapter(enabled=True, api_key=secret).complete([])
+                self.assertEqual(str(caught.exception),
+                                 "Groq API HTTP 403; possible Cloudflare edge HTML rejection")
+                self.assertNotIn(secret, str(caught.exception))
+                self.assertIsNone(caught.exception.__cause__)
+
+    def test_cloudflare_proxied_provider_json_preserves_allowlisted_code(self):
+        secret = "private-provider-message-must-not-appear"
+        error = urllib.error.HTTPError(
+            "https://api.groq.com/openai/v1/chat/completions", 403, secret,
+            {"Server": "cloudflare", "Content-Type": "application/json"},
+            io.BytesIO(json.dumps({"error": {
+                "code": "model_permission_blocked_org", "message": secret}}).encode()))
+        with patch("urllib.request.urlopen", side_effect=error):
+            with self.assertRaises(RuntimeError) as caught:
+                GroqHTTPAdapter(enabled=True, api_key="fake").complete([])
+        self.assertEqual(str(caught.exception),
+                         "Groq API HTTP 403; provider error code: model_permission_blocked_org")
+        self.assertNotIn(secret, str(caught.exception))
+
+    def test_generic_html_403_is_not_mislabeled_cloudflare(self):
+        error = urllib.error.HTTPError(
+            "https://api.groq.com/openai/v1/chat/completions", 403, "Forbidden",
+            {"Content-Type": "text/html", "Server": "other-proxy"},
+            io.BytesIO(b"<html>Generic non-Cloudflare 403 response</html>".replace(
+                b"Cloudflare", b"provider")))
+        with patch("urllib.request.urlopen", side_effect=error):
+            with self.assertRaisesRegex(RuntimeError, "no safe provider error code"):
+                GroqHTTPAdapter(enabled=True, api_key="fake").complete([])
+
+    def test_groq_request_identifies_client_and_safe_edge_1010(self):
+        # Simulated Cloudflare-style response: no network or charged model calls.
+        secret = "fake-secret-do-not-log"
+        error = urllib.error.HTTPError(
+            "https://api.groq.com/openai/v1/chat/completions", 403,
+            "Forbidden", {}, io.BytesIO(
+                b"<html>error code: 1010 " + secret.encode() + b"</html>"))
+        with patch("urllib.request.urlopen", side_effect=error) as opener:
+            with self.assertRaises(RuntimeError) as caught:
+                GroqHTTPAdapter(enabled=True, api_key=secret).complete([])
+        request = opener.call_args.args[0]
+        self.assertEqual(request.get_header("User-agent"), USER_AGENT)
+        self.assertEqual(request.get_method(), "POST")
+        self.assertEqual(opener.call_count, 1)  # No hidden retry.
+        self.assertEqual(str(caught.exception),
+                         "Groq API HTTP 403; edge rejection code: 1010")
+        self.assertNotIn(secret, str(caught.exception))
 
     def test_http_403_reports_only_safe_code_without_secrets(self):
         secret = "sensitive-key-must-not-appear"

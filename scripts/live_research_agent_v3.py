@@ -15,6 +15,7 @@ from scripts.scientific_reasoning_v3 import validate_proposal, _encoded
 from scripts.research_memory_v3 import _strategy
 
 MODEL = "openai/gpt-oss-120b"
+USER_AGENT = "debatt-ai-researcher-v3/1.0"
 MAX_MODEL_CALLS = 6
 MAX_TOTAL_TOKENS = 12000
 MAX_RESPONSE_BYTES = 8192
@@ -53,23 +54,51 @@ SYSTEM = (
 
 
 def _safe_groq_http_error(error):
-    """Expose only HTTP status and a bounded machine error code; never raw body.
+    """Classify provider JSON or possible edge HTML without exposing untrusted text.
 
-    Provider messages can echo prompts, credentials or arbitrary text. Do not
-    put the response body, request URL, headers or exception repr in logs.
+    Response messages, HTML, URLs and headers may echo sensitive content. Only
+    display status and fixed strings or exact allowlisted machine error codes.
+    Cloudflare is a *possible* diagnosis, not proof of the blocking reason.
     """
     status = error.code if type(error.code) is int else 0
+    headers = error.headers
+    server = headers.get("Server", "") if headers is not None else ""
+    content_type = headers.get("Content-Type", "") if headers is not None else ""
     try:
         raw = error.read(4097)
-        if len(raw) > 4096:
-            return RuntimeError(f"Groq API HTTP {status}; error details oversized")
-        data = json.loads(raw)
-        value = data.get("error", {}) if type(data) is dict else {}
-        code = value.get("code") if type(value) is dict else None
-        if type(code) is str and code in {"permission_denied", "invalid_api_key", "model_not_found", "model_permission_denied", "rate_limit_exceeded", "insufficient_quota", "organization_restricted", "access_denied"}:
-            return RuntimeError(f"Groq API HTTP {status}; provider error code: {code}")
-    except (ValueError, UnicodeError, OSError, TypeError):
-        pass
+    except (OSError, ValueError, TypeError):
+        return RuntimeError(f"Groq API HTTP {status}; unable to read safe error details")
+
+    # Parse an actual provider JSON code before classifying Cloudflare, since
+    # Cloudflare can also proxy ordinary JSON errors from Groq.
+    if len(raw) <= 4096:
+        try:
+            data = json.loads(raw)
+            value = data.get("error", {}) if type(data) is dict else {}
+            code = value.get("code") if type(value) is dict else None
+            if type(code) is str and code in {
+                "permission_denied", "invalid_api_key", "model_not_found",
+                "model_permission_denied", "model_permission_blocked_org",
+                "model_permission_blocked_project", "rate_limit_exceeded",
+                "insufficient_quota", "organization_restricted", "access_denied",
+            }:
+                return RuntimeError(
+                    f"Groq API HTTP {status}; provider error code: {code}")
+        except (ValueError, UnicodeError, TypeError):
+            pass
+
+    is_html = (type(content_type) is str
+               and content_type.lower().startswith("text/html")) or (
+                   raw.lstrip().lower().startswith((b"<!doctype html", b"<html")))
+    cloudflare_marker = (type(server) is str and server.strip().lower() == "cloudflare") or (
+        is_html and b"cloudflare" in raw.lower())
+    if status == 403 and is_html and b"error code: 1010" in raw.lower():
+        return RuntimeError("Groq API HTTP 403; edge rejection code: 1010")
+    if status == 403 and is_html and cloudflare_marker:
+        return RuntimeError(
+            "Groq API HTTP 403; possible Cloudflare edge HTML rejection")
+    if len(raw) > 4096:
+        return RuntimeError(f"Groq API HTTP {status}; error details oversized")
     return RuntimeError(f"Groq API HTTP {status}; no safe provider error code")
 
 
@@ -91,7 +120,8 @@ class GroqHTTPAdapter:
             "https://api.groq.com/openai/v1/chat/completions",
             data=_encoded(payload),
             headers={"Authorization": "Bearer " + self._key,
-                     "Content-Type": "application/json"},
+                     "Content-Type": "application/json",
+                     "User-Agent": USER_AGENT},
             method="POST")
         try:
             with urllib.request.urlopen(request, timeout=45) as response:
