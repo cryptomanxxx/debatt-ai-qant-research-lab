@@ -2,7 +2,7 @@
 import unittest
 
 from integrations.continual_learning.cl2_operation_accounting import estimate_step
-from integrations.continual_learning.cl2_payload_proxy import estimate_payload_proxy
+from integrations.continual_learning.cl2_payload_proxy import ProxyAssumptions, estimate_payload_proxy
 from integrations.continual_learning.cl3e_measurement_ledger import (
     NOT_MEASURED, SCOPE_VERSION, measurement_scope_manifest,
     project_training_only, projection_dict,
@@ -23,6 +23,28 @@ class CL3EMeasurementLedgerContracts(unittest.TestCase):
         self.assertEqual(SCOPE_VERSION, projected.scope_version)
         self.assertEqual(NOT_MEASURED, projected.physical_energy_joules)
         self.assertEqual(NOT_MEASURED, projection_dict(projected)["dram_bytes"])
+
+    def test_nondefault_byte_widths_are_preserved_in_serialization(self):
+        default = project_training_only(
+            "sparse_shared_index", step_count=10, active_inputs_per_step=1
+        )
+        custom_assumptions = ProxyAssumptions(
+            parameter_scalar_bytes=4, input_scalar_bytes=2, active_index_bytes=4
+        )
+        custom = project_training_only(
+            "sparse_shared_index", step_count=10,
+            active_inputs_per_step=1, assumptions=custom_assumptions
+        )
+        serialized = projection_dict(custom)
+        self.assertEqual(4, serialized["parameter_scalar_bytes_assumed"])
+        self.assertEqual(2, serialized["input_scalar_bytes_assumed"])
+        self.assertEqual(4, serialized["active_index_bytes_assumed"])
+        self.assertEqual(8, projection_dict(default)["parameter_scalar_bytes_assumed"])
+        self.assertNotEqual(default.logical_payload_bytes, custom.logical_payload_bytes)
+        self.assertEqual(
+            10 * estimate_payload_proxy("sparse_shared_index", 1, custom_assumptions).total_logical_payload_bytes,
+            serialized["logical_payload_bytes"],
+        )
 
     def test_zero_and_ceiling_are_deterministic(self):
         zero = project_training_only("dense_sgd", step_count=0, active_inputs_per_step=0)
