@@ -41,7 +41,7 @@ class CL3MReferenceContracts(unittest.TestCase):
         with self.assertRaises(ValueError):
             reference_partition((zero, zero))
         with self.assertRaises(ValueError):
-            reference_partition((zero, Example(one.features, 0)))
+            reference_partition((Example(zero.features, 1), Example(one.features, 0)))
 
     def test_cli_has_no_train_mode(self):
         with contextlib.redirect_stdout(io.StringIO()) as out:
