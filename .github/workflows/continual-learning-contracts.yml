@@ -10,6 +10,7 @@ on:
       - 'tests/test_cl2_data_candidate_contract.py'
       - 'tests/test_cl2_design_audit_contract.py'
       - 'tests/test_cl2_shared_rule_candidate_contract.py'
+      - 'tests/test_cl2_nonlinear_control_contract.py'
       - '.github/workflows/continual-learning-contracts.yml'
   workflow_dispatch:
 
@@ -27,6 +28,6 @@ jobs:
         with:
           python-version: '3.11'
       - name: Compile CL-1/CL-2 modules
-        run: python -m py_compile integrations/continual_learning/cl1_cpu.py integrations/continual_learning/cl1_dense_control.py integrations/continual_learning/cl2_protocol.py integrations/continual_learning/cl2_data_candidate.py integrations/continual_learning/cl2_design_audit.py integrations/continual_learning/cl2_shared_rule_candidate.py
+        run: python -m py_compile integrations/continual_learning/cl1_cpu.py integrations/continual_learning/cl1_dense_control.py integrations/continual_learning/cl2_protocol.py integrations/continual_learning/cl2_data_candidate.py integrations/continual_learning/cl2_design_audit.py integrations/continual_learning/cl2_shared_rule_candidate.py integrations/continual_learning/cl2_nonlinear_control.py
       - name: Execute CL-1 and CL-2 offline contracts only
-        run: python -m unittest -v tests.test_cl1_cpu_smoke tests.test_cl1_dense_control_contract tests.test_cl2_protocol_contract tests.test_cl2_data_candidate_contract tests.test_cl2_design_audit_contract tests.test_cl2_shared_rule_candidate_contract
+        run: python -m unittest -v tests.test_cl1_cpu_smoke tests.test_cl1_dense_control_contract tests.test_cl2_protocol_contract tests.test_cl2_data_candidate_contract tests.test_cl2_design_audit_contract tests.test_cl2_shared_rule_candidate_contract tests.test_cl2_nonlinear_control_contract
