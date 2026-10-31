@@ -1,0 +1,106 @@
+{
+  "review_id": "cl3a-readiness-v0",
+  "review_date": "2026-10-31",
+  "status": "scientific_review_pending",
+  "go_for_training": false,
+  "compute_approved": false,
+  "runner_enabled": false,
+  "scope": "paired CPU-only continual distribution-shift pilot; no photonic/Loihi/SimPhony energy claim",
+  "pinned_main_commit_at_review": "ae514b305cab0298536b9902f8e98e84340be7da",
+  "candidate_protocol_path": "integrations/continual_learning/cl2_paired_run_plan_candidate.json",
+  "candidate_dataset_path": "integrations/continual_learning/cl2_shared_rule_candidate.py",
+  "candidate_models": [
+    "TinyDenseMLP",
+    "LocalHebbianMLP"
+  ],
+  "analysis_arms": [
+    "dense_sgd",
+    "local_hybrid"
+  ],
+  "engineering_ablations": [
+    "sparse_local_hybrid",
+    "sparse_shared_index"
+  ],
+  "hypotheses": [
+    {
+      "id": "H1",
+      "claim": "paired retention under input distribution shift is observable at matched architecture and fixed budget",
+      "status": "untested"
+    },
+    {
+      "id": "H2",
+      "claim": "local hidden update has different logical weight-write cost than dense SGD without unacceptable predictive degradation",
+      "status": "untested"
+    },
+    {
+      "id": "H3",
+      "claim": "sparse first-layer traversal lowers source-level weight visits at low input activity while index overhead is explicit",
+      "status": "software_contract_only"
+    }
+  ],
+  "candidate_limits": {
+    "seeds": [
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "tasks": 4,
+    "train_per_task": 128,
+    "test_per_task": 64,
+    "max_updates_per_arm_per_seed": 512,
+    "quality_floor_final_accuracy": 0.65,
+    "matched_accuracy_tolerance_pp": 5
+  },
+  "mandatory_blockers": [
+    {
+      "id": "dataset_provenance",
+      "closed": false,
+      "required": "Pin generator source SHA-256 and per-seed dataset content digests; audit realized sparsity, class conditional distribution and global train-test separation."
+    },
+    {
+      "id": "construct_validity",
+      "closed": false,
+      "required": "Scientifically approve distribution-shift objective and explicitly exclude class-incremental forgetting claims."
+    },
+    {
+      "id": "pilot_learnability",
+      "closed": false,
+      "required": "Specify non-test-set calibration/diagnostic procedure to detect underfitting or degenerate class prediction without tuning on heldout test labels."
+    },
+    {
+      "id": "comparability",
+      "closed": false,
+      "required": "Confirm learning-rule comparison versus index/forward ablation and predeclare whether accuracy mismatch invalidates cost claims."
+    },
+    {
+      "id": "statistical_plan",
+      "closed": false,
+      "required": "Define paired-seed summary and uncertainty method; report per-task matrix and baseline/oracle, no posthoc claim from 5 seeds."
+    },
+    {
+      "id": "instrument_scope",
+      "closed": false,
+      "required": "Separate training and inference operations; account for index scans, nonlinearities, biases, and unsupported memory/energy terms."
+    },
+    {
+      "id": "runner_and_artifacts",
+      "closed": false,
+      "required": "Review bounded offline CPU runner, no-network restrictions, immutable code hash, per-run provenance and output schema."
+    },
+    {
+      "id": "human_approvals",
+      "closed": false,
+      "required": "Obtain independent scientific review and separate explicit human compute authorization at exact source/protocol version."
+    }
+  ],
+  "forbidden_actions": [
+    "training",
+    "external_model_api",
+    "hardware_execution",
+    "dataset_download",
+    "physical_energy_claim"
+  ],
+  "decision": "NO_GO"
+}
