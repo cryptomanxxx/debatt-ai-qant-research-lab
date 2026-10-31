@@ -6,6 +6,7 @@ on:
       - 'integrations/continual_learning/**'
       - 'tests/test_cl1_cpu_smoke.py'
       - 'tests/test_cl1_dense_control_contract.py'
+      - 'tests/test_cl2_protocol_contract.py'
       - '.github/workflows/continual-learning-contracts.yml'
   workflow_dispatch:
 
@@ -22,7 +23,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Compile CL-1 modules
-        run: python -m py_compile integrations/continual_learning/cl1_cpu.py integrations/continual_learning/cl1_dense_control.py
-      - name: Execute CL-1 contract tests only
-        run: python -m unittest -v tests.test_cl1_cpu_smoke tests.test_cl1_dense_control_contract
+      - name: Compile CL-1/CL-2 modules
+        run: python -m py_compile integrations/continual_learning/cl1_cpu.py integrations/continual_learning/cl1_dense_control.py integrations/continual_learning/cl2_protocol.py
+      - name: Execute CL-1 and CL-2 offline contracts only
+        run: python -m unittest -v tests.test_cl1_cpu_smoke tests.test_cl1_dense_control_contract tests.test_cl2_protocol_contract
