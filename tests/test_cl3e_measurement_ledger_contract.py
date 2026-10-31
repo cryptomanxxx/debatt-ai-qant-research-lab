@@ -57,7 +57,7 @@ class CL3EMeasurementLedgerContracts(unittest.TestCase):
 
     def test_separate_inference_and_physical_terms_are_explicitly_unknown(self):
         manifest = measurement_scope_manifest()
-        self.assertEqual("NOT_IMPLEMENTED", manifest["heldout_inference_accounting"])
+        self.assertEqual("static_predict_source_loop_projection_only_cl3n", manifest["heldout_inference_accounting"])
         self.assertEqual(NOT_MEASURED, manifest["physical_energy_joules"])
         self.assertEqual(NOT_MEASURED, manifest["data_conversion_and_optical_io"])
         self.assertFalse(manifest["trained_models"])

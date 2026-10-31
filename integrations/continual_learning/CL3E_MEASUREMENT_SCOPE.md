@@ -21,7 +21,8 @@ do not represent DRAM traffic or physical memory-system energy.
 ## What remains unmeasured
 
 - Training and held-out inference require **separate** activity and access
-  ledgers. Inference accounting is not yet implemented; never reuse training
+  ledgers. CL-3N supplies a separate **static prediction-path estimate**;
+  neither projection is a measured runtime counter. Never reuse training
   profiles as inference measurements.
 - Nonlinearity math, hidden-state memory, cache misses, Python object memory,
   index-allocation costs and CPU instruction/time overhead are not fully
