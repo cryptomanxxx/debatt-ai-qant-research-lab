@@ -66,8 +66,8 @@ def paired_summary(
     mean_delta = sum(differences) / len(differences)
     paired_sd = math.sqrt(sum((x - mean_delta) ** 2 for x in differences) / (len(differences) - 1))
     quality_pass = all(
-        x["dense_final_accuracy"] >= QUALITY_FLOOR
-        and x["local_final_accuracy"] >= QUALITY_FLOOR
+        (x["dense_final_accuracy"] >= QUALITY_FLOOR or math.isclose(x["dense_final_accuracy"], QUALITY_FLOOR, rel_tol=0.0, abs_tol=1e-12))
+        and (x["local_final_accuracy"] >= QUALITY_FLOOR or math.isclose(x["local_final_accuracy"], QUALITY_FLOOR, rel_tol=0.0, abs_tol=1e-12))
         for x in rows
     )
     parity_pass = all(
