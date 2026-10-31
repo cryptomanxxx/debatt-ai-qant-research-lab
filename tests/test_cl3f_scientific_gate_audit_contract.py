@@ -3,6 +3,7 @@ import contextlib
 import io
 import json
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from integrations.continual_learning.cl3f_scientific_gate_audit import (
@@ -38,12 +39,12 @@ class CL3FGateAuditContract(unittest.TestCase):
 
         valid = json.loads(module.READINESS.read_text(encoding="utf-8"))
         approved = dict(valid, compute_approved=True)
-        with patch.object(module.READINESS.__class__, "read_text", return_value=json.dumps(approved)):
+        with patch.object(module, "READINESS", SimpleNamespace(read_text=lambda **_: json.dumps(approved))):
             with self.assertRaises(ValueError):
                 review_matrix()
         closed = json.loads(json.dumps(valid))
         closed["mandatory_blockers"][0]["closed"] = True
-        with patch.object(module.READINESS.__class__, "read_text", return_value=json.dumps(closed)):
+        with patch.object(module, "READINESS", SimpleNamespace(read_text=lambda **_: json.dumps(closed))):
             with self.assertRaises(ValueError):
                 review_matrix()
 
