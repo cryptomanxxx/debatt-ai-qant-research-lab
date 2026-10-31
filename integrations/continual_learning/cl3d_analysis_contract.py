@@ -70,7 +70,11 @@ def paired_summary(
         and x["local_final_accuracy"] >= QUALITY_FLOOR
         for x in rows
     )
-    parity_pass = all(\n        abs(x) <= MATCHED_TOLERANCE\n        or math.isclose(abs(x), MATCHED_TOLERANCE, rel_tol=0.0, abs_tol=1e-12)\n        for x in differences\n    )
+    parity_pass = all(
+        abs(x) <= MATCHED_TOLERANCE
+        or math.isclose(abs(x), MATCHED_TOLERANCE, rel_tol=0.0, abs_tol=1e-12)
+        for x in differences
+    )
     return {
         "kind": "DESCRIPTIVE_PAIRED_SUMMARY_ONLY",
         "paired_seeds": rows,
