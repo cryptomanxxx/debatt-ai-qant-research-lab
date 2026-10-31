@@ -10,7 +10,9 @@ existing CL-2 source-loop profiles can be multiplied into **projected**
 counts of parameter reads, writes, forward weight terms, input checks and
 assumption-dependent packed payload-byte equivalents. The ledger tags every
 projection with `cl3e-source-loop-estimate-v0` and includes bias accesses
-in parameter totals.
+in parameter totals. Every serialized ledger entry also records the assumed
+parameter, input and active-index scalar byte widths, so differing payload
+projections can be reproduced and compared on the same assumed basis.
 
 These are **not** empirical observations. The assumed constant activity
 is not the per-example activity of the synthetic dataset. Payload proxies
