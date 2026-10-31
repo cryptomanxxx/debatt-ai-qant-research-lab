@@ -1,7 +1,7 @@
 """Static, equal-scope algorithmic accounting for the exact CL-2 Python loops.
 
 NOT hardware counters, timing, DRAM traffic, memory energy or measurement.
-The local model currently uses the SAME DENSE forward pass as the MLP.
+The original local model uses a dense forward pass; the sparse ablation does not.
 """
 from __future__ import annotations
 
@@ -45,9 +45,9 @@ def estimate_step(arm: str, input_events: int) -> StepProfile:
     """
     if type(input_events) is not int or not 0 <= input_events <= INPUT_SIZE:
         raise ValueError("input_events must be an integer in [0, 16]")
-    if arm not in ("dense_sgd", "local_hybrid"):
+    if arm not in ("dense_sgd", "local_hybrid", "sparse_local_hybrid"):
         raise ValueError("unknown arm")
-    first = INPUT_SIZE * HIDDEN_SIZE  # 128: dense forward in BOTH arms
+    first = INPUT_SIZE * HIDDEN_SIZE  # 128: dense forward in original arms
     second = HIDDEN_SIZE * N_CLASSES  # 16
     forward = first + second
     if arm == "dense_sgd":
@@ -56,12 +56,19 @@ def estimate_step(arm: str, input_events: int) -> StepProfile:
         weights_read = forward + second + first + second
         weights_written = first + second
         input_checks = first + first  # forward uses x; dW1 uses x again
-    else:
+    elif arm == "local_hybrid":
         # Local model's inherited _forward is still dense.
         # The update loops are sparse only for hidden W1 weight writes.
         weights_read = forward + second + input_events * HIDDEN_SIZE
         weights_written = second + input_events * HIDDEN_SIZE
         input_checks = first + INPUT_SIZE  # dense forward and active scan
+    else:
+        # Sparse subclass scans all 16 inputs in _forward AND again in step.
+        # Only W1 forward weight visits become activity-dependent.
+        forward = input_events * HIDDEN_SIZE + second
+        weights_read = forward + second + input_events * HIDDEN_SIZE
+        weights_written = second + input_events * HIDDEN_SIZE
+        input_checks = 2 * INPUT_SIZE
     bias_forward = HIDDEN_SIZE + N_CLASSES
     bias_updates = HIDDEN_SIZE + N_CLASSES
     return StepProfile(
