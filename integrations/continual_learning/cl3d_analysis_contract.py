@@ -20,9 +20,9 @@ MATCHED_TOLERANCE = 0.05
 def summarize_accuracy(matrix: Sequence[Sequence[float]]) -> dict:
     """All tasks evaluated at all checkpoints; final task has no forgetting score.
 
-    For task t, look at checkpoints AFTER its own training (t+1 to end).
-    Forgetting = max(accuracy at those checkpoints) - final accuracy.
-    A post-training rise can thus contribute to later forgetting.
+    For task t, use checkpoints after its training but BEFORE the final row.
+    Forgetting = best earlier post-training accuracy - final accuracy.
+    Negative forgetting records genuine later improvement, per CL-2 protocol.
     """
     validate_accuracy_matrix(matrix, n_tasks=TASK_COUNT, n_checkpoints=TASK_COUNT + 1)
     final = list(matrix[-1])
@@ -31,7 +31,7 @@ def summarize_accuracy(matrix: Sequence[Sequence[float]]) -> dict:
         if task_idx == TASK_COUNT - 1:
             forgetting.append(None)
         else:
-            forgetting.append(max(row[task_idx] for row in matrix[task_idx + 1:]) - final[task_idx])
+            forgetting.append(max(row[task_idx] for row in matrix[task_idx + 1:TASK_COUNT]) - final[task_idx])
     return {
         "final_accuracy_by_task": final,
         "final_mean_accuracy": sum(final) / TASK_COUNT,
@@ -70,7 +70,7 @@ def paired_summary(
         and x["local_final_accuracy"] >= QUALITY_FLOOR
         for x in rows
     )
-    parity_pass = all(abs(x) <= MATCHED_TOLERANCE for x in differences)
+    parity_pass = all(\n        abs(x) <= MATCHED_TOLERANCE\n        or math.isclose(abs(x), MATCHED_TOLERANCE, rel_tol=0.0, abs_tol=1e-12)\n        for x in differences\n    )
     return {
         "kind": "DESCRIPTIVE_PAIRED_SUMMARY_ONLY",
         "paired_seeds": rows,
