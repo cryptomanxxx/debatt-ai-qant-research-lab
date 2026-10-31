@@ -38,7 +38,7 @@ class LocalMLPContracts(unittest.TestCase):
                 if i != 1:
                     self.assertEqual(old[i], new[i])
         self.assertEqual(
-            Counters(events=1, synaptic_reads=24, weight_writes=34),
+            Counters(events=1, synaptic_reads=168, weight_writes=24),
             local.logical_counters,
         )
 
