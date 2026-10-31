@@ -49,6 +49,21 @@ class CL3DAnalysisContracts(unittest.TestCase):
         local[101] = fixture(0.750001)
         self.assertFalse(paired_summary(dense, local)["parity_gate_all_seeds"])
 
+    def test_inclusive_quality_floor_with_unequal_task_accuracies(self):
+        boundary = fixture(0.65)
+        boundary[-1] = [0.50, 0.69, 0.69, 0.72]
+        self.assertAlmostEqual(0.65, summarize_accuracy(boundary)["final_mean_accuracy"])
+        dense = {seed: [row[:] for row in boundary] for seed in SEEDS}
+        local = {seed: [row[:] for row in boundary] for seed in SEEDS}
+        accepted = paired_summary(dense, local)
+        self.assertTrue(accepted["quality_gate_all_seeds"])
+        self.assertTrue(accepted["parity_gate_all_seeds"])
+        self.assertTrue(accepted["logical_cost_comparison_interpretable"])
+        local[101][-1][0] -= 0.00001
+        rejected = paired_summary(dense, local)
+        self.assertFalse(rejected["quality_gate_all_seeds"])
+        self.assertFalse(rejected["logical_cost_comparison_interpretable"])
+
     def test_paired_gates_and_descriptive_only(self):
         dense = {seed: fixture(0.70) for seed in SEEDS}
         local = {seed: fixture(0.68) for seed in SEEDS}
