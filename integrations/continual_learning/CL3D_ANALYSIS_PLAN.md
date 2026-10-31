@@ -17,7 +17,7 @@ matrices, not an experimental runner, data collector, or source of findings.
 - **Conservative predeclared interpretability gate:** every seed in both arms
   must reach final mean accuracy ≥0.65 and the within-seed absolute
   between-arm difference must be ≤0.05, allowing only 1e-12 absolute
-  floating-point roundoff at the inclusive boundary. Failure blocks interpreting a
+  floating-point roundoff at inclusive quality and parity boundaries. Failure blocks interpreting a
   source-level logical-access advantage as an acceptable accuracy tradeoff.
   It does **not** establish physical energy benefit when passed.
 - No p-values, no post-hoc seed exclusions, no parameter or threshold changes
