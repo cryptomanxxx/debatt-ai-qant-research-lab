@@ -67,15 +67,19 @@ class LocalHebbianMLP(TinyDenseMLP):
                 self.w1[j][i] += self.local_rate * hidden[j]
             self.b1[j] += self.local_rate * hidden[j]
 
+        # Count ALL actual weight-loop accesses on a consistent narrow scope:
+        # dense forward W1/W2 plus read-modify-write of updated W1/W2.
+        # Biases and input scanning are tracked separately by the static
+        # cl2_operation_accounting profile; this is not hardware telemetry.
         self.logical_counters += Counters(
             events=len(active),
-            synaptic_reads=len(active) * HIDDEN_SIZE + HIDDEN_SIZE * N_CLASSES,
-            weight_writes=(
-                len(active) * HIDDEN_SIZE
-                + HIDDEN_SIZE  # hidden biases
-                + HIDDEN_SIZE * N_CLASSES  # output weights
-                + N_CLASSES  # output biases
+            synaptic_reads=(
+                INPUT_SIZE * HIDDEN_SIZE
+                + HIDDEN_SIZE * N_CLASSES
+                + HIDDEN_SIZE * N_CLASSES
+                + len(active) * HIDDEN_SIZE
             ),
+            weight_writes=HIDDEN_SIZE * N_CLASSES + len(active) * HIDDEN_SIZE,
         )
         self.optimizer_steps += 1
         return loss
