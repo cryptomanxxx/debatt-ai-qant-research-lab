@@ -24,6 +24,9 @@ class SourceEstimate:
     arm: str
     step_count_assumed: int
     active_inputs_per_step_assumed: int
+    parameter_scalar_bytes_assumed: int
+    input_scalar_bytes_assumed: int
+    active_index_bytes_assumed: int
     forward_weight_terms: int
     logical_parameter_reads: int
     logical_parameter_writes: int
@@ -58,6 +61,9 @@ def project_training_only(
         arm=arm,
         step_count_assumed=step_count,
         active_inputs_per_step_assumed=active_inputs_per_step,
+        parameter_scalar_bytes_assumed=assumptions.parameter_scalar_bytes,
+        input_scalar_bytes_assumed=assumptions.input_scalar_bytes,
+        active_index_bytes_assumed=assumptions.active_index_bytes,
         forward_weight_terms=step_count * profile.forward_weight_terms,
         logical_parameter_reads=step_count * profile.total_parameter_reads,
         logical_parameter_writes=step_count * profile.total_parameter_writes,
