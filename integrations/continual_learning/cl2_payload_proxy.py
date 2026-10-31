@@ -52,6 +52,7 @@ def estimate_payload_proxy(
       dense_sgd: none
       local_hybrid: 1 write per active index, 8 reads per active index
       sparse_local_hybrid: 2 writes and 16 reads per active index
+      sparse_shared_index: 1 write and 16 reads per active index
     Reads/writes are hypothetical compact scalars; actual Python memory
     behavior and physical bus/DRAM traffic may differ drastically.
     """
@@ -62,6 +63,7 @@ def estimate_payload_proxy(
         "dense_sgd": 0,
         "local_hybrid": 1 + 8,
         "sparse_local_hybrid": 2 + 16,
+        "sparse_shared_index": 1 + 16,
     }[arm]
     return PayloadProxy(
         arm=arm,
