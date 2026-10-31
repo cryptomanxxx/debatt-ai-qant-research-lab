@@ -27,6 +27,28 @@ class CL3DAnalysisContracts(unittest.TestCase):
         self.assertEqual(0.0, result["forgetting_by_task"][1])
         self.assertIsNone(result["forgetting_by_task"][3])
 
+    def test_negative_forgetting_is_preserved_and_matches_cl2(self):
+        from integrations.continual_learning.cl2_protocol import forgetting_by_task
+
+        matrix = fixture(0.8)
+        matrix[1][0] = 0.7
+        matrix[2][0] = 0.7
+        matrix[3][0] = 0.7
+        result = summarize_accuracy(matrix)
+        self.assertAlmostEqual(-0.1, result["forgetting_by_task"][0])
+        self.assertAlmostEqual(
+            forgetting_by_task(matrix)["T1"], result["forgetting_by_task"][0]
+        )
+
+    def test_exact_five_point_parity_boundary_survives_float_roundoff(self):
+        dense = {seed: fixture(0.70) for seed in SEEDS}
+        local = {seed: fixture(0.75) for seed in SEEDS}
+        summary = paired_summary(dense, local)
+        self.assertTrue(summary["parity_gate_all_seeds"])
+        self.assertTrue(summary["logical_cost_comparison_interpretable"])
+        local[101] = fixture(0.750001)
+        self.assertFalse(paired_summary(dense, local)["parity_gate_all_seeds"])
+
     def test_paired_gates_and_descriptive_only(self):
         dense = {seed: fixture(0.70) for seed in SEEDS}
         local = {seed: fixture(0.68) for seed in SEEDS}
