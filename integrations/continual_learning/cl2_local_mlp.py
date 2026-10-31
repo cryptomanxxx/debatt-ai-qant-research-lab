@@ -44,13 +44,19 @@ class LocalHebbianMLP(TinyDenseMLP):
         """Source-level weight traversal count; dense by default."""
         return INPUT_SIZE * HIDDEN_SIZE
 
+    def _forward_with_active(
+        self, x: tuple[int, ...], active: list[int]
+    ) -> tuple[list[float], list[float]]:
+        """Hook: dense implementation ignores precomputed indices."""
+        return self._forward(x)
+
     def step(self, features: Iterable[int], label: int) -> float:
         """One optional local-rule update, not a dataset training runner."""
         if type(label) is not int or not 0 <= label < N_CLASSES:
             raise ValueError("label must be 0 or 1")
         x = self._input(features)
         active = [i for i, bit in enumerate(x) if bit]
-        hidden, logits = self._forward(x)
+        hidden, logits = self._forward_with_active(x, active)
         offset = max(logits)
         scaled = [math.exp(value - offset) for value in logits]
         denom = sum(scaled)
