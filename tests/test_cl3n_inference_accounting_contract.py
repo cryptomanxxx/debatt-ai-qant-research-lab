@@ -1,5 +1,6 @@
 """Pure inference source-loop estimates only; no trained model or prediction."""
 import unittest
+from dataclasses import replace
 
 from integrations.continual_learning.cl2_payload_proxy import ProxyAssumptions
 from integrations.continual_learning.cl3n_inference_accounting import estimate_prediction
@@ -21,7 +22,7 @@ class CL3NInferenceAccountingContracts(unittest.TestCase):
         for active in (0, 1, 8, 16):
             a = estimate_prediction("sparse_local_hybrid", active)
             b = estimate_prediction("sparse_shared_index", active)
-            self.assertEqual(a, type(a)(**{**a.__dict__, "arm": b.arm}))
+            self.assertEqual(replace(a, arm=b.arm), b)
             self.assertEqual(16 + active * 8, a.forward_weight_terms)
             self.assertEqual(32, a.input_feature_visits)
             self.assertEqual(9 * active, a.active_index_reads + a.active_index_writes)
