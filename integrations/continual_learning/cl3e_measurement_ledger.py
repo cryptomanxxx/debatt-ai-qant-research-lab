@@ -77,7 +77,7 @@ def measurement_scope_manifest() -> dict:
     return {
         "scope_version": SCOPE_VERSION,
         "training_accounting": "static_source_loop_projection_only",
-        "heldout_inference_accounting": "NOT_IMPLEMENTED",
+        "heldout_inference_accounting": "static_predict_source_loop_projection_only_cl3n",
         "index_scans": "input_checks_from_cl2_operation_accounting",
         "active_index_visits": "payload_proxy_assumption_only",
         "bias_accesses": "included_in_logical_parameter_counts",
