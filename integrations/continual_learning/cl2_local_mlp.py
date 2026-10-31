@@ -40,6 +40,10 @@ class LocalHebbianMLP(TinyDenseMLP):
         self.local_rate = float(local_rate)
         self.logical_counters = Counters()
 
+    def _forward_first_layer_reads(self, active_count: int) -> int:
+        """Source-level weight traversal count; dense by default."""
+        return INPUT_SIZE * HIDDEN_SIZE
+
     def step(self, features: Iterable[int], label: int) -> float:
         """One optional local-rule update, not a dataset training runner."""
         if type(label) is not int or not 0 <= label < N_CLASSES:
@@ -74,7 +78,7 @@ class LocalHebbianMLP(TinyDenseMLP):
         self.logical_counters += Counters(
             events=len(active),
             synaptic_reads=(
-                INPUT_SIZE * HIDDEN_SIZE
+                self._forward_first_layer_reads(len(active))
                 + HIDDEN_SIZE * N_CLASSES
                 + HIDDEN_SIZE * N_CLASSES
                 + len(active) * HIDDEN_SIZE
