@@ -29,5 +29,28 @@ class CL5AProvenanceContracts(unittest.TestCase):
                 audit.static_provenance_audit()
 
 
+    def test_rejects_xor_to_and_drift_without_version_change(self):
+        real = audit.GENERATOR.read_bytes()
+        old = b"features[GLOBAL_LABEL_PAIR[0]] ^ features[GLOBAL_LABEL_PAIR[1]]"
+        changed = real.replace(old, b"features[GLOBAL_LABEL_PAIR[0]] & features[GLOBAL_LABEL_PAIR[1]]")
+        self.assertNotEqual(real, changed, "XOR mutation did not alter source")
+        with patch.object(audit.Path, "read_bytes", autospec=True,
+                          side_effect=lambda obj: changed if obj == audit.GENERATOR else
+                          open(obj, "rb").read()):
+            with self.assertRaisesRegex(ValueError, "XOR operation"):
+                audit.static_provenance_audit()
+
+    def test_rejects_activity_distribution_drift(self):
+        real = audit.DATA_CANDIDATE.read_bytes()
+        old = b'"T1": 0.125, "T2": 0.25, "T3": 0.375, "T4": 0.5'
+        changed = real.replace(old, b'"T1": 0.5, "T2": 0.5, "T3": 0.5, "T4": 0.5')
+        self.assertNotEqual(real, changed, "activity mutation did not alter source")
+        with patch.object(audit.Path, "read_bytes", autospec=True,
+                          side_effect=lambda obj: changed if obj == audit.DATA_CANDIDATE else
+                          open(obj, "rb").read()):
+            with self.assertRaisesRegex(ValueError, "activity rates"):
+                audit.static_provenance_audit()
+
+
 if __name__ == "__main__":
     unittest.main()
