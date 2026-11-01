@@ -25,7 +25,7 @@ def render_numeric_report(pair_id: str, diagnostics: Mapping[str, dict]) -> str:
         "> **NO_GO / NOT A MODEL EXPERIMENT.** Rendered records only; no tolerance, "
         "causal equivalence, model quality or physical energy is approved.",
         "",
-        f"Paired comparison: \`{pair_id}\`",
+        f"Paired comparison: `{pair_id}`",
         "",
         "| Parameter field | Scalars | Exact equal | Max abs delta | Max symmetric relative delta |",
         "|---|---:|---:|---:|---:|",
@@ -53,7 +53,7 @@ def render_numeric_report(pair_id: str, diagnostics: Mapping[str, dict]) -> str:
             raise ValueError("invalid diagnostic magnitude")
         if (absolute == 0) != (equal == count):
             raise ValueError("inconsistent exact-equality summary")
-        lines.append(f"| \`{field}\` | {count} | {equal} | {absolute:.9g} | {relative:.9g} |")
+        lines.append(f"| `{field}` | {count} | {equal} | {absolute:.9g} | {relative:.9g} |")
     lines += [
         "",
         "**Scope limitation:** This partial four-tensor view does not validate learning "
