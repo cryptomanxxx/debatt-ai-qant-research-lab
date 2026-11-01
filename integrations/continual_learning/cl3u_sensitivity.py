@@ -43,11 +43,11 @@ def project(arm: str, phase: str, shape: Shape, active: int, widths: ProxyAssump
             input_visits, index_visits = 2 * first, 0
         elif arm == "local_hybrid":
             param = first + 3 * second + 2 * active * h + 3 * (h + c)
-            input_visits, index_visits = first + n, 9 * active
+            input_visits, index_visits = first + n, (1 + h) * active
         else:
             param = 3 * active * h + 3 * second + 3 * (h + c)
             input_visits = 2 * n if arm == "sparse_local_hybrid" else n
-            index_visits = (18 if arm == "sparse_local_hybrid" else 17) * active
+            index_visits = ((2 + 2 * h) if arm == "sparse_local_hybrid" else (1 + 2 * h)) * active
     else:
         param = (active * h if sparse else first) + second + h + c
         input_visits = 2 * n if sparse else n + first
