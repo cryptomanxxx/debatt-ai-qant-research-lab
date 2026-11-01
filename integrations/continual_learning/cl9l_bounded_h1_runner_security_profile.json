@@ -1,0 +1,46 @@
+{
+  "kind": "CL9L_BOUNDED_H1_RUNNER_SECURITY_PROFILE",
+  "version": "cl9l-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "runnable_h1_workflow_created": false,
+  "execution_authorized": false,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "synthetic_data_generation_authorized": false,
+  "observations_recorded": 0,
+  "physical_energy": "NOT_MEASURED",
+  "h2_tested": false,
+  "proposed_platform": "standard_github_hosted_ubuntu_cpu",
+  "additional_cloud_server_provisioned": false,
+  "network_isolation_verified": false,
+  "proposed_controls": [
+    "L1_trigger",
+    "L2_minimal_permissions",
+    "L3_no_secrets",
+    "L4_immutable_supply_chain",
+    "L5_scientific_inputs",
+    "L6_cost_and_resource_ceiling",
+    "L7_provenance_and_failure",
+    "L8_scientific_interpretation",
+    "L9_network",
+    "L10_separate_authorizations"
+  ],
+  "execution_gates": {
+    "network_option_selected": false,
+    "actual_actions_settings_verified": false,
+    "source_and_input_digests_frozen": false,
+    "scalar_weights_approved": false,
+    "numeric_tolerance_approved": false,
+    "artifact_writer_approved": false,
+    "independent_scientific_signoff": false,
+    "independent_security_signoff": false,
+    "marcus_separate_exact_execution_approval": false
+  },
+  "limits": {
+    "automatic_training_retries": false,
+    "workflow_execution_enabled": false,
+    "zero_future_cost_guaranteed": false
+  },
+  "prior_contracts_unchanged": true
+}
