@@ -1,0 +1,62 @@
+{
+  "kind": "CL7B_H1_BASELINE_AND_QUALITY_DESIGN_NOT_EXECUTED",
+  "version": "cl7b-v1",
+  "decision": "NO_GO",
+  "parent": "cl6a_readiness_protocol.json",
+  "scientific_critique": "cl7a_scientific_design_critique.json",
+  "analysis_only": true,
+  "independent_scientific_signoff": false,
+  "model_construction_authorized": false,
+  "model_inference_authorized": false,
+  "training_authorized": false,
+  "dataset_generation_authorized": false,
+  "new_results_present": false,
+  "energy_measured": false,
+  "scope": "H1 algorithmic traversal and active-index reuse; shared-XOR distribution shift, not catastrophic forgetting",
+  "baseline_definitions": [
+    {
+      "id": "constant_zero",
+      "type": "nonlearning",
+      "definition": "Always predict class 0; compute heldout performance only after explicit separate inference authorization.",
+      "fit_partition": "none",
+      "test_label_tuning": false
+    },
+    {
+      "id": "train_majority",
+      "type": "nonlearning",
+      "definition": "For each seed, choose a single class using pooled training labels only; ties choose class 0; freeze before heldout scoring.",
+      "fit_partition": "training_only",
+      "test_label_tuning": false
+    },
+    {
+      "id": "random_uniform_expectation",
+      "type": "analytic",
+      "definition": "Binary balanced-label reference with expected accuracy 0.5; this is not a sampled classifier or an observed empirical result.",
+      "fit_partition": "none",
+      "test_label_tuning": false
+    }
+  ],
+  "calibration": {
+    "status": "UNPERFORMED",
+    "scope": "Training-only learnability control must be independently specified and reviewed; no heldout labels or checkpoints may select architecture, seed, threshold, hyperparameters, or baseline.",
+    "test_labels_used": false,
+    "numerical_tolerance": "UNAPPROVED"
+  },
+  "quality_interpretation": {
+    "final_mean_accuracy_floor": 0.65,
+    "paired_accuracy_difference_max_abs": 0.05,
+    "per_seed_per_primary_and_secondary_contrast": true,
+    "requires_baselines_and_calibration": true,
+    "quality_matched_cost_claim_permitted_now": false,
+    "accuracy_floor_alone_sufficient": false,
+    "failure_or_missing_run_policy": "Report all proposed seeds and failed runs without posthoc exclusion; suspend quality-matched cost claims if any required paired seed is invalid."
+  },
+  "gates": {
+    "learnability_and_baselines": "OPEN",
+    "causal_pairing": "OPEN",
+    "independent_scientific_review": "OPEN",
+    "separate_marcus_training_authorization": "OPEN"
+  },
+  "open_cl6a_gates_expected": 9,
+  "open_cl7a_findings_expected": 6
+}
