@@ -32,6 +32,7 @@ on:
       - 'tests/test_cl3l_source_fingerprint_contract.py'
       - 'tests/test_cl3m_reference_controls_contract.py'
       - 'tests/test_cl3n_inference_accounting_contract.py'
+      - 'tests/test_cl3r_visualization_contract.py'
       - 'tests/test_cl3o_activity_weighted_inference_contract.py'
       - 'tests/test_cl3p_activity_weighted_training_contract.py'
       - 'tests/test_cl3q_joint_cost_review_contract.py'
