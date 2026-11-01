@@ -1,0 +1,44 @@
+{
+  "kind": "CL6C_NUMERICAL_PARITY_PREREGISTRATION",
+  "decision": "NO_GO",
+  "version": "cl6c-v1",
+  "execution_permitted": false,
+  "model_instantiation_authorized": false,
+  "inference_authorized": false,
+  "training_authorized": false,
+  "dataset_generation_authorized": false,
+  "physical_energy_measured": false,
+  "source_audit_reference": "CL6B_SOURCE_ARM_EQUIVALENCE.md",
+  "parent_readiness": "cl6a_readiness_protocol.json",
+  "comparisons": [
+    {
+      "id": "primary_sparse",
+      "left": "local_hybrid",
+      "right": "sparse_local_hybrid",
+      "intervention": "sparse first-layer traversal",
+      "learning_rule_must_match": true
+    },
+    {
+      "id": "secondary_index_reuse",
+      "left": "sparse_local_hybrid",
+      "right": "sparse_shared_index",
+      "intervention": "shared active indices during local step",
+      "learning_rule_must_match": true
+    }
+  ],
+  "required_future_checks": [
+    "source_and_import_fingerprints",
+    "paired_initial_parameters_and_optimizer_state",
+    "fixed_input_and_sample_order",
+    "boundary_activity_cases",
+    "forward_hidden_logits_loss_with_preregistered_tolerance",
+    "post_each_step_parameters_counters_and_outputs",
+    "training_and_inference_overhead_separated",
+    "immutable_fail_closed_diagnostics"
+  ],
+  "tolerance_preapproved": false,
+  "numerical_results_present": false,
+  "scientific_equivalence_approved": false,
+  "cl6a_causal_arm_equivalence_gate": "OPEN",
+  "cl6a_total_open_gates": 9
+}
