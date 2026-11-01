@@ -1,0 +1,106 @@
+{
+  "kind": "CL9A_MINIMAL_H1_SCIENTIFIC_READINESS",
+  "version": "cl9a-v1",
+  "status": "PRE_EXPERIMENT_REVIEW_ONLY",
+  "decision": "NO_GO",
+  "review_only": true,
+  "independent_scientific_signoff": false,
+  "all_gates_closed": false,
+  "model_construction_authorized": false,
+  "model_inference_authorized": false,
+  "training_authorized": false,
+  "dataset_generation_authorized": false,
+  "energy_measured": false,
+  "parent": "cl7f_h1_decision_matrix.json",
+  "source_readiness": "cl6a_readiness_protocol.json",
+  "source_critique": "cl7a_scientific_design_critique.json",
+  "target_question": "H1 sparse traversal vs same-local-rule dense traversal, followed by active-index reuse; 16-8-2 toy MLP only.",
+  "out_of_scope": [
+    "H2 catastrophic forgetting benefit",
+    "physical joules or GPU/Loihi/Q.ANT performance",
+    "general-purpose autonomous training platform",
+    "statistically generalizable claims from five seeds"
+  ],
+  "minimum_gates": [
+    {
+      "id": "source_and_per_seed_data_digests",
+      "group": "science_data",
+      "status": "OPEN",
+      "blocking_before_training": true,
+      "blocker": "Requires separately authorized synthetic data generation and per-seed hashes; cannot be closed by static review.",
+      "next_evidence": "Freeze generator selection and seed manifest; later audit actual unique samples, activity and leakage."
+    },
+    {
+      "id": "causal_arm_equivalence",
+      "group": "science_method",
+      "status": "OPEN",
+      "blocking_before_training": true,
+      "blocker": "Numerical equality cannot be claimed without separately authorized paired model execution.",
+      "next_evidence": "Predefine dtype, initialization, iteration order and trace tolerances for same-local-learning-rule contrasts."
+    },
+    {
+      "id": "paired_statistics_and_quality",
+      "group": "science_method",
+      "status": "OPEN",
+      "blocking_before_training": true,
+      "blocker": "Quality floor and descriptive paired statistics need preregistration; empirical parity requires approved runs.",
+      "next_evidence": "Predefine per-seed paired effect and uncertainty reporting, quality failure rule and no posthoc exclusions."
+    },
+    {
+      "id": "observed_event_scope_and_overhead",
+      "group": "measurement",
+      "status": "OPEN",
+      "blocking_before_training": true,
+      "blocker": "Software proxies exclude interpreter overhead; observed instrumentation needs execution.",
+      "next_evidence": "Freeze source-event boundaries, warmups, repeated timings, RSS method and observer overhead control."
+    },
+    {
+      "id": "train_only_learnability_calibration",
+      "group": "science_method",
+      "status": "OPEN",
+      "blocking_before_training": true,
+      "blocker": "Calibration control and nonleakage split not yet approved.",
+      "next_evidence": "Preregister train-only baseline controls and calibration/test separation; no calibration runs now."
+    },
+    {
+      "id": "physical_energy_boundary_or_NOT_MEASURED",
+      "group": "scope_limit",
+      "status": "OPEN",
+      "blocking_before_training": true,
+      "blocker": "First H1 CPU pilot can explicitly report NOT_MEASURED; must not claim joules.",
+      "next_evidence": "Freeze energy fields at NOT_MEASURED; physical energy becomes a separately reviewed later experiment."
+    },
+    {
+      "id": "bounded_runner_and_immutable_artifacts",
+      "group": "execution_safety",
+      "status": "OPEN",
+      "blocking_before_training": true,
+      "blocker": "CL-8D fixed child probe is not a model runner; GitHub hosted unshare got OS_PERMISSION_DENIED.",
+      "next_evidence": "Design a trusted pinned no-network host and external budgets, then independently validate fixed non-model denial."
+    },
+    {
+      "id": "independent_scientific_review",
+      "group": "independent_review",
+      "status": "OPEN",
+      "blocking_before_training": true,
+      "blocker": "Codex approval is code review, not methodological signoff.",
+      "next_evidence": "Obtain genuine independent domain-scientist review with explicit construct, causal and statistical judgments."
+    },
+    {
+      "id": "separate_explicit_marcus_training_approval",
+      "group": "authorization",
+      "status": "OPEN",
+      "blocking_before_training": true,
+      "blocker": "No user authorization for model inference or training has been granted.",
+      "next_evidence": "After all other gates, request separate approval tied to exact commit, data hash, scope and budget."
+    }
+  ],
+  "recommended_pretraining_order": [
+    "Freeze H1-only claims, control arms and no-energy-measurement boundaries",
+    "Freeze selection-bias and train-only calibration/quality-parity acceptance contracts",
+    "Freeze causal equivalence and instrumented work-vs-runtime statistics",
+    "Obtain approved data provenance, safe offline host and independent scientific review",
+    "Only then request Marcus-specific approval for any proposed execution"
+  ],
+  "no_new_experiment_run": true
+}
