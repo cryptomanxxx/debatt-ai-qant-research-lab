@@ -152,6 +152,23 @@ class CL9GProtocolConsistencyTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "failure reporting"):
                 audit.reconcile()
 
+    def test_grouped_calibration_split_cannot_be_relaxed(self):
+        with self.mutate("cl7c_train_only_calibration_protocol.json",
+                         lambda d: d["calibration_split"].update(
+                             group_identical_vectors_together=False, split_unit="record")):
+            with self.assertRaisesRegex(ValueError, "group identical"):
+                audit.reconcile()
+
+    def test_numeric_pairing_prerequisites_cannot_be_relaxed(self):
+        with self.mutate("cl9b_h1_acceptance_contract.json",
+                         lambda d: d["numeric_gate"].update(same_initial_weights_required=False)):
+            with self.assertRaisesRegex(ValueError, "numeric pairing"):
+                audit.reconcile()
+        with self.mutate("cl6a_readiness_protocol.json",
+                         lambda d: d["future_design"].update(same_data_order_per_seed=False)):
+            with self.assertRaisesRegex(ValueError, "paired training"):
+                audit.reconcile()
+
 
 if __name__ == "__main__":
     unittest.main()
