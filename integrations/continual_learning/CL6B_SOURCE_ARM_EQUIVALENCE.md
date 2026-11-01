@@ -20,6 +20,7 @@ The AST-only validator:
 
 - Checks precise class inheritance and that neither sparse subclass overrides the local update `step` method.
 - Enforces exact allowed method sets in sparse and shared subclasses, preventing unexpected overrides of dynamically dispatched inherited-step dependencies (such as `_input`).
+- Rejects unexpected subclass class-body bindings (including `step = TinyDenseMLP.step`) that could shadow inherited update methods without defining a new function.
 - Treats the shared hook's caller-owned `active` index list as read-only: in-place mutation calls or assignments invalidate the audit.
 - Verifies the inherited local `_forward_with_active` hook dynamically dispatches via `self._forward(x)` (and cannot bypass sparse traversal via a direct dense-class call).
 - Rejects direct assignments, augmented writes, deletions and unreviewed mutating calls to model state inside forward hooks.
