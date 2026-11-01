@@ -1,0 +1,38 @@
+name: CL-5P Exact Pair Collision Diagnostics (read-only)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  analyze-existing-data:
+    name: CL-5P source-only pair collision (NO DATA / NO TRAINING)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Test exact mathematical and fail-closed contracts
+        run: |
+          python -m unittest -v tests.test_cl5n_empirical_data_diagnostics tests.test_cl5p_pair_collision_analysis
+      - name: Reuse existing CL-5M aggregate artifact only
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p reports/cl5p
+          gh run download 41311514598 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name cl5m-seed-101-data-only-report \
+            --dir reports/cl5p
+          test -f reports/cl5p/cl5m-data-only-report.json
+      - name: Render pair collision probabilities and observed reject fractions
+        run: |
+          python -m integrations.continual_learning.cl5p_pair_collision_analysis \
+            --source-run 41311514598 \
+            --report reports/cl5p/cl5m-data-only-report.json \
+            --summary "$GITHUB_STEP_SUMMARY"
