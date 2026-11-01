@@ -1,0 +1,157 @@
+{
+  "kind": "CL9C_SCIENTIFIC_MEASUREMENT_PROTOCOL",
+  "version": "cl9c-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "execution_authorized": false,
+  "model_training_authorized": false,
+  "model_inference_authorized": false,
+  "synthetic_data_generation_authorized": false,
+  "any_observations_recorded": false,
+  "physical_energy": "NOT_MEASURED",
+  "scientific_independent_review": false,
+  "source_acceptance": "cl9b_h1_acceptance_contract.json",
+  "source_protocol": "cl6a_readiness_protocol.json",
+  "future_record_schema": {
+    "status": "SPECIFICATION_ONLY_NOT_IMPLEMENTED",
+    "row_unit": "one arm × seed × task/checkpoint × phase × repeat",
+    "required_identity": [
+      "protocol_version",
+      "source_commit_sha",
+      "dataset_digest",
+      "environment_digest",
+      "arm",
+      "seed",
+      "task",
+      "checkpoint",
+      "phase",
+      "repeat_index",
+      "run_status",
+      "failure_reason"
+    ],
+    "conditional_observation": [
+      "monotonic_elapsed_ns",
+      "peak_rss_bytes",
+      "observer_enabled",
+      "instrumentation_overhead_control_id"
+    ],
+    "prohibited_substitutions": [
+      "logical_bytes_as_dram_bytes",
+      "logical_events_as_cpu_instructions",
+      "elapsed_time_as_joules",
+      "static_proxy_as_observed_events"
+    ],
+    "energy_field": {
+      "name": "physical_energy_status",
+      "value": "NOT_MEASURED",
+      "joules_field_allowed": false
+    },
+    "allowed_run_status": [
+      "COMPLETE",
+      "FAILED",
+      "INCOMPLETE"
+    ],
+    "observation_fields_nullable": true,
+    "missing_value_semantics": "null denotes not observed; numeric zero denotes an observed count of zero. Never replace missing observations with zero.",
+    "status_requirements": {
+      "COMPLETE": "failure_reason must be null; all required_observation fields are non-null measured values; zero is permitted only if observed.",
+      "FAILED": "failure_reason must be a nonempty bounded diagnostic; unavailable observation fields are null; already observed partial fields may retain measured values.",
+      "INCOMPLETE": "failure_reason must be a nonempty bounded diagnostic; unavailable observation fields are null; preserve any observed partial fields without imputation."
+    },
+    "required_observation_when_complete": [
+      "accuracy_numerator",
+      "accuracy_denominator",
+      "logical_parameter_reads",
+      "logical_parameter_writes",
+      "input_visits",
+      "active_index_visits",
+      "control_events",
+      "nonlinear_events"
+    ],
+    "partial_observation_when_failed_or_incomplete": [
+      "accuracy_numerator",
+      "accuracy_denominator",
+      "logical_parameter_reads",
+      "logical_parameter_writes",
+      "input_visits",
+      "active_index_visits",
+      "control_events",
+      "nonlinear_events"
+    ]
+  },
+  "paired_design": {
+    "seeds": [
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "arms": [
+      "dense_sgd",
+      "local_hybrid",
+      "sparse_local_hybrid",
+      "sparse_shared_index"
+    ],
+    "phase_values": [
+      "train",
+      "heldout_inference"
+    ],
+    "failed_runs": "retain_with_reason_no_posthoc_exclusions",
+    "heldout_selection": "FORBIDDEN",
+    "comparisons": [
+      "primary_sparse",
+      "secondary_index_reuse"
+    ]
+  },
+  "proposed_measurement_controls": [
+    {
+      "id": "SOURCE_COUNTER_BOUNDARY",
+      "condition": "Audited event definitions per source loop and architecture, matching training vs heldout inference scopes",
+      "status": "OPEN"
+    },
+    {
+      "id": "FAIR_INSTRUMENTATION",
+      "condition": "Instrumented/uninstrumented paired timing on same future host; counter observer overhead recorded",
+      "status": "OPEN"
+    },
+    {
+      "id": "TIME_RSS_CONTROL",
+      "condition": "Predefine warmup/repeat count, order randomization, monotonic clock, RSS scope and machine load policy",
+      "status": "OPEN"
+    },
+    {
+      "id": "NUMERIC_PARITY",
+      "condition": "Same data and initialization with independently reviewed dtype, tolerance and per-step trace check",
+      "status": "OPEN"
+    },
+    {
+      "id": "QUALITY_BLINDING",
+      "condition": "Train-only calibration and frozen heldout accuracy checks before interpreting costs",
+      "status": "OPEN"
+    },
+    {
+      "id": "WEIGHTED_SCORE",
+      "condition": "Freeze any event-to-work weights independently before collecting results; until then disclose separate raw event categories",
+      "status": "OPEN"
+    },
+    {
+      "id": "COMPLETE_PROVENANCE",
+      "condition": "Pin commit, per-seed dataset digests, environment and complete failures/retries",
+      "status": "OPEN"
+    },
+    {
+      "id": "INDEPENDENT_SIGNOFF",
+      "condition": "Independent scientific review and Marcus's separately explicit workload authorization before model execution",
+      "status": "OPEN"
+    }
+  ],
+  "reporting_policy": [
+    "Report by arm and phase, never collapse training and inference into a single energy figure",
+    "Report per-seed signed paired effects and range; five seeds descriptive only",
+    "Record missing/failed rows, no cherry-picked exclusions",
+    "Distinguish proposed static proxies from future observed software events",
+    "Keep electrical joules and Loihi/Q.ANT energy NOT_MEASURED"
+  ],
+  "next_step": "Independent review of event instrumentation definitions, paired numeric tolerances, and learnability calibration; no execution in CL-9C."
+}
