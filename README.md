@@ -38,6 +38,61 @@ Recent experiments have therefore moved from simply measuring accuracy to invest
 
 **Experiment 018** was a historical intervention. The original Toolkit discovery series is preserved through **Exp030** (including the AST-equivalent readability-only refactor from #152). **PNN-v1** is a separately numbered architecture series with committed Exp001–Exp021 results and auxiliary paired confirmations at this snapshot. See [the current protocol map](docs/current-systems-and-protocols.md); do not treat a historical result as a currently authorized future protocol.
 
+## The Compute Paradox: energy-efficient continual learning (CL research)
+
+Alongside the Q.ANT-specific Fourier/KAN work, the lab is developing a **separate, early-stage continual-learning research track**. Its motivating question is:
+
+> **Can AI systems learn continuously with substantially less computational and energy demand by combining sparse, event-driven activity, local synaptic learning, and memory-near-compute architectures?**
+
+This is a **testable research hypothesis, not an achieved result**. We are interested in neuromorphic computing and photonic/electronic hybrid systems, but do not assume that any particular hardware will be superior.
+
+### Three hypotheses to test independently
+
+| Hypothesis | Question | Candidate mechanisms | Evidence needed |
+| --- | --- | --- | --- |
+| **H1 — Computational cost** | Can we reduce logical work and data movement? | Sparse activation, event-driven execution, reuse of active indices, and compute-near-memory | Paired operation and access counts; eventually instrumented runtime, memory traffic and energy |
+| **H2 — Continual learning** | Can we reduce catastrophic forgetting while adapting to new tasks? | Local synaptic plasticity, online updates and stabilization of important connections | Sequential-task accuracy, retention/forgetting and update-cost comparisons against credible baselines |
+| **H3 — Combined benefit** | Can we obtain both advantages without unacceptable quality or system overhead? | Joint sparse/local/memory-near-compute design, with a possible photonic compute stage | Matched tasks and accuracy targets; full-system costs including control, storage, conversion and communication |
+
+**H1 and H2 must be tested separately before testing H3.** Otherwise, a positive result cannot reliably be attributed to sparse computation, learning rules, or their interaction. A lower byte-count proxy does not establish lower energy, and local learning does not automatically prevent forgetting.
+
+### Architectural candidates
+
+The CL track provides software-level components and comparison protocols for:
+
+1. A conventional dense multilayer perceptron (MLP) with backpropagation as a reference.
+2. A dense-forward MLP with local, Hebbian-inspired updates.
+3. A local-learning MLP with sparse forward computation.
+4. A sparse local-learning variant that reuses active-neuron indices across forward and update paths.
+
+Spiking neural networks (SNNs), neuromorphic execution, compute-in-memory and photonic/hybrid hardware are **research directions and potential future evaluation platforms**; software-level sparsity must not be described as measured Loihi or photonic acceleration. Event-driven operation can avoid work when activity is sparse, but encoding, routing, control and memory access also have costs. Locating memory near compute can *reduce*, not magically eliminate, data movement.
+
+### What has actually been established
+
+The CL-2 and CL-3 series now include deterministic software contracts, static source-level logical-access estimates, scientific review and preflight/analysis safeguards, and GitHub Actions visualizations. This is progress in **test infrastructure and analytic cost modeling**, not a report of a successful continual-learning experiment.
+
+- **Technically checked:** selected code paths, logical-access accounting rules, index reuse, report generation and test contracts behave as specified in their tested configurations.
+- **Modeled rather than measured:** CL-3Q separates hypothetical training-update and standalone-prediction logical payload costs; CL-3R presents activity sweeps and inline GitHub Actions graphs; CL-3T reports the discrete point where a sparse implementation's **assumed logical-byte advantage** over the dense baseline disappears.
+- **Not yet established:** real energy savings, measured hardware memory traffic or latency, improvements in catastrophic forgetting, retained classification accuracy, or superior performance on Q.ANT/Loihi hardware.
+
+For example, in the **fixed 16-input CL-3T source-level model**, the two sparse variants retain a strictly lower estimated inference payload through **13 active inputs**, with no advantage at **14**; all three candidate local/sparse variants retain a strictly lower estimated training-update payload through **15 active inputs**, with no advantage at **16**. These are **discrete breakpoints within a specified logical-byte model**, not power-efficiency thresholds or learned-model outcomes. Parameter widths, activity patterns and hardware assumptions can change the comparison.
+
+Useful starting points:
+
+- [Current systems and protocols](docs/current-systems-and-protocols.md) — authoritative status and approval boundaries.
+- [CL-3T crossover analysis](integrations/continual_learning/CL3T_CROSSOVER_BREAKPOINTS.md) — assumptions, crossover definitions and limitations.
+- [GitHub Actions](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/actions) — the manually dispatched `CL Research Visualization (static, no training)` workflow produces an inline Markdown summary and downloadable HTML/SVG/JSON reports.
+
+### Why photonics is an open question
+
+Photonic hardware may accelerate suitable mathematical primitives, such as certain matrix operations, without necessarily offering efficient **persistent weight storage or frequent synaptic updates**. A hybrid optical/electronic design may still need electronic memory, analog–digital conversion, routing and calibration. Any energy comparison must account for the *whole system*, not just optical arithmetic. The Q.ANT Native Computing Toolkit CPU backend supports software investigation; it **cannot validate physical photonic energy consumption**. Intel Lava/Loihi-related ideas and external hardware access are separate from evidence produced here.
+
+### Experimental status and next gates
+
+**No new CL model training is authorized.** The CL-3A scientific readiness gates remain **NO_GO** for execution until a separately reviewed protocol is approved and Marcus gives **explicit, separate authorization** for training. Merging a PR or running a static visualization workflow is not that authorization.
+
+Next analytical work may vary network dimensions, activity and memory-cost assumptions (CL-3U), then preregister fair H1/H2 comparisons. Any real experiment should report task quality and forgetting alongside operation counts, wall-clock time, actual memory traffic and **measured electrical energy** with an appropriate baseline and uncertainty. Hardware-specific photonic or neuromorphic claims require access to, and measurement on, those devices.
+
 ## AI-assisted research and approval boundaries
 
 **AI Researcher v2** is the connected, **Groq-backed** proposal/compiler/review path: its manual or authorized feedback-triggered workflow invokes `scripts.ai_researcher_v2`, requires `GROQ_API_KEY`, and makes real calls to Groq. The `deterministic` / `allow_paid_usage=false` settings in `research_queue/researcher_backend.json` belong to a separate non-wired prototype and **do not disable v2 API usage or guarantee zero provider cost**. **AI Researcher v3** has separate offline, read-only strategy-isolated Research Memory and manually approved bounded live Groq sessions. Its proposals, reviews and unapproved standalone drafts are not completed experiment results.
@@ -91,6 +146,8 @@ research_queue/
   v3_protocols/              Unapproved standalone v3 draft
 docs/current-systems-and-protocols.md
                              Maintained status/protocol map
+integrations/continual_learning/
+                             CL-2/CL-3 analysis, contracts and visualizations
 public/research-dashboard.json
                              Derived public dashboard, not raw evidence
 public/experiment-catalog.json
@@ -159,4 +216,4 @@ This repository contains Debatt-AI's research code and results. Q.ANT's Native C
 
 ---
 
-**Status (29 September 2026):** Toolkit discovery retained through Exp030; separate PNN-v1 results through Exp021; v2 guarded research orchestration; v3 research prototypes; frozen Dev-4 benchmark. Consult the [current protocol map](docs/current-systems-and-protocols.md) for source-of-truth links.
+**Historical Toolkit/PNN snapshot (29 September 2026):** Toolkit discovery retained through Exp030; separate PNN-v1 results through Exp021; v2 guarded research orchestration; v3 research prototypes; frozen Dev-4 benchmark. Consult the [current protocol map](docs/current-systems-and-protocols.md) for source-of-truth links. **CL research update (1 November 2026):** static CL-3T crossover analysis and GitHub Actions visualizations are available; continual-learning training remains NO_GO pending separate approval.
