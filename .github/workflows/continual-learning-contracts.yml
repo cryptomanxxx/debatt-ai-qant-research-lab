@@ -51,6 +51,7 @@ on:
       - 'tests/test_cl4e_overhead_contract.py'
       - 'tests/test_cl5a_provenance_source_audit_contract.py'
       - 'tests/test_post_merge_offline_ci_contract.py'
+      - 'tests/test_cl9g_protocol_consistency.py'
       - 'tests/test_cl3o_activity_weighted_inference_contract.py'
       - 'tests/test_cl3p_activity_weighted_training_contract.py'
       - 'tests/test_cl3q_joint_cost_review_contract.py'
