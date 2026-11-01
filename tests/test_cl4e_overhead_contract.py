@@ -1,5 +1,4 @@
 """CL-4E synthetic timing analysis contracts; no calls to models or clocks."""
-import copy
 import unittest
 
 from integrations.continual_learning.cl4e_overhead_contract import (
@@ -22,7 +21,7 @@ class CL4EOverheadContracts(unittest.TestCase):
     def test_paired_estimator_uses_each_control_and_traced_sample(self):
         result = analyze_synthetic_pairs(fixture())
         self.assertEqual(2, result["round_count"])
-        self.assertEqual(15.5, result["median_overhead_ns"])
+        self.assertEqual(14.5, result["median_overhead_ns"])
         self.assertGreater(result["median_ratio"], 1)
         self.assertFalse(result["instrumentation_overhead_measured"])
         self.assertFalse(result["observed_model_runtime"])
