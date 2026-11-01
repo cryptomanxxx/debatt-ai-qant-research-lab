@@ -45,13 +45,15 @@ def source_correspondence_audit() -> dict:
     sparse = _forward_method(SPARSE_PATH, "SparseForwardLocalMLP")
     dense_sums = _sum_generators(dense)
     sparse_sums = _sum_generators(sparse)
-    if dense_sums[0] != "(self.w1[j][i] * x[i] for i in range(INPUT_SIZE))":
-        raise ValueError("dense first-layer traversal drift")
-    if sparse_sums[0] != "(self.w1[j][i] for i in active)":
-        raise ValueError("sparse first-layer traversal drift")
+    dense_first = "(self.w1[j][i] * x[i] for i in range(INPUT_SIZE))"
+    sparse_first = "(self.w1[j][i] for i in active)"
     second = "(self.w2[k][j] * hidden[j] for j in range(HIDDEN_SIZE))"
-    if dense_sums[1] != second or sparse_sums[1] != second:
-        raise ValueError("shared second-layer traversal drift")
+    # ast.walk is breadth-first: nesting can change the visitation order.
+    # Classify by exact generator identity, not the order in which sum() is visited.
+    if set(dense_sums) != {dense_first, second}:
+        raise ValueError("dense first-layer/output traversal drift")
+    if set(sparse_sums) != {sparse_first, second}:
+        raise ValueError("sparse first-layer/output traversal drift")
     if _calls(dense, "math.tanh") != 1 or _calls(sparse, "math.tanh") != 1:
         raise ValueError("hidden nonlinearity site changed")
     sparse_lists = [n for n in ast.walk(sparse) if isinstance(n, ast.ListComp)
@@ -70,8 +72,8 @@ def source_correspondence_audit() -> dict:
         raise ValueError("CL-3Y scientific gates changed")
     return {
         "kind": "CL4C_STATIC_SOURCE_CORRESPONDENCE_ONLY",
-        "dense_first_layer": dense_sums[0],
-        "sparse_first_layer": sparse_sums[0],
+        "dense_first_layer": dense_first,
+        "sparse_first_layer": sparse_first,
         "shared_output_layer": second,
         "gates_open": 9,
         "decision": "NO_GO",
