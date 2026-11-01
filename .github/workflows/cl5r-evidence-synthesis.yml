@@ -38,7 +38,7 @@ jobs:
             --output reports/cl5r/scientific-evidence.md \
             --summary "$GITHUB_STEP_SUMMARY"
       - name: Archive evidence synthesis and aggregate source
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: cl5r-read-only-evidence-synthesis
           path: reports/cl5r/
