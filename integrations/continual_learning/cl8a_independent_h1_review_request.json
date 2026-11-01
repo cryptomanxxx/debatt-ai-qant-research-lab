@@ -1,0 +1,45 @@
+{
+  "kind": "CL8A_INDEPENDENT_H1_REVIEW_REQUEST_NOT_SENT",
+  "version": "cl8a-v1",
+  "decision": "NO_GO",
+  "packet": "CL8A_INDEPENDENT_H1_REVIEW_PACKET.md",
+  "review_status": "REVIEW_NOT_REQUESTED",
+  "independent_reviewer_identified": false,
+  "independent_scientific_signoff": false,
+  "reviewer_contact_authorized": false,
+  "reviewer_contact_attempted": false,
+  "review_received": false,
+  "scientific_go_authorized": false,
+  "dataset_generation_authorized": false,
+  "model_inference_authorized": false,
+  "model_training_authorized": false,
+  "model_execution_occurred": false,
+  "new_experiment_results": false,
+  "physical_energy_measured": false,
+  "parent_decision_matrix": "cl7f_h1_decision_matrix.json",
+  "open_parent_gates_expected": 9,
+  "open_scientific_findings_expected": 6,
+  "review_questions": [
+    "construct_validity",
+    "generator_selection_bias",
+    "learnability_and_baselines",
+    "causal_pairing",
+    "measurement_construct",
+    "statistics_and_reproducibility"
+  ],
+  "requested_review_outcomes": [
+    "accept",
+    "revise",
+    "reject",
+    "unable_to_judge"
+  ],
+  "required_reviewer_disclosures": [
+    "reviewer_identity_or_anonymity_rationale",
+    "relevant_expertise",
+    "conflicts_of_interest",
+    "dated_scientific_reasoning",
+    "explicit_review_scope"
+  ],
+  "review_claim_limit": "Scientific review is neither Codex approval nor permission to run models or claim energy savings.",
+  "next_decision": "Marcus may choose whether to contact a qualified independent researcher with this packet; no outreach is implied."
+}
