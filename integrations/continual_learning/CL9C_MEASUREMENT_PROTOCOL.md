@@ -14,6 +14,8 @@ One proposed record is **arm × seed × task/checkpoint × phase × repeat**. Re
 | Memory | peak process RSS bytes and accounting scope | Not automatically hardware memory traffic |
 | Physical energy | `NOT_MEASURED` | **No watt, joule, energy-per-step or Loihi/Q.ANT claim** |
 
+**Failure record semantics:** Every future record has `run_status = COMPLETE | FAILED | INCOMPLETE` and a `failure_reason` field. For a complete record, all accuracy and logical-event observations must be present and the reason is `null`. For a failed/incomplete record, the failure reason is required and every unavailable measurement is `null`; previously observed partial values can be retained. **Observed zero** and **not observed** must never be confused. No imputation or silent row deletion is allowed.
+
 Training and heldout inference scopes **must remain separate**. Static CL-3E/CL-3Q projections must be labeled projections and never passed off as observed events.
 
 ## Before independently approved measurement execution
