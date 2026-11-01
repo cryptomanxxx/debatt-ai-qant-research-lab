@@ -45,6 +45,23 @@ def validate_draft(protocol: Mapping, candidate: Mapping, readiness: Mapping) ->
         raise ValueError("legacy scientific readiness gate changed")
     if candidate.get("compute_approved") is not False or candidate.get("runner_enabled") is not False:
         raise ValueError("underlying plan unexpectedly authorized")
+    models = candidate.get("models")
+    shape = protocol.get("reference_shape")
+    if (
+        not isinstance(models, list) or len(models) != 2
+        or not isinstance(shape, dict)
+        or any(
+            shape != {
+                "inputs": model.get("input_size"),
+                "hidden": model.get("hidden_size"),
+                "outputs": model.get("output_size"),
+                "parameters_per_arm": model.get("parameters"),
+            }
+            for model in models if isinstance(model, dict)
+        )
+        or any(not isinstance(model, dict) for model in models)
+    ):
+        raise ValueError("CL-3X reference shape must match both frozen CL-2 arms")
     study = protocol.get("study_design")
     if not isinstance(study, dict) or (
         study.get("dataset") != candidate["dataset"]["candidate"]
@@ -78,13 +95,35 @@ def validate_draft(protocol: Mapping, candidate: Mapping, readiness: Mapping) ->
     ]:
         raise ValueError("unsupported secondary comparisons")
     measure = protocol.get("measurement_plan")
+    required_quality = {
+        "heldout_accuracy_by_task_and_checkpoint", "balanced_accuracy",
+        "final_mean_accuracy", "mean_prior_task_forgetting_descriptive_only",
+    }
+    required_work = {
+        "forward_weight_terms", "parameter_reads", "parameter_writes",
+        "input_visits", "index_reads", "index_writes", "nonlinearity_counts",
+    }
+    required_system = {
+        "cpu_wall_seconds_training", "cpu_wall_seconds_inference",
+        "peak_process_rss_bytes", "observed_energy_joules_if_calibrated_meter_exists",
+    }
+    if not isinstance(measure, dict) or any(
+        not isinstance(measure.get(section), list)
+        or set(measure[section]) != expected
+        or len(measure[section]) != len(expected)
+        for section, expected in (
+            ("quality", required_quality),
+            ("model_work", required_work),
+            ("system_cost", required_system),
+        )
+    ):
+        raise ValueError("primary quality/work/system measurements cannot be removed or changed")
     if not isinstance(measure, dict) or (
         measure.get("energy_status") != "NOT_MEASURED_AND_NOT_APPROVED"
         or measure.get("instrumentation_source_sha256") is not None
         or measure.get("meter_calibrated") is not False
         or measure.get("whole_system_boundary_documented") is not False
         or measure.get("training_inference_separate") is not True
-        or not {"index_reads", "index_writes", "nonlinearity_counts"}.issubset(measure.get("model_work", []))
     ):
         raise ValueError("unsupported measurement or energy claims")
     interpretation = protocol.get("interpretation")
