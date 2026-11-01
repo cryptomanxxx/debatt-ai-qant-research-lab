@@ -16,7 +16,7 @@ The symmetric relative metric is **scale-sensitive near zero** and must not be r
 
 ## Fail-closed conditions
 
-Inputs must be equally long, nonempty Python lists or tuples of finite real-valued scalars. Mismatched lengths, booleans, NaN, infinities, unusable integer magnitudes and overflowing differences are rejected; they are not silently dropped. Nested tensors and data loading are **not** part of this helper.
+Inputs must be equally long, nonempty Python lists or tuples of finite real-valued scalars. Mismatched lengths, booleans, NaN, infinities, lossy integer-to-float conversions (including integers above the binary64 exact-integer range), unusable integer magnitudes and overflowing differences are rejected; they are not silently dropped. Nested tensors and data loading are **not** part of this helper.
 
 **No numerical tolerance or equivalence pass/fail threshold is approved.** The helper always reports `scientific_decision=NO_GO` and `equivalence_established=false`. Using it with literal unit-test values is not a model run or a substitute for a future paired scientific experiment.
 
