@@ -29,6 +29,29 @@ class CL6HNumericReportTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             render_numeric_report("dense_vs_local", records())
 
+    def test_inconsistent_relative_difference_is_rejected(self):
+        identical = {
+            name: diagnose_pair([0.0, 1.0], [0.0, 1.0])
+            for name in FIELDS
+        }
+        identical["w1"]["max_symmetric_relative_difference"] = 1.0
+        with self.assertRaises(ValueError):
+            render_numeric_report("primary_sparse", identical)
+        nonidentical = records()
+        nonidentical["w1"]["max_symmetric_relative_difference"] = 0.0
+        with self.assertRaises(ValueError):
+            render_numeric_report("secondary_index_reuse", nonidentical)
+
+    def test_relative_metric_definition_is_required(self):
+        missing = records()
+        del missing["w1"]["relative_difference_definition"]
+        with self.assertRaises(ValueError):
+            render_numeric_report("primary_sparse", missing)
+        conflicting = records()
+        conflicting["w1"]["relative_difference_definition"] = "abs(a-b)/abs(a)"
+        with self.assertRaises(ValueError):
+            render_numeric_report("primary_sparse", conflicting)
+
     def test_approval_and_inconsistent_counts_fail_closed(self):
         modified = records()
         modified["w1"]["scientific_decision"] = "GO"
