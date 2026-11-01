@@ -60,6 +60,14 @@ class CL7CCalibrationTests(unittest.TestCase):
         self.rejected(lambda d: d["future_control_definitions"][1].__setitem__(
             "executed", True))
 
+    def test_unknown_execution_and_readiness_keys_are_rejected(self):
+        for key in ("training_executed", "scientific_go_authorized",
+                    "data_access_authorized", "hardware_energy_joules"):
+            with self.subTest(key=key):
+                self.rejected(lambda d, key=key: d.__setitem__(key, True))
+        self.rejected(lambda d: d.__setitem__("miscellaneous", "harmless"))
+        self.rejected(lambda d: d.pop("calibration_status"))
+
     def test_parent_go_mutations_are_rejected(self):
         altered_parent = deepcopy(self.parent)
         altered_parent["decision"] = "GO"
