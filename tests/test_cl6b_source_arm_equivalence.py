@@ -59,6 +59,24 @@ class CL6BSourceAuditTests(unittest.TestCase):
             audit_sources(self.sources)["source_sha256"]["local"],
         )
 
+    def test_base_forward_bypass_fails_closed(self):
+        altered = dict(self.sources)
+        altered["local"] = altered["local"].replace(
+            "return self._forward(x)",
+            "return TinyDenseMLP._forward(self, x)",
+        )
+        with self.assertRaises(ValueError):
+            audit_sources(altered)
+
+    def test_direct_model_state_write_in_shared_forward_fails(self):
+        altered = dict(self.sources)
+        altered["shared"] = altered["shared"].replace(
+            "        hidden = [",
+            "        self.w1[0][0] = 0.0\\n        hidden = [",
+        )
+        with self.assertRaises(ValueError):
+            audit_sources(altered)
+
     def test_wrong_forward_hook_fails_closed(self):
         altered = dict(self.sources)
         altered["local"] = altered["local"].replace(
