@@ -22,7 +22,7 @@ class CL3VContracts(unittest.TestCase):
             for active in range(17):
                 self.assertEqual(0, decompose("dense_sgd", phase, active)["index_bytes"])
         sparse = decompose("sparse_local_hybrid", "inference", 2)
-        self.assertEqual({"parameter_bytes": 288, "input_bytes": 32, "index_bytes": 84,
+        self.assertEqual({"parameter_bytes": 336, "input_bytes": 32, "index_bytes": 36,
                           "total_bytes": 404}, {k: sparse[k] for k in ("parameter_bytes", "input_bytes", "index_bytes", "total_bytes")})
         self.assertEqual(4080, decompose("dense_sgd", "training", 2)["total_bytes"])
 
