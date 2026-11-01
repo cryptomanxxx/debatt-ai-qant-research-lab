@@ -64,6 +64,18 @@ def validate_protocol(protocol: dict, parent: dict, critique: dict, baseline: di
         raise ValueError("parent research gates must remain OPEN / NO_GO")
     if not isinstance(protocol, dict):
         raise ValueError("calibration proposal must be a mapping")
+    expected_fields = {
+        "kind", "version", "decision", "analysis_only", "parent_protocol",
+        "baseline_contract", "critique", "model_construction_authorized",
+        "model_inference_authorized", "training_authorized",
+        "dataset_generation_authorized", "independent_scientific_signoff",
+        "new_results_present", "energy_measured", "calibration_status",
+        "fixed_study_seeds", "proposed_task_ids", "source_partition",
+        "calibration_split", "future_control_definitions", "selection_fences",
+        "acceptance_rules", "open_gates_preserved", "next_decision",
+    }
+    if set(protocol) != expected_fields:
+        raise ValueError("unrecognized or missing calibration contract field")
     identity = {
         "kind": "CL7C_TRAIN_ONLY_LEARNABILITY_CALIBRATION_DESIGN_NOT_EXECUTED",
         "version": "cl7c-v1", "decision": "NO_GO", "analysis_only": True,
