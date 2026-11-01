@@ -1,0 +1,79 @@
+{
+  "kind": "CL8H_ALTERNATIVE_HOST_SECURITY_CONTRACT",
+  "version": "cl8h-v1",
+  "status": "DESIGN_ONLY",
+  "decision": "NO_GO",
+  "review_only": true,
+  "source_decision": "cl8g_host_isolation_decision.json",
+  "future_envelope": "cl8c_cpu_execution_envelope.json",
+  "host_selected": false,
+  "host_evidence_verified": false,
+  "general_runner_implemented": false,
+  "model_execution_authorized": false,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "independent_security_review_complete": false,
+  "independent_scientific_review_complete": false,
+  "separate_marcus_approval": false,
+  "candidate_host_types": [
+    "externally_restricted_managed_runner",
+    "dedicated_administered_research_host"
+  ],
+  "required_gates": [
+    {
+      "id": "HOST_IDENTITY",
+      "proof": "Pinned OS image, kernel, runner trust boundary and operator ownership; records tied to immutable host configuration",
+      "verified": false
+    },
+    {
+      "id": "EGRESS_DENY",
+      "proof": "Host-enforced default-deny network policy outside disposable child; fixed non-AI outbound attempt shows refusal with policy evidence",
+      "verified": false
+    },
+    {
+      "id": "EXECUTION_BUDGET",
+      "proof": "External CPU, memory, process count and wall timeout enforcement plus termination of descendants",
+      "verified": false
+    },
+    {
+      "id": "FILESYSTEM_BUDGET",
+      "proof": "Restricted read-only inputs and separately bounded writable output; symlink and escape tests",
+      "verified": false
+    },
+    {
+      "id": "ARTIFACT_INTEGRITY",
+      "proof": "Immutable reviewed commit, manifest hash, checksum verification and capped deterministic artifact retention",
+      "verified": false
+    },
+    {
+      "id": "CREDENTIALS",
+      "proof": "No tokens, secrets or ambient credentials inherited by any child; untrusted PRs cannot access privileged host",
+      "verified": false
+    },
+    {
+      "id": "NEGATIVE_TESTS",
+      "proof": "Missing egress policy, unavailable caps, child timeout, corrupt result, wrong hash and unexpected permissions all independently fail closed",
+      "verified": false
+    },
+    {
+      "id": "EXTERNAL_SECURITY_REVIEW",
+      "proof": "Independent review of host isolation and threat model including container escape and privileged-runner risk",
+      "verified": false
+    },
+    {
+      "id": "SCIENTIFIC_AND_USER_APPROVAL",
+      "proof": "Independent scientific gates met; Marcus separately authorizes exact model command, dataset digest and resource budget",
+      "verified": false
+    }
+  ],
+  "non_goals": [
+    "No model runner implemented",
+    "No container or VM provisioned",
+    "No firewall altered",
+    "No GitHub runner permission escalation",
+    "No model inference or training",
+    "No synthetic data generated",
+    "No energy measurement"
+  ],
+  "strict_policy": "If any gate is unverified, refuse model execution; green CI does not change NO_GO."
+}
