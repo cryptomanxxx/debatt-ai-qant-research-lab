@@ -4,7 +4,7 @@
 
 ## Mechanism
 
-- The parent launches only a fixed Python `-I -S -c` probe through Linux `unshare --user --map-root-user --net`.
+- The parent launches only a fixed Python `-I -S -c` probe through Linux `unshare --user --map-root-user --net`. The `unshare` executable must resolve to a root-owned, non-group/world-writable system binary in `/usr/bin` or `/bin`; the caller's `PATH` is ignored.
 - The child receives `RLIMIT_CPU=5 seconds`, `RLIMIT_AS=256 MiB`, `RLIMIT_FSIZE=8 KiB` and disabled core dumps. These limits apply **only to the disposable probe child**, not the GitHub runner or the later proposed experiment.
 - An external 5-second wall deadline stops the child's process group on timeout.
 - Success requires a valid fixed JSON response and a **different** `/proc/self/ns/net` network namespace inode from the parent.
