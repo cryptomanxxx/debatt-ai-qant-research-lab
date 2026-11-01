@@ -78,7 +78,8 @@ def audit_sources(sources: dict[str, str]) -> dict:
     updates = [ast.unparse(n.target) for n in ast.walk(local_step)
                if isinstance(n, ast.AugAssign)]
     expected = {"self.w1[j][i]", "self.b1[j]", "self.w2[k][j]", "self.b2[k]"}
-    if set(updates) != expected or len(updates) != 4:
+    bookkeeping = {"self.logical_counters", "self.optimizer_steps"}
+    if set(updates) != expected | bookkeeping or len(updates) != 6:
         raise ValueError("local weight update targets changed")
     for key in ("dense", "sparse", "shared"):
         for method in methods[key].values():
