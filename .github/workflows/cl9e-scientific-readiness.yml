@@ -20,5 +20,7 @@ jobs:
           python-version: '3.11'
       - name: Check scientific readiness contracts without model execution
         run: python -m unittest -v tests.test_cl9e_readiness_dashboard
+      - name: Reconcile H1 contracts and safety flags (NO TRAINING)
+        run: python -m unittest -v tests.test_cl9g_protocol_consistency
       - name: Publish fail-closed NO_GO scientific readiness summary
         run: python -m integrations.continual_learning.cl9e_readiness_dashboard --summary >> "$GITHUB_STEP_SUMMARY"
