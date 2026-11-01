@@ -37,6 +37,14 @@ class CL9BAcceptanceTests(unittest.TestCase):
         self.assertEqual(record["gates_still_open"],
                          [g["id"] for g in readiness["minimum_gates"]])
         self.assertTrue(all(g["status"] == "OPEN" for g in readiness["minimum_gates"]))
+        common = record["shared_directional_prerequisites"]
+        self.assertIn("learnability", common)
+        self.assertIn("provenance", common)
+        self.assertIn("approved unit-cost metric", common)
+        positive, negative, inconclusive = record["pilot_decision_rules"]
+        self.assertTrue(positive["rule"].startswith(common))
+        self.assertTrue(negative["rule"].startswith(common))
+        self.assertIn("precedence", inconclusive["rule"])
         self.assertEqual(record["numeric_gate"]["status"], "OPEN")
         self.assertEqual(record["work_metrics"]["unit_cost_weights"],
                          "UNRESOLVED_INDEPENDENT_REVIEW")
