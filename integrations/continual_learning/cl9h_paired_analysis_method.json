@@ -1,0 +1,124 @@
+{
+  "kind": "CL9H_PAIRED_H1_ANALYSIS_METHOD_REVIEW_ONLY",
+  "version": "cl9h-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "independent_scientific_signoff": false,
+  "model_construction_authorized": false,
+  "model_inference_authorized": false,
+  "training_authorized": false,
+  "synthetic_data_generation_authorized": false,
+  "observations_recorded": 0,
+  "physical_energy": "NOT_MEASURED",
+  "h2_tested": false,
+  "upstream": [
+    "cl6a_readiness_protocol.json",
+    "cl9b_h1_acceptance_contract.json",
+    "cl9c_measurement_protocol.json",
+    "cl9d_reproducibility_failure_policy.json",
+    "cl9g_protocol_consistency.py"
+  ],
+  "planned_seeds": [
+    101,
+    102,
+    103,
+    104,
+    105
+  ],
+  "contrast_definitions": [
+    {
+      "id": "primary_sparse",
+      "reference": "local_hybrid",
+      "candidate": "sparse_local_hybrid",
+      "causal_claim": "sparse_traversal_only_under_same_local_rule",
+      "applicable_effect_phases": [
+        "train",
+        "heldout_inference"
+      ]
+    },
+    {
+      "id": "secondary_index_reuse",
+      "reference": "sparse_local_hybrid",
+      "candidate": "sparse_shared_index",
+      "causal_claim": "active_index_reuse_only_under_same_sparse_local_rule",
+      "applicable_effect_phases": [
+        "train"
+      ],
+      "heldout_inference_role": "NO_INTERVENTION_CONTROL_STANDALONE_PREDICT_SAME_INHERITED_SPARSE_PATH"
+    }
+  ],
+  "context_only_arm": "dense_sgd",
+  "phases": [
+    "train",
+    "heldout_inference"
+  ],
+  "event_fields": [
+    "logical_parameter_reads",
+    "logical_parameter_writes",
+    "input_visits",
+    "active_index_visits",
+    "control_events",
+    "nonlinear_events"
+  ],
+  "scalar_work_metric": {
+    "status": "UNAPPROVED_UNDEFINED",
+    "unit_cost_weights": null,
+    "independent_approval_reference": null,
+    "scalar_directional_claim_allowed": false
+  },
+  "paired_delta": "candidate_minus_reference",
+  "relative_delta": "signed_delta_divided_by_positive_reference_or_null_if_reference_zero",
+  "quality": {
+    "final_mean_accuracy_floor_per_seed_and_arm": 0.65,
+    "maximum_absolute_final_mean_paired_accuracy_gap_per_seed": 0.05,
+    "train_only_learnability_status": "UNRESOLVED_REVIEW_REQUIRED",
+    "numerical_tolerance_status": "UNRESOLVED_REVIEW_REQUIRED",
+    "final_mean_accuracy_endpoint": {
+      "source": "cl3d_analysis_contract.summarize_accuracy",
+      "checkpoint": "post_T4",
+      "checkpoint_row_index": -1,
+      "heldout_tasks": [
+        "T1",
+        "T2",
+        "T3",
+        "T4"
+      ],
+      "all_tasks_evaluated_at_every_checkpoint": true,
+      "aggregation": "unweighted_mean_of_four_per_task_heldout_accuracies_at_post_T4",
+      "checkpoint_pooling_allowed": false,
+      "heldout_checkpoint_selection_allowed": false
+    }
+  },
+  "minimum_common_prerequisites": [
+    "all_five_paired_seeds_complete",
+    "source_and_per_seed_data_digests",
+    "train_only_learnability_pass",
+    "final_quality_and_parity_pass",
+    "numeric_equivalence_pass",
+    "identical_work_scope",
+    "independent_preapproved_scalar_work_metric",
+    "no_missing_or_excluded_attempts"
+  ],
+  "outcomes": {
+    "DESCRIPTIVE_H1_SUPPORT": "all prerequisites pass and every paired seed delta < 0",
+    "NO_OBSERVED_H1_ADVANTAGE": "all prerequisites pass and every paired seed delta >= 0",
+    "INCONCLUSIVE": "any prerequisite fails or paired signs mixed"
+  },
+  "reporting": {
+    "no_posthoc_exclusions": true,
+    "keep_all_attempts": true,
+    "undefined_relative_or_rate": null,
+    "report_phase_separately": true,
+    "report_raw_unweighted_events": true,
+    "no_generalizable_p_values": true,
+    "no_energy_or_h2_claim": true
+  },
+  "unresolved_gates": [
+    "frozen_scope_and_weights",
+    "independent_numeric_and_calibration_review",
+    "verified_no_network_host",
+    "independent_scientific_signoff",
+    "marcus_separate_exact_execution_approval"
+  ],
+  "outcomes_applicability": "Directional outcomes apply only to contrast-specific applicable_effect_phases; secondary heldout inference is a no-intervention control and has no index-reuse direction label"
+}
