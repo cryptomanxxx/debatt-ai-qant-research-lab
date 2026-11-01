@@ -1,0 +1,33 @@
+name: CL-9I Static H1 Method Contract
+
+on:
+  pull_request:
+    paths:
+      - "integrations/continual_learning/**"
+      - ".github/workflows/cl9i-static-h1.yml"
+  push:
+    branches: [main]
+    paths:
+      - "integrations/continual_learning/**"
+      - ".github/workflows/cl9i-static-h1.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Validate static CL-9I contract
+        working-directory: integrations/continual_learning
+        run: |
+          python -B cl9i_static_h1_validator.py
+          python -B -m unittest -v test_cl9i_static_h1_validator.py
