@@ -1,0 +1,24 @@
+name: CL-9E Scientific Readiness Dashboard (NO TRAINING)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-readiness:
+    name: Static scientific readiness (NO TRAINING)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Check scientific readiness contracts without model execution
+        run: python -m unittest -v tests.test_cl9e_readiness_dashboard
+      - name: Publish fail-closed NO_GO scientific readiness summary
+        run: python -m integrations.continual_learning.cl9e_readiness_dashboard --summary >> "$GITHUB_STEP_SUMMARY"
