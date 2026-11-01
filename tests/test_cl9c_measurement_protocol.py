@@ -21,6 +21,16 @@ class CL9CMeasurementProtocolTests(unittest.TestCase):
                          "SPECIFICATION_ONLY_NOT_IMPLEMENTED")
         self.assertIs(record["future_record_schema"]["energy_field"]["joules_field_allowed"],
                       False)
+        schema = record["future_record_schema"]
+        self.assertIn("failure_reason", schema["required_identity"])
+        self.assertEqual(set(schema["allowed_run_status"]),
+                         {"COMPLETE", "FAILED", "INCOMPLETE"})
+        self.assertTrue(schema["observation_fields_nullable"])
+        self.assertIn("null", schema["missing_value_semantics"])
+        for status in schema["allowed_run_status"]:
+            self.assertIn(status, schema["status_requirements"])
+        self.assertEqual(schema["required_observation_when_complete"],
+                         schema["partial_observation_when_failed_or_incomplete"])
         self.assertEqual(set(record["paired_design"]["phase_values"]),
                          {"train", "heldout_inference"})
 
