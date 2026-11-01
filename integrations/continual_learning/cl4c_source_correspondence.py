@@ -39,12 +39,34 @@ def _calls(method: ast.FunctionDef, function: str) -> int:
     return sum(isinstance(n, ast.Call) and ast.unparse(n.func) == function for n in ast.walk(method))
 
 
+def _check_enclosing_layer_bounds(method: ast.FunctionDef) -> None:
+    """Check comprehensions surrounding the two sum generators, not only sums."""
+    comps = [n for n in ast.walk(method) if isinstance(n, ast.ListComp)]
+    hidden = [n for n in comps if any(
+        isinstance(call, ast.Call) and ast.unparse(call.func) == "math.tanh"
+        for call in ast.walk(n.elt)
+    )]
+    output = [n for n in comps if isinstance(n.elt, ast.BinOp)
+              and ast.unparse(n.elt.left) == "self.b2[k]"]
+    for matches, target, iteration, label in (
+        (hidden, "j", "range(HIDDEN_SIZE)", "hidden"),
+        (output, "k", "range(N_CLASSES)", "output"),
+    ):
+        if len(matches) != 1 or len(matches[0].generators) != 1:
+            raise ValueError(f"{label} enclosing traversal missing or ambiguous")
+        gen = matches[0].generators[0]
+        if ast.unparse(gen.target) != target or ast.unparse(gen.iter) != iteration or gen.ifs or gen.is_async:
+            raise ValueError(f"{label} enclosing traversal bounds changed")
+
+
 def source_correspondence_audit() -> dict:
     """Check the two currently reviewed CL-2 first-layer source patterns."""
     dense = _forward_method(DENSE_PATH, "TinyDenseMLP")
     sparse = _forward_method(SPARSE_PATH, "SparseForwardLocalMLP")
     dense_sums = _sum_generators(dense)
     sparse_sums = _sum_generators(sparse)
+    _check_enclosing_layer_bounds(dense)
+    _check_enclosing_layer_bounds(sparse)
     dense_first = "(self.w1[j][i] * x[i] for i in range(INPUT_SIZE))"
     sparse_first = "(self.w1[j][i] for i in active)"
     second = "(self.w2[k][j] * hidden[j] for j in range(HIDDEN_SIZE))"
