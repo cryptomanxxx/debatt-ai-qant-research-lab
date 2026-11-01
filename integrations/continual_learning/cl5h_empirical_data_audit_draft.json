@@ -1,0 +1,60 @@
+{
+  "protocol_id": "CL-5H-empirical-data-audit-draft-v0",
+  "kind": "PREREGISTRATION_ONLY_NO_DATA_GENERATION",
+  "decision": "NO_GO",
+  "status": "DRAFT_NOT_AUTHORIZED",
+  "generator": {
+    "module": "integrations.continual_learning.cl2_shared_rule_candidate",
+    "entrypoint": "generate_shared_rule_candidate",
+    "version": "cl2-shared-rule-candidate-v0",
+    "source_sha256_approved": null
+  },
+  "planned_design": {
+    "seeds": [
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "task_order": [
+      "T1",
+      "T2",
+      "T3",
+      "T4"
+    ],
+    "train_per_task": 128,
+    "test_per_task": 64,
+    "global_label": "features[0] XOR features[1]",
+    "global_uniqueness_within_seed": true
+  },
+  "authorization": {
+    "data_generation_authorized": false,
+    "experiment_training_authorized": false,
+    "permission_to_run_in_CI": false
+  },
+  "required_future_fields_per_seed": [
+    "generator_source_sha256",
+    "canonical_dataset_sha256",
+    "task_partition_counts",
+    "xor_class_balance",
+    "empirical_activity_by_task_and_partition",
+    "within_seed_duplicate_count",
+    "cross_partition_duplicate_count",
+    "rejection_attempts_by_task_and_partition",
+    "generator_attempt_cap_outcome",
+    "validation_failures"
+  ],
+  "output_record_policy": {
+    "immutable_per_seed_artifacts_required": true,
+    "samples_may_be_published": false,
+    "measure_hardware_energy": false
+  },
+  "scientific_claims": {
+    "dataset_generated": false,
+    "reproducibility_proven": false,
+    "training_performed": false,
+    "hardware_energy_measured": false
+  },
+  "note": "No executable generator invocation or GitHub Actions job is authorized by this preregistration. A separate approval is required for in-memory dataset generation; model experiment training requires a further separate approval."
+}
