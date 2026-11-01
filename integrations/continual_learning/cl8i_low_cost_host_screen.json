@@ -1,0 +1,82 @@
+{
+  "kind": "CL8I_COST_CONSCIOUS_HOST_SCREEN",
+  "version": "cl8i-v1",
+  "review_only": true,
+  "decision": "NO_GO",
+  "screened_on": "2026-11-01",
+  "costs_are_conditional": true,
+  "selected_host": null,
+  "provisioned_hosts": 0,
+  "network_policy_verified": false,
+  "model_execution_authorized": false,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "options": [
+    {
+      "id": "GITHUB_HOSTED_STANDARD",
+      "estimated_cost_category": "existing_ci_allowance",
+      "cost_caveat": "Repository plan and workflow usage terms must be checked.",
+      "control": "Limited: tested unshare probe denied by OS",
+      "observed_evidence_run_id": 41343841231,
+      "egress_security": "NOT_VERIFIED",
+      "host_acceptance": "NO_GO",
+      "rationale": "Useful for deterministic static CI, not approved for model execution."
+    },
+    {
+      "id": "GOOGLE_CLOUD_E2_MICRO",
+      "estimated_cost_category": "conditional_free_tier",
+      "cost_caveat": "Eligible region/machine usage, disk and egress caps and billing account apply; insufficient evidence for any specific zero-cost run.",
+      "control": "VM-level VPC egress firewall rules can be configured by account administrator",
+      "egress_security": "NOT_CONFIGURED_OR_TESTED",
+      "host_acceptance": "NO_GO",
+      "rationale": "Candidate for fixed non-AI security validation with external egress-deny rule, subject to operator control.",
+      "official_docs": [
+        "https://cloud.google.com/products/compute",
+        "https://docs.cloud.google.com/firewall/docs/firewalls",
+        "https://docs.cloud.google.com/free/docs/free-cloud-features"
+      ]
+    },
+    {
+      "id": "ORACLE_CLOUD_ALWAYS_FREE",
+      "estimated_cost_category": "conditional_always_free",
+      "cost_caveat": "Availability and host capacity are not guaranteed; requires account and eligible quotas.",
+      "control": "Cloud VM/network controls, unverified in this project",
+      "egress_security": "NOT_CONFIGURED_OR_TESTED",
+      "host_acceptance": "NO_GO",
+      "rationale": "Candidate only if eligible capacity and externally configured egress restrictions can be proved.",
+      "official_docs": [
+        "https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm"
+      ]
+    },
+    {
+      "id": "EXISTING_PRIVATELY_ADMINISTERED_PC",
+      "estimated_cost_category": "no_new_hardware_purchase",
+      "cost_caveat": "Existing electricity, maintenance and security overhead remain.",
+      "control": "Potential host firewall/VM administration if the user owns and fully controls the machine",
+      "egress_security": "NOT_CONFIGURED_OR_TESTED",
+      "host_acceptance": "NO_GO",
+      "rationale": "Possible offline validation host, but not a public repository self-hosted Actions runner; use manual reviewed code only.",
+      "official_docs": [
+        "https://docs.github.com/en/actions/reference/security/secure-use"
+      ]
+    }
+  ],
+  "ranking_for_next_no_model_security_study": [
+    "GOOGLE_CLOUD_E2_MICRO",
+    "ORACLE_CLOUD_ALWAYS_FREE",
+    "EXISTING_PRIVATELY_ADMINISTERED_PC"
+  ],
+  "ranking_is_preliminary": true,
+  "notes": "Ranking favors documented external egress controls and accessibility, not measured cost/security or AI performance. Do not provision or spend without user authorization.",
+  "required_before_host_provisioning": [
+    "User selects host and authorizes account/provisioning and any potential charges",
+    "Confirm current eligibility, quotas and terms",
+    "Review external egress-deny design and test target"
+  ],
+  "required_before_model_run": [
+    "All CL8H gates evidenced and independently reviewed",
+    "Independent scientific readiness",
+    "Marcus separately authorizes exact training/inference workload"
+  ],
+  "no_training": true
+}
