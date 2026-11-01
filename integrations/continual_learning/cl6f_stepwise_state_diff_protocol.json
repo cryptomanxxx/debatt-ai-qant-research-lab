@@ -1,0 +1,90 @@
+{
+  "kind": "CL6F_STEPWISE_STATE_DIFFERENCE_PREREGISTRATION",
+  "version": "cl6f-v1",
+  "decision": "NO_GO",
+  "model_instantiation_authorized": false,
+  "model_forward_authorized": false,
+  "training_authorized": false,
+  "dataset_generation_authorized": false,
+  "run_executed": false,
+  "result_records_present": false,
+  "energy_measured": false,
+  "paired_comparisons": [
+    {
+      "id": "primary_sparse",
+      "left": "local_hybrid",
+      "right": "sparse_local_hybrid"
+    },
+    {
+      "id": "secondary_index_reuse",
+      "left": "sparse_local_hybrid",
+      "right": "sparse_shared_index"
+    }
+  ],
+  "future_record": {
+    "required_identity": [
+      "source_commit_sha",
+      "source_dependency_digests",
+      "input_set_digest",
+      "paired_seed",
+      "task_id",
+      "sample_ordinal",
+      "checkpoint_ordinal",
+      "model_arm"
+    ],
+    "pre_update_state_fields": [
+      "w1",
+      "b1",
+      "w2",
+      "b2",
+      "learning_rate",
+      "local_rate",
+      "optimizer_steps",
+      "logical_counters"
+    ],
+    "post_update_state_fields": [
+      "w1",
+      "b1",
+      "w2",
+      "b2",
+      "learning_rate",
+      "local_rate",
+      "optimizer_steps",
+      "logical_counters"
+    ],
+    "per_step_observations": [
+      "loss",
+      "hidden_activations",
+      "logits",
+      "active_index_count",
+      "logical_weight_reads",
+      "logical_weight_writes",
+      "index_visits"
+    ],
+    "compare_at": [
+      "pre_update",
+      "post_each_update"
+    ],
+    "comparison_scope": "future local-rule arm pairs only",
+    "require_equal_sample_and_label_order": true,
+    "require_matching_initial_state": true,
+    "tolerance_status": "UNAPPROVED",
+    "outcome_classification": [
+      "MATCH_WITHIN_PREAPPROVED_TOLERANCE",
+      "MISMATCH",
+      "MISSING_OR_UNVERIFIABLE"
+    ],
+    "missing_data_result": "NO_GO",
+    "mismatch_result": "NO_GO",
+    "hardware_energy_result": "NOT_MEASURED"
+  },
+  "scientific_limitations": [
+    "A passing future state comparison does not demonstrate identical learning quality on new tasks.",
+    "This study currently uses task-shifted distributions with a common XOR label rule; it is not a class-incremental catastrophic-forgetting test.",
+    "Logical operation counts do not establish measured energy savings."
+  ],
+  "cl6a_open_gates": 9,
+  "causal_arm_equivalence_gate": "OPEN",
+  "independent_review_gate": "OPEN",
+  "separate_marcus_training_approval_required": true
+}
