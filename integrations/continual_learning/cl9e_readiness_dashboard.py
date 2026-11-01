@@ -3,9 +3,24 @@ from __future__ import annotations
 
 import argparse
 import json
+import html
 from pathlib import Path
 
+from integrations.continual_learning.cl7a_scientific_readiness_review import EXPECTED_FINDINGS
+
 BASE = Path(__file__).resolve().parent
+
+def _markdown_cell(value: str) -> str:
+    """Render contract text as one inert Markdown table cell."""
+    if not isinstance(value, str):
+        raise ValueError("Invalid table-cell source")
+    normalized = " ".join(value.split())
+    return (html.escape(normalized, quote=True)
+            .replace("|", "&#124;")
+            .replace(chr(96), "&#96;")
+            .replace("*", "&#42;")
+            .replace("[", "&#91;")
+            .replace("]", "&#93;"))
 
 
 def _load(name: str) -> dict:
@@ -32,7 +47,7 @@ def snapshot() -> dict:
     findings = critique["findings"]
     if (len(gates) != 9 or len({g["id"] for g in gates}) != 9
             or any(g.get("status") != "OPEN" for g in gates)
-            or len(findings) != 6
+            or [f.get("id") for f in findings] != list(EXPECTED_FINDINGS)
             or any(f.get("status") != "OPEN" for f in findings)
             or [g["id"] for g in readiness["minimum_gates"]] !=
             [g["id"] for g in gates]
@@ -41,7 +56,7 @@ def snapshot() -> dict:
             or measurement.get("model_training_authorized") is not False
             or reporting.get("training_authorized") is not False
             or host.get("training_authorized") is not False
-            or scientific.get("independent_scientific_signoff") is True):
+            or scientific.get("independent_scientific_signoff") is not False):
         raise ValueError("Readiness gates not established; refuse misleading summary")
     return {
         "decision": "NO_GO",
@@ -75,7 +90,7 @@ def summary_markdown(data: dict) -> str:
         "| --- | --- | --- |",
     ]
     for gate in data["scientific_gates"]:
-        lines.append(f'| `{gate["id"]}` | 🔴 OPEN | {gate["next_evidence"]} |')
+        lines.append(f'| {_markdown_cell(gate["id"])} | 🔴 OPEN | {_markdown_cell(gate["next_evidence"])} |')
     lines += [
         "",
         "## Scientific design findings: 0 / 6 resolved",
@@ -84,7 +99,7 @@ def summary_markdown(data: dict) -> str:
         "| --- | --- |",
     ]
     for finding in data["blocking_findings"]:
-        lines.append(f'| `{finding["id"]}` | 🔴 OPEN |')
+        lines.append(f'| {_markdown_cell(finding["id"])} | 🔴 OPEN |')
     lines += [
         "",
         "## Prepared documentation (not evidence of gate closure)",
