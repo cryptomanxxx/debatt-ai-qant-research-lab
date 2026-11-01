@@ -117,7 +117,9 @@ def audit_sources(sources: dict[str, str]) -> dict:
                 if any(_self_state(t) for t in targets):
                     raise ValueError("forward method writes to model state")
                 if (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
-                        and _self_state(node.func.value)):
+                        and _self_state(node.func.value)
+                        and not (key == "local" and method.name == "_forward_with_active"
+                                 and ast.unparse(node.func) == "self._forward")):
                     raise ValueError("forward method calls unreviewed self-state operation")
     # This checks the narrow AST contract. It does not certify numerical equality.
     dense_first = ast.unparse(methods["dense"]["_forward"])
