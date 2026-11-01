@@ -1,0 +1,147 @@
+{
+  "kind": "CL6A_CONTINUAL_LEARNING_READINESS_DRAFT",
+  "version": "cl6a-v1",
+  "decision": "NO_GO",
+  "scientific_approved": false,
+  "model_training_authorized": false,
+  "dataset_generation_authorized": false,
+  "model_inference_authorized": false,
+  "physical_energy_measurement_authorized": false,
+  "new_results_present": false,
+  "scope": "read-only protocol design and source-linked scientific readiness review",
+  "research_question": "At comparable held-out quality, which source-level costs change under local learning, sparse forward traversal, and reuse of active input indices during sequential distribution shift?",
+  "construct_validity": "Four activity-shifted distributions sharing one XOR(bits 0,1) label rule; NOT class-incremental learning or demonstrated catastrophic forgetting.",
+  "model": {
+    "shape": [
+      16,
+      8,
+      2
+    ],
+    "parameters_per_arm": 154
+  },
+  "arms": [
+    {
+      "id": "dense_sgd",
+      "learning": "global_sgd",
+      "forward": "dense",
+      "active_index_reuse": false
+    },
+    {
+      "id": "local_hybrid",
+      "learning": "local",
+      "forward": "dense",
+      "active_index_reuse": false
+    },
+    {
+      "id": "sparse_local_hybrid",
+      "learning": "local",
+      "forward": "sparse",
+      "active_index_reuse": false
+    },
+    {
+      "id": "sparse_shared_index",
+      "learning": "local",
+      "forward": "sparse",
+      "active_index_reuse": true
+    }
+  ],
+  "comparisons": [
+    {
+      "id": "primary_sparse",
+      "left": "local_hybrid",
+      "right": "sparse_local_hybrid",
+      "causal_scope": "sparse-forward traversal at same proposed local-learning rule"
+    },
+    {
+      "id": "secondary_index_reuse",
+      "left": "sparse_local_hybrid",
+      "right": "sparse_shared_index",
+      "causal_scope": "active-index reuse at same proposed sparse local-learning rule"
+    },
+    {
+      "id": "context_learning_rule",
+      "left": "dense_sgd",
+      "right": "local_hybrid",
+      "causal_scope": "learning rule differs; NOT causal sparse-compute evidence"
+    }
+  ],
+  "future_design": {
+    "seeds": [
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "tasks": [
+      "T1",
+      "T2",
+      "T3",
+      "T4"
+    ],
+    "train_records_per_task": 128,
+    "test_records_per_task": 64,
+    "maximum_updates_per_arm_seed": 512,
+    "passes_per_task": 1,
+    "replay": false,
+    "task_id_feature": false,
+    "test_tuning_allowed": false,
+    "same_data_order_per_seed": true,
+    "checkpoints": [
+      "pretrain",
+      "post_T1",
+      "post_T2",
+      "post_T3",
+      "post_T4"
+    ]
+  },
+  "preregistered_quality": {
+    "final_mean_accuracy_floor": 0.65,
+    "paired_accuracy_difference_max_abs": 0.05,
+    "criterion": "Each seed, each relevant comparison; failing quality parity blocks cost-advantage interpretation"
+  },
+  "measurement_scope": {
+    "heldout_all_tasks_each_checkpoint": true,
+    "balanced_accuracy": true,
+    "forgetting_per_prior_task": true,
+    "training_and_inference_separate": true,
+    "logical_reads_and_writes": true,
+    "active_index_visits": true,
+    "nonlinearities_and_control": true,
+    "instrumentation_overhead": true,
+    "wall_time_and_peak_rss_proposal_only": true,
+    "hardware_energy": "NOT_MEASURED",
+    "joules_per_step": "NOT_MEASURED",
+    "photonic_hardware": "NOT_MEASURED"
+  },
+  "data_provenance": {
+    "existing_single_seed_source_run": 41311514598,
+    "existing_seed101_aggregate_only": true,
+    "per_seed_data_digests_frozen": false,
+    "source_and_runner_pinned_for_training": false,
+    "any_new_generation_requires_separate_approval": true
+  },
+  "analysis": {
+    "paired_seed_descriptive_only": true,
+    "significance_claims": false,
+    "posthoc_exclusion_allowed": false,
+    "quality_conditioned_cost_interpretation": true
+  },
+  "open_gates": [
+    "source_and_per_seed_data_digests",
+    "causal_arm_equivalence",
+    "paired_statistics_and_quality",
+    "observed_event_scope_and_overhead",
+    "train_only_learnability_calibration",
+    "physical_energy_boundary_or_NOT_MEASURED",
+    "bounded_runner_and_immutable_artifacts",
+    "independent_scientific_review",
+    "separate_explicit_marcus_training_approval"
+  ],
+  "execution_contract": {
+    "workflow_dispatch_training": false,
+    "training_module_import": false,
+    "auto_gate_closure": false,
+    "training_go_live": false
+  }
+}
