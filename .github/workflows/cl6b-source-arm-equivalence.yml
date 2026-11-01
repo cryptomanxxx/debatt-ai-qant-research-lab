@@ -1,0 +1,25 @@
+name: CL-6B Source Arm Equivalence (NO TRAINING)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-only:
+    name: CL-6B static AST inheritance audit (NO MODEL EXECUTION)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Verify source-only review contracts
+        run: |
+          python -m unittest -v tests.test_cl6a_readiness_review tests.test_cl6b_source_arm_equivalence
+      - name: Render source-only equivalence review
+        run: |
+          python -m integrations.continual_learning.cl6b_source_arm_equivalence \
+            --summary "$GITHUB_STEP_SUMMARY"
