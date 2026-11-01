@@ -68,17 +68,17 @@
   "pilot_decision_rules": [
     {
       "outcome": "DESCRIPTIVE_H1_SUPPORT",
-      "rule": "For a given contrast, all five planned paired seeds meet learnability, quality and numeric parity gates, and candidate observed source-event work is strictly lower than reference for each seed under a pre-approved fixed metric; report all seeds and raw components.",
+      "rule": "All five planned paired seeds have complete frozen provenance; pass independently validated train-only learnability, final quality and numerical equivalence gates; and use observed source-event work under a fixed independently approved unit-cost metric with no missing or excluded runs. Under these prerequisites, candidate work is strictly lower than reference in every paired seed.",
       "interpretation": "Narrow pilot support for source-level work reduction only."
     },
     {
       "outcome": "NO_OBSERVED_H1_ADVANTAGE",
-      "rule": "All five planned paired seeds are quality- and numerically comparable, but candidate has no lower observed source-event work in any seed.",
+      "rule": "All five planned paired seeds have complete frozen provenance; pass independently validated train-only learnability, final quality and numerical equivalence gates; and use observed source-event work under a fixed independently approved unit-cost metric with no missing or excluded runs. Under these same prerequisites, candidate work is greater than or equal to reference in every paired seed.",
       "interpretation": "No advantage in the tested tiny workload; not universal falsification."
     },
     {
       "outcome": "INCONCLUSIVE",
-      "rule": "Mixed work signs, a missing/failed seed, non-equivalent numerical paths, missed quality or learnability gates, unresolved weights/units, or incomplete provenance.",
+      "rule": "Any failed common prerequisite (including absent provenance, learnability, unapproved score or failed seed), or mixed per-seed work signs. This outcome takes precedence whenever a common prerequisite is not satisfied.",
       "interpretation": "Do not declare a quality-matched saving. Report all available observations and failures."
     }
   ],
@@ -102,5 +102,6 @@
     "independent_scientific_review",
     "separate_explicit_marcus_training_approval"
   ],
-  "explicit_limitation": "This is a conservative proposed rule for independent critique. Unit cost weights, numerical tolerance and actual learnability are unresolved. No observations exist."
+  "explicit_limitation": "This is a conservative proposed rule for independent critique. Unit cost weights, numerical tolerance and actual learnability are unresolved. No observations exist.",
+  "shared_directional_prerequisites": "All five planned paired seeds have complete frozen provenance; pass independently validated train-only learnability, final quality and numerical equivalence gates; and use observed source-event work under a fixed independently approved unit-cost metric with no missing or excluded runs."
 }
