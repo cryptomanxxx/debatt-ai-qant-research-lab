@@ -1,0 +1,78 @@
+{
+  "kind": "CL6E_PAIRED_INITIAL_STATE_SCHEMA_DRAFT",
+  "version": "cl6e-v1",
+  "decision": "NO_GO",
+  "model_instantiation_authorized": false,
+  "inference_authorized": false,
+  "training_authorized": false,
+  "data_generation_authorized": false,
+  "state_snapshots_present": false,
+  "measurement_performed": false,
+  "future_snapshot_contract": {
+    "architecture_shape": [
+      16,
+      8,
+      2
+    ],
+    "parameter_state": [
+      {
+        "name": "w1",
+        "shape": [
+          8,
+          16
+        ]
+      },
+      {
+        "name": "b1",
+        "shape": [
+          8
+        ]
+      },
+      {
+        "name": "w2",
+        "shape": [
+          2,
+          8
+        ]
+      },
+      {
+        "name": "b2",
+        "shape": [
+          2
+        ]
+      }
+    ],
+    "common_nonparameter_state": [
+      "learning_rate",
+      "optimizer_steps"
+    ],
+    "local_only_state": [
+      "local_rate",
+      "logical_counters"
+    ],
+    "paired_local_arms": [
+      "local_hybrid",
+      "sparse_local_hybrid",
+      "sparse_shared_index"
+    ],
+    "paired_requirements": [
+      "same_seed_and_input_order",
+      "same_learning_rate_and_local_rate",
+      "initial_parameter_values_exact_equal",
+      "initial_optimizer_steps_equal",
+      "initial_counter_state_recorded",
+      "source_and_dependency_fingerprints_fixed",
+      "compare_before_any_training_update"
+    ],
+    "comparison_policies": {
+      "parameter_initialization": "exact_equality_required",
+      "float_tolerance": "NOT_APPROVED",
+      "unavailable_or_mismatched_state": "NO_GO",
+      "sparse_hardware_equivalence": "NOT_ESTABLISHED"
+    }
+  },
+  "cl6a_open_gates": 9,
+  "cl6a_causal_equivalence": "OPEN",
+  "independent_scientific_review": "OPEN",
+  "separate_marcus_training_approval": "REQUIRED"
+}
