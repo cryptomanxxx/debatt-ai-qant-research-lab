@@ -42,6 +42,19 @@ class CL8DIsolationProbeTests(unittest.TestCase):
                 0, b"x" * (probe.OUTPUT_LIMIT_BYTES + 1), b"", "net:[9]"
             )
 
+    def test_failed_child_reports_sanitized_failure_category(self):
+        samples = (
+            (b"unshare: unshare failed: Operation not permitted", "OS_PERMISSION_DENIED"),
+            (b"unshare: Permission denied", "OS_PERMISSION_DENIED"),
+            (b"unshare: unrecognized option '--net'", "UNSHARE_OPTION_UNSUPPORTED"),
+            (b"malicious example and arbitrary output", "CHILD_FAILURE_UNCLASSIFIED"),
+        )
+        for stderr, expected in samples:
+            with self.subTest(expected=expected):
+                with self.assertRaisesRegex(ValueError, expected) as raised:
+                    probe.validate_probe_response(1, b"", stderr, "net:[9]")
+                self.assertNotIn("malicious", str(raised.exception))
+
     def test_missing_unshare_never_launches_child(self):
         with patch.object(probe.platform, "system", return_value="Linux"), \
              patch.object(probe.Path, "exists", return_value=True), \
