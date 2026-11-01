@@ -1,0 +1,60 @@
+{
+  "kind": "CL8G_HOST_ISOLATION_DECISION",
+  "version": "cl8g-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "model_execution_authorized": false,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "evidence": [
+    {
+      "run_id": 41343095078,
+      "workflow": "CL-8E Linux isolation smoke test",
+      "result": "NO_GO",
+      "observation": "Fixed network namespace probe failed; underlying error not surfaced in v1 workflow."
+    },
+    {
+      "run_id": 41343841231,
+      "workflow": "CL-8E Linux isolation smoke test",
+      "result": "NO_GO",
+      "observation": "Fixed unshare child reported OS_PERMISSION_DENIED on ubuntu-24.04 GitHub-hosted runner."
+    }
+  ],
+  "scope": "Only one fixed, non-model unshare --user --map-root-user --net probe; not a proof that all GitHub-hosted isolation methods fail.",
+  "host_options": [
+    {
+      "option": "GitHub-hosted runner with reviewed externally enforced isolation",
+      "status": "UNVERIFIED",
+      "requirements": [
+        "independent review of platform-enforced outbound deny",
+        "prove network deny from disposable fixed non-model process",
+        "verify resource, disk and output caps outside workload",
+        "no fallback to networked child"
+      ]
+    },
+    {
+      "option": "Dedicated controlled research server or self-hosted runner",
+      "status": "UNVERIFIED",
+      "requirements": [
+        "documented administrator control over isolation policy",
+        "fixed non-model outbound-denial probe and reproducible evidence",
+        "external CPU, memory, wall, filesystem and output quotas",
+        "patching, runner trust boundary and secret handling review"
+      ]
+    }
+  ],
+  "gate_status": {
+    "general_model_runner": "NOT_IMPLEMENTED",
+    "verified_network_denial": "NOT_DEMONSTRATED",
+    "independent_scientific_signoff": false,
+    "separate_marcus_training_authorization": false
+  },
+  "prohibited_next_actions": [
+    "grant privileged access to GitHub-hosted runner",
+    "disable fail-closed guard",
+    "automatic model training",
+    "model inference without separate approval",
+    "pretend a distinct network namespace proves egress denial"
+  ],
+  "next_review": "Choose a candidate host with externally enforced isolation, then design and review a non-model fixed network-denial probe before any model execution."
+}
