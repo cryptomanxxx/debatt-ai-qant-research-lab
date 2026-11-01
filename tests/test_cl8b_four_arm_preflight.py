@@ -56,16 +56,16 @@ class CL8BPreflightTests(unittest.TestCase):
                 draft = deepcopy(self.protocol)
                 draft["future_design"][field] = value
                 with self.assertRaises(ValueError):
-                    calculate(draft, self.decision, self.decision)
+                    calculate(draft, self.decision)
         draft = deepcopy(self.protocol)
         draft["model_training_authorized"] = True
         with self.assertRaises(ValueError):
-            calculate(draft, self.decision, self.decision)
+            calculate(draft, self.decision)
 
     def test_unapproved_scientific_transition_rejected(self):
         altered = dict(self.decision, decision="GO")
         with self.assertRaises(ValueError):
-            calculate(self.protocol, altered, altered)
+            calculate(self.protocol, altered)
 
 
 if __name__ == "__main__":
