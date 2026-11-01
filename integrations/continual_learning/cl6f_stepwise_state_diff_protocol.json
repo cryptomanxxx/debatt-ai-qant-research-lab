@@ -37,6 +37,8 @@
       "b1",
       "w2",
       "b2",
+      "learning_rate",
+      "local_rate",
       "optimizer_steps",
       "logical_counters"
     ],
@@ -45,6 +47,8 @@
       "b1",
       "w2",
       "b2",
+      "learning_rate",
+      "local_rate",
       "optimizer_steps",
       "logical_counters"
     ],
