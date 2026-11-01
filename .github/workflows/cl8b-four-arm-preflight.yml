@@ -1,0 +1,22 @@
+name: CL-8B Four-Arm Workload Preflight (NO TRAINING)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  four-arm-static-preflight:
+    name: CL-8B static readiness and workload ceiling (NO MODELS)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate static research readiness and negative contracts
+        run: python -m unittest -v tests.test_cl8b_four_arm_preflight
+      - name: Publish NO_GO four-arm projection to job summary
+        run: python -m integrations.continual_learning.cl8b_four_arm_preflight --preflight --summary "$GITHUB_STEP_SUMMARY"
