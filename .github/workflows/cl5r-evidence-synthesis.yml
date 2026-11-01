@@ -1,0 +1,46 @@
+name: CL-5R Scientific Evidence Synthesis (read-only)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  synthesis:
+    name: CL-5R existing single-seed evidence (NO DATA / NO TRAINING)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Verify fail-closed static scientific contracts
+        run: |
+          python -m unittest -v tests.test_cl5n_empirical_data_diagnostics tests.test_cl5o_class_conditioning_analysis tests.test_cl5p_pair_collision_analysis tests.test_cl5q_iid_occupancy_reference tests.test_cl5r_evidence_synthesis
+      - name: Retrieve only existing CL-5M seed-101 aggregate artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p reports/cl5r
+          gh run download 41311514598 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name cl5m-seed-101-data-only-report \
+            --dir reports/cl5r
+          test -f reports/cl5r/cl5m-data-only-report.json
+      - name: Build scientifically limited reproducible report
+        run: |
+          python -m integrations.continual_learning.cl5r_evidence_synthesis \
+            --source-run 41311514598 \
+            --report reports/cl5r/cl5m-data-only-report.json \
+            --output reports/cl5r/scientific-evidence.md \
+            --summary "$GITHUB_STEP_SUMMARY"
+      - name: Archive evidence synthesis and aggregate source
+        uses: actions/upload-artifact@v4
+        with:
+          name: cl5r-read-only-evidence-synthesis
+          path: reports/cl5r/
+          retention-days: 14
+          if-no-files-found: error
