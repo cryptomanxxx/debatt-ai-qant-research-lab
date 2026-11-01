@@ -14,6 +14,7 @@ from integrations.continual_learning.cl3e_measurement_ledger import project_trai
 from integrations.continual_learning.cl3n_inference_accounting import estimate_prediction
 from integrations.continual_learning.cl3t_crossover_analysis import analyze_crossover
 from integrations.continual_learning.cl3u_sensitivity import sensitivity, check_reference
+from integrations.continual_learning.cl3v_cost_components import component_report
 
 ARMS = ("dense_sgd", "local_hybrid", "sparse_local_hybrid", "sparse_shared_index")
 NAMES = {
@@ -286,6 +287,41 @@ def report_files(preview: dict) -> dict[str, str]:
             f'{comparison["first_not_better"] if comparison["first_not_better"] is not None else "Beyond sweep"} |'
         )
     summary.extend(["", "These are **counterfactual software-proxy** comparisons only: no network resizing, training, inference, memory traffic or hardware energy was measured."])
+    components_result = component_report()
+    summary.extend([
+        "",
+        "## CL-3V: where do logical payload bytes come from?",
+        "",
+        "Assumed **logical** parameter, input-check and active-index payload at two activity levels; "
+        "P/I/X bars are proportional *within each row*, not measured energy.",
+        "",
+        "| Phase | Activity | Architecture | Parameters (P) | Inputs (I) | Indices (X) | Total bytes | Mix |",
+        "|---|---:|---|---:|---:|---:|---:|---|",
+    ])
+    for phase in ("training", "inference"):
+        for active in (2, 12):
+            for arm in ARMS:
+                row = next(x for x in components_result["rows"]
+                           if x["phase"] == phase and x["active"] == active and x["arm"] == arm)
+                total = row["total_bytes"]
+                sizes = [row["parameter_bytes"], row["input_bytes"], row["index_bytes"]]
+                # Allocate twelve glyphs with exact total, preserving a stable order.
+                lengths = [12 * value // total for value in sizes]
+                remain = 12 - sum(lengths)
+                for idx in sorted(range(3), key=lambda i: (12 * sizes[i] % total, -i), reverse=True)[:remain]:
+                    lengths[idx] += 1
+                mix = "P" * lengths[0] + "I" * lengths[1] + "X" * lengths[2]
+                summary.append(
+                    f'| {phase} | {active}/16 | {NAMES[arm]} | '
+                    f'{sizes[0]} | {sizes[1]} | {sizes[2]} | {total} | {mix} |'
+                )
+    summary.extend([
+        "",
+        "P = parameter payload, I = input visits, X = index visits. "
+        "Zero-height categories may be invisible in a 12-character bar. "
+        "The full 0–16 activity sweep is available in the artifact JSON. "
+        "**No DRAM traffic or energy has been measured.**",
+    ])
     arch = architecture_svg()
     train_line = line_svg(preview, "training_logical_payload_bytes_per_assumed_update", "Hypothetical training-step logical payload")
     infer_line = line_svg(preview, "inference_logical_payload_bytes_per_assumed_prediction", "Hypothetical inference logical payload")
@@ -317,6 +353,7 @@ def report_files(preview: dict) -> dict[str, str]:
         "inference-activity.svg": infer_line,
         "projections.json": json.dumps(preview, sort_keys=True, indent=2) + "\n",
         "sensitivity.json": json.dumps(sensitivity_result, sort_keys=True, indent=2) + "\n",
+        "components.json": json.dumps(components_result, sort_keys=True, indent=2) + "\n",
     }
 
 
