@@ -40,7 +40,8 @@ class CL8BPreflightTests(unittest.TestCase):
         self.assertIn("NO TRAINING", rendered)
         self.assertIn("not executed work", rendered)
         self.assertIn("| Max proposed total updates | 10,240 |", rendered)
-        self.assertIn("\\n|", rendered)
+        self.assertIn("\n|", rendered)
+        self.assertNotIn("\\n", rendered)
         bad = deepcopy(preflight())
         object.__setattr__(bad, "experiment_executable", True)
         with self.assertRaises(ValueError):
