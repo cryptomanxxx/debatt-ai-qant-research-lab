@@ -11,6 +11,15 @@ from integrations.continual_learning.cl7a_scientific_readiness_review import (
 
 PATH = Path(__file__).with_name("cl7b_h1_baseline_contract.json")
 EXPECTED_BASELINES = ("constant_zero", "train_majority", "random_uniform_expectation")
+FROZEN_DEFINITIONS = (
+    "Always predict class 0; compute heldout performance only after explicit separate inference authorization.",
+    "For each seed, choose a single class using pooled training labels only; ties choose class 0; freeze before heldout scoring.",
+    "Binary balanced-label reference with expected accuracy 0.5; this is not a sampled classifier or an observed empirical result.",
+)
+FROZEN_FAILURE_POLICY = (
+    "Report all proposed seeds and failed runs without posthoc exclusion; "
+    "suspend quality-matched cost claims if any required paired seed is invalid."
+)
 
 
 def validate_contract(contract: dict, parent: dict, critique: dict) -> dict:
@@ -44,19 +53,14 @@ def validate_contract(contract: dict, parent: dict, critique: dict) -> dict:
         raise ValueError("expected three distinct immutable baseline definitions")
     expected_types = ("nonlearning", "nonlearning", "analytic")
     expected_fit = ("none", "training_only", "none")
-    for item, expected_type, expected_partition in zip(
-        baselines, expected_types, expected_fit
+    for item, expected_type, expected_partition, frozen_definition in zip(
+        baselines, expected_types, expected_fit, FROZEN_DEFINITIONS
     ):
         if (item.get("type") != expected_type
                 or item.get("fit_partition") != expected_partition
                 or item.get("test_label_tuning") is not False
-                or not isinstance(item.get("definition"), str)
-                or len(item["definition"].strip()) < 40):
+                or item.get("definition") != frozen_definition):
             raise ValueError("baseline must forbid heldout selection and specify procedure")
-    if ("ties choose class 0" not in baselines[1]["definition"]
-            or "pooled training labels only" not in baselines[1]["definition"]
-            or "expected accuracy 0.5" not in baselines[2]["definition"]):
-        raise ValueError("baseline semantics altered")
     calibration = contract.get("calibration")
     if (not isinstance(calibration, dict)
             or calibration.get("status") != "UNPERFORMED"
@@ -73,7 +77,7 @@ def validate_contract(contract: dict, parent: dict, critique: dict) -> dict:
             or quality.get("requires_baselines_and_calibration") is not True
             or quality.get("quality_matched_cost_claim_permitted_now") is not False
             or quality.get("accuracy_floor_alone_sufficient") is not False
-            or "without posthoc exclusion" not in quality.get("failure_or_missing_run_policy", "")):
+            or quality.get("failure_or_missing_run_policy") != FROZEN_FAILURE_POLICY):
         raise ValueError("incorrect quality claim or preregistration")
     gates = contract.get("gates")
     if not isinstance(gates, dict) or set(gates) != {
