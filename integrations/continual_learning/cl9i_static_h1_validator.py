@@ -43,6 +43,31 @@ def validate(contract: dict, acceptance: dict, readiness: dict) -> dict:
     require(type(contract.get("observations_recorded")) is int
             and contract["observations_recorded"] == 0, "observations present")
     require(contract.get("physical_energy") == "NOT_MEASURED", "energy claim changed")
+    # Upstream safety cannot be delegated to a different workflow.
+    require(readiness.get("kind") == "CL6A_CONTINUAL_LEARNING_READINESS_DRAFT"
+            and readiness.get("version") == "cl6a-v1"
+            and acceptance.get("kind") == "CL9B_H1_EXPERIMENT_ACCEPTANCE_CONTRACT"
+            and acceptance.get("version") == "cl9b-v1", "upstream contract identity changed")
+    for name, upstream, fields in (
+        ("CL-6A", readiness, (
+            "scientific_approved", "model_training_authorized",
+            "dataset_generation_authorized", "model_inference_authorized",
+            "physical_energy_measurement_authorized", "new_results_present")),
+        ("CL-9B", acceptance, (
+            "model_training_authorized", "model_inference_authorized",
+            "dataset_generation_authorized", "energy_measured")),
+    ):
+        require(upstream.get("decision") == "NO_GO", f"{name} is not NO_GO")
+        for field in fields:
+            require(upstream.get(field) is False, f"{name}.{field} must be false")
+    require(acceptance.get("review_only") is True
+            and acceptance.get("status") == "PROPOSED_UNREVIEWED_THRESHOLDS",
+            "CL-9B review status changed")
+    require(readiness.get("execution_contract") == {
+        "workflow_dispatch_training": False, "training_module_import": False,
+        "auto_gate_closure": False, "training_go_live": False,
+    }, "CL-6A execution fence changed")
+
     require(contract.get("planned_seeds") == SEEDS
             and acceptance.get("descriptive_seeds") == SEEDS
             and readiness.get("future_design", {}).get("seeds") == SEEDS,
@@ -122,6 +147,31 @@ def validate(contract: dict, acceptance: dict, readiness: dict) -> dict:
         "numeric_equivalence_pass", "identical_work_scope",
         "independent_preapproved_scalar_work_metric", "no_missing_or_excluded_attempts",
     ], "directional prerequisites changed")
+    # Freeze both positive and negative rules *and* inconclusive precedence.
+    common = ("All five planned paired seeds have complete frozen provenance; "
+              "pass independently validated train-only learnability, final quality "
+              "and numerical equivalence gates; and use observed source-event work "
+              "under a fixed independently approved unit-cost metric with no missing "
+              "or excluded runs.")
+    require(acceptance.get("shared_directional_prerequisites") == common,
+            "CL-9B shared prerequisites relaxed")
+    require(acceptance.get("pilot_decision_rules") == [
+        {
+            "outcome": "DESCRIPTIVE_H1_SUPPORT",
+            "rule": common + " Under these prerequisites, candidate work is strictly lower than reference in every paired seed.",
+            "interpretation": "Narrow pilot support for source-level work reduction only.",
+        },
+        {
+            "outcome": "NO_OBSERVED_H1_ADVANTAGE",
+            "rule": common + " Under these same prerequisites, candidate work is greater than or equal to reference in every paired seed.",
+            "interpretation": "No advantage in the tested tiny workload; not universal falsification.",
+        },
+        {
+            "outcome": "INCONCLUSIVE",
+            "rule": "Any failed common prerequisite (including absent provenance, learnability, unapproved score or failed seed), or mixed per-seed work signs. This outcome takes precedence whenever a common prerequisite is not satisfied.",
+            "interpretation": "Do not declare a quality-matched saving. Report all available observations and failures.",
+        },
+    ], "CL-9B outcome semantics or inconclusive precedence changed")
     report = contract.get("reporting")
     require(type(report) is dict and report.get("no_posthoc_exclusions") is True
             and report.get("keep_all_attempts") is True
