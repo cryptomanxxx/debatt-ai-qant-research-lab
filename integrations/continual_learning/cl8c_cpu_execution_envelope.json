@@ -1,0 +1,46 @@
+{
+  "kind": "CL8C_FUTURE_CPU_EXECUTION_ENVELOPE_NOT_IMPLEMENTED",
+  "version": "cl8c-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "execution_entrypoint_available": false,
+  "model_execution_authorized": false,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "dataset_generation_authorized": false,
+  "network_isolation_implemented": false,
+  "child_process_resource_enforcement_implemented": false,
+  "immutable_artifact_writer_implemented": false,
+  "kill_switch_implemented": false,
+  "independent_scientific_signoff": false,
+  "new_results_present": false,
+  "parent_protocol": "cl6a_readiness_protocol.json",
+  "parent_decision_matrix": "cl7f_h1_decision_matrix.json",
+  "limits": {
+    "proposed_max_cpu_seconds_per_worker": 120,
+    "proposed_max_wall_seconds_per_worker": 300,
+    "proposed_max_address_space_bytes": 1073741824,
+    "proposed_max_output_bytes_per_run": 20971520,
+    "proposed_max_updates_per_arm_seed": 512,
+    "proposed_max_arms": 4,
+    "proposed_max_seeds": 5,
+    "proposed_max_total_updates": 10240
+  },
+  "required_implementation_before_any_execution": [
+    "offline_no_network_child_process_enforcement",
+    "linux_child_cpu_and_address_space_rlimits",
+    "external_wall_clock_timeout_with_child_tree_termination",
+    "output_disk_budget_and_artifact_hash_verification",
+    "immutable_reviewed_commit_protocol_and_input_manifest",
+    "independent_scientific_go_and_separate_marcus_training_approval"
+  ],
+  "unapproved_features": [
+    "user_defined_command_execution",
+    "shell_execution",
+    "network_download",
+    "automatic_training_workflow",
+    "inline_approval_boolean_as_authority"
+  ],
+  "approval_claim": "This proposal defines ceilings only. No OS resource limits or network isolation are currently installed by this module.",
+  "energy": "NOT_MEASURED"
+}
