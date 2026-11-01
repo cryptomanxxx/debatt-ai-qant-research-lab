@@ -30,13 +30,21 @@
       "id": "primary_sparse",
       "reference": "local_hybrid",
       "candidate": "sparse_local_hybrid",
-      "causal_claim": "sparse_traversal_only_under_same_local_rule"
+      "causal_claim": "sparse_traversal_only_under_same_local_rule",
+      "applicable_effect_phases": [
+        "train",
+        "heldout_inference"
+      ]
     },
     {
       "id": "secondary_index_reuse",
       "reference": "sparse_local_hybrid",
       "candidate": "sparse_shared_index",
-      "causal_claim": "active_index_reuse_only_under_same_sparse_local_rule"
+      "causal_claim": "active_index_reuse_only_under_same_sparse_local_rule",
+      "applicable_effect_phases": [
+        "train"
+      ],
+      "heldout_inference_role": "NO_INTERVENTION_CONTROL_STANDALONE_PREDICT_SAME_INHERITED_SPARSE_PATH"
     }
   ],
   "context_only_arm": "dense_sgd",
@@ -63,9 +71,23 @@
   "quality": {
     "final_mean_accuracy_floor_per_seed_and_arm": 0.65,
     "maximum_absolute_final_mean_paired_accuracy_gap_per_seed": 0.05,
-    "heldout_aggregation_status": "UNRESOLVED_REVIEW_REQUIRED",
     "train_only_learnability_status": "UNRESOLVED_REVIEW_REQUIRED",
-    "numerical_tolerance_status": "UNRESOLVED_REVIEW_REQUIRED"
+    "numerical_tolerance_status": "UNRESOLVED_REVIEW_REQUIRED",
+    "final_mean_accuracy_endpoint": {
+      "source": "cl3d_analysis_contract.summarize_accuracy",
+      "checkpoint": "post_T4",
+      "checkpoint_row_index": -1,
+      "heldout_tasks": [
+        "T1",
+        "T2",
+        "T3",
+        "T4"
+      ],
+      "all_tasks_evaluated_at_every_checkpoint": true,
+      "aggregation": "unweighted_mean_of_four_per_task_heldout_accuracies_at_post_T4",
+      "checkpoint_pooling_allowed": false,
+      "heldout_checkpoint_selection_allowed": false
+    }
   },
   "minimum_common_prerequisites": [
     "all_five_paired_seeds_complete",
@@ -97,5 +119,6 @@
     "verified_no_network_host",
     "independent_scientific_signoff",
     "marcus_separate_exact_execution_approval"
-  ]
+  ],
+  "outcomes_applicability": "Directional outcomes apply only to contrast-specific applicable_effect_phases; secondary heldout inference is a no-intervention control and has no index-reuse direction label"
 }
