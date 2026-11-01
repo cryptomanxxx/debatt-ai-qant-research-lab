@@ -342,6 +342,22 @@ def report_files(preview: dict) -> dict[str, str]:
         "**H2 (catastrophic forgetting): NOT TESTED. H3 (accuracy-matched energy benefit): NOT TESTED.**",
         "**CL-3A: NO_GO for real training without separate human approval.**",
     ])
+    from integrations.continual_learning.cl3y_readiness_audit import scientific_readiness_audit
+    readiness = scientific_readiness_audit()
+    summary.extend([
+        "",
+        "## CL-3Y: scientific readiness audit (NO_GO)",
+        "",
+        "**All 9 CL-3X gates remain open.** Codex and CI cannot approve experiments.",
+        "",
+        "| Priority | Gate | Status |",
+        "|---|---|---|",
+    ])
+    for gate in readiness["gates"]:
+        summary.append(
+            f'| {gate["priority"]} | {gate["gate_id"]} | {gate["status"]} |'
+        )
+    summary.extend(["", "**NO TRAINING / NO ENERGY MEASUREMENT / no compute approval.**"])
     arch = architecture_svg()
     train_line = line_svg(preview, "training_logical_payload_bytes_per_assumed_update", "Hypothetical training-step logical payload")
     infer_line = line_svg(preview, "inference_logical_payload_bytes_per_assumed_prediction", "Hypothetical inference logical payload")
@@ -375,6 +391,7 @@ def report_files(preview: dict) -> dict[str, str]:
         "sensitivity.json": json.dumps(sensitivity_result, sort_keys=True, indent=2) + "\n",
         "components.json": json.dumps(components_result, sort_keys=True, indent=2) + "\n",
         "h1-evidence.json": json.dumps(h1_review, sort_keys=True, indent=2) + "\n",
+        "scientific-readiness.json": json.dumps(readiness, sort_keys=True, indent=2) + "\n",
     }
 
 

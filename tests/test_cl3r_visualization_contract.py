@@ -31,7 +31,7 @@ class CL3RVisualizationContracts(unittest.TestCase):
         outputs = report_files(preview)
         self.assertEqual({
             "summary.md", "report.html", "architecture.svg", "comparison.svg",
-            "training-activity.svg", "inference-activity.svg", "projections.json", "sensitivity.json", "components.json", "h1-evidence.json",
+            "training-activity.svg", "inference-activity.svg", "projections.json", "sensitivity.json", "components.json", "h1-evidence.json", "scientific-readiness.json",
         }, set(outputs))
         for name in ("architecture.svg", "comparison.svg", "training-activity.svg", "inference-activity.svg"):
             root = ET.fromstring(outputs[name])
@@ -54,6 +54,8 @@ class CL3RVisualizationContracts(unittest.TestCase):
         self.assertIn("CL-3W: H1 scientific evidence review", summary)
         self.assertIn("H2 (catastrophic forgetting): NOT TESTED", summary)
         self.assertIn("CL-3A: NO_GO", summary)
+        self.assertIn("CL-3Y: scientific readiness audit (NO_GO)", summary)
+        self.assertIn("All 9 CL-3X gates remain open", summary)
         self.assertIn("| inference | 2/16 | Sparse local | 336 | 32 | 36 | 404 |", summary)
         self.assertIn("| 16/8/2 | 8/1/2 | 13 | 14 |", summary)
         self.assertIn("| inference | Sparse local | 13 | 14 |", summary)
