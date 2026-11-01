@@ -39,5 +39,30 @@ class CL4CCorrespondenceContracts(unittest.TestCase):
                 audit.source_correspondence_audit()
 
 
+    def test_fail_closed_when_enclosing_hidden_bound_changes(self):
+        real = audit._read_source
+        def tamper(path):
+            text = real(path)
+            if path == audit.DENSE_PATH:
+                text = text.replace("for j in range(HIDDEN_SIZE)\\n        ]",
+                                    "for j in range(HIDDEN_SIZE - 1)\\n        ]", 1)
+            return text
+        with patch.object(audit, "_read_source", side_effect=tamper):
+            with self.assertRaisesRegex(ValueError, "hidden enclosing traversal"):
+                audit.source_correspondence_audit()
+
+    def test_fail_closed_when_enclosing_output_bound_changes(self):
+        real = audit._read_source
+        def tamper(path):
+            text = real(path)
+            if path == audit.SPARSE_PATH:
+                text = text.replace("for k in range(N_CLASSES)\\n        ]",
+                                    "for k in range(N_CLASSES - 1)\\n        ]", 1)
+            return text
+        with patch.object(audit, "_read_source", side_effect=tamper):
+            with self.assertRaisesRegex(ValueError, "output enclosing traversal"):
+                audit.source_correspondence_audit()
+
+
 if __name__ == "__main__":
     unittest.main()
