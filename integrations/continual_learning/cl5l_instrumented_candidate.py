@@ -66,7 +66,12 @@ def generate_shared_rule_candidate_with_counters(
                 remaining[label] -= 1
 
             report = ledger.finish_partition(quotas_filled=not any(remaining))
-            # The CL-5J ledger is disconnected in isolation, but this wrapper\n            # would have generated real vectors when explicitly invoked.\n            report["kind"] = "CL5L_INSTRUMENTED_GENERATOR_PARTITION"\n            report["generator_connected"] = True\n            report["dataset_generation_executed"] = True\n            report["task_id"] = task_id
+            # An explicitly invoked connected generator has generated data.
+            # Override the disconnected ledger's event-only provenance.
+            report["kind"] = "CL5L_INSTRUMENTED_GENERATOR_PARTITION"
+            report["generator_connected"] = True
+            report["dataset_generation_executed"] = True
+            report["task_id"] = task_id
             report["partition"] = partition_name
             reports.append(report)
             if any(remaining):
