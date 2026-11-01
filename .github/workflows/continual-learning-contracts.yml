@@ -58,6 +58,7 @@ on:
       - 'tests/test_cl3r_visualization_contract.py'
       - '.github/workflows/cl3r-research-visualization.yml'
       - '.github/workflows/cl3s-publish-pages.yml'
+      - '.github/workflows/cl9i-static-h1.yml'
       - '.github/workflows/continual-learning-contracts.yml'
   workflow_dispatch:
 
