@@ -24,6 +24,29 @@ class CL3UContracts(unittest.TestCase):
         self.assertLess(project("sparse_local_hybrid", "inference", base, 2, a),
                         project("sparse_local_hybrid", "inference", base, 8, a))
 
+    def test_nonreference_hidden_width_index_arithmetic(self):
+        # Isolate index traffic by changing only assumed bytes per index.
+        for shape in (Shape(8, 4, 2), Shape(32, 16, 2)):
+            active = 3
+            small = ProxyAssumptions(4, 1, 1)
+            large = ProxyAssumptions(4, 1, 2)
+            expected_visits = {
+                "local_hybrid": 1 + shape.hidden,
+                "sparse_local_hybrid": 2 + 2 * shape.hidden,
+                "sparse_shared_index": 1 + 2 * shape.hidden,
+            }
+            for arm, visits in expected_visits.items():
+                difference = (project(arm, "training", shape, active, large)
+                              - project(arm, "training", shape, active, small))
+                self.assertEqual(active * visits, difference)
+        result = sensitivity()
+        large_case = next(s for s in result["scenarios"]
+                          if s["shape"]["inputs"] == 32
+                          and s["widths"] == {"parameter": 2, "input": 1, "index": 4})
+        row = next(r for r in large_case["comparisons"]
+                   if r["phase"] == "training" and r["arm"] == "sparse_local_hybrid")
+        self.assertEqual(17, row["last_strict_advantage"])
+
     def test_complete_scenario_grid_and_caveats(self):
         result = sensitivity()
         self.assertEqual(9, len(result["scenarios"]))
