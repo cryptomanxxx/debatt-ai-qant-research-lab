@@ -87,18 +87,18 @@ def format_summary(item: FourArmPreflight) -> str:
     if item.decision != "NO_GO" or item.experiment_executable:
         raise ValueError("cannot present experiment as ready")
     return (
-        "## CL-8B: Four-arm workload preflight (NO TRAINING)\\n\\n"
-        "**Decision: NO_GO. All numbers below are proposed ceilings, not executed work.**\\n\\n"
-        "| Proposed quantity | Count |\\n| --- | ---: |\\n"
-        f"| Paired seeds | {item.proposed_seeds} |\\n"
-        f"| Architectures | {item.proposed_arms} |\\n"
-        f"| Tasks / checkpoints | {item.proposed_tasks} / {item.proposed_checkpoints} |\\n"
-        f"| Max updates per arm/seed | {item.proposed_updates_per_arm_seed:,} |\\n"
-        f"| Max proposed total updates | {item.maximum_proposed_updates_all_arms_seeds:,} |\\n"
-        f"| Max proposed heldout predictions | {item.maximum_proposed_heldout_predictions_all_arms_seeds:,} |\\n"
-        f"| Open CL-6A gates | {item.open_scientific_gates} |\\n"
-        f"| Open CL-7A findings | {item.open_scientific_findings} |\\n\\n"
-        "**No training, inference, data generation, latency, DRAM traffic or physical energy was measured.**\\n"
+        "## CL-8B: Four-arm workload preflight (NO TRAINING)\n\n"
+        "**Decision: NO_GO. All numbers below are proposed ceilings, not executed work.**\n\n"
+        "| Proposed quantity | Count |\n| --- | ---: |\n"
+        f"| Paired seeds | {item.proposed_seeds} |\n"
+        f"| Architectures | {item.proposed_arms} |\n"
+        f"| Tasks / checkpoints | {item.proposed_tasks} / {item.proposed_checkpoints} |\n"
+        f"| Max updates per arm/seed | {item.proposed_updates_per_arm_seed:,} |\n"
+        f"| Max proposed total updates | {item.maximum_proposed_updates_all_arms_seeds:,} |\n"
+        f"| Max proposed heldout predictions | {item.maximum_proposed_heldout_predictions_all_arms_seeds:,} |\n"
+        f"| Open CL-6A gates | {item.open_scientific_gates} |\n"
+        f"| Open CL-7A findings | {item.open_scientific_findings} |\n\n"
+        "**No training, inference, data generation, latency, DRAM traffic or physical energy was measured.**\n"
     )
 
 
