@@ -46,12 +46,19 @@ class CL7BBaselineAuditTests(unittest.TestCase):
         self.reject(lambda c: c["baseline_definitions"][2].__setitem__(
             "definition", "Observed accuracy 0.75 from model runs"))
         self.reject(lambda c: c["baseline_definitions"].pop())
+        self.reject(lambda c: c["baseline_definitions"][0].__setitem__(
+            "definition", "Always predict class 1; compute heldout performance only after explicit separate inference authorization."))
+        self.reject(lambda c: c["baseline_definitions"][2].__setitem__(
+            "definition", "Binary reference with expected accuracy 0.5; observed experimental accuracy 0.95 from model inference."))
 
     def test_quality_calibration_and_gates_fail_closed(self):
         self.reject(lambda c: c["quality_interpretation"].__setitem__(
             "quality_matched_cost_claim_permitted_now", True))
         self.reject(lambda c: c["quality_interpretation"].__setitem__(
             "paired_accuracy_difference_max_abs", 0.5))
+        self.reject(lambda c: c["quality_interpretation"].__setitem__(
+            "failure_or_missing_run_policy",
+            "Report all seeds without posthoc exclusion; permit quality-matched cost claims even when a required paired seed fails quality parity."))
         self.reject(lambda c: c["calibration"].__setitem__(
             "status", "COMPLETED"))
         self.reject(lambda c: c["gates"].__setitem__(
