@@ -44,6 +44,13 @@ class CL6FStepwiseStateProtocolTests(unittest.TestCase):
         for field in names:
             self.assertIn(field, record["pre_update_state_fields"])
             self.assertIn(field, record["post_update_state_fields"])
+        nonparam = initial["future_snapshot_contract"]["common_nonparameter_state"]
+        local_only = initial["future_snapshot_contract"]["local_only_state"]
+        for field in nonparam + local_only:
+            self.assertIn(field, record["pre_update_state_fields"])
+            self.assertIn(field, record["post_update_state_fields"])
+        self.assertIn("learning_rate", record["pre_update_state_fields"])
+        self.assertIn("local_rate", record["post_update_state_fields"])
         self.assertEqual(record["compare_at"], ["pre_update", "post_each_update"])
         self.assertEqual(record["tolerance_status"], "UNAPPROVED")
         self.assertEqual(record["missing_data_result"], "NO_GO")
