@@ -75,7 +75,18 @@ def validate_probe_response(
     if len(stdout) > OUTPUT_LIMIT_BYTES or len(stderr) > OUTPUT_LIMIT_BYTES:
         raise ValueError("probe exceeded output budget")
     if returncode != 0:
-        raise ValueError("network isolation unavailable or probe process failed")
+        # Only expose a bounded, categorical diagnostic. Do not trust or
+        # directly print arbitrary child stderr in logs or Markdown.
+        message = stderr.decode("utf-8", errors="replace").lower()
+        if "operation not permitted" in message:
+            category = "OS_PERMISSION_DENIED"
+        elif "permission denied" in message:
+            category = "OS_PERMISSION_DENIED"
+        elif "unrecognized option" in message or "invalid option" in message:
+            category = "UNSHARE_OPTION_UNSUPPORTED"
+        else:
+            category = "CHILD_FAILURE_UNCLASSIFIED"
+        raise ValueError(f"network isolation unavailable: {category}")
     try:
         response = json.loads(stdout.decode("utf-8"))
     except (UnicodeDecodeError, json.JSONDecodeError) as exc:
