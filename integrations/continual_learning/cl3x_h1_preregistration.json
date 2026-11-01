@@ -1,0 +1,135 @@
+{
+  "protocol_id": "cl3x-h1-sparse-activity-pilot-v0",
+  "status": "draft_review_only_unexecuted",
+  "decision": "NO_GO",
+  "scientific_review_approved": false,
+  "compute_approved": false,
+  "runner_enabled": false,
+  "experiment_training_allowed": false,
+  "network_allowed": false,
+  "hardware_energy_claim_allowed": false,
+  "hypothesis_namespace": "Compute Paradox H1 (sparse computation), not CL-3A legacy H1 retention label",
+  "primary_question": "Under heldout accuracy parity, does sparse forward traversal reduce observed computation and process resource use relative to a dense-forward local-learning arm?",
+  "candidate_predecessor": "integrations/continual_learning/cl2_paired_run_plan_candidate.json",
+  "reference_shape": {
+    "inputs": 16,
+    "hidden": 8,
+    "outputs": 2,
+    "parameters_per_arm": 154
+  },
+  "study_design": {
+    "dataset": "cl2-shared-rule-candidate-v0",
+    "dataset_source_sha256": null,
+    "dataset_digests_pinned": false,
+    "task_order": [
+      "T1",
+      "T2",
+      "T3",
+      "T4"
+    ],
+    "paired_seeds": [
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "train_per_task": 128,
+    "test_per_task": 64,
+    "split_policy": "globally_disjoint_within_seed",
+    "task_id_supplied_to_model": false,
+    "primary_comparison": {
+      "control": "local_hybrid",
+      "candidate": "sparse_local_hybrid",
+      "purpose": "isolate sparse forward versus dense forward under same local update rule",
+      "implementation_equivalence_verified": false
+    },
+    "secondary_comparisons": [
+      {
+        "control": "sparse_local_hybrid",
+        "candidate": "sparse_shared_index",
+        "purpose": "isolate active-index reuse"
+      },
+      {
+        "control": "dense_sgd",
+        "candidate": "local_hybrid",
+        "purpose": "learning-rule reference only; not causal sparse activity estimate"
+      }
+    ],
+    "checkpoints": [
+      "before",
+      "after_T1",
+      "after_T2",
+      "after_T3",
+      "after_T4"
+    ],
+    "heldout_updates_allowed": false,
+    "updates_per_seed_per_arm_ceiling": 512,
+    "activity_stratification": {
+      "planned_buckets": [
+        "0-3",
+        "4-7",
+        "8-11",
+        "12-16"
+      ],
+      "realized_distribution_required": true,
+      "zero_activity_required_to_be_reported": true
+    }
+  },
+  "measurement_plan": {
+    "quality": [
+      "heldout_accuracy_by_task_and_checkpoint",
+      "balanced_accuracy",
+      "final_mean_accuracy",
+      "mean_prior_task_forgetting_descriptive_only"
+    ],
+    "model_work": [
+      "forward_weight_terms",
+      "parameter_reads",
+      "parameter_writes",
+      "input_visits",
+      "index_reads",
+      "index_writes",
+      "nonlinearity_counts"
+    ],
+    "system_cost": [
+      "cpu_wall_seconds_training",
+      "cpu_wall_seconds_inference",
+      "peak_process_rss_bytes",
+      "observed_energy_joules_if_calibrated_meter_exists"
+    ],
+    "energy_status": "NOT_MEASURED_AND_NOT_APPROVED",
+    "memory_hierarchy_counters_status": "NOT_AVAILABLE",
+    "training_inference_separate": true,
+    "instrumentation_source_sha256": null,
+    "meter_calibrated": false,
+    "whole_system_boundary_documented": false
+  },
+  "interpretation": {
+    "quality_floor_final_mean_accuracy": 0.65,
+    "paired_accuracy_tolerance_percentage_points": 5,
+    "paired_seeds_inference": "DESCRIPTIVE_ONLY_NO_SIGNIFICANCE_CLAIM_FROM_5_SEEDS",
+    "eligible_cost_interpretation": "ONLY_IF predeclared quality floor and paired parity gates pass AND observed counters share a reviewed scope",
+    "missing_energy_data": "REPORT_NOT_MEASURED_NEVER_PROXY_TO_JOULES",
+    "stop_on_failed_quality_gate": true,
+    "stop_on_failed_provenance_or_integrity": true
+  },
+  "missing_review_gates": [
+    "source_hash_and_dataset_digest_pin",
+    "sparse_dense_local_equivalence_review",
+    "paired_statistical_plan_review",
+    "event_counter_scope_and_overhead_review",
+    "non_test_calibration_and_learnability_review",
+    "energy_boundary_or_explicit_not_measured",
+    "runner_source_and_artifact_schema_review",
+    "independent_scientific_review",
+    "separate_explicit_marcus_compute_authorization"
+  ],
+  "compute": {
+    "estimated_cpu_budget_only": true,
+    "external_calls_max": 0,
+    "cloud_budget_eur": 0
+  },
+  "execution_entrypoint": null,
+  "results": null
+}
