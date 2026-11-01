@@ -54,7 +54,9 @@ def source_correspondence_audit() -> dict:
         raise ValueError("shared second-layer traversal drift")
     if _calls(dense, "math.tanh") != 1 or _calls(sparse, "math.tanh") != 1:
         raise ValueError("hidden nonlinearity site changed")
-    sparse_lists = [n for n in ast.walk(sparse) if isinstance(n, ast.ListComp)]
+    sparse_lists = [n for n in ast.walk(sparse) if isinstance(n, ast.ListComp)
+                    and any(isinstance(child, ast.Call) and ast.unparse(child.func) == "enumerate"
+                            for child in ast.walk(n))]
     if len(sparse_lists) != 1 or ast.unparse(sparse_lists[0]) != "[i for i, value in enumerate(x) if value]":
         raise ValueError("sparse active-index source changed")
     # Distinct from executing a neural model: validate loop-probe counts only.
