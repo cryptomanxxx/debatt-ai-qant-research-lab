@@ -12,6 +12,7 @@ from pathlib import Path
 
 from integrations.continual_learning.cl3e_measurement_ledger import project_training_only
 from integrations.continual_learning.cl3n_inference_accounting import estimate_prediction
+from integrations.continual_learning.cl3t_crossover_analysis import analyze_crossover
 
 ARMS = ("dense_sgd", "local_hybrid", "sparse_local_hybrid", "sparse_shared_index")
 NAMES = {
@@ -238,6 +239,29 @@ def report_files(preview: dict) -> dict[str, str]:
     summary.extend([
         "",
         "The full-resolution SVG plots and architecture diagram remain in the downloadable artifact.",
+    ])
+    crossover = analyze_crossover(preview)
+    summary.extend([
+        "",
+        "## When does the logical payload advantage disappear?",
+        "",
+        "Discrete source-level breakpoints relative to dense SGD (not hardware energy).",
+        "",
+        "| Phase | Architecture | Last better at | First not better at |",
+        "|---|---|---:|---:|",
+    ])
+    for item in crossover["comparisons"]:
+        last = item["last_strictly_better_activity"]
+        first = item["first_not_better_activity"]
+        summary.append(
+            f'| {item["phase"]} | {NAMES[item["arm"]]} | '
+            f'{last if last is not None else "Never"} | '
+            f'{first if first is not None else "Not within 0–16"} |'
+        )
+    summary.extend([
+        "",
+        "Values are counts of active bits out of 16; equality is not a saving. "
+        "No measured energy or learning quality is implied.",
     ])
     arch = architecture_svg()
     train_line = line_svg(preview, "training_logical_payload_bytes_per_assumed_update", "Hypothetical training-step logical payload")
