@@ -322,6 +322,26 @@ def report_files(preview: dict) -> dict[str, str]:
         "The full 0–16 activity sweep is available in the artifact JSON. "
         "**No DRAM traffic or energy has been measured.**",
     ])
+    # Local import keeps the independent evidence verifier separate from graph construction.
+    from integrations.continual_learning.cl3w_h1_evidence import h1_evidence_review
+    h1_review = h1_evidence_review()
+    summary.extend([
+        "",
+        "## CL-3W: H1 scientific evidence review",
+        "",
+        "**H1 is partially supported within this static software proxy only.** "
+        "Actual memory traffic, energy, runtime, accuracy and forgetting are not measured.",
+        "",
+        "| Claim | Status | Evidence boundary |",
+        "|---|---|---|",
+    ])
+    for claim in h1_review["claims"]:
+        summary.append(f'| {claim["id"]} | {claim["status"]} | {claim["statement"]} |')
+    summary.extend([
+        "",
+        "**H2 (catastrophic forgetting): NOT TESTED. H3 (accuracy-matched energy benefit): NOT TESTED.**",
+        "**CL-3A: NO_GO for real training without separate human approval.**",
+    ])
     arch = architecture_svg()
     train_line = line_svg(preview, "training_logical_payload_bytes_per_assumed_update", "Hypothetical training-step logical payload")
     infer_line = line_svg(preview, "inference_logical_payload_bytes_per_assumed_prediction", "Hypothetical inference logical payload")
@@ -354,6 +374,7 @@ def report_files(preview: dict) -> dict[str, str]:
         "projections.json": json.dumps(preview, sort_keys=True, indent=2) + "\n",
         "sensitivity.json": json.dumps(sensitivity_result, sort_keys=True, indent=2) + "\n",
         "components.json": json.dumps(components_result, sort_keys=True, indent=2) + "\n",
+        "h1-evidence.json": json.dumps(h1_review, sort_keys=True, indent=2) + "\n",
     }
 
 
