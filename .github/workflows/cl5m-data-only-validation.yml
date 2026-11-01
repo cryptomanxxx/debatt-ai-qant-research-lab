@@ -1,0 +1,48 @@
+name: CL-5M Synthetic Data Validation (manual, no training)
+
+on:
+  workflow_dispatch:
+    inputs:
+      authorization:
+        description: 'Explicitly authorize synthetic DATA ONLY, seed 101 (never training)'
+        required: true
+        default: 'DENY'
+        type: choice
+        options:
+          - 'DENY'
+          - 'AUTHORIZE_SYNTHETIC_DATA_ONLY'
+      seed:
+        description: 'Fixed preregistered validation seed'
+        required: true
+        default: '101'
+        type: choice
+        options:
+          - '101'
+
+permissions:
+  contents: read
+
+jobs:
+  data-only-validation:
+    if: ${{ inputs.authorization == 'AUTHORIZE_SYNTHETIC_DATA_ONLY' && inputs.seed == '101' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate original versus instrumented synthetic data (NO TRAINING)
+        run: |
+          python -m integrations.continual_learning.cl5m_single_seed_data_validation \
+            --seed 101 \
+            --authorize-data-only \
+            --report cl5m-data-only-report.json \
+            --summary "$GITHUB_STEP_SUMMARY"
+      - name: Upload non-sensitive aggregate validation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: cl5m-seed-101-data-only-report
+          path: cl5m-data-only-report.json
+          if-no-files-found: error
+          retention-days: 30
