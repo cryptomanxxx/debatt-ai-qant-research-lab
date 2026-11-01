@@ -20,7 +20,7 @@ def validate_packet_bytes(content: bytes) -> None:
     """Pin the human-facing packet by exact Git blob digest, not keywords."""
     if not isinstance(content, bytes):
         raise ValueError("review packet must be bytes")
-    payload = b"blob " + str(len(content)).encode("ascii") + b"\\0" + content
+    payload = b"blob " + str(len(content)).encode("ascii") + bytes([0]) + content
     if hashlib.sha1(payload).hexdigest() != FROZEN_PACKET_BLOB_SHA:
         raise ValueError("review packet changed without an independently reviewed update")
 EXPECTED_FIELDS = {
