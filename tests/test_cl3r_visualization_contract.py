@@ -31,7 +31,7 @@ class CL3RVisualizationContracts(unittest.TestCase):
         outputs = report_files(preview)
         self.assertEqual({
             "summary.md", "report.html", "architecture.svg", "comparison.svg",
-            "training-activity.svg", "inference-activity.svg", "projections.json", "sensitivity.json",
+            "training-activity.svg", "inference-activity.svg", "projections.json", "sensitivity.json", "components.json",
         }, set(outputs))
         for name in ("architecture.svg", "comparison.svg", "training-activity.svg", "inference-activity.svg"):
             root = ET.fromstring(outputs[name])
@@ -50,6 +50,8 @@ class CL3RVisualizationContracts(unittest.TestCase):
         self.assertIn("Activity sensitivity curves", summary)
         self.assertIn("When does the logical payload advantage disappear?", summary)
         self.assertIn("CL-3U: counterfactual shape and width sensitivity", summary)
+        self.assertIn("CL-3V: where do logical payload bytes come from?", summary)
+        self.assertIn("| inference | 2/16 | Sparse local | 336 | 32 | 36 | 404 |", summary)
         self.assertIn("| 16/8/2 | 8/1/2 | 13 | 14 |", summary)
         self.assertIn("| inference | Sparse local | 13 | 14 |", summary)
         self.assertIn("█", summary)
