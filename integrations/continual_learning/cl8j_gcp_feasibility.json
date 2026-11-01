@@ -1,0 +1,77 @@
+{
+  "kind": "CL8J_GCP_FEASIBILITY_DESIGN_ONLY",
+  "version": "cl8j-v1",
+  "screening_date": "2026-11-01",
+  "decision": "NO_GO",
+  "review_only": true,
+  "account_access_confirmed": false,
+  "billing_eligibility_confirmed": false,
+  "vm_provisioned": false,
+  "project_created": false,
+  "external_egress_deny_installed": false,
+  "controlled_egress_probe_run": false,
+  "external_resource_budgets_verified": false,
+  "cost_cap_guaranteed": false,
+  "model_execution_authorized": false,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "candidate": "Google Cloud Compute Engine e2-micro conditional free tier",
+  "selection_status": "NOT_SELECTED",
+  "design_steps": [
+    {
+      "id": "ELIGIBILITY",
+      "requirement": "Confirm eligibility, exact region, e2-micro hours, eligible disk/egress and billing account terms; do not infer zero costs from a Free Tier label.",
+      "verified": false
+    },
+    {
+      "id": "COST_BOUNDARY",
+      "requirement": "Calculate full hypothetical bill including disk, snapshot, IPv4, network and zone; budget alerts alone are not a hard spending cap. Verify if any spend cap applies to the selected services.",
+      "verified": false
+    },
+    {
+      "id": "EGRESS_POLICY",
+      "requirement": "Review VPC-layer explicit deny for IPv4 and IPv6 and prevent more-specific allow bypass; default implied egress allow is not acceptable.",
+      "verified": false
+    },
+    {
+      "id": "IAM",
+      "requirement": "Use least privilege; no privileged default VM service account or ambient metadata credentials exposed to future workload.",
+      "verified": false
+    },
+    {
+      "id": "VM_RESOURCE_CAP",
+      "requirement": "Host-enforced CPU/memory/process/wall/disk limits for child and descendants; VM size alone does not enforce per-process limits.",
+      "verified": false
+    },
+    {
+      "id": "ISOLATION_NEGATIVE",
+      "requirement": "Run only separately reviewed fixed non-model outbound-denial and failure-mode probes against an authorized controlled endpoint; validate policy logs as well as denied connection.",
+      "verified": false
+    },
+    {
+      "id": "ARTIFACTS",
+      "requirement": "Review immutable input/commit hashes and bounded artifact output; no experimental model data yet.",
+      "verified": false
+    },
+    {
+      "id": "APPROVALS",
+      "requirement": "Independent security/scientific signoff and Marcus's separate explicit permission for exact inference/training workload.",
+      "verified": false
+    }
+  ],
+  "official_sources": [
+    "https://docs.cloud.google.com/free/docs/free-cloud-features",
+    "https://docs.cloud.google.com/firewall/docs/firewalls",
+    "https://docs.cloud.google.com/billing/docs/how-to/budgets",
+    "https://docs.cloud.google.com/billing/docs/how-to/budgets-spend-caps",
+    "https://docs.cloud.google.com/iam/docs/best-practices-service-accounts"
+  ],
+  "threat_notes": [
+    "Cloud VM default egress is allowed unless overridden, including possible IPv6 paths.",
+    "A billing alert does not automatically stop spending.",
+    "Spend caps may be eligible-service-specific; no universal zero-cost cap is assumed.",
+    "Public PR workflows should not control cloud VM privileged administration.",
+    "No VM, firewall or billing changes are requested in this stage."
+  ],
+  "success_criterion": "Only a future independently audited, externally enforced no-egress and fully budgeted host may proceed to separate approval; current NO_GO remains."
+}
