@@ -22,7 +22,7 @@ generator or construct records.
 - Acceptance retains the original `used.add`, `records.append` and
   quota-decrement order.
 - Attempt cap remains one million iterations for each partition.
-- Only a fully completed call returns records and per-partition reports.
+- The wrapper overrides the disconnected ledger provenance on each partition:\n  `kind=CL5L_INSTRUMENTED_GENERATOR_PARTITION`,\n  `generator_connected=True`, and `dataset_generation_executed=True`.\n  These flags describe **what would happen if this function were invoked**;\n  they do not authorize invocation or claim that this PR has run it.\n- Only a fully completed call returns records and per-partition reports.
   On capped failure it raises, so **partial diagnostic reports are not
   exported** in this first candidate. A later reviewed design should
   preserve bounded failure diagnostics without changing source semantics.
