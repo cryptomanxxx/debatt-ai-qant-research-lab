@@ -39,7 +39,9 @@ def render_numeric_report(pair_id: str, diagnostics: Mapping[str, dict]) -> str:
                 or item.get("tolerance_approved") is not False
                 or item.get("equivalence_established") is not False
                 or item.get("energy_measured") is not False
-                or item.get("model_executed") is not False):
+                or item.get("model_executed") is not False
+                or item.get("relative_difference_definition") !=
+                "abs(a-b)/max(abs(a),abs(b)); zero/zero := 0"):
             raise ValueError("diagnostic has an unapproved scientific status")
         count, equal = item.get("count"), item.get("exact_equal_count")
         if (type(count) is not int or type(equal) is not int
@@ -53,6 +55,8 @@ def render_numeric_report(pair_id: str, diagnostics: Mapping[str, dict]) -> str:
             raise ValueError("invalid diagnostic magnitude")
         if (absolute == 0) != (equal == count):
             raise ValueError("inconsistent exact-equality summary")
+        if (absolute == 0) != (relative == 0):
+            raise ValueError("relative and absolute difference magnitudes disagree")
         lines.append(f"| `{field}` | {count} | {equal} | {absolute:.9g} | {relative:.9g} |")
     lines += [
         "",
