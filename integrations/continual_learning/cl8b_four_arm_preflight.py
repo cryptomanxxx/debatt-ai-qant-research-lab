@@ -31,7 +31,7 @@ class FourArmPreflight:
     execution_status: str
 
 
-def calculate(protocol: dict, readiness: dict, decision: dict) -> FourArmPreflight:
+def calculate(protocol: dict, decision: dict) -> FourArmPreflight:
     reviewed = review_cl6a(protocol)
     if (reviewed["decision"] != "NO_GO" or reviewed["closed_gates"] != 0
             or decision.get("decision") != "NO_GO"
@@ -80,7 +80,7 @@ def calculate(protocol: dict, readiness: dict, decision: dict) -> FourArmPreflig
 def preflight() -> FourArmPreflight:
     protocol = json.loads(PROTOCOL_PATH.read_text(encoding="utf-8"))
     parent = audit_cl7f()
-    return calculate(protocol, parent, parent)
+    return calculate(protocol, parent)
 
 
 def format_summary(item: FourArmPreflight) -> str:
