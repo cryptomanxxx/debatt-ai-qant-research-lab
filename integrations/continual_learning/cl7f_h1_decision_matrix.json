@@ -1,0 +1,83 @@
+{
+  "kind": "CL7F_H1_DECISION_MATRIX_REVIEW_ONLY",
+  "version": "cl7f-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "independent_scientific_signoff": false,
+  "execution_authorized": false,
+  "training_authorized": false,
+  "model_inference_authorized": false,
+  "dataset_generation_authorized": false,
+  "new_results_present": false,
+  "hardware_energy_measured": false,
+  "parent": "cl6a_readiness_protocol.json",
+  "prerequisites": [
+    "cl7a_scientific_design_critique.json",
+    "cl7b_h1_baseline_contract.json",
+    "cl7c_train_only_calibration_protocol.json",
+    "cl7d_causal_pairing_invariants.json",
+    "cl7e_measurement_boundaries.json"
+  ],
+  "readiness_gates": [
+    {
+      "id": "source_and_per_seed_data_digests",
+      "status": "OPEN",
+      "next_evidence": "Freeze source and per-seed sample digests; review leakage, activity and label selection using separately authorized data generation."
+    },
+    {
+      "id": "causal_arm_equivalence",
+      "status": "OPEN",
+      "next_evidence": "Independently approve numeric tolerance, dtype/device, identical initialization and per-update paired parity."
+    },
+    {
+      "id": "paired_statistics_and_quality",
+      "status": "OPEN",
+      "next_evidence": "Review five-seed descriptive uncertainty, quality parity, train-only baselines and failed-run reporting before any observations."
+    },
+    {
+      "id": "observed_event_scope_and_overhead",
+      "status": "OPEN",
+      "next_evidence": "Approve observer-overhead comparison, repeat/warmup, CPU environment and training/inference event boundaries."
+    },
+    {
+      "id": "train_only_learnability_calibration",
+      "status": "OPEN",
+      "next_evidence": "Freeze no-leakage train/calibration split, control capacity, and success criterion before any calibration model run."
+    },
+    {
+      "id": "physical_energy_boundary_or_NOT_MEASURED",
+      "status": "OPEN",
+      "next_evidence": "Keep physical energy NOT_MEASURED for first CPU experiment unless independently reviewed meter boundary is approved."
+    },
+    {
+      "id": "bounded_runner_and_immutable_artifacts",
+      "status": "OPEN",
+      "next_evidence": "Independently review offline runner limits, exact commit, input manifests, kill switch, artifact hashes, and no-network safeguards."
+    },
+    {
+      "id": "independent_scientific_review",
+      "status": "OPEN",
+      "next_evidence": "Obtain independent domain-scientist critique of H1 construct validity and causal interpretation; Codex is not such signoff."
+    },
+    {
+      "id": "separate_explicit_marcus_training_approval",
+      "status": "OPEN",
+      "next_evidence": "Request Marcus's separate informed permission for exact reviewed commit, dataset digest, CPU/time budget, and training scope."
+    }
+  ],
+  "proposed_sequence": [
+    "Freeze unresolved train-only calibration and pairing acceptance criteria through scientific review.",
+    "Review bounded offline runner, immutable inputs, and all evidence instrumentation.",
+    "Resolve independent scientific review and all non-user gates or explicitly retain a NO_GO decision.",
+    "Seek separate explicit Marcus authorization for a specified minimal CPU experiment only after prerequisites are met."
+  ],
+  "claims_not_supported": [
+    "measured_joules_per_learning_step",
+    "hardware_photonic_or_loihi_speedup",
+    "verified_quality_matched_computation_savings",
+    "mitigated_catastrophic_forgetting"
+  ],
+  "open_gates_expected": 9,
+  "open_scientific_findings_expected": 6,
+  "experiment_run_count_in_this_step": 0
+}
