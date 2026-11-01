@@ -1,0 +1,52 @@
+{
+  "kind": "CL9J_GITHUB_ACTIONS_H1_RISK_ASSESSMENT",
+  "version": "cl9j-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "execution_authorized": false,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "dataset_generation_authorized": false,
+  "observations_recorded": 0,
+  "physical_energy": "NOT_MEASURED",
+  "h2_tested": false,
+  "proposed_platform": "standard_github_hosted_ubuntu",
+  "platform_selected_for_experiment": false,
+  "default_public_internet_egress": true,
+  "verified_no_network_host": false,
+  "independent_scientific_signoff": false,
+  "marcus_separate_exact_execution_approval": false,
+  "threat_ids": [
+    "J1",
+    "J2",
+    "J3",
+    "J4",
+    "J5",
+    "J6",
+    "J7",
+    "J8"
+  ],
+  "blocking_open_gates": [
+    "verified_no_network_host",
+    "frozen_scope_and_weights",
+    "independent_numeric_and_calibration_review",
+    "independent_scientific_signoff",
+    "marcus_separate_exact_execution_approval"
+  ],
+  "network_options": {
+    "A": "retain_and_independently_verify_host_network_isolation",
+    "B": "separately_review_and_amend_to_specific_enforceable_controls",
+    "selected": null,
+    "approved": false
+  },
+  "cost": {
+    "additional_cloud_server_required_now": false,
+    "zero_future_cost_guaranteed": false
+  },
+  "claim_limits": {
+    "github_hosted_runner_network_isolated": false,
+    "hardware_energy_measured": false,
+    "training_completed": false,
+    "approval_from_ci": false
+  }
+}
