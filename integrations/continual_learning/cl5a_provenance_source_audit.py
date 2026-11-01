@@ -35,15 +35,22 @@ def static_provenance_audit() -> dict:
     names = {node.name for node in source.body if isinstance(node, ast.FunctionDef)}
     if not required_functions.issubset(names):
         raise ValueError("shared-rule generator functions changed")
+    label_functions = [node for node in source.body
+                       if isinstance(node, ast.FunctionDef) and node.name == "global_label"]
+    if len(label_functions) != 1:
+        raise ValueError("global label function missing or ambiguous")
+    returns = [node for node in ast.walk(label_functions[0]) if isinstance(node, ast.Return)]
+    expected_label = "features[GLOBAL_LABEL_PAIR[0]] ^ features[GLOBAL_LABEL_PAIR[1]]"
+    if len(returns) != 1 or ast.unparse(returns[0].value) != expected_label:
+        raise ValueError("global label XOR operation or operands changed")
     version = _literal_assignment(source, "VERSION")
     label_pair = _literal_assignment(source, "GLOBAL_LABEL_PAIR")
     activity = _literal_assignment(data_source, "ACTIVITY_RATES")
     if version != "cl2-shared-rule-candidate-v0" or label_pair != (0, 1):
         raise ValueError("generator version/label definition changed")
-    if list(activity) != ["T1", "T2", "T3", "T4"] or any(
-        type(rate) is not float or not 0 < rate < 1 for rate in activity.values()
-    ):
-        raise ValueError("task activity definitions changed")
+    expected_activity = {"T1": 0.125, "T2": 0.25, "T3": 0.375, "T4": 0.5}
+    if type(activity) is not dict or list(activity) != list(expected_activity) or activity != expected_activity:
+        raise ValueError("task activity rates or order changed")
     if (
         cl3x["decision"] != "NO_GO"
         or cl3x["study_design"]["dataset"] != version
