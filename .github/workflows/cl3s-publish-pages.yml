@@ -21,12 +21,12 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
       - name: Validate offline visualization contracts
-        run: python -m unittest -v tests.test_cl3r_visualization_contract
+        run: python -m unittest -v tests.test_cl3r_visualization_contract tests.test_cl3v_cost_components_contract
       - name: Generate static HTML and SVG only
         run: python -m integrations.continual_learning.cl3r_visualization --output-dir _site
       - name: Create Pages entry page
