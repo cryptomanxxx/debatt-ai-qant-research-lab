@@ -1,4 +1,5 @@
 """CL-5M safety-only tests: NEVER authorize or execute data generation."""
+import ast
 from pathlib import Path
 import unittest
 
@@ -16,6 +17,32 @@ class CL5MSafetyTests(unittest.TestCase):
         for seed in (0, 102, True):
             with self.subTest(seed=seed), self.assertRaises(PermissionError):
                 validate_one_seed(seed=seed, authorized=True)
+
+    def test_connected_provenance_is_executable_ast(self):
+        path = (Path(__file__).resolve().parents[1] / "integrations"
+                / "continual_learning" / "cl5l_instrumented_candidate.py")
+        module = ast.parse(path.read_text(encoding="utf-8"))
+        funcs = [node for node in module.body if isinstance(node, ast.FunctionDef)
+                 and node.name == "generate_shared_rule_candidate_with_counters"]
+        self.assertEqual(len(funcs), 1)
+        assignments = {}
+        for node in ast.walk(funcs[0]):
+            if not isinstance(node, ast.Assign) or len(node.targets) != 1:
+                continue
+            target = node.targets[0]
+            if (isinstance(target, ast.Subscript) and
+                    isinstance(target.value, ast.Name) and
+                    target.value.id == "report" and
+                    isinstance(target.slice, ast.Constant)):
+                assignments[target.slice.value] = node.value
+        for field in ("generator_connected", "dataset_generation_executed"):
+            self.assertIn(field, assignments)
+            value = assignments[field]
+            self.assertIsInstance(value, ast.Constant)
+            self.assertIs(value.value, True)
+        self.assertIn("kind", assignments)
+        self.assertEqual(assignments["kind"].value,
+                         "CL5L_INSTRUMENTED_GENERATOR_PARTITION")
 
     def test_workflow_is_manual_and_deny_by_default(self):
         yaml = (Path(__file__).resolve().parents[1]
