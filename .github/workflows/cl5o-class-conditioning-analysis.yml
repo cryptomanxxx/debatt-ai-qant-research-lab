@@ -1,0 +1,38 @@
+name: CL-5O Class-Conditioning Analysis (read-only)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  analyze-fixed-source:
+    name: CL-5O analytical XOR baseline (NO DATA / NO TRAINING)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify analytical controls without generator calls
+        run: |
+          python -m unittest -v tests.test_cl5n_empirical_data_diagnostics tests.test_cl5o_class_conditioning_analysis
+      - name: Download existing seed-101 CL-5M aggregate report (no generation)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p reports/cl5o
+          gh run download 41311514598 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name cl5m-seed-101-data-only-report \
+            --dir reports/cl5o
+          test -f reports/cl5o/cl5m-data-only-report.json
+      - name: Compare Bernoulli, conditioned XOR and observed activity
+        run: |
+          python -m integrations.continual_learning.cl5o_class_conditioning_analysis \
+            --source-run 41311514598 \
+            --report reports/cl5o/cl5m-data-only-report.json \
+            --summary "$GITHUB_STEP_SUMMARY"
