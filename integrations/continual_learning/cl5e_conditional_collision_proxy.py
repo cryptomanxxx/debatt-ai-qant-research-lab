@@ -7,8 +7,7 @@ globally deduplicated, class-balanced sequential rejection sampler.
 from __future__ import annotations
 
 from fractions import Fraction
-from math import comb
-
+from integrations.continual_learning.cl2_data_candidate import ACTIVITY_RATES
 from integrations.continual_learning.cl5d_xor_support_audit import xor_support_by_weight
 
 
@@ -66,4 +65,9 @@ def conditional_collision_proxy(numerator: int, denominator: int) -> dict:
 def planned_collision_proxies() -> dict:
     """Nominal CL task settings; calculate exact fractions without samples."""
     proposed = {"T1": (1, 8), "T2": (1, 4), "T3": (3, 8), "T4": (1, 2)}
+    if list(ACTIVITY_RATES) != list(proposed):
+        raise ValueError("task order changed")
+    if any(Fraction(str(ACTIVITY_RATES[task])) != Fraction(*numbers)
+           for task, numbers in proposed.items()):
+        raise ValueError("nominal activity rates changed")
     return {task: conditional_collision_proxy(*numbers) for task, numbers in proposed.items()}
