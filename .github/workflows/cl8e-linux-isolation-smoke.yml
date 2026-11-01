@@ -1,0 +1,57 @@
+name: CL-8E Linux isolation smoke test (NO MODEL / NO TRAINING)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fixed-probe:
+    name: Fixed Linux namespace probe (NO MODEL / NO TRAINING)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Check fixed-probe contracts without invoking a model
+        run: python -m unittest -v tests.test_cl8d_linux_isolation_probe
+      - name: Attempt fixed no-model network namespace probe and report fail-closed result
+        shell: bash
+        run: |
+          set -euo pipefail
+          result_file="${RUNNER_TEMP}/cl8e-fixed-probe.json"
+          if python -m integrations.continual_learning.cl8d_linux_isolation_probe --probe > "$result_file"; then
+            exit_code=0
+          else
+            exit_code=$?
+          fi
+
+          # The probe emits a bounded JSON object; do not label an unavailable
+          # namespace as successful. This does NOT authorize a model runner.
+          status="$(jq -r '.status // "INVALID_RESULT"' "$result_file")"
+          {
+            echo "## CL-8E — fixed Linux namespace smoke test"
+            echo ""
+            echo "**NO MODEL / NO DATA / NO TRAINING / NO INFERENCE**"
+            echo ""
+            echo "Probe status: \`$status\`"
+            echo ""
+            echo "This tests only a disposable, hard-coded Python child. A distinct"
+            echo "namespace is not proof that a future model workload is safely isolated."
+            echo "The general experiment remains **NO_GO** until separate review and approval."
+            echo ""
+            echo '### Probe JSON'
+            echo '~~~json'
+            jq -S . "$result_file"
+            echo '~~~'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [[ "$exit_code" -ne 0 || "$status" != "ISOLATED_PROBE_OK" ]]; then
+            echo "::error::CL-8E isolation unavailable or invalid; fail closed (NO_GO)."
+            exit 1
+          fi
