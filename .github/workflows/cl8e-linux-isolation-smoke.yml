@@ -34,7 +34,7 @@ jobs:
           # The probe emits a bounded JSON object; do not label an unavailable
           # namespace as successful. This does NOT authorize a model runner.
           status="$(jq -r '.status // "INVALID_RESULT"' "$result_file")"
-          reason="$(jq -r '.reason // "none"' "$result_file" | tr '\\r\\n' '  ' | cut -c 1-300)"
+          reason="$(jq -r '.reason // "none"' "$result_file" | tr '\r\n' '  ' | cut -c 1-300)"
           {
             echo "## CL-8E — fixed Linux namespace smoke test"
             echo ""
