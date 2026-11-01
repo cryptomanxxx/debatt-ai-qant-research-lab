@@ -32,6 +32,10 @@ def diagnose_pair(left: Sequence[float], right: Sequence[float]) -> dict:
             raise ValueError("cannot represent scalar as finite float") from exc
         if not math.isfinite(x) or not math.isfinite(y):
             raise ValueError("non-finite scalar is scientifically unverifiable")
+        # Float conversion may round a valid integer (e.g., 2**53 + 1).
+        # Preserve the integrity of the descriptive equality/count metrics.
+        if (isinstance(a, int) and int(x) != a) or (isinstance(b, int) and int(y) != b):
+            raise ValueError("integer value cannot be represented exactly as float")
         difference = abs(x - y)
         if not math.isfinite(difference):
             raise ValueError("difference overflow")
