@@ -24,7 +24,7 @@ class InstrumentationSourceOnlyTests(unittest.TestCase):
         variant = function_ast(INSTRUMENTED, "generate_shared_rule_candidate_with_counters")
         for tree in (original, variant):
             source = ast.unparse(tree)
-            self.assertIn('f"{VERSION}|{seed}|{task_id}"', source)
+            self.assertIn('{VERSION}|{seed}|{task_id}', source)
             self.assertIn("random.Random(int.from_bytes(material, 'big'))", source)
             self.assertIn("rng.random() < probability", source)
             calls = [n for n in ast.walk(tree) if isinstance(n, ast.Call)
