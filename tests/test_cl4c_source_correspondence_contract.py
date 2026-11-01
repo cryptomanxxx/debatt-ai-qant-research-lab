@@ -44,8 +44,10 @@ class CL4CCorrespondenceContracts(unittest.TestCase):
         def tamper(path):
             text = real(path)
             if path == audit.DENSE_PATH:
-                text = text.replace("for j in range(HIDDEN_SIZE)\\n        ]",
-                                    "for j in range(HIDDEN_SIZE - 1)\\n        ]", 1)
+                altered = text.replace("for j in range(HIDDEN_SIZE)\n        ]",
+                                       "for j in range(HIDDEN_SIZE - 1)\n        ]", 1)
+                self.assertNotEqual(text, altered, "hidden mutation did not alter source")
+                text = altered
             return text
         with patch.object(audit, "_read_source", side_effect=tamper):
             with self.assertRaisesRegex(ValueError, "hidden enclosing traversal"):
@@ -56,8 +58,10 @@ class CL4CCorrespondenceContracts(unittest.TestCase):
         def tamper(path):
             text = real(path)
             if path == audit.SPARSE_PATH:
-                text = text.replace("for k in range(N_CLASSES)\\n        ]",
-                                    "for k in range(N_CLASSES - 1)\\n        ]", 1)
+                altered = text.replace("for k in range(N_CLASSES)\n        ]",
+                                       "for k in range(N_CLASSES - 1)\n        ]", 1)
+                self.assertNotEqual(text, altered, "output mutation did not alter source")
+                text = altered
             return text
         with patch.object(audit, "_read_source", side_effect=tamper):
             with self.assertRaisesRegex(ValueError, "output enclosing traversal"):
