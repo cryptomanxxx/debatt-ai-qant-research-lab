@@ -61,6 +61,12 @@ def audit_sources(sources: dict[str, str]) -> dict:
         raise ValueError("local update rule missing")
     if "step" in methods["sparse"] or "step" in methods["shared"]:
         raise ValueError("sparse variant overrides local update step")
+    # Dynamic calls in inherited step (notably self._input and cost hooks)
+    # must not be silently overridden by either ablation subclass.
+    if set(methods["sparse"]) != {"_forward_first_layer_reads", "_forward"}:
+        raise ValueError("sparse subclass method set changed; inherited dispatch unreviewed")
+    if set(methods["shared"]) != {"_forward_with_active"}:
+        raise ValueError("shared subclass method set changed; inherited dispatch unreviewed")
     # The inherited hook must dynamically dispatch to self._forward(x).
     # Calling TinyDenseMLP._forward(self, x) here silently bypasses sparse W1.
     hook = methods["local"].get("_forward_with_active")
@@ -99,6 +105,11 @@ def audit_sources(sources: dict[str, str]) -> dict:
             target = target.value
         return isinstance(target, ast.Name) and target.id == "self"
 
+    def _rooted_at_name(target: ast.AST, name: str) -> bool:
+        while isinstance(target, (ast.Subscript, ast.Attribute)):
+            target = target.value
+        return isinstance(target, ast.Name) and target.id == name
+
     # Reject ordinary assignments to self.w1[0][0], as well as augmented
     # writes, annotated writes, deletions, and self-state mutation calls.
     # Assignments to local variables such as hidden and logits remain allowed.
@@ -116,6 +127,15 @@ def audit_sources(sources: dict[str, str]) -> dict:
                     targets = node.targets
                 if any(_self_state(t) for t in targets):
                     raise ValueError("forward method writes to model state")
+                # `active` is caller-owned by LocalHebbianMLP.step and reused
+                # for W1 updates. The shared hook must not alter it.
+                if key == "shared" and method.name == "_forward_with_active":
+                    if any(_rooted_at_name(t, "active") for t in targets):
+                        raise ValueError("shared forward mutates caller-owned active indices")
+                    if (isinstance(node, ast.Call)
+                            and isinstance(node.func, ast.Attribute)
+                            and _rooted_at_name(node.func.value, "active")):
+                        raise ValueError("shared forward mutates caller-owned active indices")
                 if (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
                         and _self_state(node.func.value)
                         and not (key == "local" and method.name == "_forward_with_active"
