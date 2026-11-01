@@ -1,0 +1,44 @@
+name: CL-5N Empirical Synthetic Data Diagnostics (read-only)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  analyze-existing-report:
+    name: CL-5N existing seed-101 report (NO GENERATION / NO TRAINING)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test read-only diagnostic contracts (NO DATA GENERATION)
+        run: python -m unittest -v tests.test_cl5n_empirical_data_diagnostics
+      - name: Retrieve exact CL-5M report from existing successful run
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p reports/cl5n
+          gh run download 41311514598 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name cl5m-seed-101-data-only-report \
+            --dir reports/cl5n
+          test -f reports/cl5n/cl5m-data-only-report.json
+      - name: Render read-only empirical charts into Actions summary
+        run: |
+          python -m integrations.continual_learning.cl5n_empirical_data_diagnostics \
+            --report reports/cl5n/cl5m-data-only-report.json \
+            --run-id 41311514598 \
+            --summary "$GITHUB_STEP_SUMMARY"
+      - name: Upload aggregate source report for reproducibility
+        uses: actions/upload-artifact@v4
+        with:
+          name: cl5n-existing-seed-101-source-report
+          path: reports/cl5n/cl5m-data-only-report.json
+          if-no-files-found: error
+          retention-days: 14
