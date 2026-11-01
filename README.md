@@ -46,6 +46,18 @@ Alongside the Q.ANT-specific Fourier/KAN work, the lab is developing a **separat
 
 This is a **testable research hypothesis, not an achieved result**. We are interested in neuromorphic computing and photonic/electronic hybrid systems, but do not assume that any particular hardware will be superior.
 
+### Long-term hardware research goal
+
+A long-term goal of the lab is to **adapt and evaluate comparable learning algorithms across three computing environments**:
+
+1. **Conventional CPU systems**, where we can first develop controlled baselines and characterize software work.
+2. **Neuromorphic processors**, potentially Intel **Loihi 2** systems or the larger **Hala Point** research platform, to investigate sparse, event-driven execution and local adaptation.
+3. **Photonic or hybrid optical/electronic processors**, for example **Q.ANT** hardware, to investigate which suitable computations can be accelerated and what the complete system costs when storage, updates and conversion are included.
+
+The scientific objective is to compare **task quality, learning/forgetting, computational work, latency, memory movement and measured electrical energy** on as comparable a workload as each architecture permits. Where a workload cannot be mapped faithfully to a device, that limitation is itself an important result. Hardware-specific implementations will require distinct engineering, measurement protocols and independent review; this is **not** a claim that the same software can simply run unchanged on all three platforms.
+
+**This is an aspirational research roadmap, not a statement of hardware access or completed benchmarks.** The lab does not currently claim access to Hala Point, Loihi 2 or Q.ANT photonic processors, and no photonic or neuromorphic energy efficiency has been measured in this CL research. Any future hardware execution, data generation or model training requires the applicable separate approvals.
+
 ### Three hypotheses to test independently
 
 | Hypothesis | Question | Candidate mechanisms | Evidence needed |
