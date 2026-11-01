@@ -67,6 +67,16 @@ def audit_sources(sources: dict[str, str]) -> dict:
         raise ValueError("sparse subclass method set changed; inherited dispatch unreviewed")
     if set(methods["shared"]) != {"_forward_with_active"}:
         raise ValueError("shared subclass method set changed; inherited dispatch unreviewed")
+    # A class-body `step = TinyDenseMLP.step` shadows inheritance without
+    # defining a FunctionDef. Allow only method definitions and docstrings.
+    for key in ("sparse", "shared"):
+        for member in models[key].body:
+            if isinstance(member, ast.FunctionDef):
+                continue
+            if (isinstance(member, ast.Expr) and isinstance(member.value, ast.Constant)
+                    and isinstance(member.value.value, str)):
+                continue
+            raise ValueError(f"{key}: unreviewed class-level binding shadows inheritance")
     # The inherited hook must dynamically dispatch to self._forward(x).
     # Calling TinyDenseMLP._forward(self, x) here silently bypasses sparse W1.
     hook = methods["local"].get("_forward_with_active")
