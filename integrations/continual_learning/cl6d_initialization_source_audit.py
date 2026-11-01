@@ -82,6 +82,8 @@ def _guard_initializer(method: ast.FunctionDef, *, local: bool) -> None:
         if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
             if _root_name(node.func.value) == "self":
                 raise ValueError("initializer calls mutating or unreviewed self operation")
+            if not local and _root_name(node.func.value) == "rng" and ast.unparse(node.func) != "rng.uniform":
+                raise ValueError("unreviewed RNG state operation")
 
 
 def _field_values(method: ast.FunctionDef) -> dict[str, str]:
@@ -161,6 +163,15 @@ def audit_initializers(sources: dict[str, str]) -> dict:
     ]
     if len(super_calls) != 1 or ast.unparse(super_calls[0]) != "super().__init__(seed=seed, learning_rate=learning_rate)":
         raise ValueError("local initialization no longer delegates same seed and rate")
+    # Descendant presence is insufficient: delegation must be an unconditional
+    # direct statement on the normal initializer path.
+    top_level_super = [
+        statement for statement in local.body
+        if isinstance(statement, ast.Expr) and isinstance(statement.value, ast.Call)
+        and ast.unparse(statement.value) == "super().__init__(seed=seed, learning_rate=learning_rate)"
+    ]
+    if len(top_level_super) != 1:
+        raise ValueError("local base initialization is not on the top-level path")
     if "self.local_rate = float(local_rate)" not in local_text or "self.logical_counters = Counters()" not in local_text:
         raise ValueError("local-only state initialization changed")
     return {
