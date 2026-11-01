@@ -18,12 +18,14 @@ The proposed study is a tiny 16→8→2 XOR activity-shift workload, with paired
 4. CPU timing, peak RSS, observer overhead and failures must be described separately. **No physical energy/joules claim** is permissible in this pilot.
 5. All five seeds count, including failures. No posthoc removal, threshold changes, heldout tuning or cherry-picking of the best comparison.
 
+**Decision precedence:** if any common prerequisite is not met, the result is **INCONCLUSIVE** before evaluating the sign of a work difference. Positive and negative directional conclusions require the **same** complete evidence set.
+
 ## Conservative proposed pilot decision table
 
 | Outcome | Required pattern in a given contrast | Claim allowed |
 | --- | --- | --- |
 | Descriptive H1 support | All five seeds pass quality/learnability/numeric gates **and** candidate observed source-work score is strictly lower for every seed under a frozen valid score | Narrow *source-work reduction* in this tiny pilot only |
-| No observed H1 advantage | All five seeds pass comparability gates but **none** shows a strictly lower candidate source-work score | No advantage under tested conditions, **not** universal disproof |
+| No observed H1 advantage | All five seeds pass **the same full prerequisites as descriptive support** (provenance, learnability, quality, numerical parity and approved observed work score), but **none** shows a strictly lower candidate source-work score | No advantage under tested conditions, **not** universal disproof |
 | Inconclusive | Mixed signs, any failed/missing seed, broken parity, unapproved score, incomplete provenance or unsatisfied learnability | Report raw observations and failures; **no quality-matched savings conclusion** |
 
 The unanimous sign rule is a **conservative descriptive screen**, not a hypothesis test or a claim of statistical significance. Five seeds do not justify strong p-values or generalization. The rule and any unit-cost model need independent methodological critique; a mixed outcome can still inform later research without qualifying as confirmed savings.
