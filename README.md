@@ -81,7 +81,7 @@ Useful starting points:
 
 - [Current systems and protocols](docs/current-systems-and-protocols.md) — authoritative status and approval boundaries.
 - [CL-3T crossover analysis](integrations/continual_learning/CL3T_CROSSOVER_BREAKPOINTS.md) — assumptions, crossover definitions and limitations.
-- [GitHub Actions](../../actions) — the manually dispatched `CL Research Visualization (static, no training)` workflow produces an inline Markdown summary and downloadable HTML/SVG/JSON reports.
+- [GitHub Actions](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/actions) — the manually dispatched `CL Research Visualization (static, no training)` workflow produces an inline Markdown summary and downloadable HTML/SVG/JSON reports.
 
 ### Why photonics is an open question
 
