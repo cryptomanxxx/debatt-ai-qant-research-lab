@@ -1,6 +1,11 @@
 name: Continual Learning CPU Contracts
 
 on:
+  # Run the same no-training contracts against the actual squash-merge
+  # commit, not only the pre-merge PR head / synthetic merge ref.
+  push:
+    branches:
+      - main
   pull_request:
     paths:
       - 'integrations/continual_learning/**'
