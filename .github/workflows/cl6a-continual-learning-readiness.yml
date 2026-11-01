@@ -1,0 +1,25 @@
+name: CL-6A Continual Learning Readiness (NO TRAINING)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  review-only:
+    name: Static scientific preregistration audit (NO DATA / NO TRAINING)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Validate NO_GO protocol and safety contracts
+        run: |
+          python -m unittest -v tests.test_cl6a_readiness_review
+      - name: Publish nine OPEN scientific prerequisites
+        run: |
+          python -m integrations.continual_learning.cl6a_readiness_review \
+            --summary "$GITHUB_STEP_SUMMARY"
