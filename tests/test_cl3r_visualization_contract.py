@@ -4,7 +4,7 @@ import unittest
 import xml.etree.ElementTree as ET
 
 from integrations.continual_learning.cl3r_visualization import (
-    ARMS, architecture_svg, bar_svg, build_preview, report_files,
+    ARMS, _bar, _sparkline, architecture_svg, bar_svg, build_preview, report_files,
 )
 
 
@@ -43,6 +43,20 @@ class CL3RVisualizationContracts(unittest.TestCase):
         self.assertEqual(17, len(json.loads(outputs["projections.json"])["series"]))
         with self.assertRaises(ValueError):
             bar_svg(preview, active=17)
+
+    def test_inline_github_summary_graphs_require_no_hosted_images(self):
+        summary = report_files(build_preview())["summary.md"]
+        self.assertIn("Inline graphs (visible directly in this GitHub Actions summary)", summary)
+        self.assertIn("Activity sensitivity curves", summary)
+        self.assertIn("█", summary)
+        self.assertIn("▁", summary)
+        self.assertIn("Dense SGD", summary)
+        self.assertNotIn("![](", summary)
+        self.assertEqual("█" * 4, _bar(10, 10, width=4))
+        self.assertEqual("░" * 4, _bar(0, 10, width=4))
+        self.assertEqual("▁▄█", _sparkline([0, 4, 10]))
+        with self.assertRaises(ValueError):
+            _bar(11, 10)
 
     def test_numeric_views_keep_training_and_inference_separate(self):
         preview = build_preview()
