@@ -1,0 +1,45 @@
+{
+  "kind": "CL9K_GITHUB_ACTIONS_SECURITY_INVENTORY",
+  "version": "cl9k-v1",
+  "snapshot_date": "2026-11-02",
+  "source_commit_sha": "d704f91de1570ddf0d6ba7382587ebe4d5dbbc92",
+  "decision": "NO_GO",
+  "review_only": true,
+  "model_execution_authorized": false,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "observations_recorded": 0,
+  "physical_energy": "NOT_MEASURED",
+  "workflow_file_count": 44,
+  "workflow_dispatch_declaration_count": 42,
+  "workflows_with_top_level_permissions": 44,
+  "workflows_with_top_level_write_or_id_token_scope": 10,
+  "workflows_referencing_secrets": 14,
+  "all_external_actions_full_sha_pinned": false,
+  "cl9i": {
+    "contents_read": true,
+    "persist_credentials": false,
+    "timeout_minutes": 3,
+    "no_model_run": true,
+    "network_isolated_verified": false
+  },
+  "main_ruleset": {
+    "id": 24041895,
+    "name": "Protect main",
+    "enforcement": "active",
+    "requires_pull_request": true,
+    "required_approving_review_count": 0,
+    "required_review_thread_resolution": false
+  },
+  "unverified": [
+    "effective_actions_permission_settings",
+    "allowed_actions_policy",
+    "fork_approval_policy",
+    "configured_secrets",
+    "branch_protection_endpoint",
+    "network_isolation",
+    "scientific_signoff"
+  ],
+  "network_gate_status": "OPEN",
+  "execution_approval_status": "NOT_GRANTED"
+}
