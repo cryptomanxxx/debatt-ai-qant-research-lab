@@ -19,6 +19,8 @@ The shared local step uses a supervised output error and a local hidden update; 
 The AST-only validator:
 
 - Checks precise class inheritance and that neither sparse subclass overrides the local update `step` method.
+- Verifies the inherited local `_forward_with_active` hook dynamically dispatches via `self._forward(x)` (and cannot bypass sparse traversal via a direct dense-class call).
+- Rejects direct assignments, augmented writes, deletions and unreviewed mutating calls to model state inside forward hooks.
 - Checks `step` continues routing through `_forward_with_active` and accessing the four W1/b1/W2/b2 update target families, alongside counter/optimizer bookkeeping.
 - Checks dense W1 traverses all 16 inputs while the sparse variants reference active input indices, with the existing nonlinear hidden and W2 readout site present.
 - Records SHA-256 hashes of the four reviewed source files, so a changed source requires new interpretation.
