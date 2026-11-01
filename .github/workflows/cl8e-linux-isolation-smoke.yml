@@ -34,12 +34,15 @@ jobs:
           # The probe emits a bounded JSON object; do not label an unavailable
           # namespace as successful. This does NOT authorize a model runner.
           status="$(jq -r '.status // "INVALID_RESULT"' "$result_file")"
+          reason="$(jq -r '.reason // "none"' "$result_file" | tr '\\r\\n' '  ' | cut -c 1-300)"
           {
             echo "## CL-8E — fixed Linux namespace smoke test"
             echo ""
             echo "**NO MODEL / NO DATA / NO TRAINING / NO INFERENCE**"
             echo ""
             echo "Probe status: \`$status\`"
+            echo ""
+            echo "Reason: \`$reason\`"
             echo ""
             echo "This tests only a disposable, hard-coded Python child. A distinct"
             echo "namespace is not proof that a future model workload is safely isolated."
@@ -52,6 +55,6 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
           if [[ "$exit_code" -ne 0 || "$status" != "ISOLATED_PROBE_OK" ]]; then
-            echo "::error::CL-8E isolation unavailable or invalid; fail closed (NO_GO)."
+            echo "::error::CL-8E NO_GO: $reason"
             exit 1
           fi
