@@ -77,6 +77,26 @@ class CL6BSourceAuditTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit_sources(altered)
 
+    def test_shared_input_override_is_rejected(self):
+        altered = dict(self.sources)
+        altered["shared"] = altered["shared"].replace(
+            "    def _forward_with_active(",
+            "    def _input(self, features):\n"
+            "        return (0,) * 16\n\n"
+            "    def _forward_with_active(",
+        )
+        with self.assertRaises(ValueError):
+            audit_sources(altered)
+
+    def test_caller_owned_active_list_mutation_is_rejected(self):
+        altered = dict(self.sources)
+        altered["shared"] = altered["shared"].replace(
+            "        hidden = [",
+            "        active.clear()\n        hidden = [",
+        )
+        with self.assertRaises(ValueError):
+            audit_sources(altered)
+
     def test_wrong_forward_hook_fails_closed(self):
         altered = dict(self.sources)
         altered["local"] = altered["local"].replace(
