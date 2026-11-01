@@ -39,6 +39,15 @@ class CL6GNumericDiagnosticsTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     diagnose_pair(left, right)
 
+    def test_large_integer_rounding_cannot_fake_equality(self):
+        # The original distinct integers collapse to the same binary64 float.
+        with self.assertRaises(ValueError):
+            diagnose_pair([9007199254740993], [9007199254740992])
+        # Exactly representable integers remain acceptable.
+        report = diagnose_pair([9007199254740992], [9007199254740992])
+        self.assertEqual(report["exact_equal_count"], 1)
+        self.assertEqual(report["max_absolute_difference"], 0.0)
+
     def test_nonfinite_and_overflow_differences_fail_closed(self):
         for a, b in [
             (float("nan"), 1.0),
