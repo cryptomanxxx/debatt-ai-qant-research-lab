@@ -7,6 +7,7 @@ This module converts *caller-supplied*, already computed CL-6G scalar diagnostic
 - Requires an explicitly preregistered local-rule pair: `primary_sparse` or `secondary_index_reuse`.
 - Requires W1/b1/W2/b2 numeric diagnostic records, checking counts, magnitudes, finite values and fail-closed scientific flags.
 - Rejects incomplete data and records that claim approval or equivalence.
+- Requires CL-6G's declared symmetric-relative formula and rejects contradictory zero/nonzero absolute and relative differences, including records claiming exact equality.
 - Explicitly reports that learning rates, optimizer/counters, source provenance, tolerances, per-step state, model quality and energy are **not established by this partial summary**.
 - Unit tests use only literal lists and the pure CL-6G numerical helper. They do not run neural networks.
 
