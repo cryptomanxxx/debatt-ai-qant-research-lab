@@ -9,7 +9,7 @@ CL-6B checked static method routing; CL-6D checked source initializer paths; CL-
 | Dimension | Proposed evidence | Scientific purpose |
 |---|---|---|
 | Identity | Source and dependency digests, paired seed, frozen sample set digest, task/sample/checkpoint identifiers | Verify both arms processed the same approved workload |
-| Before each update | Exact W1/b1/W2/b2 state, optimizer steps, logical counters | Identify any preexisting divergence |
+| Before each update | Exact W1/b1/W2/b2 state, both learning-rate parameters, optimizer steps, logical counters | Identify any preexisting divergence |
 | During each update | Loss, hidden activations, logits, active-index count and logical operations | Locate earliest observable divergence |
 | After each update | W1/b1/W2/b2, optimizer steps, logical counters | Detect changed updates or hidden state drift |
 | Failures | Missing, mismatched and unverified records retained in immutable results | Prevent selection bias and silent exclusion |
