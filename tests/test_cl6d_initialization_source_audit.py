@@ -44,6 +44,52 @@ class CL6DInitializationAuditTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit_initializers(altered)
 
+    def test_nested_weight_mutation_fails(self):
+        for extra in ("self.w1[0][0] = 99.0", "self.w1.clear()"):
+            with self.subTest(extra=extra):
+                altered = dict(self.sources)
+                anchor = "        self.local_rate = float(local_rate)"
+                self.assertIn(anchor, altered["local"])
+                altered["local"] = altered["local"].replace(
+                    anchor, "        " + extra + "\n" + anchor,
+                )
+                with self.assertRaises(ValueError):
+                    audit_initializers(altered)
+
+    def test_forwarded_argument_rebinding_fails(self):
+        for extra in ("seed += 1", "learning_rate = 0.4"):
+            with self.subTest(extra=extra):
+                altered = dict(self.sources)
+                anchor = "        super().__init__(seed=seed, learning_rate=learning_rate)"
+                self.assertIn(anchor, altered["local"])
+                altered["local"] = altered["local"].replace(
+                    anchor, "        " + extra + "\n" + anchor,
+                )
+                with self.assertRaises(ValueError):
+                    audit_initializers(altered)
+
+    def test_each_unseeded_weight_layer_fails(self):
+        for layer in ("w1", "w2"):
+            with self.subTest(layer=layer):
+                altered = dict(self.sources)
+                anchor = "self." + layer + " = [[rng.uniform("
+                self.assertIn(anchor, altered["dense"])
+                altered["dense"] = altered["dense"].replace(
+                    anchor, "self." + layer + " = [[random.uniform(",
+                )
+                with self.assertRaises(ValueError):
+                    audit_initializers(altered)
+
+    def test_local_class_level_constructor_rebinding_fails(self):
+        altered = dict(self.sources)
+        anchor = "    def _forward_first_layer_reads("
+        self.assertIn(anchor, altered["local"])
+        altered["local"] = altered["local"].replace(
+            anchor, "    __init__ = TinyDenseMLP.__init__\n\n" + anchor,
+        )
+        with self.assertRaises(ValueError):
+            audit_initializers(altered)
+
     def test_additional_local_weight_write_fails(self):
         altered = dict(self.sources)
         old = "        self.local_rate = float(local_rate)"
