@@ -1,5 +1,4 @@
 """CL-4A metadata and synthetic-record shape tests, no model execution."""
-import copy
 import unittest
 from unittest.mock import patch
 
@@ -68,12 +67,12 @@ class CL4AMeasurementContracts(unittest.TestCase):
 
     def test_protocol_drift_is_fail_closed(self):
         from integrations.continual_learning import cl4a_h1_measurement_contract as module
-        plan = module.PLAN_PATH
-        content = plan.read_text(encoding="utf-8")
+        content = module.PLAN_PATH.read_text(encoding="utf-8")
         import json
         altered = json.loads(content)
         altered["training_allowed"] = True
-        with patch.object(module.PLAN_PATH.__class__, "read_text", return_value=json.dumps(altered)):
+        from unittest.mock import Mock
+        with patch.object(module, "PLAN_PATH", Mock(read_text=Mock(return_value=json.dumps(altered)))):
             with self.assertRaises(ValueError):
                 readiness_contract()
 
