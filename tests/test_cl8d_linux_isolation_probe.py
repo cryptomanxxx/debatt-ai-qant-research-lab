@@ -45,11 +45,15 @@ class CL8DIsolationProbeTests(unittest.TestCase):
     def test_missing_unshare_never_launches_child(self):
         with patch.object(probe.platform, "system", return_value="Linux"), \
              patch.object(probe.Path, "exists", return_value=True), \
-             patch.object(probe.shutil, "which", return_value=None), \
+             patch.object(probe, "_trusted_unshare", return_value=None), \
              patch.object(probe.subprocess, "Popen") as popen:
             with self.assertRaises(RuntimeError):
                 probe.probe()
             popen.assert_not_called()
+
+    def test_caller_path_cannot_select_writable_wrapper(self):
+        with patch.object(probe.Path, "resolve", return_value=probe.Path("/tmp/writable/unshare")):
+            self.assertIsNone(probe._trusted_unshare())
 
     def test_rejects_unapproved_command_line_modes(self):
         with self.assertRaises(SystemExit):
