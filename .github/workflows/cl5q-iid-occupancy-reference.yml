@@ -1,0 +1,38 @@
+name: CL-5Q IID Occupancy Reference (read-only)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  exact-occupancy:
+    name: CL-5Q exact finite-proposal occupancy (NO DATA / NO TRAINING)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Run deterministic analytical contracts, never generator
+        run: |
+          python -m unittest -v tests.test_cl5n_empirical_data_diagnostics tests.test_cl5p_pair_collision_analysis tests.test_cl5q_iid_occupancy_reference
+      - name: Download existing aggregate CL-5M report, no data generation
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p reports/cl5q
+          gh run download 41311514598 \
+            --repo "$GITHUB_REPOSITORY" \
+            --name cl5m-seed-101-data-only-report \
+            --dir reports/cl5q
+          test -f reports/cl5q/cl5m-data-only-report.json
+      - name: Render exact IID occupancy curves in GitHub summary
+        run: |
+          python -m integrations.continual_learning.cl5q_iid_occupancy_reference \
+            --source-run 41311514598 \
+            --report reports/cl5q/cl5m-data-only-report.json \
+            --summary "$GITHUB_STEP_SUMMARY"
