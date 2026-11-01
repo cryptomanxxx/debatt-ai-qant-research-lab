@@ -47,7 +47,7 @@ class CL8DIsolationProbeTests(unittest.TestCase):
             (b"unshare: unshare failed: Operation not permitted", "OS_PERMISSION_DENIED"),
             (b"unshare: Permission denied", "OS_PERMISSION_DENIED"),
             (b"unshare: unrecognized option '--net'", "UNSHARE_OPTION_UNSUPPORTED"),
-            (b"malicious \`example\` and arbitrary output", "CHILD_FAILURE_UNCLASSIFIED"),
+            (b"malicious example and arbitrary output", "CHILD_FAILURE_UNCLASSIFIED"),
         )
         for stderr, expected in samples:
             with self.subTest(expected=expected):
