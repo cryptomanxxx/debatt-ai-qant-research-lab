@@ -1,6 +1,7 @@
 """CL-8A unsigned/unsent scientific review request audit; no outreach."""
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -12,6 +13,16 @@ from integrations.continual_learning.cl7a_scientific_readiness_review import (
 )
 
 PATH = Path(__file__).with_name("cl8a_independent_h1_review_request.json")
+FROZEN_PACKET_BLOB_SHA = "a2c065a1f0a06fb4d454db6a62d72d16ea61be9e"
+
+
+def validate_packet_bytes(content: bytes) -> None:
+    """Pin the human-facing packet by exact Git blob digest, not keywords."""
+    if not isinstance(content, bytes):
+        raise ValueError("review packet must be bytes")
+    payload = b"blob " + str(len(content)).encode("ascii") + b"\\0" + content
+    if hashlib.sha1(payload).hexdigest() != FROZEN_PACKET_BLOB_SHA:
+        raise ValueError("review packet changed without an independently reviewed update")
 EXPECTED_FIELDS = {
     "kind", "version", "decision", "packet", "review_status",
     "independent_reviewer_identified", "independent_scientific_signoff",
@@ -77,6 +88,7 @@ def validate_request(document: dict, parent_report: dict) -> dict:
     packet = PATH.with_name(document["packet"])
     if not packet.is_file():
         raise ValueError("referenced reviewer packet is missing")
+    validate_packet_bytes(packet.read_bytes())
     return {
         "kind": "CL8A_UNSENT_REVIEW_REQUEST_AUDIT",
         "decision": "NO_GO",
