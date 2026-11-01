@@ -9,7 +9,7 @@ from integrations.continual_learning.cl7a_scientific_readiness_review import (
     PATH as CL7A, validate_critique,
 )
 from integrations.continual_learning.cl7b_h1_baseline_audit import (
-    PATH as CL7B, validate_contract,
+    PATH as CL7B, validate_contract as validate_baseline_contract,
 )
 from integrations.continual_learning.cl7c_train_only_calibration_audit import (
     PATH as CL7C, validate_protocol,
@@ -69,7 +69,7 @@ def validate_contract(
 ) -> dict:
     parent_status = review(parent)
     critique_status = validate_critique(critique, parent)
-    baseline_status = validate_contract_baseline(baseline, parent, critique)
+    baseline_status = validate_baseline_contract(baseline, parent, critique)
     calibration_status = validate_protocol(calibration, parent, critique, baseline)
     if (parent_status["decision"] != "NO_GO"
             or parent_status["closed_gates"] != 0
@@ -123,15 +123,6 @@ def validate_contract(
         "training_executed": False,
         "energy_measured": False,
     }
-
-
-def validate_contract_baseline(baseline: dict, parent: dict, critique: dict) -> dict:
-    return validate_contract_from_cl7b(baseline, parent, critique)
-
-
-from integrations.continual_learning.cl7b_h1_baseline_audit import (
-    validate_contract as validate_contract_from_cl7b,
-)
 
 
 def audit() -> dict:
