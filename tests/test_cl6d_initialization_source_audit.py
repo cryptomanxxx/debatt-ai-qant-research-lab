@@ -44,6 +44,28 @@ class CL6DInitializationAuditTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit_initializers(altered)
 
+    def test_conditional_delegation_fails(self):
+        altered = dict(self.sources)
+        anchor = "        super().__init__(seed=seed, learning_rate=learning_rate)"
+        self.assertIn(anchor, altered["local"])
+        altered["local"] = altered["local"].replace(
+            anchor,
+            "        if seed < 0:\n"
+            "            super().__init__(seed=seed, learning_rate=learning_rate)",
+        )
+        with self.assertRaises(ValueError):
+            audit_initializers(altered)
+
+    def test_rng_reseeding_fails(self):
+        altered = dict(self.sources)
+        anchor = "        rng = random.Random(seed)"
+        self.assertIn(anchor, altered["dense"])
+        altered["dense"] = altered["dense"].replace(
+            anchor, anchor + "\n        rng.seed()",
+        )
+        with self.assertRaises(ValueError):
+            audit_initializers(altered)
+
     def test_nested_weight_mutation_fails(self):
         for extra in ("self.w1[0][0] = 99.0", "self.w1.clear()"):
             with self.subTest(extra=extra):
