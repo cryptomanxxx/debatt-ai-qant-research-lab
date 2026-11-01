@@ -6,7 +6,7 @@ import json
 import unittest
 
 from integrations.continual_learning.cl8a_independent_h1_review_audit import (
-    PATH, audit, validate_request,
+    PATH, audit, validate_packet_bytes, validate_request,
 )
 from integrations.continual_learning.cl7f_h1_decision_audit import audit as audit_cl7f
 
@@ -51,6 +51,22 @@ class CL8AReviewPacketTests(unittest.TestCase):
         self.rejected(lambda d: d["required_reviewer_disclosures"].pop())
         self.rejected(lambda d: d.__setitem__("reviewer_signed", True))
         self.rejected(lambda d: d.__setitem__("packet", "missing_packet.md"))
+
+    def test_reviewer_packet_mutations_are_rejected(self):
+        packet_path = PATH.with_name(self.request["packet"])
+        original = packet_path.read_bytes()
+        validate_packet_bytes(original)
+        for changed in (
+            original.replace(b"REVIEW_NOT_REQUESTED", b"REVIEW_APPROVED"),
+            original + b"\\nIndependent reviewer signed off; scientific GO.\\n",
+            original.replace(b"## Six questions for an independent reviewer",
+                             b"## Questions removed"),
+            original[:-1],
+        ):
+            with self.subTest(length=len(changed)):
+                self.assertNotEqual(changed, original)
+                with self.assertRaises(ValueError):
+                    validate_packet_bytes(changed)
 
     def test_parent_signoff_does_not_auto_close_scientific_gates(self):
         altered = dict(self.parent, decision="GO")
