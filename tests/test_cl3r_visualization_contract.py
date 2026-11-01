@@ -48,6 +48,8 @@ class CL3RVisualizationContracts(unittest.TestCase):
         summary = report_files(build_preview())["summary.md"]
         self.assertIn("Inline graphs (visible directly in this GitHub Actions summary)", summary)
         self.assertIn("Activity sensitivity curves", summary)
+        self.assertIn("When does the logical payload advantage disappear?", summary)
+        self.assertIn("| inference | Sparse local | 13 | 14 |", summary)
         self.assertIn("█", summary)
         self.assertIn("▁", summary)
         self.assertIn("Dense SGD", summary)
