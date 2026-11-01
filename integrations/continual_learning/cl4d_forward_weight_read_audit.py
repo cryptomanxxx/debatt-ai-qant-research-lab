@@ -8,11 +8,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from integrations.continual_learning.cl2_mlp_baseline import TinyDenseMLP
+from integrations.continual_learning.cl2_local_mlp import LocalHebbianMLP
 from integrations.continual_learning.cl2_sparse_forward import SparseForwardLocalMLP
 from integrations.continual_learning.cl2_mlp_baseline import INPUT_SIZE
 
-ARM_CLASSES = {"local_hybrid": TinyDenseMLP, "sparse_local_hybrid": SparseForwardLocalMLP}
+ARM_CLASSES = {"local_hybrid": LocalHebbianMLP, "sparse_local_hybrid": SparseForwardLocalMLP}
 
 
 class _ReadOnlyRow:
