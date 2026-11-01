@@ -1,0 +1,75 @@
+{
+  "kind": "CL7E_H1_MEASUREMENT_BOUNDARIES_NOT_EXECUTED",
+  "version": "cl7e-v1",
+  "decision": "NO_GO",
+  "analysis_only": true,
+  "parent_protocol": "cl6a_readiness_protocol.json",
+  "critique": "cl7a_scientific_design_critique.json",
+  "baseline_contract": "cl7b_h1_baseline_contract.json",
+  "calibration_protocol": "cl7c_train_only_calibration_protocol.json",
+  "causal_protocol": "cl7d_causal_pairing_invariants.json",
+  "model_construction_authorized": false,
+  "model_inference_authorized": false,
+  "training_authorized": false,
+  "dataset_generation_authorized": false,
+  "new_results_present": false,
+  "independent_scientific_signoff": false,
+  "hardware_energy_measured": false,
+  "counter_classes": [
+    {
+      "id": "source_logical_events",
+      "status": "PROXY_ONLY",
+      "units": ["logical_reads", "logical_writes", "index_visits", "nonlinearity_calls", "control_visits"],
+      "claim": "Static algorithmic event counts are not DRAM transactions, elapsed time, or joules."
+    },
+    {
+      "id": "cpu_elapsed_time",
+      "status": "NOT_MEASURED",
+      "units": ["monotonic_elapsed_seconds"],
+      "claim": "A future instrumented CPU timing run would require fixed hardware/runtime, repetition, warmup and confidence reporting."
+    },
+    {
+      "id": "process_memory",
+      "status": "NOT_MEASURED",
+      "units": ["peak_rss_bytes"],
+      "claim": "Process RSS is a resource proxy, not physical memory bandwidth or per-weight DRAM traffic."
+    },
+    {
+      "id": "electrical_energy",
+      "status": "NOT_MEASURED",
+      "units": ["joules"],
+      "claim": "Requires separately approved meter, measured idle baseline, sampling window and host boundary."
+    },
+    {
+      "id": "photonic_or_neuromorphic_hardware",
+      "status": "NOT_MEASURED",
+      "units": [],
+      "claim": "No Q.ANT, Loihi or Hala Point performance or joule evidence has been obtained."
+    }
+  ],
+  "future_observation_rules": {
+    "training_and_inference_separate": true,
+    "per_seed_and_per_arm_scope": true,
+    "equal_task_order_and_workload_required": true,
+    "instrumented_vs_uninstrumented_control_required": true,
+    "wall_clock_repeat_count": "UNSPECIFIED_BLOCKING",
+    "warmup_schedule": "UNSPECIFIED_BLOCKING",
+    "timing_summary_and_uncertainty": "UNSPECIFIED_BLOCKING",
+    "cpu_and_software_environment": "UNSPECIFIED_BLOCKING",
+    "observer_overhead_bound": "UNSPECIFIED_BLOCKING",
+    "power_meter_and_idle_baseline": "UNSPECIFIED_BLOCKING",
+    "missing_samples_policy": "REPORT_ALL_AND_SUSPEND_CLAIMS"
+  },
+  "interpretation_fences": {
+    "logical_bytes_equated_to_dram_bytes": false,
+    "logical_operations_equated_to_joules": false,
+    "runtime_equated_to_electrical_energy": false,
+    "cpu_result_extrapolated_to_photonic": false,
+    "quality_matched_savings_claim_permitted": false,
+    "physical_energy_claim_permitted": false,
+    "scientific_go_authorized": false
+  },
+  "open_cl6a_gates_expected": 9,
+  "open_cl7a_findings_expected": 6,
+  "next_decision": "Define and externally review CPU timing/observer protocol; physical energy requires a separate instrumented measurement authorization."
+}
