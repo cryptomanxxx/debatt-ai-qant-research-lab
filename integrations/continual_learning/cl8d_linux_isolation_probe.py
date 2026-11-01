@@ -11,7 +11,7 @@ import os
 from pathlib import Path
 import platform
 import resource
-import shutil
+import stat
 import signal
 import subprocess
 import sys
@@ -28,6 +28,27 @@ CPU_LIMIT_SECONDS = 5
 ADDRESS_SPACE_LIMIT_BYTES = 256 * 1024 * 1024
 WALL_LIMIT_SECONDS = 5
 OUTPUT_LIMIT_BYTES = 8192
+
+
+def _trusted_unshare() -> str | None:
+    """Select root-owned, non-writable system binary independent of caller PATH."""
+    for candidate in (Path("/usr/bin/unshare"), Path("/bin/unshare")):
+        try:
+            resolved = candidate.resolve(strict=True)
+            if (resolved.name != "unshare"
+                    or resolved.parent not in (Path("/usr/bin"), Path("/bin"))):
+                continue
+            info = resolved.stat()
+            directory = resolved.parent.stat()
+            if (not stat.S_ISREG(info.st_mode)
+                    or info.st_uid != 0 or info.st_mode & 0o022
+                    or directory.st_uid != 0 or directory.st_mode & 0o022
+                    or not os.access(resolved, os.X_OK)):
+                continue
+            return str(resolved)
+        except (OSError, RuntimeError):
+            continue
+    return None
 
 
 def _child_limits() -> None:
@@ -85,7 +106,7 @@ def probe() -> dict:
         raise ValueError("future experiment runner must remain disabled")
     if platform.system() != "Linux" or not Path("/proc/self/ns/net").exists():
         raise RuntimeError("Linux network namespaces unavailable; fail closed")
-    network_tool = shutil.which("unshare")
+    network_tool = _trusted_unshare()
     if not network_tool:
         raise RuntimeError("unshare unavailable; fail closed without any subprocess")
     parent_namespace = os.readlink("/proc/self/ns/net")
