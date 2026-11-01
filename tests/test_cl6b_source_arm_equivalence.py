@@ -77,6 +77,16 @@ class CL6BSourceAuditTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit_sources(altered)
 
+    def test_shared_class_level_step_binding_is_rejected(self):
+        altered = dict(self.sources)
+        altered["shared"] = altered["shared"].replace(
+            "    def _forward_with_active(",
+            "    step = TinyDenseMLP.step\n\n"
+            "    def _forward_with_active(",
+        )
+        with self.assertRaises(ValueError):
+            audit_sources(altered)
+
     def test_shared_input_override_is_rejected(self):
         altered = dict(self.sources)
         altered["shared"] = altered["shared"].replace(
