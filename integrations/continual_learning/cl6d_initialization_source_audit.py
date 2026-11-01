@@ -82,11 +82,6 @@ def audit_initializers(sources: dict[str, str]) -> dict:
             "self.b2 = [0.0] * N_CLASSES" not in base_text or
             "self.optimizer_steps = 0" not in base_text):
         raise ValueError("base seeded initialization pattern changed")
-    calls = [
-        ast.unparse(n) for n in ast.walk(local)
-        if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute)
-        and n.func.attr == "__init__"
-    ]
     # Verify the *actual* super() call instead of just the presence of a string.
     super_calls = [
         n for n in ast.walk(local)
