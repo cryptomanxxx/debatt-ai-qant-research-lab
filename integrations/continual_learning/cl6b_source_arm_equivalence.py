@@ -61,6 +61,19 @@ def audit_sources(sources: dict[str, str]) -> dict:
         raise ValueError("local update rule missing")
     if "step" in methods["sparse"] or "step" in methods["shared"]:
         raise ValueError("sparse variant overrides local update step")
+    # The inherited hook must dynamically dispatch to self._forward(x).
+    # Calling TinyDenseMLP._forward(self, x) here silently bypasses sparse W1.
+    hook = methods["local"].get("_forward_with_active")
+    if hook is None:
+        raise ValueError("local active-input forward hook missing")
+    non_doc = [n for n in hook.body if not (
+        isinstance(n, ast.Expr) and isinstance(n.value, ast.Constant)
+        and isinstance(n.value.value, str)
+    )]
+    if (len(non_doc) != 1 or not isinstance(non_doc[0], ast.Return)
+            or non_doc[0].value is None
+            or ast.unparse(non_doc[0].value) != "self._forward(x)"):
+        raise ValueError("local hook must dynamically delegate to self._forward(x)")
     if "step" not in methods["dense"]:
         raise ValueError("dense reference update missing")
     if "_forward" not in methods["dense"] or "_forward" not in methods["sparse"]:
@@ -81,12 +94,31 @@ def audit_sources(sources: dict[str, str]) -> dict:
     bookkeeping = {"self.logical_counters", "self.optimizer_steps"}
     if set(updates) != expected | bookkeeping or len(updates) != 6:
         raise ValueError("local weight update targets changed")
-    for key in ("dense", "sparse", "shared"):
+    def _self_state(target: ast.AST) -> bool:
+        while isinstance(target, (ast.Subscript, ast.Attribute)):
+            target = target.value
+        return isinstance(target, ast.Name) and target.id == "self"
+
+    # Reject ordinary assignments to self.w1[0][0], as well as augmented
+    # writes, annotated writes, deletions, and self-state mutation calls.
+    # Assignments to local variables such as hidden and logits remain allowed.
+    for key in ("dense", "local", "sparse", "shared"):
         for method in methods[key].values():
-            if method.name.startswith("_forward") and any(
-                isinstance(n, (ast.AugAssign, ast.Delete)) for n in ast.walk(method)
-            ):
-                raise ValueError("forward function mutates model state")
+            if not method.name.startswith("_forward"):
+                continue
+            for node in ast.walk(method):
+                targets = ()
+                if isinstance(node, ast.Assign):
+                    targets = node.targets
+                elif isinstance(node, (ast.AugAssign, ast.AnnAssign, ast.NamedExpr)):
+                    targets = (node.target,)
+                elif isinstance(node, ast.Delete):
+                    targets = node.targets
+                if any(_self_state(t) for t in targets):
+                    raise ValueError("forward method writes to model state")
+                if (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                        and _self_state(node.func.value)):
+                    raise ValueError("forward method calls unreviewed self-state operation")
     # This checks the narrow AST contract. It does not certify numerical equality.
     dense_first = ast.unparse(methods["dense"]["_forward"])
     sparse_first = ast.unparse(methods["sparse"]["_forward"])
