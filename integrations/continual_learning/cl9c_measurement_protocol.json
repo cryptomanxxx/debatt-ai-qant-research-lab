@@ -26,17 +26,8 @@
       "checkpoint",
       "phase",
       "repeat_index",
-      "run_status"
-    ],
-    "required_observation": [
-      "accuracy_numerator",
-      "accuracy_denominator",
-      "logical_parameter_reads",
-      "logical_parameter_writes",
-      "input_visits",
-      "active_index_visits",
-      "control_events",
-      "nonlinear_events"
+      "run_status",
+      "failure_reason"
     ],
     "conditional_observation": [
       "monotonic_elapsed_ns",
@@ -54,7 +45,39 @@
       "name": "physical_energy_status",
       "value": "NOT_MEASURED",
       "joules_field_allowed": false
-    }
+    },
+    "allowed_run_status": [
+      "COMPLETE",
+      "FAILED",
+      "INCOMPLETE"
+    ],
+    "observation_fields_nullable": true,
+    "missing_value_semantics": "null denotes not observed; numeric zero denotes an observed count of zero. Never replace missing observations with zero.",
+    "status_requirements": {
+      "COMPLETE": "failure_reason must be null; all required_observation fields are non-null measured values; zero is permitted only if observed.",
+      "FAILED": "failure_reason must be a nonempty bounded diagnostic; unavailable observation fields are null; already observed partial fields may retain measured values.",
+      "INCOMPLETE": "failure_reason must be a nonempty bounded diagnostic; unavailable observation fields are null; preserve any observed partial fields without imputation."
+    },
+    "required_observation_when_complete": [
+      "accuracy_numerator",
+      "accuracy_denominator",
+      "logical_parameter_reads",
+      "logical_parameter_writes",
+      "input_visits",
+      "active_index_visits",
+      "control_events",
+      "nonlinear_events"
+    ],
+    "partial_observation_when_failed_or_incomplete": [
+      "accuracy_numerator",
+      "accuracy_denominator",
+      "logical_parameter_reads",
+      "logical_parameter_writes",
+      "input_visits",
+      "active_index_visits",
+      "control_events",
+      "nonlinear_events"
+    ]
   },
   "paired_design": {
     "seeds": [
