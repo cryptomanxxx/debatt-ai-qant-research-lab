@@ -4,7 +4,7 @@
 
 ## Estimands and comparisons
 
-The primary estimand is the **per-seed difference in observed source-event work** between `sparse_local_hybrid` and `local_hybrid`, holding the proposed local learning rule fixed. The secondary estimand compares `sparse_shared_index` with `sparse_local_hybrid`; it is *not* pooled with the primary contrast. The SGD/dense arm is descriptive context and cannot serve as an isolated sparsity effect.
+The primary estimand is the **per-seed difference in observed source-event work** between `sparse_local_hybrid` and `local_hybrid`, holding the proposed local learning rule fixed. The secondary estimand compares `sparse_shared_index` with `sparse_local_hybrid` **during training only**; it is *not* pooled with the primary contrast. The shared-index optimization is exercised by `step()` rather than standalone `predict()`: both sparse arms use the same inherited prediction path. Secondary heldout-inference rows are therefore a **no-intervention negative control**, not an inference index-reuse effect. The SGD/dense arm is descriptive context and cannot serve as an isolated sparsity effect.
 
 For seed `s`, phase `p` and preapproved metric `W`: `delta[s,p] = W(candidate,s,p) - W(reference,s,p)`. Negative delta means less **source-level work**; it does not demonstrate lower physical energy. Report an absolute delta and, when the reference is strictly positive, a separately labeled relative difference `delta / W(reference)`. When reference work is zero, relative difference is **undefined**, never infinity or a manufactured zero.
 
@@ -14,7 +14,7 @@ For seed `s`, phase `p` and preapproved metric `W`: `delta[s,p] = W(candidate,s,
 - Sum only **observed, complete, identically scoped** source-event counts. Six categories remain separate: logical parameter reads, writes, input visits, active-index visits, control events and nonlinear events. No proxy-only/static estimates may enter an observed count.
 - A scalar weighted `W` is **not defined yet**. Unit-cost weights, scope/boundary and aggregation procedure require documented independent preapproval **before seeing outcome observations**. In its absence report raw event-vector deltas only; no support/no-advantage conclusion based on a scalar.
 - Define denominators explicitly before execution: records/predictions for heldout inference; actual updates for training; record both numerator and denominator. A zero/unknown denominator makes the corresponding rate **undefined** (null); do not impute zero. Accuracy is correct predictions over observed eligible examples and must not use the work denominator.
-- Quality checks must use the preregistered **final mean accuracy** definition at frozen heldout checkpoints, by seed and arm: floor 0.65; absolute paired gap at most 0.05. The exact averaging across T1–T4 and checkpoint coverage must be approved in advance. Never select a best checkpoint using heldout labels.
+- Quality checks must use the **frozen CL-3D final mean accuracy endpoint**, by seed and arm: evaluate all four heldout tasks at every checkpoint (`pretrain`, `post_T1`, `post_T2`, `post_T3`, `post_T4`), take the **unweighted arithmetic mean of the four per-task heldout accuracies at the final `post_T4` checkpoint only**, then apply the 0.65 per-arm floor and 0.05 absolute paired difference. Do **not** pool checkpoints, select the best checkpoint, change task weights, or use heldout labels for tuning. Calibration and parity decisions remain independently reviewed.
 - Exact numerical parity (same initialization, order, dtype, output and post-update traces within independently approved tolerance) and train-only learnability are separate prerequisite gates, not inferred from similar accuracy.
 
 ## Missingness, failure, and interpretation
@@ -23,19 +23,19 @@ All five planned seeds (101–105), both causal contrasts, and every planned arm
 
 **Common prerequisites, identical for positive and negative conclusions:** all five paired seeds complete with matching hashed provenance, frozen preapproved metric, same measurement scope, successful train-only learnability, quality and numerical parity gates, and no missing/excluded records. Any failed prerequisite or mixed per-seed signs forces `INCONCLUSIVE`.
 
-Only then:
+Only then, **only for phases with an actual intervention** (primary sparse: training and heldout inference; secondary index reuse: training only):
 - `DESCRIPTIVE_H1_SUPPORT`: every seed has `delta < 0` for the specified contrast/phase.
 - `NO_OBSERVED_H1_ADVANTAGE`: every seed has `delta >= 0` for that contrast/phase.
 - Otherwise `INCONCLUSIVE`.
 
-Mixed outcomes may still be reported descriptively with per-seed range; they do not permit a selected favorable subgroup claim. Report **both** contrasts even if one is inconclusive; no global H1 claim automatically follows from one successful contrast. Five seeds permit no generalizable p-value conclusion.
+The secondary heldout-inference no-intervention control is reported for equivalence/context only: **no H1 direction label for index reuse during standalone prediction**, even if incidental source counters differ. Mixed outcomes may still be reported descriptively with per-seed range; they do not permit a selected favorable subgroup claim. Report **both** contrasts even if one is inconclusive; no global H1 claim automatically follows from one successful contrast. Five seeds permit no generalizable p-value conclusion.
 
 ## Presentation layout for future reporting (no rows exist now)
 
 1. Exact repository commit, protocol/data/environment hashes, approved metric definition and independent review reference.
 2. Full attempt/failure ledger (including missing, incomplete and retried attempts).
 3. Each arm/seed/task/checkpoint/phase: raw six-component event vector, accuracy numerator/denominator and observed-only timing/RSS if separately approved.
-4. Each of the two *separate* contrasts, by seed and phase: candidate/reference, matched exposure, absolute delta, eligible relative delta or `null`, quality and numerical parity results.
+4. Each of the two *separate* contrasts, by seed and **applicable intervention phase** (plus explicitly labeled secondary heldout no-intervention control): candidate/reference, matched exposure, absolute delta, eligible relative delta or `null`, quality and numerical parity results.
 5. Descriptive minimum, maximum and full signed effect list (no posthoc exclusions); state why each directional conclusion is or is not permissible.
 6. Explicit limitations: `physical_energy = NOT_MEASURED`; `H2 = NOT_TESTED`; no claim about actual CPU/GPU/Loihi/Q.ANT electrical savings.
 
