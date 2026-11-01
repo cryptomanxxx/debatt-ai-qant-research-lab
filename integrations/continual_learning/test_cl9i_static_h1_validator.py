@@ -28,6 +28,34 @@ class TestCL9I(unittest.TestCase):
         self.assertEqual(result["decision"], "NO_GO")
         self.assertEqual(result["observations"], 0)
 
+    def test_upstream_mutations_fail_closed(self):
+        upstream_mutations = (
+            ("source", lambda x: x.update(decision="GO")),
+            ("source", lambda x: x.update(model_training_authorized=True)),
+            ("source", lambda x: x.update(model_inference_authorized=True)),
+            ("source", lambda x: x["execution_contract"].update(training_go_live=True)),
+            ("acceptance", lambda x: x.update(decision="GO")),
+            ("acceptance", lambda x: x.update(model_training_authorized=True)),
+            ("acceptance", lambda x: x.update(model_inference_authorized=True)),
+            ("acceptance", lambda x: x.update(shared_directional_prerequisites="optional")),
+            ("acceptance", lambda x: x["pilot_decision_rules"][0].update(
+                rule="any favorable seed suffices")),
+            ("acceptance", lambda x: x["pilot_decision_rules"][1].update(
+                rule="one nonnegative seed suffices")),
+            ("acceptance", lambda x: x["pilot_decision_rules"][2].update(
+                rule="ignore failed prerequisites")),
+            ("acceptance", lambda x: x["pilot_decision_rules"].reverse()),
+        )
+        for target, mutate in upstream_mutations:
+            with self.subTest(target=target, mutation=str(mutate)):
+                altered = copy.deepcopy(self.source if target == "source"
+                                        else self.acceptance)
+                mutate(altered)
+                with self.assertRaises(ValueError):
+                    validate(self.method,
+                             altered if target == "acceptance" else self.acceptance,
+                             altered if target == "source" else self.source)
+
     def test_mutations_fail_closed(self):
         mutations = (
             lambda m: m.update(decision="GO"),
