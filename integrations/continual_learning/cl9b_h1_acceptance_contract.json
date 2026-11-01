@@ -1,0 +1,107 @@
+{
+  "kind": "CL9B_H1_EXPERIMENT_ACCEPTANCE_CONTRACT",
+  "version": "cl9b-v1",
+  "decision": "NO_GO",
+  "status": "PROPOSED_UNREVIEWED_THRESHOLDS",
+  "review_only": true,
+  "model_training_authorized": false,
+  "model_inference_authorized": false,
+  "dataset_generation_authorized": false,
+  "energy_measured": false,
+  "source_protocol": "cl6a_readiness_protocol.json",
+  "source_readiness": "cl9a_minimal_h1_readiness.json",
+  "target": "H1 source-level observed algorithmic work reduction, conditional on quality and paired numerical equivalence; not an energy or H2 claim.",
+  "contrasts": [
+    {
+      "id": "primary_sparse",
+      "reference": "local_hybrid",
+      "candidate": "sparse_local_hybrid",
+      "interpretation": "sparse traversal under same local-learning rule"
+    },
+    {
+      "id": "secondary_index_reuse",
+      "reference": "sparse_local_hybrid",
+      "candidate": "sparse_shared_index",
+      "interpretation": "active-index reuse under same sparse local-learning rule"
+    }
+  ],
+  "descriptive_seeds": [
+    101,
+    102,
+    103,
+    104,
+    105
+  ],
+  "quality_gate": {
+    "final_mean_accuracy_floor_per_seed_and_arm": 0.65,
+    "maximum_absolute_final_mean_paired_accuracy_gap_per_seed": 0.05,
+    "train_only_learnability_control": "REQUIRED_NOT_YET_CALIBRATED",
+    "heldout_selection_forbidden": true
+  },
+  "numeric_gate": {
+    "same_initial_weights_required": true,
+    "same_input_order_required": true,
+    "same_dtype_required": true,
+    "paired_outputs_and_post_update_traces_required": true,
+    "tolerance": "UNRESOLVED_INDEPENDENT_REVIEW",
+    "status": "OPEN"
+  },
+  "work_metrics": {
+    "phase_scope": [
+      "training",
+      "inference"
+    ],
+    "primary": "observed_source_event_work_not_static_projection",
+    "components": [
+      "logical_parameter_reads",
+      "logical_parameter_writes",
+      "input_visits",
+      "active_index_visits",
+      "control_events",
+      "nonlinear_events"
+    ],
+    "unit_cost_weights": "UNRESOLVED_INDEPENDENT_REVIEW",
+    "source_event_counts_must_be_reported_unweighted": true,
+    "physical_energy": "NOT_MEASURED",
+    "cpu_time": "SEPARATELY_REPORTED_ONLY_AFTER_AUTHORIZATION"
+  },
+  "pilot_decision_rules": [
+    {
+      "outcome": "DESCRIPTIVE_H1_SUPPORT",
+      "rule": "All five planned paired seeds have complete frozen provenance; pass independently validated train-only learnability, final quality and numerical equivalence gates; and use observed source-event work under a fixed independently approved unit-cost metric with no missing or excluded runs. Under these prerequisites, candidate work is strictly lower than reference in every paired seed.",
+      "interpretation": "Narrow pilot support for source-level work reduction only."
+    },
+    {
+      "outcome": "NO_OBSERVED_H1_ADVANTAGE",
+      "rule": "All five planned paired seeds have complete frozen provenance; pass independently validated train-only learnability, final quality and numerical equivalence gates; and use observed source-event work under a fixed independently approved unit-cost metric with no missing or excluded runs. Under these same prerequisites, candidate work is greater than or equal to reference in every paired seed.",
+      "interpretation": "No advantage in the tested tiny workload; not universal falsification."
+    },
+    {
+      "outcome": "INCONCLUSIVE",
+      "rule": "Any failed common prerequisite (including absent provenance, learnability, unapproved score or failed seed), or mixed per-seed work signs. This outcome takes precedence whenever a common prerequisite is not satisfied.",
+      "interpretation": "Do not declare a quality-matched saving. Report all available observations and failures."
+    }
+  ],
+  "mandatory_reporting": [
+    "All five seeds and paired per-seed effects (no posthoc exclusions)",
+    "Train/inference raw event categories separated",
+    "Accuracy and calibration outcomes for every arm and seed",
+    "Predefined failure ledger and effect range; no broad p-value claims",
+    "Software versions/commit/data digest and measurement overhead",
+    "CPU wall/RSS only if instrumented and separately disclosed",
+    "Physical energy NOT_MEASURED"
+  ],
+  "gates_still_open": [
+    "source_and_per_seed_data_digests",
+    "causal_arm_equivalence",
+    "paired_statistics_and_quality",
+    "observed_event_scope_and_overhead",
+    "train_only_learnability_calibration",
+    "physical_energy_boundary_or_NOT_MEASURED",
+    "bounded_runner_and_immutable_artifacts",
+    "independent_scientific_review",
+    "separate_explicit_marcus_training_approval"
+  ],
+  "explicit_limitation": "This is a conservative proposed rule for independent critique. Unit cost weights, numerical tolerance and actual learnability are unresolved. No observations exist.",
+  "shared_directional_prerequisites": "All five planned paired seeds have complete frozen provenance; pass independently validated train-only learnability, final quality and numerical equivalence gates; and use observed source-event work under a fixed independently approved unit-cost metric with no missing or excluded runs."
+}
