@@ -129,12 +129,21 @@ def reconcile() -> dict:
              "checkpoint order differs")
     _require(source["future_design"]["maximum_updates_per_arm_seed"] == 512,
              "update budget differs")
+    _require(source["future_design"].get("same_data_order_per_seed") is True,
+             "paired training record order differs")
+    for field in ("same_initial_weights_required", "same_input_order_required",
+                  "same_dtype_required", "paired_outputs_and_post_update_traces_required"):
+        _require(acceptance["numeric_gate"].get(field) is True,
+                 f"numeric pairing prerequisite {field} relaxed")
     _require(source["future_design"]["test_tuning_allowed"] is False,
              "heldout tuning enabled")
     _require(calibration["selection_fences"]["heldout_labels_for_hyperparameters"] is False,
              "heldout labels could influence tuning")
     _require(calibration["calibration_split"]["heldout_test_records_eligible"] is False,
              "heldout records could enter calibration")
+    _require(calibration["calibration_split"].get("split_unit") == "unique_feature_vector" and
+             calibration["calibration_split"].get("group_identical_vectors_together") is True,
+             "calibration split must group identical feature vectors")
     _require(calibration["calibration_split"]["heldout_test_labels_eligible"] is False,
              "heldout labels could enter calibration")
     for field in ("heldout_labels_for_hyperparameters", "heldout_checkpoint_selection",
