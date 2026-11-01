@@ -32,6 +32,14 @@ class InstrumentationSourceOnlyTests(unittest.TestCase):
             self.assertEqual(len(calls), 1)
             self.assertIn("for _ in range(1000000):", source)
 
+    def test_connected_report_provenance_is_explicit(self):
+        source = ast.unparse(function_ast(
+            INSTRUMENTED, "generate_shared_rule_candidate_with_counters"
+        ))
+        self.assertIn("report['generator_connected'] = True", source)
+        self.assertIn("report['dataset_generation_executed'] = True", source)
+        self.assertIn("CL5L_INSTRUMENTED_GENERATOR_PARTITION", source)
+
     def test_variant_module_has_no_top_level_generation_call(self):
         module = ast.parse(INSTRUMENTED.read_text(encoding="utf-8"))
         self.assertFalse(any(isinstance(n, (ast.Expr, ast.Assign, ast.AnnAssign))
