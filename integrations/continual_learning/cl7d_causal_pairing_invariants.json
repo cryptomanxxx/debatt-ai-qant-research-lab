@@ -1,0 +1,67 @@
+{
+  "kind": "CL7D_H1_CAUSAL_PAIRING_INVARIANTS_NOT_EXECUTED",
+  "version": "cl7d-v1",
+  "decision": "NO_GO",
+  "analysis_only": true,
+  "parent_protocol": "cl6a_readiness_protocol.json",
+  "critique": "cl7a_scientific_design_critique.json",
+  "baseline_contract": "cl7b_h1_baseline_contract.json",
+  "calibration_protocol": "cl7c_train_only_calibration_protocol.json",
+  "model_construction_authorized": false,
+  "model_inference_authorized": false,
+  "training_authorized": false,
+  "dataset_generation_authorized": false,
+  "independent_scientific_signoff": false,
+  "new_results_present": false,
+  "energy_measured": false,
+  "proposed_paired_seeds": [101, 102, 103, 104, 105],
+  "causal_pairs": [
+    {
+      "id": "primary_sparse",
+      "left": "local_hybrid",
+      "right": "sparse_local_hybrid",
+      "intervention": "first_layer_sparse_traversal_only",
+      "status": "NOT_VERIFIED"
+    },
+    {
+      "id": "secondary_index_reuse",
+      "left": "sparse_local_hybrid",
+      "right": "sparse_shared_index",
+      "intervention": "active_index_reuse_only",
+      "status": "NOT_VERIFIED"
+    }
+  ],
+  "context_only": {
+    "left": "dense_sgd",
+    "right": "local_hybrid",
+    "reason": "learning rule differs; not evidence for a sparsity-only intervention"
+  },
+  "future_pairing_requirements": {
+    "initial_state_identical": "NOT_VERIFIED",
+    "same_training_record_order": "NOT_VERIFIED",
+    "same_task_order": "NOT_VERIFIED",
+    "same_randomness_and_update_budget": "NOT_VERIFIED",
+    "forward_outputs_equal_within_tolerance": "NOT_VERIFIED",
+    "per_update_state_equal_within_tolerance": "NOT_VERIFIED",
+    "active_feature_indices_equivalent": "NOT_VERIFIED",
+    "instrumentation_same_event_scope": "NOT_VERIFIED",
+    "numerical_tolerance": "UNSPECIFIED_BLOCKING",
+    "comparison_dtype_and_device": "UNSPECIFIED_BLOCKING"
+  },
+  "failure_policy": {
+    "divergent_outputs_or_states": "STOP_CAUSAL_ATTRIBUTION",
+    "missing_seed_or_trace": "REPORT_AND_STOP_CAUSAL_ATTRIBUTION",
+    "changing_tolerance_after_observation": "FORBIDDEN",
+    "changing_seed_order_after_observation": "FORBIDDEN",
+    "logical_work_as_energy": "FORBIDDEN"
+  },
+  "scientific_boundaries": {
+    "quality_matched_cost_claim_permitted": false,
+    "catastrophic_forgetting_claim_permitted": false,
+    "hardware_energy_claim_permitted": false,
+    "all_parent_gates_open": true,
+    "independent_validation_required": true,
+    "separate_marcus_training_approval_required": true
+  },
+  "next_decision": "Independently review numeric tolerance and paired state/trace observability before any separate authorization for model execution."
+}
