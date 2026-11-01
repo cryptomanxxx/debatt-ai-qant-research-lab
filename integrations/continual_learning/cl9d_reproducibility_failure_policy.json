@@ -1,0 +1,80 @@
+{
+  "kind": "CL9D_REPRODUCIBILITY_FAILURE_POLICY",
+  "version": "cl9d-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "implementation_status": "CONTRACT_ONLY",
+  "results_recorded": 0,
+  "artifact_writer_implemented": false,
+  "model_execution_authorized": false,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "new_data_generation_authorized": false,
+  "hardware_energy_measured": false,
+  "upstream_measurement": "cl9c_measurement_protocol.json",
+  "upstream_acceptance": "cl9b_h1_acceptance_contract.json",
+  "required_future_manifest_fields": [
+    "immutable_source_commit_sha",
+    "protocol_sha256",
+    "source_tree_sha256",
+    "environment_manifest_sha256",
+    "dataset_manifest_sha256",
+    "per_seed_dataset_sha256",
+    "ordered_seed_list",
+    "ordered_arm_list",
+    "task_splits_and_digest_list",
+    "units_and_metric_definitions_sha256",
+    "instrumentation_version_sha256",
+    "review_id",
+    "explicit_user_authorization_reference"
+  ],
+  "future_seed_attempt_fields": [
+    "run_id",
+    "source_commit_sha",
+    "arm",
+    "seed",
+    "task",
+    "phase",
+    "attempt_number",
+    "run_status",
+    "failure_reason",
+    "start_utc",
+    "end_utc",
+    "observed_record_digest",
+    "artifact_digest_or_null"
+  ],
+  "outcome_statuses": [
+    "COMPLETE",
+    "FAILED",
+    "INCOMPLETE"
+  ],
+  "missing_data_rules": [
+    "Unavailable observation must be null, never a fabricated numeric zero.",
+    "On FAILED/INCOMPLETE provide a nonempty reason; preserve any partial observed fields.",
+    "If result artifact was never produced, artifact_digest_or_null is null; do not fabricate hashes."
+  ],
+  "retry_policy": {
+    "automatic_training_retries": false,
+    "failed_seed_removal": false,
+    "retry_without_separate_review": false,
+    "attempts_are_append_only": true,
+    "all_attempts_reported": true,
+    "changed_input_after_failure": "NEW_EXPERIMENT_REVIEW_REQUIRED"
+  },
+  "reporting_policy": {
+    "all_planned_seed_arm_task_rows_preserved": true,
+    "missing_runs_included_in_denominator": true,
+    "quality_matched_savings_on_missing_or_failed_pair": false,
+    "descriptive_n_seeds": 5,
+    "confidence_claim": "DESCRIPTIVE_ONLY",
+    "posthoc_exclusions": false,
+    "summary_includes_failure_ledger": true
+  },
+  "artifact_policy": {
+    "immutable_writer_ready": false,
+    "checksum_verification_ready": false,
+    "external_20mib_output_budget_ready": false,
+    "required_before_execution": true
+  },
+  "no_go_reason": "No immutable artifact writer, completed dataset digests, independent review, secure experiment runner, or Marcus's separate explicit model authorization."
+}
