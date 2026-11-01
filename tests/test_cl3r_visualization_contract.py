@@ -38,7 +38,7 @@ class CL3RVisualizationContracts(unittest.TestCase):
             self.assertTrue(root.tag.endswith("svg"))
         self.assertIn("<!doctype html>", outputs["report.html"])
         self.assertIn("NO TRAINING", outputs["report.html"])
-        self.assertIn("not joules", outputs["comparison.svg"])
+        self.assertIn("not physical transfer or energy", outputs["comparison.svg"])
         self.assertIn("NO_GO", architecture_svg())
         self.assertEqual(17, len(json.loads(outputs["projections.json"])["series"]))
         with self.assertRaises(ValueError):
