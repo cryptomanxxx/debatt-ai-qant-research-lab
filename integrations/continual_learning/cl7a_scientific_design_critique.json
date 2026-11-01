@@ -1,0 +1,63 @@
+{
+  "kind": "CL7A_SCIENTIFIC_DESIGN_CRITIQUE_NOT_INDEPENDENT_REVIEW",
+  "version": "cl7a-v1",
+  "decision": "NO_GO",
+  "analysis_only": true,
+  "independent_scientific_signoff": false,
+  "scientific_go_authorized": false,
+  "model_construction_authorized": false,
+  "model_inference_authorized": false,
+  "training_authorized": false,
+  "dataset_generation_authorized": false,
+  "new_experiment_results": false,
+  "energy_measured": false,
+  "parent_protocol": "cl6a_readiness_protocol.json",
+  "scope": "H1 sparse traversal and active-index reuse under shared-rule distribution shift only",
+  "open_cl6a_gates_expected": 9,
+  "findings": [
+    {
+      "id": "construct_validity",
+      "severity": "blocking",
+      "status": "OPEN",
+      "issue": "The four activity-shifted XOR distributions share one global label rule; they are not a class-incremental catastrophic-forgetting test.",
+      "required_evidence": "Restrict first study claims to H1 under distribution shift; design distinct H2 tasks separately."
+    },
+    {
+      "id": "generator_selection_bias",
+      "severity": "blocking",
+      "status": "OPEN",
+      "issue": "Balanced XOR labels and global unique-sample rejection alter effective activity rates and can create cross-task dependence.",
+      "required_evidence": "Freeze actual per-task and per-partition activity, class counts, collisions, leakage and sample digests for each approved seed."
+    },
+    {
+      "id": "learnability_and_baselines",
+      "severity": "blocking",
+      "status": "OPEN",
+      "issue": "Accuracy >= 0.65 alone lacks an empirically verified majority/chance baseline and a train-only learnability calibration.",
+      "required_evidence": "Predefine label-prior/majority and nonlearning controls, frozen heldout split, calibration scope and quality parity before interpreting savings."
+    },
+    {
+      "id": "causal_pairing",
+      "severity": "blocking",
+      "status": "OPEN",
+      "issue": "Identical AST method routing is not proof of equal seeded states, outputs or learning trajectories; dense SGD differs in learning rule.",
+      "required_evidence": "Separately authorize and verify equal initial states, paired sample order, numerical tolerance and post-update state for the two local-rule contrasts."
+    },
+    {
+      "id": "measurement_construct",
+      "severity": "blocking",
+      "status": "OPEN",
+      "issue": "Logical byte/operation proxies exclude Python overhead and do not measure DRAM transactions, latency or physical energy.",
+      "required_evidence": "Freeze runtime, warmup/repetition, process RSS, instrumentation overhead and a reviewed power boundary or explicit NOT_MEASURED."
+    },
+    {
+      "id": "statistics_and_reproducibility",
+      "severity": "blocking",
+      "status": "OPEN",
+      "issue": "Five paired seeds support cautious descriptive summaries but not strong significance or generalization claims; provenance is incomplete.",
+      "required_evidence": "Predefine paired effect reporting, uncertainty limits, failed-seed policy, immutable source/data hashes, environment and runnable no-network contract."
+    }
+  ],
+  "conclusion": "NOT_READY_FOR_TRAINING; static review preparation is not independent scientific validation",
+  "next_decision": "Seek separate domain-scientist review after evidence gaps are resolved, and Marcus's explicit training approval only for an exact reviewed experiment."
+}
