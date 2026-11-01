@@ -72,7 +72,7 @@ class CL6BSourceAuditTests(unittest.TestCase):
         altered = dict(self.sources)
         altered["shared"] = altered["shared"].replace(
             "        hidden = [",
-            "        self.w1[0][0] = 0.0\\n        hidden = [",
+            "        self.w1[0][0] = 0.0\n        hidden = [",
         )
         with self.assertRaises(ValueError):
             audit_sources(altered)
