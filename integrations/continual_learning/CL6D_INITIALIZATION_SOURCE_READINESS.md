@@ -8,6 +8,9 @@ CL-6C preregistered future numerical parity checks. CL-6D adds a narrow AST audi
 - The local candidate delegates to the same dense initializer with the same `seed` and `learning_rate` inputs, then adds local-only bookkeeping.
 - The sparse and shared-index subclasses do not override initialization.
 - A changed source shape or unexpected model-state assignment fails the static audit.
+- Nested weight writes and calls that mutate initialized model state are rejected.
+- Rebinding forwarded `seed` or `learning_rate` is rejected; both W1 and W2 must use the reviewed seeded RNG expression.
+- Dense/local class-level initializer replacements are rejected, even if a `def __init__` remains in the source.
 
 The resulting claim is **structural**: the checked methods and assignments are present in current source. It is not an observation of identical initial parameters. A future approved, bounded numerical experiment must independently compare exact initialized tensors, optimizer states, hyperparameters and RNG conditions for each paired seed before any updates.
 
