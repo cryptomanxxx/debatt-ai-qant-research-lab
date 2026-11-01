@@ -47,6 +47,26 @@ class CL3XProtocolContracts(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_draft(bad, self.candidate, self.readiness)
 
+    def test_reject_reference_shape_or_parameter_budget_drift(self):
+        for key, value in (("inputs", 16000), ("hidden", 8000), ("outputs", 3), ("parameters_per_arm", 999)):
+            bad = copy.deepcopy(self.protocol)
+            bad["reference_shape"][key] = value
+            with self.subTest(field=key), self.assertRaises(ValueError):
+                validate_draft(bad, self.candidate, self.readiness)
+
+    def test_reject_removed_quality_and_work_measurements(self):
+        for section in ("quality", "model_work", "system_cost"):
+            original = self.protocol["measurement_plan"][section]
+            for modified in ([], original[1:]):
+                bad = copy.deepcopy(self.protocol)
+                bad["measurement_plan"][section] = modified
+                with self.subTest(section=section, length=len(modified)), self.assertRaises(ValueError):
+                    validate_draft(bad, self.candidate, self.readiness)
+        bad = copy.deepcopy(self.protocol)
+        bad["measurement_plan"]["quality"] = ["not_a_real_metric"] * 4
+        with self.assertRaises(ValueError):
+            validate_draft(bad, self.candidate, self.readiness)
+
     def test_primary_contrast_does_not_conflate_learning_rule(self):
         primary = self.protocol["study_design"]["primary_comparison"]
         self.assertEqual("local_hybrid", primary["control"])
