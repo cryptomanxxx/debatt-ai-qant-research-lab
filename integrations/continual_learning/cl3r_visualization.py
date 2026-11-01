@@ -13,6 +13,7 @@ from pathlib import Path
 from integrations.continual_learning.cl3e_measurement_ledger import project_training_only
 from integrations.continual_learning.cl3n_inference_accounting import estimate_prediction
 from integrations.continual_learning.cl3t_crossover_analysis import analyze_crossover
+from integrations.continual_learning.cl3u_sensitivity import sensitivity, check_reference
 
 ARMS = ("dense_sgd", "local_hybrid", "sparse_local_hybrid", "sparse_shared_index")
 NAMES = {
@@ -263,6 +264,28 @@ def report_files(preview: dict) -> dict[str, str]:
         "Values are counts of active bits out of 16; equality is not a saving. "
         "No measured energy or learning quality is implied.",
     ])
+    check_reference()
+    sensitivity_result = sensitivity()
+    summary.extend([
+        "",
+        "## CL-3U: counterfactual shape and width sensitivity (not measured energy)",
+        "",
+        "Other shapes extrapolate source-loop algebra; only 16x8x2 is cross-checked against CL-2/CL-3. The table shows the sparse-local inference cutoff in active inputs.",
+        "",
+        "| Input/hidden/output | Parameter/input/index bytes | Last cheaper | First not cheaper |",
+        "|---|---|---:|---:|",
+    ])
+    for scenario in sensitivity_result["scenarios"]:
+        dims = scenario["shape"]
+        widths = scenario["widths"]
+        comparison = next(row for row in scenario["comparisons"] if row["phase"] == "inference" and row["arm"] == "sparse_local_hybrid")
+        summary.append(
+            f'| {dims["inputs"]}/{dims["hidden"]}/{dims["outputs"]} | '
+            f'{widths["parameter"]}/{widths["input"]}/{widths["index"]} | '
+            f'{comparison["last_strict_advantage"] if comparison["last_strict_advantage"] is not None else "Never"} | '
+            f'{comparison["first_not_better"] if comparison["first_not_better"] is not None else "Beyond sweep"} |'
+        )
+    summary.extend(["", "These are **counterfactual software-proxy** comparisons only: no network resizing, training, inference, memory traffic or hardware energy was measured."])
     arch = architecture_svg()
     train_line = line_svg(preview, "training_logical_payload_bytes_per_assumed_update", "Hypothetical training-step logical payload")
     infer_line = line_svg(preview, "inference_logical_payload_bytes_per_assumed_prediction", "Hypothetical inference logical payload")
@@ -293,6 +316,7 @@ def report_files(preview: dict) -> dict[str, str]:
         "training-activity.svg": train_line,
         "inference-activity.svg": infer_line,
         "projections.json": json.dumps(preview, sort_keys=True, indent=2) + "\n",
+        "sensitivity.json": json.dumps(sensitivity_result, sort_keys=True, indent=2) + "\n",
     }
 
 
