@@ -154,6 +154,23 @@ def architecture_svg() -> str:
     return "\n".join(out)
 
 
+def _bar(value: int, maximum: int, width: int = 18) -> str:
+    """GitHub-summary-safe Unicode bar: no external image URL needed."""
+    if type(value) is not int or type(maximum) is not int or maximum <= 0 or value < 0 or value > maximum:
+        raise ValueError("invalid bar range")
+    filled = round(width * value / maximum)
+    return "█" * filled + "░" * (width - filled)
+
+
+def _sparkline(values: list[int]) -> str:
+    """Compact source-proxy activity curve for GitHub Markdown job summaries."""
+    if not values or any(type(value) is not int or value < 0 for value in values):
+        raise ValueError("invalid sparkline values")
+    lo, hi = min(values), max(values)
+    levels = "▁▂▃▄▅▆▇█"
+    return "".join(levels[round(7 * (v - lo) / (hi - lo))] if hi != lo else levels[0] for v in values)
+
+
 def report_files(preview: dict) -> dict[str, str]:
     """Build all report contents in memory for testability."""
     chosen = preview["series"][2]["by_arm"]
@@ -177,6 +194,50 @@ def report_files(preview: dict) -> dict[str, str]:
         "",
         "**No model training, model inference, accuracy or physical energy measurement occurred.**",
         "Download the `cl3r-static-research-visuals` artifact below for HTML, SVG and JSON.",
+    ])
+    summary.extend([
+        "",
+        "## Inline graphs (visible directly in this GitHub Actions summary)",
+        "",
+        "**Bars: 2 active input bits of 16.** Longer bar = more assumed logical payload bytes.",
+        "",
+        "| Architecture | Training / assumed update | Inference / assumed prediction |",
+        "|---|---|---|",
+    ])
+    train_max = max(chosen[arm]["training_logical_payload_bytes_per_assumed_update"] for arm in ARMS)
+    infer_max = max(chosen[arm]["inference_logical_payload_bytes_per_assumed_prediction"] for arm in ARMS)
+    for arm in ARMS:
+        row = chosen[arm]
+        train_bytes = row["training_logical_payload_bytes_per_assumed_update"]
+        infer_bytes = row["inference_logical_payload_bytes_per_assumed_prediction"]
+        summary.append(
+            f'| {NAMES[arm]} | {_bar(train_bytes, train_max)} {train_bytes} | '
+            f'{_bar(infer_bytes, infer_max)} {infer_bytes} |'
+        )
+    summary.extend([
+        "",
+        "## Activity sensitivity curves (0 → 16 active input bits)",
+        "",
+        "These are Unicode sparklines, not measured power or energy graphs.",
+        "",
+        "| Architecture | Training: logical bytes | Inference: logical bytes |",
+        "|---|---|---|",
+    ])
+    for arm in ARMS:
+        training_values = [
+            row["by_arm"][arm]["training_logical_payload_bytes_per_assumed_update"]
+            for row in preview["series"]
+        ]
+        inference_values = [
+            row["by_arm"][arm]["inference_logical_payload_bytes_per_assumed_prediction"]
+            for row in preview["series"]
+        ]
+        summary.append(
+            f'| {NAMES[arm]} | {_sparkline(training_values)} | {_sparkline(inference_values)} |'
+        )
+    summary.extend([
+        "",
+        "The full-resolution SVG plots and architecture diagram remain in the downloadable artifact.",
     ])
     arch = architecture_svg()
     train_line = line_svg(preview, "training_logical_payload_bytes_per_assumed_update", "Hypothetical training-step logical payload")
