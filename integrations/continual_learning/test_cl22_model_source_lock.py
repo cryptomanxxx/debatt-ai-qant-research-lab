@@ -80,6 +80,18 @@ class TestCL22(unittest.TestCase):
             "unsupported relative/package",
         )
 
+    def test_rehashed_other_repository_module_import_rejected(self):
+        self.assert_rehashed_import_rejected(
+            "import integrations.github_dispatcher.server",
+            "unapproved import namespace",
+        )
+
+    def test_rehashed_third_party_import_rejected(self):
+        self.assert_rehashed_import_rejected(
+            "import unreviewed_external_package",
+            "unapproved import namespace",
+        )
+
     def test_changed_package_initializer_rejected(self):
         sources = dict(self.sources)
         sources["integrations/__init__.py"] = b"pass"
