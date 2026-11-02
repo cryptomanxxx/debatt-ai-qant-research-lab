@@ -1,0 +1,31 @@
+name: CL-46 Archive Evidence Validation (NO MODEL)
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/cl46_first_one_sample_forward/**'
+      - '.github/cl46/validate_archive.py'
+      - '.github/workflows/cl46-archive-evidence.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'experiments/cl46_first_one_sample_forward/**'
+      - '.github/cl46/validate_archive.py'
+      - '.github/workflows/cl46-archive-evidence.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  offline_archive_validation:
+    name: Verify CL-46 archived evidence (NO MODEL)
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Verify archived SHA-256, scope, counters and exact numeric parity (NO MODEL)
+        run: python3 -I -B .github/cl46/validate_archive.py
