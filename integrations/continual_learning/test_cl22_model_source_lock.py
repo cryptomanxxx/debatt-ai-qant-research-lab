@@ -26,7 +26,7 @@ class TestCL22(unittest.TestCase):
     def test_changed_model_byte_rejected(self):
         sources = dict(self.sources)
         path = PREFIX + "cl2_local_mlp.py"
-        sources[path] += b"\\n# unreviewed change\\n"
+        sources[path] += bytes([10]) + b"# unreviewed change" + bytes([10])
         with self.assertRaisesRegex(ValueError, "fingerprint drift"):
             validate_review_only(self.spec, sources)
 
@@ -39,7 +39,7 @@ class TestCL22(unittest.TestCase):
     def test_new_unfrozen_import_rejected_even_if_rehashed(self):
         sources = dict(self.sources)
         path = PREFIX + "cl2_local_mlp.py"
-        sources[path] += b"\\nfrom integrations.continual_learning.unknown_module import surprise\\n"
+        sources[path] += bytes([10]) + b"from integrations.continual_learning.unknown_module import surprise" + bytes([10])
         import hashlib
         altered = copy.deepcopy(self.spec)
         data = sources[path]
