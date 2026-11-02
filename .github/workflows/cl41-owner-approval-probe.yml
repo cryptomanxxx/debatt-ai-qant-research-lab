@@ -1,0 +1,51 @@
+name: CL-41 Environment Approval Gate Probe (NO MODEL)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/cl41-owner-approval-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static_no_model_review:
+    if: ${{ github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Verify this probe has no model runner or mutation
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          s=Path(".github/workflows/cl41-owner-approval-probe.yml").read_text()
+          assert "cl38-exact-owner-start-approval" in s
+          assert "if: " + chr(36) + "{{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}" in s
+          assert "APPROVAL_GATE_PROBE_ONLY" in s
+          assert all(token not in s for token in ("docker"+" run", "approved"+"-once", "create"+"Ref", "reserve"+"Once", "pip"+" install"))
+          print("CL-41 NO_MODEL static gate verified")
+          PY
+
+  # This job is a safe, manually dispatched environmental permission check,
+  # NOT the experiment. It does no checkout, no model imports, no Git writes.
+  # It can only run from main, after GitHub environment review rules pass.
+  environment_approval_probe:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    environment: cl38-exact-owner-start-approval
+    steps:
+      - name: Emit a harmless approval-gate receipt
+        shell: bash
+        run: |
+          echo "APPROVAL_GATE_PROBE_ONLY=PASS"
+          echo "HARD_NO_GO=true"
+          echo "MODELS_IMPORTED=0"
+          echo "FORWARD_CALLS=0"
+          echo "TRAINING_STEPS=0"
+          echo "WEIGHT_UPDATES=0"
+          echo "PHYSICAL_ENERGY=NOT_MEASURED"
