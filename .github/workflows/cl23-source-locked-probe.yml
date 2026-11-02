@@ -1,0 +1,29 @@
+name: CL-23 Source-Locked NO-MODEL Container Probe
+
+on:
+  pull_request:
+    paths:
+      - 'integrations/continual_learning/**'
+      - 'integrations/__init__.py'
+      - '.github/workflows/cl23-source-locked-probe.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source_locked_no_model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: Run static model-source closure audit (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: python3 -B cl22_model_source_lock.py
+      - name: Build source-locked candidate (NO MODEL IMPORT)
+        run: docker build --file integrations/continual_learning/Dockerfile.cl23-source-probe --tag local/cl23-source-probe:review .
+      - name: Record candidate image ID (NOT an approved final image digest)
+        run: docker image inspect --format '{{.Id}}' local/cl23-source-probe:review
+      - name: Test locked files and outbound TCP denial without model execution
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl23-source-probe:review
