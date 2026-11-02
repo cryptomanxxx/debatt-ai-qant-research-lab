@@ -1,0 +1,42 @@
+{
+  "kind": "CL10I_PAIRED_NUMERIC_PARITY_CANDIDATE",
+  "version": "cl10i-review-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "dataset_generation_authorized": false,
+  "observations_recorded": 0,
+  "pairs": {
+    "primary_sparse": [
+      "local_hybrid",
+      "sparse_local_hybrid"
+    ],
+    "secondary_index_reuse": [
+      "sparse_local_hybrid",
+      "sparse_shared_index"
+    ]
+  },
+  "candidate_tolerance": {
+    "absolute": 1e-12,
+    "relative": 1e-10,
+    "method": "abs_a_minus_b_le_max_abs_or_relative",
+    "preapproved": false
+  },
+  "required_trace": {
+    "parameter_count": 154,
+    "hidden_count": 8,
+    "logit_count": 2,
+    "active_indices_order": "sorted_unique",
+    "source_and_sample_identity_required": true,
+    "pre_and_post_state_required": true,
+    "loss_required": true,
+    "optimizer_step_must_match": true
+  },
+  "limitations": {
+    "independent_scientific_signoff": false,
+    "real_trace_authenticity_verified": false,
+    "actual_parity_verified": false,
+    "physical_energy": "NOT_MEASURED"
+  }
+}

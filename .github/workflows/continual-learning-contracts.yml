@@ -96,6 +96,11 @@ jobs:
         run: |
           python -B cl10h_learnability_control.py
           python -B -m unittest -v test_cl10h_learnability_control.py
+      - name: Check CL-10I supplied-trace numerical parity rules (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python -B cl10i_numeric_parity_audit.py
+          python -B -m unittest -v test_cl10i_numeric_parity_audit.py
       - name: Verify CL-10B review-only training candidate rejects execution
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl10b_gated_h1_runner.py
