@@ -77,9 +77,25 @@ def validate_manifest(manifest: Mapping[str, object]) -> None:
     _required(isinstance(digests, dict) and set(digests) ==
               {str(seed) for seed in SEEDS} and all(_hash(x) for x in digests.values()),
               "per-seed digests missing")
-    _required(isinstance(manifest["task_splits_and_digest_list"], list) and
-              bool(manifest["task_splits_and_digest_list"]),
-              "task split provenance missing")
+    split_entries = manifest["task_splits_and_digest_list"]
+    _required(type(split_entries) is list and len(split_entries) == 40,
+              "exactly 40 task/split digests required")
+    seen = set()
+    for entry in split_entries:
+        _required(type(entry) is dict and
+                  set(entry) == {"seed", "task", "split", "digest"},
+                  "malformed task split provenance entry")
+        _required(type(entry["seed"]) is int and entry["seed"] in SEEDS
+                  and entry["task"] in TASKS
+                  and entry["split"] in ("train", "heldout")
+                  and _hash(entry["digest"]),
+                  "invalid task split identity or digest")
+        key = (entry["seed"], entry["task"], entry["split"])
+        _required(key not in seen, "duplicate task split provenance")
+        seen.add(key)
+    expected = {(seed, task, split) for seed in SEEDS for task in TASKS
+                for split in ("train", "heldout")}
+    _required(seen == expected, "missing task split provenance")
     _required(_bounded_string(manifest["review_id"]) and
               _bounded_string(manifest["explicit_user_authorization_reference"]),
               "approval references missing")
