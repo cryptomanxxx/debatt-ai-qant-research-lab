@@ -1,0 +1,62 @@
+{
+  "kind": "CL10H_TRAIN_ONLY_LEARNABILITY_CONTROL_CANDIDATE",
+  "version": "cl10h-review-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "dataset_generation_authorized": false,
+  "observations_recorded": 0,
+  "control": {
+    "id": "dense_sgd_train_only",
+    "class": "integrations.continual_learning.cl2_mlp_baseline.TinyDenseMLP",
+    "architecture": [
+      16,
+      8,
+      2
+    ],
+    "parameters": 154,
+    "seeds": [
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "tasks": [
+      "T1",
+      "T2",
+      "T3",
+      "T4"
+    ],
+    "calibration_split_algorithm": "cl10g-train-only-stratified-hash-v1",
+    "fit_per_task": 96,
+    "validation_per_task": 32,
+    "fit_updates_per_task": 96,
+    "passes": 1,
+    "total_fit_updates_per_seed": 384,
+    "learning_rate": 0.05,
+    "hyperparameter_tuning": false,
+    "heldout_access": false,
+    "checkpoint": "post_T4"
+  },
+  "candidate_decision": {
+    "per_seed_validation_examples": 128,
+    "validation_examples_per_task": 32,
+    "minimum_total_correct_per_seed": 84,
+    "accuracy_floor": 0.65,
+    "required_passing_seeds": 5,
+    "majority_baseline_accuracy": 0.5,
+    "if_any_seed_fails": "STOP_NO_LEARNABILITY_CLAIM",
+    "if_any_record_missing": "STOP_REPORT_ALL",
+    "threshold_frozen_before_data_access": true
+  },
+  "limitations": {
+    "independent_scientific_signoff": false,
+    "learnability_verified": false,
+    "source_data_frozen": false,
+    "numerical_tolerance_approved": false,
+    "physical_energy": "NOT_MEASURED",
+    "implementation_not_authorized": true
+  }
+}
