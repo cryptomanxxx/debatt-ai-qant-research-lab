@@ -108,8 +108,39 @@ def audit_source_texts(sources: dict[str, str]) -> dict:
                  if isinstance(n, ast.ClassDef) and n.name == "LocalHebbianMLP")
     step = next(n for n in local.body if isinstance(n, ast.FunctionDef) and n.name == "step")
     calls = {n.attr for n in ast.walk(step) if isinstance(n, ast.Attribute)}
-    if not {"_forward_with_active", "optimizer_steps", "w1", "w2", "b1", "b2"} <= calls:
-        _fail("local update or forward callsite drift")
+    if not {"optimizer_steps", "w1", "w2", "b1", "b2"} <= calls:
+        _fail("local update state drift")
+    # Merely mentioning _forward_with_active is insufficient: the shared-index
+    # optimization depends on actually invoking this hook with the exact
+    # precomputed active indices. Verify its result is used for both outputs.
+    forward_assignments = [
+        n for n in ast.walk(step)
+        if isinstance(n, ast.Assign)
+        and len(n.targets) == 1
+        and isinstance(n.targets[0], ast.Tuple)
+        and [v.id for v in n.targets[0].elts if isinstance(v, ast.Name)]
+            == ["hidden", "logits"]
+    ]
+    if len(forward_assignments) != 1:
+        _fail("forward result assignment drift")
+    forward_call = forward_assignments[0].value
+    if not (isinstance(forward_call, ast.Call)
+            and isinstance(forward_call.func, ast.Attribute)
+            and isinstance(forward_call.func.value, ast.Name)
+            and forward_call.func.value.id == "self"
+            and forward_call.func.attr == "_forward_with_active"
+            and len(forward_call.args) == 2
+            and all(isinstance(arg, ast.Name) for arg in forward_call.args)
+            and [arg.id for arg in forward_call.args] == ["x", "active"]
+            and not forward_call.keywords):
+        _fail("active-index forward hook not invoked with x and active")
+    if any(isinstance(n, ast.Call)
+           and isinstance(n.func, ast.Attribute)
+           and isinstance(n.func.value, ast.Name)
+           and n.func.value.id == "self"
+           and n.func.attr == "_forward"
+           for n in ast.walk(step)):
+        _fail("local step bypassed active-index forward hook")
     if not any(isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
                and n.func.id == "note_weight_update" for n in ast.walk(step)):
         _fail("source-update hook missing")
