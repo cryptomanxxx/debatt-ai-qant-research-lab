@@ -1,0 +1,38 @@
+name: CL-27 Deterministic Image Rebuild (NO MODEL)
+
+on:
+  pull_request:
+    paths:
+      - 'integrations/continual_learning/**'
+      - 'integrations/__init__.py'
+      - '.github/workflows/cl27-reproducible-image.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic_no_model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build candidate A with fixed epoch and no cache (NO MODEL)
+        run: |
+          docker build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --file integrations/continual_learning/Dockerfile.cl25-one-input-probe --tag local/cl27-a:review .
+      - name: Build candidate B independently with fixed epoch (NO MODEL)
+        run: |
+          docker build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --file integrations/continual_learning/Dockerfile.cl25-one-input-probe --tag local/cl27-b:review .
+      - name: Require identical image IDs in this runner (NOT an approved OCI digest)
+        run: |
+          first="$(docker image inspect --format '{{.Id}}' local/cl27-a:review)"
+          second="$(docker image inspect --format '{{.Id}}' local/cl27-b:review)"
+          echo "candidate A image ID: $first"
+          echo "candidate B image ID: $second"
+          test "$first" = "$second"
+      - name: Recheck isolated no-model candidate A
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl27-a:review
+      - name: Recheck isolated no-model candidate B
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl27-b:review
