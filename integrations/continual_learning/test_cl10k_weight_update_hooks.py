@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 from integrations.continual_learning.cl10j_source_event_collector import CandidateEventCollector
-from cl10k_weight_update_hooks import (
+from integrations.continual_learning.cl10k_weight_update_hooks import (
     attach_candidate_weight_observer, note_weight_update,
 )
 
