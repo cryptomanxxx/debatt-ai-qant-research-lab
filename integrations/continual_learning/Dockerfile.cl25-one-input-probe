@@ -1,0 +1,24 @@
+# CL-25 review-only candidate: exactly one frozen input, NO MODEL IMPORT/INFERENCE/TRAINING.
+# Python base digest is pinned; final image ID is recorded by CI, NOT approved.
+FROM python:3.11-slim@sha256:673719e071ecf27434fd2635bbd8d00f49f4fdd81f243143438a42ced8bedf60
+WORKDIR /opt/research
+COPY integrations/__init__.py /opt/research/integrations/__init__.py
+COPY integrations/continual_learning/cl1_cpu.py /opt/research/integrations/continual_learning/cl1_cpu.py
+COPY integrations/continual_learning/cl2_mlp_baseline.py /opt/research/integrations/continual_learning/cl2_mlp_baseline.py
+COPY integrations/continual_learning/cl2_local_mlp.py /opt/research/integrations/continual_learning/cl2_local_mlp.py
+COPY integrations/continual_learning/cl2_sparse_forward.py /opt/research/integrations/continual_learning/cl2_sparse_forward.py
+COPY integrations/continual_learning/cl2_shared_index_forward.py /opt/research/integrations/continual_learning/cl2_shared_index_forward.py
+COPY integrations/continual_learning/cl10j_source_event_collector.py /opt/research/integrations/continual_learning/cl10j_source_event_collector.py
+COPY integrations/continual_learning/cl10k_weight_update_hooks.py /opt/research/integrations/continual_learning/cl10k_weight_update_hooks.py
+COPY integrations/continual_learning/cl10l_forward_hooks.py /opt/research/integrations/continual_learning/cl10l_forward_hooks.py
+COPY integrations/continual_learning/cl10m_training_hooks.py /opt/research/integrations/continual_learning/cl10m_training_hooks.py
+COPY integrations/continual_learning/cl22_model_source_lock.py /opt/research/integrations/continual_learning/cl22_model_source_lock.py
+COPY integrations/continual_learning/cl22_model_source_lock.json /opt/research/integrations/continual_learning/cl22_model_source_lock.json
+COPY integrations/continual_learning/cl20_no_model_container_probe.py /opt/research/integrations/continual_learning/cl20_no_model_container_probe.py
+COPY integrations/continual_learning/cl19_single_sample_forward_candidate.json /opt/research/integrations/continual_learning/cl19_single_sample_forward_candidate.json
+COPY integrations/continual_learning/cl23_no_model_source_container_probe.py /opt/research/integrations/continual_learning/cl23_no_model_source_container_probe.py
+COPY integrations/continual_learning/cl25_single_archived_input.json /opt/research/integrations/continual_learning/cl25_single_archived_input.json
+COPY integrations/continual_learning/cl25_single_input_audit.py /opt/research/integrations/continual_learning/cl25_single_input_audit.py
+COPY integrations/continual_learning/cl25_no_model_single_input_probe.py /opt/research/integrations/continual_learning/cl25_no_model_single_input_probe.py
+USER 65534:65534
+ENTRYPOINT ["python3", "-I", "-B", "/opt/research/integrations/continual_learning/cl25_no_model_single_input_probe.py"]

@@ -1,0 +1,31 @@
+name: CL-25 One-Input NO-MODEL Candidate Probe
+
+on:
+  pull_request:
+    paths:
+      - 'integrations/continual_learning/**'
+      - 'integrations/__init__.py'
+      - '.github/workflows/cl25-one-input-no-model.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sealed_single_input:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: Audit one archived T1 sample against frozen source (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python3 -B cl25_single_input_audit.py
+          python3 -B -m unittest -v test_cl25_single_input_audit.py
+      - name: Build sealed one-input candidate (NO MODEL IMPORT)
+        run: docker build --file integrations/continual_learning/Dockerfile.cl25-one-input-probe --tag local/cl25-one-input-probe:review .
+      - name: Record local candidate image ID (NOT registry-pinned or approved)
+        run: docker image inspect --format '{{.Id}}' local/cl25-one-input-probe:review
+      - name: Verify one packaged sample and denied outbound TCP (NO MODEL)
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl25-one-input-probe:review
