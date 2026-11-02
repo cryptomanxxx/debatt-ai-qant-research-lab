@@ -29,8 +29,9 @@ def stage_execution_candidate(destination: Path) -> dict:
     target = destination / "opt" / "research" / CL36
     if (not source.is_file() or source.is_symlink()
             or not source.resolve().is_relative_to(ROOT)
-            or target.exists() or not target.parent.is_dir()):
+            or target.exists() or target.parent.is_symlink()):
         raise ValueError("CL-36 NO_GO: invalid candidate runner path")
+    target.parent.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(source, target)
     target.chmod(0o644)
     os.utime(target, (0, 0))
