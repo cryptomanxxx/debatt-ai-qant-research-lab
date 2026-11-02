@@ -101,6 +101,9 @@ jobs:
         run: |
           python -B cl10i_numeric_parity_audit.py
           python -B -m unittest -v test_cl10i_numeric_parity_audit.py
+      - name: Check CL-10J candidate source-event hook ledger (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: python -B -m unittest -v test_cl10j_source_event_collector.py
       - name: Verify CL-10B review-only training candidate rejects execution
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl10b_gated_h1_runner.py
