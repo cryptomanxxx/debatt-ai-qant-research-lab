@@ -2,7 +2,6 @@
 # Context has exactly 18 CL-25 allowed source/input files, with epoch-zero mtimes.
 # NO MODEL execution; final image/host isolation remain unapproved.
 FROM python:3.11-slim@sha256:673719e071ecf27434fd2635bbd8d00f49f4fdd81f243143438a42ced8bedf60
-WORKDIR /opt/research
-COPY . /opt/research/
+COPY . /
 USER 65534:65534
 ENTRYPOINT ["python3", "-I", "-B", "/opt/research/integrations/continual_learning/cl25_no_model_single_input_probe.py"]
