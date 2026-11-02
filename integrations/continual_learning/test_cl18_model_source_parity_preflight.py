@@ -110,6 +110,28 @@ class TestCL18(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "parent import origin"):
             audit_source_texts(sources)
 
+    def test_forward_reference_without_invocation_refused(self):
+        sources = originals()
+        original = "hidden, logits = self._forward_with_active(x, active)"
+        self.assertIn(original, sources["local"])
+        sources["local"] = sources["local"].replace(
+            original,
+            "forward = self._forward_with_active\n        "
+            "hidden, logits = self._forward(x)",
+        )
+        with self.assertRaisesRegex(ValueError, "active-index forward hook"):
+            audit_source_texts(sources)
+
+    def test_forward_called_with_reconstructed_indices_refused(self):
+        sources = originals()
+        original = "hidden, logits = self._forward_with_active(x, active)"
+        sources["local"] = sources["local"].replace(
+            original,
+            "hidden, logits = self._forward_with_active(x, list(range(16)))",
+        )
+        with self.assertRaisesRegex(ValueError, "active-index forward hook"):
+            audit_source_texts(sources)
+
 
 if __name__ == "__main__":
     unittest.main()
