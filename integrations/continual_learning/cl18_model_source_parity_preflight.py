@@ -33,6 +33,36 @@ def audit_source_texts(sources: dict[str, str]) -> dict:
         if len(classes) != 1:
             _fail("missing or duplicate model class " + arm)
         cls = classes[0]
+        if expected_parent is not None:
+            expected_source = {
+                "local": "integrations.continual_learning.cl2_mlp_baseline",
+                "sparse": "integrations.continual_learning.cl2_local_mlp",
+                "shared": "integrations.continual_learning.cl2_sparse_forward",
+            }[arm]
+            # An identifier in a base expression does not establish class
+            # identity. Bind the expected parent to one exact module export;
+            # reject aliases, duplicate imports or module-scope shadowing.
+            bindings = []
+            for node in tree.body:
+                if isinstance(node, ast.ImportFrom):
+                    for item in node.names:
+                        bound = item.asname or item.name
+                        if bound == expected_parent:
+                            bindings.append((node.module, item.name, item.asname))
+                elif isinstance(node, ast.Import):
+                    for item in node.names:
+                        if (item.asname or item.name.split(".")[0]) == expected_parent:
+                            bindings.append(("UNSUPPORTED_IMPORT", item.name, item.asname))
+                elif isinstance(node, (ast.Assign, ast.AnnAssign, ast.NamedExpr)):
+                    targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+                    if any(isinstance(target, ast.Name) and target.id == expected_parent
+                           for target in targets):
+                        bindings.append(("SHADOWED", expected_parent, None))
+                elif isinstance(node, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
+                    if node.name == expected_parent:
+                        bindings.append(("SHADOWED", expected_parent, None))
+            if bindings != [(expected_source, expected_parent, None)]:
+                _fail("parent import origin or binding drift " + arm)
         # Every base must be checked. Ignoring qualified/mixed-in bases can
         # silently alter MRO and replace the inherited update implementation.
         if any(not isinstance(base, ast.Name) for base in cls.bases):
