@@ -20,6 +20,7 @@ FILES = (
 MAX_BYTES = 20 * 1024 * 1024
 RUN_ID = re.compile(r"^[a-z0-9][a-z0-9-]{0,95}$")
 HEX256 = re.compile(r"^[0-9a-f]{64}$")
+HEX40 = re.compile(r"^[0-9a-f]{40}$")
 ALLOWED_STATUS = {"COMPLETE", "FAILED", "INCOMPLETE"}
 ARMS = {"dense_sgd", "local_hybrid", "sparse_local_hybrid", "sparse_shared_index"}
 SEEDS = {101, 102, 103, 104, 105}
@@ -31,11 +32,11 @@ EVENTS = (
     "active_index_visits", "control_events", "nonlinear_events",
 )
 HASH_FIELDS = (
-    "immutable_source_commit_sha", "protocol_sha256", "source_tree_sha256",
+    "protocol_sha256", "source_tree_sha256",
     "environment_manifest_sha256", "dataset_manifest_sha256",
     "units_and_metric_definitions_sha256", "instrumentation_version_sha256",
 )
-REQUIRED_MANIFEST = HASH_FIELDS + (
+REQUIRED_MANIFEST = ("immutable_source_commit_sha",) + HASH_FIELDS + (
     "per_seed_dataset_sha256", "ordered_seed_list", "ordered_arm_list",
     "task_splits_and_digest_list", "review_id",
     "explicit_user_authorization_reference",
@@ -62,6 +63,9 @@ def validate_manifest(manifest: Mapping[str, object]) -> None:
     _required(isinstance(manifest, dict), "manifest must be an object")
     _required(all(key in manifest for key in REQUIRED_MANIFEST),
               "incomplete manifest provenance")
+    _required(type(manifest["immutable_source_commit_sha"]) is str and
+              HEX40.fullmatch(manifest["immutable_source_commit_sha"]) is not None,
+              "invalid immutable commit SHA")
     for field in HASH_FIELDS:
         _required(_hash(manifest[field]), f"invalid {field}")
     _required(manifest["ordered_seed_list"] == [101, 102, 103, 104, 105],
@@ -105,9 +109,13 @@ def validate_attempt(row: Mapping[str, object]) -> None:
     else:
         _required(_bounded_string(reason), "missing failure reason")
     _required(_bounded_string(row.get("run_id")), "missing run id")
-    for field in ("source_commit_sha", "observed_record_digest"):
-        _required(row.get(field) is None or _hash(row[field]),
-                  f"invalid {field}")
+    _required(row.get("source_commit_sha") is None or
+              (type(row["source_commit_sha"]) is str and
+               HEX40.fullmatch(row["source_commit_sha"]) is not None),
+              "invalid source_commit_sha")
+    _required(row.get("observed_record_digest") is None or
+              _hash(row["observed_record_digest"]),
+              "invalid observed_record_digest")
     _required(row.get("artifact_digest_or_null") is None or
               _hash(row["artifact_digest_or_null"]),
               "invalid artifact digest")
