@@ -13,7 +13,7 @@ to a fixed public IP is denied; successful denial establishes a
 **container-specific** observation, not GitHub runner or host air-gapping.
 
 Important outstanding blockers:
-- The Python base image is a moving tag, not a pinned approved digest.
+- CL-21 pins the Python base manifest digest observed in the CL-20 run; the final application image and its provenance remain unapproved.
 - The built local image ID is not a signed, remotely immutable model image.
 - No actual model import/execution or runtime numerical parity is tested.
 - Host network and kernel boundary are not independently certified.
