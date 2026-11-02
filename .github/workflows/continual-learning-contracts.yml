@@ -91,6 +91,11 @@ jobs:
       - name: Check CL-10G train-only calibration split on fixtures (NO MODEL)
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl10g_train_only_split.py
+      - name: Check CL-10H static learnability candidate and fixture count rules
+        working-directory: integrations/continual_learning
+        run: |
+          python -B cl10h_learnability_control.py
+          python -B -m unittest -v test_cl10h_learnability_control.py
       - name: Verify CL-10B review-only training candidate rejects execution
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl10b_gated_h1_runner.py
