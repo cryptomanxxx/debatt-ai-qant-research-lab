@@ -1,0 +1,35 @@
+name: CL-33 First Forward Candidate (HARD NO_GO)
+
+on:
+  pull_request:
+    paths:
+      - 'integrations/continual_learning/cl33_first_forward_candidate.py'
+      - 'integrations/continual_learning/test_cl33_hard_no_go.py'
+      - '.github/workflows/cl33-first-forward-no-go.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prepare_only_no_model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout reviewed source without persisted credentials
+        uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Verify pinned model source without importing a model
+        working-directory: integrations/continual_learning
+        run: |
+          python3 -B cl22_model_source_lock.py
+          python3 -B cl25_single_input_audit.py
+      - name: Audit CL-33 HARD NO_GO before any possible execution
+        working-directory: integrations/continual_learning
+        run: |
+          python3 -I -B cl33_first_forward_candidate.py
+          python3 -B -m unittest -v test_cl33_hard_no_go.py
+      # There is deliberately NO model/inference step, no docker run of a
+      # model, no artifact upload and no workflow input that can unlock it.
+      # A separate reviewed future PR and Marcus's exact approval are required.
