@@ -110,6 +110,9 @@ jobs:
         run: python -B -m unittest -v integrations.continual_learning.test_cl10l_forward_hooks
       - name: Check CL-10M training-phase source hooks (NO MODEL)
         run: python -B -m unittest -v integrations.continual_learning.test_cl10m_training_hooks
+      - name: CL-16 independently check archived H1 bytes against locked CL-15 receipt
+        working-directory: integrations/continual_learning
+        run: python -B cl16_pinned_dataset_audit.py
       - name: CL-15 independently audited data identity receipt (NO MODEL)
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl15_h1_data_lock_receipt.py
