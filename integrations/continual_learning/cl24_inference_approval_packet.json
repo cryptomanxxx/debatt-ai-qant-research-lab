@@ -1,0 +1,85 @@
+{
+  "kind": "CL24_ONE_SAMPLE_INFERENCE_AUTHORIZATION_PACKET",
+  "version": "cl24-review-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "execution_workflow_created": false,
+  "model_import_authorized": false,
+  "inference_authorized": false,
+  "training_authorized": false,
+  "energy_measurement_authorized": false,
+  "sample": {
+    "dataset": "integrations/continual_learning/frozen_data_candidate/cl13/seed-101.json",
+    "seed": 101,
+    "task": "T1",
+    "partition": "train",
+    "index": 0,
+    "features": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "label": 0,
+    "heldout_access": false
+  },
+  "models": {
+    "arms": [
+      "local_hybrid",
+      "sparse_local_hybrid",
+      "sparse_shared_index"
+    ],
+    "architecture": [
+      16,
+      8,
+      2
+    ],
+    "parameters_per_model": 154,
+    "initialization_seed": 101,
+    "instances_max": 3,
+    "forward_calls_max": 3,
+    "weight_updates_max": 0,
+    "training_steps_max": 0,
+    "loss_gradient_calls_max": 0
+  },
+  "runtime": {
+    "proposed_network": "none",
+    "pids_limit": 32,
+    "memory_mib": 128,
+    "cpus": 1,
+    "timeout_minutes": 10,
+    "read_only": true,
+    "no_new_privileges": true,
+    "capabilities": "ALL_DROPPED",
+    "uid_gid": "65534:65534",
+    "paid_runners_allowed": false,
+    "final_model_image_digest": null,
+    "runner_image_digest": null,
+    "container_includes_sample": false,
+    "host_boundary_verified": false,
+    "artifact_provenance_approved": false
+  },
+  "approvals": {
+    "numeric_tolerances_approved": false,
+    "scientific_signoff": false,
+    "security_signoff": false,
+    "marcus_exact_inference_authorization_reference": null
+  },
+  "outputs": {
+    "physical_energy": "NOT_MEASURED",
+    "max_artifact_mib": 1,
+    "observations_recorded": 0
+  }
+}
