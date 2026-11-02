@@ -71,6 +71,8 @@ def validate_complete_h1(
     _check(accuracy_keys == EXPECTED_HELDOUT, "heldout matrix incomplete or unexpected")
     for row in events:
         validate_events(row)
+        _check(row["denominator"] == (128 if row["phase"] == "train" else 64),
+               "source-event denominator differs from planned workload")
         _check(row["checkpoint"] == "post_" + row["task"]
                if row["phase"] == "train" else
                row["checkpoint"] in CHECKPOINTS,
