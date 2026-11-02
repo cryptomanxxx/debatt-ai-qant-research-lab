@@ -58,6 +58,7 @@ jobs:
               ".github/cl36/stage_context.py",
               ".github/cl36/Dockerfile",
               ".github/workflows/cl36-one-forward-no-go.yml",
+              ".github/workflows/cl38-one-shot-activation-no-go.yml",
           }
           files = []
           for page in range(1, 51):
