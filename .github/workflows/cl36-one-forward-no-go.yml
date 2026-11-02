@@ -45,6 +45,9 @@ jobs:
           echo "CL-36 candidate A image config ID: $first"
           echo "CL-36 candidate B image config ID: $second"
           test "$first" = "$second"
+          # Approved for identity comparison only; NOT execution authorization.
+          expected="sha256:185ae9556fab66da1dd40987a44cdb600159920d965fe748bbd6a7b8913d344c"
+          test "$first" = "$expected"
           printf "%s\n" "$first" > "$RUNNER_TEMP/cl36-image-config-id.txt"
           echo "CL-36 verified candidate config ID: $first" >> "$GITHUB_STEP_SUMMARY"
           # Config ID is neither an approved/signed OCI registry manifest nor permission to execute.
