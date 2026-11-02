@@ -10,7 +10,7 @@
  */
 const REF = 'refs/tags/cl39-once-seed101-t1-train0-three-forwards';
 const EXPECTED_IMAGE_CONFIG_ID =
-  'sha256:185ae9556fab66da1dd40987a44cdb600159920d965fe748bbd6a7b8913d344c';
+  'sha256:34b4fb59817acf1a5a5a8318ef34a26b73b691c0bacf2b69666dcb04efdce2ff';
 
 async function reserveOnce({ github, owner, repo, commitSha, imageConfigId }) {
   if (!github || !github.rest || !github.rest.git ||
