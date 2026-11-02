@@ -42,7 +42,13 @@ jobs:
           echo "CL-34 candidate A image config ID: $first"
           echo "CL-34 candidate B image config ID: $second"
           test "$first" = "$second"
-          # Local config ID only, NOT an approved or signed registry OCI digest.
+          # Observed in independent GitHub-runner attempts of NO_MODEL run
+          # https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/actions/runs/41504517206
+          # (two builds per attempt, four identical config IDs total).
+          # This is a local Docker configuration ID, NOT a signed OCI manifest.
+          expected="sha256:70dfbe710007b030b34d658b02184359ea595ae4b4cd948ff675f7c0f47228fa"
+          test "$first" = "$expected"
+          test "$second" = "$expected"
       - name: Observe full CL-26 Linux boundary inside candidate A (NO MODEL)
         run: |
           docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 --entrypoint python3 local/cl34-a:review -I -B /opt/research/integrations/continual_learning/cl26_linux_boundary_probe.py
