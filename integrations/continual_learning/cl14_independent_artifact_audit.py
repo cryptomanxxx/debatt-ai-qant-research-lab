@@ -131,8 +131,11 @@ def audit_existing_cl13_artifact(folder: Path, repo: Path) -> dict:
                and report.get("heldout_count") == 256
                and report.get("data_origin_authenticated") is False
                and report.get("generator_executed") is False
-               and report.get("training_authorized") is False,
-               "reported source/split parity mismatch")
+               and report.get("training_authorized") is False
+               and report.get("inference_authorized") is False
+               and report.get("dataset_generation_authorized") is False
+               and report.get("physical_energy") == "NOT_MEASURED",
+               "reported source/split parity or authorization mismatch")
         digests[str(seed)] = digest
 
     return {
