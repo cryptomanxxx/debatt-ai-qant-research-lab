@@ -110,6 +110,9 @@ jobs:
         run: python -B -m unittest -v integrations.continual_learning.test_cl10l_forward_hooks
       - name: Check CL-10M training-phase source hooks (NO MODEL)
         run: python -B -m unittest -v integrations.continual_learning.test_cl10m_training_hooks
+      - name: CL-20 static no-model probe source contract
+        working-directory: integrations/continual_learning
+        run: python -B -m unittest -v test_cl20_no_model_container_probe.py
       - name: CL-19 one-sample numeric proposal and hard model execution guard (NO MODEL)
         working-directory: integrations/continual_learning
         run: |
