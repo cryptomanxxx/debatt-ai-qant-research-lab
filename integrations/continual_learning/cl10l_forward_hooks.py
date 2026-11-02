@@ -42,9 +42,9 @@ def candidate_forward(model: object, x: tuple[int, ...], *,
     ):
         raise ValueError("CL-10L NO_GO: invalid input shape")
     if mode == "shared":
-        if type(reused_active) is not list or reused_active != [
-            i for i, bit in enumerate(x) if bit
-        ]:
+        if (type(reused_active) is not list
+                or any(type(i) is not int or not 0 <= i < 16 for i in reused_active)
+                or reused_active != sorted(set(reused_active))):
             raise ValueError("CL-10L NO_GO: shared active list invalid")
         active = reused_active
     elif mode == "sparse":
