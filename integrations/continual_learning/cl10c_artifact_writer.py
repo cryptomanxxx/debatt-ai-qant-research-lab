@@ -154,8 +154,13 @@ def build_payloads(
     validate_manifest(manifest)
     _required(all(type(rows) is list for rows in
                   (attempts, accuracy, events, failures)), "records must be lists")
+    _required(len(attempts) > 0, "empty attempts ledger")
     for row in attempts:
         validate_attempt(row)
+    keys = [(row["run_id"], row["arm"], row["seed"], row["task"],
+             row["checkpoint"], row["phase"], row["attempt_number"])
+            for row in attempts]
+    _required(len(set(keys)) == len(keys), "duplicate attempt identity")
     for row in accuracy:
         validate_accuracy(row)
     for row in events:
