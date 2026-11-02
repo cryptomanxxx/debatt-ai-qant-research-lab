@@ -21,7 +21,7 @@ The sparse implementation preserves the order of nonzero terms. For finite, norm
 
 **Conditional induction over updates:** if both arms start from identical parameters, share the same ordered examples, learning rates, label and arithmetic semantics, and their forward computations coincide, the local step uses identical activities/errors and produces identical next parameters. Hence equality can persist over every matched local update. This conditional implementation property is distinct from showing learnability or general mathematical equivalence.
 
-**Reclassification:** the existing `local_hybrid` versus `sparse_local_hybrid` contrast is suitable as a *correctness/reference control for sparse traversal*, **not a falsifiable test of a predictive-quality advantage**. Both arms may meet or fail the proposed 0.65 quality floor together; equality does **not** imply they meet it.
+**Reclassification:** in the existing `local_hybrid` versus `sparse_local_hybrid` contrast, **numerical parity and the source-level first-layer term count are analytical implementation controls**; they are not independent evidence of a quality or energy advantage. **The broader H1 outcome remains empirically falsifiable**: the two arms may jointly fail the proposed 0.65 absolute quality floor, and observed total work, runtime or memory cost may be equal or worse for sparse traversal once index/branch/measurement overhead is included. Equality does **not** imply either arm meets the quality floor.
 
 ## Analytical source-work baseline (not physical work)
 
@@ -70,7 +70,7 @@ Thus a simple rule can achieve high nominal accuracy at low `p`, without requiri
 
 ## Revised falsifiable H1 directions (proposals, not authorization)
 
-1. **Reference/equivalence control:** retain dense-local vs sparse-local parity and analytic term counts to validate implementations and counters, rather than interpret their inevitable numerical equality as H1 support.
+1. **Reference and empirical overhead control:** retain dense-local vs sparse-local parity and analytic term counts to validate implementations and counters. Separately measure, under a future approved protocol, whether sparse traversal lowers **total observed work at an independently satisfied quality floor**; this outcome can fail despite numerical parity. Do not interpret inevitable numeric equality as H1 support.
 2. **Changed-computation contrast:** thresholded hidden-layer sparsity, k-winners-take-all or approximate sparsity introduces a genuine **accuracy-versus-work** tradeoff to be measured later.
 3. **Learning-rule fairness:** a factorial dense/sparse × backprop/local design, plus sparse-aware SGD, may separate rule effects from traversal effects.
 4. **Hardware crossover:** preregister model-size and density sweeps, compiled/vectorized baselines, A/A noise floors, timing, memory and hardware performance counters before discussing speed/energy.
@@ -87,7 +87,7 @@ Observed unit tests already do bounded forward/update operations, while CL-45 us
 
 ## Decision and next actions
 
-- **Current H1 verdict: INCONCLUSIVE.** A predictable source-level term reduction and one-sample numeric parity are *not* measured benefit at matched held-out quality.
+- **Current H1 verdict: INCONCLUSIVE.** A predictable source-level term reduction and one-sample numeric parity are *not* measured benefit at matched held-out quality. A full observed-work contrast can still disconfirm a savings claim because of indexing, branch and runtime overhead, or failed absolute learnability/quality prerequisites.
 - **CL-49 completion:** this code-backed mathematical review is documented and linked from the roadmap after review/merge; no new inference.
 - **CL-50 proposal:** review learnability, shortcut baselines, and the dataset's scientific usefulness analytically.
 - **CL-51 proposal:** preregister genuinely falsifiable contrasts before any training or expanded computation.
