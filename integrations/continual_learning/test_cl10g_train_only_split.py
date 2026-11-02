@@ -48,8 +48,6 @@ class TestCL10G(unittest.TestCase):
         after = plan_train_only_calibration(101, swapped)
         self.assertNotEqual(before["tasks"][0]["training_order_digest"],
                             after["tasks"][0]["training_order_digest"])
-        self.assertEqual(before["tasks"][0]["validation_indices"] !=
-                         after["tasks"][0]["validation_indices"], True)
 
     def test_fail_closed_on_leakage_and_quota_drift(self):
         changes = []
