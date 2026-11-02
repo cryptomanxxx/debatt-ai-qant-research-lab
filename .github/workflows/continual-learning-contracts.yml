@@ -104,6 +104,8 @@ jobs:
       - name: Check CL-10J candidate source-event hook ledger (NO MODEL)
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl10j_source_event_collector.py
+      - name: Check CL-10K source-only weight-hook AST placements (NO MODEL)
+        run: python -B -m unittest -v integrations.continual_learning.test_cl10k_weight_update_hooks
       - name: Verify CL-10B review-only training candidate rejects execution
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl10b_gated_h1_runner.py

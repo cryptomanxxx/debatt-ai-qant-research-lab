@@ -10,6 +10,7 @@ import math
 from typing import Iterable
 
 from integrations.continual_learning.cl1_cpu import Counters
+from integrations.continual_learning.cl10k_weight_update_hooks import note_weight_update
 from integrations.continual_learning.cl2_mlp_baseline import (
     HIDDEN_SIZE,
     INPUT_SIZE,
@@ -68,13 +69,17 @@ class LocalHebbianMLP(TinyDenseMLP):
         for k in range(N_CLASSES):
             delta = int(k == label) - probabilities[k]
             for j in range(HIDDEN_SIZE):
+                note_weight_update(self, "w2_update_read")
                 self.w2[k][j] += self.learning_rate * delta * hidden[j]
+                note_weight_update(self, "w2_update_write")
             self.b2[k] += self.learning_rate * delta
 
         # Hidden layer: Hebbian-like pre/post updates; NO label-gradient path.
         for j in range(HIDDEN_SIZE):
             for i in active:
+                note_weight_update(self, "w1_update_read")
                 self.w1[j][i] += self.local_rate * hidden[j]
+                note_weight_update(self, "w1_update_write")
             self.b1[j] += self.local_rate * hidden[j]
 
         # Count ALL actual weight-loop accesses on a consistent narrow scope:
