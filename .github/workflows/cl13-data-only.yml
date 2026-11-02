@@ -1,0 +1,33 @@
+name: CL-13 Authorized Dataset Generation Only
+
+on:
+  pull_request:
+    paths:
+      - 'integrations/continual_learning/cl13_data_only.py'
+      - '.github/workflows/cl13-data-only.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  candidate_data_only:
+    if: github.event.pull_request.head.repo.full_name == 'cryptomanxxx/debatt-ai-qant-research-lab' && github.event.pull_request.head.ref == 'cl13-authorized-data-only'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      CL13_DATA_ONLY: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Generate and verify only 5 preapproved H1 seeds (NO MODEL)
+        run: python -B -m integrations.continual_learning.cl13_data_only cl13-reviewed-data CL13_DATA_ONLY_AUTHORIZED_2026_11_02
+      - name: Upload unapproved data candidate and checksums for independent review
+        uses: actions/upload-artifact@v4
+        with:
+          name: cl13-data-only-unapproved-candidate
+          path: cl13-reviewed-data/
+          if-no-files-found: error
+          retention-days: 14
