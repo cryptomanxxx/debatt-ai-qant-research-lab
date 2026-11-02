@@ -80,6 +80,27 @@ class TestCL28(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "tolerance"):
             validate_review_only(changed)
 
+    def test_contract_rejects_numerically_equal_wrong_scalar_types(self):
+        substitutions = [
+            ("sample", "index", False),
+            ("sample", "seed", 101.0),
+            ("sample", "active_indices", [2.0, 8]),
+            ("sample", "heldout_access", 0),
+            ("trace", "initial_weights_count", 154.0),
+            ("trace", "finite_numeric_only", 1),
+            ("tolerance", "independently_approved", 0),
+            ("execution", "inference_authorized", 0),
+            ("execution", "forward_calls_max", 3.0),
+            ("approvals", "scientific_signoff", 0),
+            ("approvals", "security_signoff", 0),
+        ]
+        for section, key, replacement in substitutions:
+            with self.subTest(section=section, key=key, replacement=replacement):
+                changed = copy.deepcopy(self.spec)
+                changed[section][key] = replacement
+                with self.assertRaises(ValueError):
+                    validate_review_only(changed)
+
     def test_nonzero_training_budget_rejected(self):
         changed = copy.deepcopy(self.spec)
         changed["execution"]["weight_updates_max"] = 1
