@@ -74,6 +74,22 @@ class TestCL21(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "executable CI job"):
             validate_review_only(self.spec, self.docker, changed)
 
+    def test_extra_workflow_write_permissions_rejected(self):
+        changed = self.workflow.replace(
+            "permissions:\n  contents: read",
+            "permissions:\n  contents: read\n  issues: write\n  id-token: write",
+        )
+        with self.assertRaisesRegex(ValueError, "permissions drift"):
+            validate_review_only(self.spec, self.docker, changed)
+
+    def test_job_level_write_permission_rejected(self):
+        changed = self.workflow.replace(
+            "    runs-on: ubuntu-latest",
+            "    permissions:\n      issues: write\n    runs-on: ubuntu-latest",
+        )
+        with self.assertRaisesRegex(ValueError, "executable CI job"):
+            validate_review_only(self.spec, self.docker, changed)
+
     def test_extra_executable_step_rejected(self):
         changed = self.workflow + (
             "      - name: Unauthorized extra step\n"
