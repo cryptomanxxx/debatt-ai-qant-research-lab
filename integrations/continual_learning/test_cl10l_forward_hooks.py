@@ -50,7 +50,8 @@ class TestCL10L(unittest.TestCase):
         branch = next(n for n in ast.walk(method)
                       if isinstance(n, ast.If)
                       and ast.unparse(n.test) == "mode == 'shared'")
-        self.assertNotIn("enumerate(x)", ast.unparse(branch))
+        shared_only = "\n".join(ast.unparse(statement) for statement in branch.body)
+        self.assertNotIn("enumerate(x)", shared_only)
 
     def test_unattached_fake_object_does_not_activate_forward(self):
         class Fake:
