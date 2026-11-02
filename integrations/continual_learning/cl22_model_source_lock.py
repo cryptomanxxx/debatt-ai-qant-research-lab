@@ -92,7 +92,10 @@ def validate_review_only(spec: dict, source_bytes: dict[str, bytes]) -> dict:
 
 def audit_current_files() -> dict:
     spec = json.loads(SPEC.read_text(encoding="ascii"))
-    # An absent namespace-package initializer must stay absent, or its new\n    # executable contents would not be covered by the frozen manifest.\n    if (HERE / "__init__.py").exists():\n        raise ValueError("CL-22 NO_GO: unpinned namespace initializer added")\n    paths = spec["source_git_blob_sha1"]
+    # An absent namespace-package initializer must stay absent. 
+    if (HERE / "__init__.py").exists():
+        raise ValueError("CL-22 NO_GO: unpinned namespace initializer added")
+    paths = spec["source_git_blob_sha1"]
     return validate_review_only(spec, {
         path: (ROOT / path).read_bytes() for path in paths
     })
