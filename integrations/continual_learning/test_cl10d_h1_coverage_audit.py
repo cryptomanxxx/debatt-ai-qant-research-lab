@@ -99,6 +99,34 @@ class TestCL10D(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_complete_h1(**args)
 
+    def test_full_event_matrix_denominators_must_match_each_phase(self):
+        args = fixtures()
+        common = {
+            "provenance": "OBSERVED_SOURCE_EVENTS",
+            "logical_parameter_reads": 0, "logical_parameter_writes": 0,
+            "input_visits": 0, "active_index_visits": 0,
+            "control_events": 0, "nonlinear_events": 0,
+        }
+        args["events"] = [
+            dict(common, arm=arm, seed=seed, task=task,
+                 checkpoint="post_" + task, phase="train", denominator=128)
+            for arm in ARMS for seed in SEEDS for task in TASKS
+        ] + [
+            dict(common, arm=arm, seed=seed, task=task,
+                 checkpoint=checkpoint, phase="heldout_inference", denominator=64)
+            for arm in ARMS for seed in SEEDS
+            for checkpoint in CHECKPOINTS for task in TASKS
+        ]
+        self.assertEqual(len(args["events"]), 480)
+        self.assertTrue(validate_complete_h1(**args)["source_event_claim_allowed"])
+        for row_number in (0, 80):
+            args["events"][row_number]["denominator"] = 1
+            with self.subTest(row_number=row_number), self.assertRaises(ValueError):
+                validate_complete_h1(**args)
+            args["events"][row_number]["denominator"] = (
+                128 if row_number == 0 else 64
+            )
+
     def test_failure_cannot_masquerade_as_complete(self):
         args = fixtures()
         args["attempts"][0]["run_status"] = "FAILED"
