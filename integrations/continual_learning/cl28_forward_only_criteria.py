@@ -87,7 +87,10 @@ def audit_synthetic_fixture(spec: dict, record: object) -> dict:
         _vector(trace["initial_weights"], 154)
         _vector(trace["hidden"], 8)
         _vector(trace["logits"], 2)
-        require(trace["active_indices"] == [2, 8], "active index mismatch")
+        indices = trace["active_indices"]
+        require(type(indices) is list and len(indices) == 2
+                and all(type(i) is int for i in indices)
+                and indices == [2, 8], "active index mismatch")
     base = traces[ARMS[0]]["initial_weights"]
     require(all(traces[arm]["initial_weights"] == base for arm in ARMS[1:]),
             "unequal initialization")
