@@ -74,8 +74,21 @@ def validate_review_only(spec: dict, docker: str, workflow: str) -> dict:
     if (workflow.count("\njobs:\n") != 1
             or workflow.split("\njobs:\n", 1)[1].strip() != expected_job.strip()):
         raise ValueError("CL-21 NO_GO: executable CI job or resource budget drift")
-    if "permissions:\n  contents: read\n" not in workflow:
-        raise ValueError("CL-21 NO_GO: workflow permission drift")
+    # Pin the complete top-level workflow configuration too. Checking for
+    # "contents: read" as a substring misses extra write privileges.
+    expected_header = """name: CL-20 Python Container NO-MODEL Boundary Probe
+
+on:
+  pull_request:
+    paths:
+      - 'integrations/continual_learning/Dockerfile.cl20-probe'
+      - 'integrations/continual_learning/cl20_no_model_container_probe.py'
+      - '.github/workflows/cl20-no-model-container.yml'
+
+permissions:
+  contents: read"""
+    if workflow.split("\njobs:\n", 1)[0].strip() != expected_header.strip():
+        raise ValueError("CL-21 NO_GO: workflow trigger or permissions drift")
     return {
         "decision": "NO_GO",
         "python_base_manifest_pinned": True,
