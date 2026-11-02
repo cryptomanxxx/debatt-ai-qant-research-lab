@@ -110,7 +110,7 @@ jobs:
           only_cl33=true
           while IFS= read -r path; do
             case "$path" in
-              integrations/continual_learning/cl33_first_forward_candidate.py|integrations/continual_learning/test_cl33_hard_no_go.py|.github/workflows/cl33-first-forward-no-go.yml|.github/workflows/continual-learning-contracts.yml)
+              integrations/continual_learning/cl33_first_forward_candidate.py|integrations/continual_learning/test_cl33_hard_no_go.py|.github/workflows/cl33-first-forward-no-go.yml|.github/workflows/continual-learning-contracts.yml|.github/workflows/validate-research-safety-fixes.yml)
                 ;;
               *)
                 only_cl33=false
