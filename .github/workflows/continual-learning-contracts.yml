@@ -110,6 +110,11 @@ jobs:
         run: python -B -m unittest -v integrations.continual_learning.test_cl10l_forward_hooks
       - name: Check CL-10M training-phase source hooks (NO MODEL)
         run: python -B -m unittest -v integrations.continual_learning.test_cl10m_training_hooks
+      - name: CL-18 static AST model ablation comparability preflight (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python -B cl18_model_source_parity_preflight.py
+          python -B -m unittest -v test_cl18_model_source_parity_preflight.py
       - name: CL-17 profile class-balancing bias and cross-seed data overlap (NO MODEL)
         working-directory: integrations/continual_learning
         run: |
