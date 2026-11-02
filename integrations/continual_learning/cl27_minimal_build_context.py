@@ -50,7 +50,7 @@ def stage(destination: Path) -> dict:
         source = (ROOT / name).resolve()
         if not source.is_file() or source.is_symlink() or not source.is_relative_to(ROOT):
             raise ValueError("CL-27: missing/nonregular input: " + name)
-        target = destination / name
+        target = destination / "opt" / "research" / name
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
         target.chmod(0o644)
