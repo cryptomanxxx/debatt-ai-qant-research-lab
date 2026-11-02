@@ -1,0 +1,101 @@
+{
+  "kind": "CL19_SINGLE_SAMPLE_FORWARD_NUMERIC_PROPOSAL",
+  "version": "cl19-review-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "dataset_generation_authorized": false,
+  "inference_authorized": false,
+  "training_authorized": false,
+  "energy_measurement_authorized": false,
+  "observations_recorded": 0,
+  "data_source": {
+    "location": "integrations/continual_learning/frozen_data_candidate/cl13/seed-101.json",
+    "seed": 101,
+    "task": "T1",
+    "partition": "train",
+    "zero_based_index": 0,
+    "features": [
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "label": 0,
+    "seed_dataset_sha256": "308a407d08f4591784b8ba2265bd72ddde29c85d40d3dbded251bc3653f8b93e",
+    "heldout_access": false
+  },
+  "model_scope": {
+    "arms": [
+      "local_hybrid",
+      "sparse_local_hybrid",
+      "sparse_shared_index"
+    ],
+    "architecture": [
+      16,
+      8,
+      2
+    ],
+    "parameters_per_model": 154,
+    "initialization_seed": 101,
+    "model_instances_max": 3,
+    "forward_calls_max": 3,
+    "weight_updates_max": 0,
+    "training_steps_max": 0,
+    "loss_gradient_calls_max": 0,
+    "model_inference_performed": false
+  },
+  "comparisons": [
+    {
+      "pair_id": "primary_sparse",
+      "left": "local_hybrid",
+      "right": "sparse_local_hybrid"
+    },
+    {
+      "pair_id": "secondary_index_reuse",
+      "left": "sparse_local_hybrid",
+      "right": "sparse_shared_index"
+    }
+  ],
+  "numeric_candidate": {
+    "absolute": 1e-12,
+    "relative": 1e-10,
+    "independently_approved": false,
+    "actual_parity_verified": false,
+    "trace_fields": [
+      "hidden",
+      "logits",
+      "active_indices",
+      "initial_weights"
+    ],
+    "no_training_or_loss_required": true
+  },
+  "future_runtime": {
+    "container_model_image_sha256": null,
+    "runner_image_sha": null,
+    "network_policy": "NETWORK_NONE_REQUIRED_NOT_MODEL_VERIFIED",
+    "memory_limit": null,
+    "cpu_limit": null,
+    "timeout_minutes": null,
+    "paid_runners_allowed": false,
+    "output_artifacts_max_mib": 1,
+    "host_boundary_security_approved": false,
+    "immutable_artifact_provenance_approved": false,
+    "scientific_signoff": false,
+    "security_signoff": false,
+    "marcus_specific_inference_authorization_reference": null
+  },
+  "physical_energy": "NOT_MEASURED",
+  "execution_workflow_created": false
+}

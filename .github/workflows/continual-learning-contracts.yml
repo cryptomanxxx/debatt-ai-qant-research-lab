@@ -110,6 +110,11 @@ jobs:
         run: python -B -m unittest -v integrations.continual_learning.test_cl10l_forward_hooks
       - name: Check CL-10M training-phase source hooks (NO MODEL)
         run: python -B -m unittest -v integrations.continual_learning.test_cl10m_training_hooks
+      - name: CL-19 one-sample numeric proposal and hard model execution guard (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python -B cl19_single_sample_forward_review.py
+          python -B -m unittest -v test_cl19_single_sample_forward_review.py
       - name: CL-18 static AST model ablation comparability preflight (NO MODEL)
         working-directory: integrations/continual_learning
         run: |
