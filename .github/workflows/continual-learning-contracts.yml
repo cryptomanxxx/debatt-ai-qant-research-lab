@@ -111,6 +111,11 @@ jobs:
         run: python -B -m unittest -v integrations.continual_learning.test_cl10l_forward_hooks
       - name: Check CL-10M training-phase source hooks (NO MODEL)
         run: python -B -m unittest -v integrations.continual_learning.test_cl10m_training_hooks
+      - name: CL-28 forward-only numeric acceptance fixtures (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python -B cl28_forward_only_criteria.py
+          python -B -m unittest -v test_cl28_forward_only_criteria.py
       - name: CL-24 one-sample inference approval packet (HARD NO_GO, NO MODEL)
         working-directory: integrations/continual_learning
         run: |
