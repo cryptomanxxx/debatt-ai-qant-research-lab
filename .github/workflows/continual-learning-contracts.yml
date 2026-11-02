@@ -110,6 +110,11 @@ jobs:
         run: python -B -m unittest -v integrations.continual_learning.test_cl10l_forward_hooks
       - name: Check CL-10M training-phase source hooks (NO MODEL)
         run: python -B -m unittest -v integrations.continual_learning.test_cl10m_training_hooks
+      - name: CL-11 integrated read-only H1 preflight and fixture handoff (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python -B cl11_integrated_noexec_handoff.py
+          python -B -m unittest -v test_cl11_integrated_noexec_handoff.py
       - name: Verify CL-10B review-only training candidate rejects execution
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl10b_gated_h1_runner.py
