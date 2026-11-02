@@ -27,7 +27,12 @@ def manifest():
             "dense_sgd", "local_hybrid",
             "sparse_local_hybrid", "sparse_shared_index",
         ],
-        "task_splits_and_digest_list": [{"task": "T1", "digest": H}],
+        "task_splits_and_digest_list": [
+            {"seed": seed, "task": task, "split": split, "digest": H}
+            for seed in range(101, 106)
+            for task in ("T1", "T2", "T3", "T4")
+            for split in ("train", "heldout")
+        ],
         "review_id": "fixture-review-not-real",
         "explicit_user_authorization_reference": "fixture-not-real-approval",
         "physical_energy": "NOT_MEASURED",
@@ -117,6 +122,27 @@ class TestCL10C(unittest.TestCase):
             "input_visits": 0, "active_index_visits": 0,
             "control_events": 0, "nonlinear_events": 0,
         }]
+        with self.assertRaises(ValueError):
+            build_payloads(**args)
+
+    def test_split_provenance_mutations_rejected(self):
+        bad_lists = [
+            [None],
+            [{}],
+            [{"seed": 101, "task": "T1", "split": "train", "digest": "invalid"}],
+        ]
+        for entries in bad_lists:
+            args = bundle_args()
+            args["manifest"]["task_splits_and_digest_list"] = entries
+            with self.subTest(entries=entries), self.assertRaises(ValueError):
+                build_payloads(**args)
+        args = bundle_args()
+        entries = args["manifest"]["task_splits_and_digest_list"]
+        entries[-1] = dict(entries[0])
+        with self.assertRaises(ValueError):
+            build_payloads(**args)
+        args = bundle_args()
+        args["manifest"]["task_splits_and_digest_list"][0]["digest"] = "bad"
         with self.assertRaises(ValueError):
             build_payloads(**args)
 
