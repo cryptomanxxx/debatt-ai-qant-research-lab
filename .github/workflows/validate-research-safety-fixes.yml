@@ -59,6 +59,8 @@ jobs:
               ".github/cl36/Dockerfile",
               ".github/workflows/cl36-one-forward-no-go.yml",
               ".github/workflows/cl38-one-shot-activation-no-go.yml",
+              ".github/cl39/one_shot_reservation.cjs",
+              ".github/cl39/test_one_shot_reservation.cjs",
           }
           files = []
           for page in range(1, 51):
