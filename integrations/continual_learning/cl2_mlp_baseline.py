@@ -12,6 +12,7 @@ from typing import Iterable
 
 from integrations.continual_learning.cl10k_weight_update_hooks import note_weight_update
 from integrations.continual_learning.cl10l_forward_hooks import attached_candidate, candidate_forward
+from integrations.continual_learning.cl10m_training_hooks import record_nonlinear_value
 
 
 INPUT_SIZE = 16
@@ -82,10 +83,17 @@ class TinyDenseMLP:
         x = self._input(features)
         hidden, logits = self._forward(x)
         offset = max(logits)
-        exp_scores = [math.exp(v - offset) for v in logits]
+        if attached_candidate(self):
+            exp_scores = [record_nonlinear_value(self, "softmax_exp_call", math.exp(v - offset))
+                          for v in logits]
+        else:
+            exp_scores = [math.exp(v - offset) for v in logits]
         denominator = sum(exp_scores)
         probs = [v / denominator for v in exp_scores]
-        loss = -math.log(probs[label])
+        if attached_candidate(self):
+            loss = -record_nonlinear_value(self, "loss_log_call", math.log(probs[label]))
+        else:
+            loss = -math.log(probs[label])
         delta_out = [probs[k] - int(k == label) for k in range(N_CLASSES)]
         gw2 = tuple(
             tuple(delta_out[k] * hidden[j] for j in range(HIDDEN_SIZE))
