@@ -88,6 +88,9 @@ jobs:
       - name: Check CL-10F static no-network container envelope (NO MODEL)
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl10f_container_boundary_contract.py
+      - name: Check CL-10G train-only calibration split on fixtures (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: python -B -m unittest -v test_cl10g_train_only_split.py
       - name: Verify CL-10B review-only training candidate rejects execution
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl10b_gated_h1_runner.py
