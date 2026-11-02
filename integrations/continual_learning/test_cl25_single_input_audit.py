@@ -21,7 +21,7 @@ class TestCL25(unittest.TestCase):
         self.assertEqual(result["models_imported"], 0)
 
     def test_source_bytes_tamper_rejected(self):
-        with self.assertRaisesRegex(ValueError, "fingerprint drift"):
+        with self.assertRaisesRegex(ValueError, "non-canonical archived file bytes"):
             verify_source_bytes(self.data + b" ", self.packet)
 
     def test_fake_authorization_rejected(self):
