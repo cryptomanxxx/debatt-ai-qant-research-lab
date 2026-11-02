@@ -8,6 +8,7 @@ import math
 
 from integrations.continual_learning.cl2_mlp_baseline import HIDDEN_SIZE, N_CLASSES
 from integrations.continual_learning.cl2_sparse_forward import SparseForwardLocalMLP
+from integrations.continual_learning.cl10l_forward_hooks import attached_candidate, candidate_forward
 
 
 class SharedIndexSparseForwardLocalMLP(SparseForwardLocalMLP):
@@ -21,6 +22,8 @@ class SharedIndexSparseForwardLocalMLP(SparseForwardLocalMLP):
     def _forward_with_active(
         self, x: tuple[int, ...], active: list[int]
     ) -> tuple[list[float], list[float]]:
+        if attached_candidate(self):
+            return candidate_forward(self, x, mode="shared", reused_active=active)
         hidden = [
             math.tanh(self.b1[j] + sum(self.w1[j][i] for i in active))
             for j in range(HIDDEN_SIZE)
