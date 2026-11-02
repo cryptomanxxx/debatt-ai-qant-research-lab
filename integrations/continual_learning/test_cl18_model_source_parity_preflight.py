@@ -46,6 +46,46 @@ class TestCL18(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "inheritance drift"):
             audit_source_texts(sources)
 
+    def test_qualified_mixin_before_local_parent_refused(self):
+        sources = originals()
+        sources["sparse"] = sources["sparse"].replace(
+            "class SparseForwardLocalMLP(LocalHebbianMLP):",
+            "class SparseForwardLocalMLP(other.UpdateMixin, LocalHebbianMLP):",
+        )
+        with self.assertRaisesRegex(ValueError, "unsupported qualified"):
+            audit_source_texts(sources)
+
+    def test_dense_qualified_parent_refused(self):
+        sources = originals()
+        sources["dense"] = sources["dense"].replace(
+            "class TinyDenseMLP:",
+            "class TinyDenseMLP(other.Parent):",
+        )
+        with self.assertRaisesRegex(ValueError, "unsupported qualified"):
+            audit_source_texts(sources)
+
+    def test_sparse_assigned_step_lambda_refused(self):
+        sources = originals()
+        sources["sparse"] = sources["sparse"].replace(
+            "class SparseForwardLocalMLP(LocalHebbianMLP):",
+            "class SparseForwardLocalMLP(LocalHebbianMLP):\n    step = lambda self, features, label: 0.0\n",
+        )
+        with self.assertRaisesRegex(ValueError, "class-level binding"):
+            audit_source_texts(sources)
+
+    def test_shared_assigned_predict_or_forward_refused(self):
+        for assigned_name in ("predict", "_forward"):
+            sources = originals()
+            sources["shared"] = sources["shared"].replace(
+                "class SharedIndexSparseForwardLocalMLP(SparseForwardLocalMLP):",
+                "class SharedIndexSparseForwardLocalMLP(SparseForwardLocalMLP):\n"
+                + "    " + assigned_name + " = lambda self, x: None\n",
+            )
+            with self.subTest(name=assigned_name), self.assertRaisesRegex(
+                ValueError, "class-level binding"
+            ):
+                audit_source_texts(sources)
+
 
 if __name__ == "__main__":
     unittest.main()
