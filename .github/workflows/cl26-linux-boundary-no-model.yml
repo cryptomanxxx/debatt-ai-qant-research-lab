@@ -1,0 +1,26 @@
+name: CL-26 Linux Boundary NO-MODEL Evidence
+
+on:
+  pull_request:
+    paths:
+      - 'integrations/continual_learning/**'
+      - 'integrations/__init__.py'
+      - '.github/workflows/cl26-linux-boundary-no-model.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux_boundary_no_model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build one-input candidate with Linux boundary probe (NO MODEL)
+        run: docker build --file integrations/continual_learning/Dockerfile.cl26-boundary-probe --tag local/cl26-linux-boundary:review .
+      - name: Record local image ID (NOT a signed or approved OCI digest)
+        run: docker image inspect --format '{{.Id}}' local/cl26-linux-boundary:review
+      - name: Verify read-only privileges cgroups and IPv4/IPv6 egress (NO MODEL)
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl26-linux-boundary:review
