@@ -30,6 +30,29 @@ class TestCL21(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_review_only(self.spec, altered, self.workflow)
 
+    def test_commented_out_pinned_base_rejected(self):
+        from cl21_python_envelope_review import BASE
+        altered = self.docker.replace(
+            "FROM " + BASE,
+            "# FROM " + BASE + "\nFROM python:3.11-slim",
+        )
+        with self.assertRaisesRegex(ValueError, "executable Dockerfile"):
+            validate_review_only(self.spec, altered, self.workflow)
+
+    def test_commented_out_probe_entrypoint_rejected(self):
+        target = 'ENTRYPOINT ["python3", "-I", "-B", "/opt/research/integrations/continual_learning/cl20_no_model_container_probe.py"]'
+        altered = self.docker.replace(
+            target,
+            "# " + target + '\nENTRYPOINT ["python3", "-c", "print(123)"]',
+        )
+        with self.assertRaisesRegex(ValueError, "executable Dockerfile"):
+            validate_review_only(self.spec, altered, self.workflow)
+
+    def test_extra_docker_run_instruction_rejected(self):
+        altered = self.docker + "\nRUN python3 -c 'print(123)'\n"
+        with self.assertRaisesRegex(ValueError, "executable Dockerfile"):
+            validate_review_only(self.spec, altered, self.workflow)
+
     def test_weakened_network_flag_rejected(self):
         altered = self.workflow.replace("--network=none", "--network=bridge")
         with self.assertRaises(ValueError):
