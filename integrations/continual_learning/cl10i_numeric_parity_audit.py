@@ -121,6 +121,7 @@ def audit_supplied_trace(spec: dict, record: object) -> dict:
         b_values = [right["loss"]] if field == "loss" else right[field]
         for i, (a, b) in enumerate(zip(a_values, b_values)):
             difference = abs(a - b)
+            _require(math.isfinite(difference), "numeric difference overflow")
             max_abs_difference = max(max_abs_difference, difference)
             checked += 1
             if (first_mismatch is None and
