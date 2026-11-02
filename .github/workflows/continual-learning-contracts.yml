@@ -82,6 +82,9 @@ jobs:
       - name: Validate CL-10C artifact writer on fixture-only records
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl10c_artifact_writer.py
+      - name: Validate CL-10D full H1 ledger coverage on fixtures only
+        working-directory: integrations/continual_learning
+        run: python -B -m unittest -v test_cl10d_h1_coverage_audit.py
       - name: Verify CL-10B review-only training candidate rejects execution
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl10b_gated_h1_runner.py
