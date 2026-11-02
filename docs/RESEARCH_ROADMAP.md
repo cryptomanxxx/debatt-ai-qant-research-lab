@@ -24,7 +24,7 @@ Determine whether sparse neural-network computation, including reuse of active-n
 
 ## Revised roadmap and completion criteria
 
-The initial sequence was revised after a **Claude Code AI critique** highlighted that the current dense-vs-sparse binary-input forward contrast has mathematically predictable parity and source-weight traversal. This is a useful implementation check, **not a falsifiable test of savings at matched quality**. See [CL-49 analytical response](CL49_ANALYTICAL_H1_BASELINE_AND_REVIEW.md). Suggestions in that critique are proposals, not independently validated facts or experimental approval.
+The initial sequence was revised after a **Claude Code AI critique** highlighted that **numerical parity and narrow static first-layer weight-term counts** for the current binary-input dense-vs-sparse contrast are mathematically predictable. **Observed total-work savings at matched quality remain falsifiable**: overhead, indexing, runtime, memory effects and failure to meet the absolute learnability/quality floor can defeat an advantage even when saved outputs agree. The contrast remains a valid implementation control **and an empirical overhead/cost question**, but it cannot by itself establish broad architectural benefits. See [CL-49 analytical response](CL49_ANALYTICAL_H1_BASELINE_AND_REVIEW.md). Suggestions in that critique are proposals, not independently validated facts or experimental approval.
 
 ### ✅ CL-48 — English research roadmap and protocol outline
 
@@ -39,7 +39,7 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 - [ ] Review Claude Code's critique against the actual dense, sparse, local-update and existing unit-test implementations.
 - [ ] Write the conditional binary-input parity argument and source-level weight-read formulas, distinguishing mathematical predictions from measurements.
 - [ ] Analyze the balanced-XOR OR shortcut and learnability confounds without dataset generation.
-- [ ] Reclassify the current contrast as an implementation control; document open scientific and governance assumptions.
+- [ ] Reclassify parity and static term-count claims as analytical implementation controls, while retaining the current contrast's observed total-work/quality outcome as an open empirical H1 question; document scientific and governance assumptions.
 - [ ] Review/merge the [CL-49 analysis](CL49_ANALYTICAL_H1_BASELINE_AND_REVIEW.md) with Codex/CI before marking complete.
 
 **Completion condition:** reviewed documentation only. No new model operation.
@@ -57,7 +57,7 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 
 - [ ] Evaluate hidden-layer threshold/kWTA or related approximate sparsity as an accuracy-versus-work question.
 - [ ] Define dense/sparse × backprop/local comparisons, including sparse-aware SGD.
-- [ ] Identify which hypotheses are mathematically predetermined versus capable of failing.
+- [ ] Identify mathematically predetermined parity/static counters separately from falsifiable total-cost, timing, quality-floor and learning hypotheses.
 - [ ] Consider expanded sparse representations, temporal/delta sparsity and Fourier/KAN numeric-compatibility questions as separately scoped proposals.
 
 **Completion condition:** selected preregistered contrasts and controls; no execution approved.
