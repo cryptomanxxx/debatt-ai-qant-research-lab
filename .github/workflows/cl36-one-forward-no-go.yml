@@ -1,0 +1,76 @@
+name: CL-36 Conditional One-Sample Forward (HARD NO_GO)
+
+on:
+  pull_request:
+    paths:
+      - '.github/cl36/**'
+      - '.github/workflows/cl36-one-forward-no-go.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify_dormant_candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Validate source and single frozen training input (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python3 -B cl22_model_source_lock.py
+          python3 -B cl25_single_input_audit.py
+      - name: Confirm CL-36 CLI default cannot import or run models
+        run: |
+          python3 -I -B .github/cl36/once.py | python3 -c 'import json,sys; x=json.load(sys.stdin); assert x["decision"]=="HARD_NO_GO" and x["models_imported"]==0 and x["forward_calls_executed"]==0 and x["training_steps"]==0 and x["weight_updates"]==0'
+      - name: Stage exact 21-file epoch-zero context
+        run: |
+          python3 -B .github/cl36/stage_context.py "$RUNNER_TEMP/cl36-context"
+      - name: Build independent image A without cache (NO MODEL)
+        run: |
+          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file "$GITHUB_WORKSPACE/.github/cl36/Dockerfile" --tag local/cl36-a:review "$RUNNER_TEMP/cl36-context"
+      - name: Build independent image B without cache (NO MODEL)
+        run: |
+          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file "$GITHUB_WORKSPACE/.github/cl36/Dockerfile" --tag local/cl36-b:review "$RUNNER_TEMP/cl36-context"
+      - name: Compare image layer bytes and config IDs
+        run: |
+          docker save -o "$RUNNER_TEMP/cl36-a.tar" local/cl36-a:review
+          docker save -o "$RUNNER_TEMP/cl36-b.tar" local/cl36-b:review
+          python3 -B integrations/continual_learning/cl27_image_layer_audit.py "$RUNNER_TEMP/cl36-a.tar" "$RUNNER_TEMP/cl36-b.tar"
+          first="$(docker image inspect --format '{{.Id}}' local/cl36-a:review)"
+          second="$(docker image inspect --format '{{.Id}}' local/cl36-b:review)"
+          echo "CL-36 candidate A image config ID: $first"
+          echo "CL-36 candidate B image config ID: $second"
+          test "$first" = "$second"
+          printf "%s\n" "$first" > "$RUNNER_TEMP/cl36-image-config-id.txt"
+          echo "CL-36 verified candidate config ID: $first" >> "$GITHUB_STEP_SUMMARY"
+          # Config ID is neither an approved/signed OCI registry manifest nor permission to execute.
+      - name: Publish candidate config ID as review evidence (NO MODEL)
+        uses: actions/upload-artifact@v4
+        with:
+          name: cl36-candidate-image-config-id
+          path: ${{ runner.temp }}/cl36-image-config-id.txt
+          retention-days: 7
+      - name: Observe full CL-26 Linux boundary in candidate A (NO MODEL)
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 --entrypoint python3 local/cl36-a:review -I -B /opt/research/integrations/continual_learning/cl26_linux_boundary_probe.py
+      - name: Observe full CL-26 Linux boundary in candidate B (NO MODEL)
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 --entrypoint python3 local/cl36-b:review -I -B /opt/research/integrations/continual_learning/cl26_linux_boundary_probe.py
+      - name: Verify both default entrypoints are HARD NO_GO
+        run: |
+          for image in local/cl36-a:review local/cl36-b:review; do
+            docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 "$image" | python3 -c 'import json,sys; x=json.load(sys.stdin); assert x["decision"]=="HARD_NO_GO" and x["models_imported"]==0 and x["forward_calls_executed"]==0 and x["training_steps"]==0 and x["gradient_calls"]==0 and x["weight_updates"]==0 and x["physical_energy"]=="NOT_MEASURED"; print("CL-36 HARD NO_GO")'
+          done
+
+  # This is deliberately impossible to schedule, including workflow_dispatch.
+  # A separate PR must review any activation; Marcus must then approve the
+  # EXACT final image identity and one sample/three-forward start.
+  future_one_sample_inference:
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "HARD NO_GO; no inference command is available in this job"
