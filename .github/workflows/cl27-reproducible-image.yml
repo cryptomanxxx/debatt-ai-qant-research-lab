@@ -1,0 +1,56 @@
+name: CL-27 Deterministic Image Rebuild (NO MODEL)
+
+on:
+  pull_request:
+    paths:
+      - 'integrations/continual_learning/**'
+      - 'integrations/__init__.py'
+      - '.github/workflows/cl27-reproducible-image.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic_no_model:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: Verify frozen source and single input before packaging (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python3 -B cl22_model_source_lock.py
+          python3 -B cl25_single_input_audit.py
+      - name: Stage audited minimal context with epoch-zero mtimes
+        run: |
+          python3 -B integrations/continual_learning/cl27_minimal_build_context.py "$RUNNER_TEMP/cl27-context"
+      - name: Build candidate A with fixed epoch and no cache (NO MODEL)
+        run: |
+          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file "$GITHUB_WORKSPACE/integrations/continual_learning/Dockerfile.cl27-reproducible-probe" --tag local/cl27-a:review "$RUNNER_TEMP/cl27-context"
+      - name: Build candidate B independently with fixed epoch (NO MODEL)
+        run: |
+          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file "$GITHUB_WORKSPACE/integrations/continual_learning/Dockerfile.cl27-reproducible-probe" --tag local/cl27-b:review "$RUNNER_TEMP/cl27-context"
+      - name: Diagnose differences in ephemeral local image layers (NO MODEL)
+        run: |
+          docker save -o "$RUNNER_TEMP/cl27-a.tar" local/cl27-a:review
+          docker save -o "$RUNNER_TEMP/cl27-b.tar" local/cl27-b:review
+          python3 -B integrations/continual_learning/cl27_image_layer_audit.py "$RUNNER_TEMP/cl27-a.tar" "$RUNNER_TEMP/cl27-b.tar"
+      - name: Require identical image IDs in this runner (NOT an approved OCI digest)
+        run: |
+          first="$(docker image inspect --format '{{.Id}}' local/cl27-a:review)"
+          second="$(docker image inspect --format '{{.Id}}' local/cl27-b:review)"
+          echo "candidate A image ID: $first"
+          echo "candidate B image ID: $second"
+          docker image inspect --format 'A created={{.Created}} layers={{json .RootFS.Layers}}' local/cl27-a:review
+          docker image inspect --format 'B created={{.Created}} layers={{json .RootFS.Layers}}' local/cl27-b:review
+          test "$first" = "$second"
+          # Observed in two separate GitHub-runner attempts; candidate ONLY.
+          expected="sha256:a2ef2f7872ddb06f301475d2551a24ed12ca31f8e160732b692fc6518faee0a3"
+          test "$first" = "$expected"
+      - name: Recheck isolated no-model candidate A
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl27-a:review
+      - name: Recheck isolated no-model candidate B
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl27-b:review
