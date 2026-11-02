@@ -1,0 +1,51 @@
+name: CL-31 Deterministic Full Boundary (NO MODEL)
+
+on:
+  pull_request:
+    paths:
+      - 'integrations/continual_learning/**'
+      - 'integrations/__init__.py'
+      - '.github/workflows/cl31-full-boundary-no-model.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deterministic_full_boundary:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Verify frozen code and input (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python3 -B cl22_model_source_lock.py
+          python3 -B cl25_single_input_audit.py
+      - name: Stage 19 audited epoch-zero files without importing models
+        run: |
+          python3 -B integrations/continual_learning/cl31_full_boundary_build_context.py "$RUNNER_TEMP/cl31-context"
+      - name: Build independent candidate A without cache
+        run: |
+          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file "$GITHUB_WORKSPACE/integrations/continual_learning/Dockerfile.cl31-full-boundary-probe" --tag local/cl31-a:review "$RUNNER_TEMP/cl31-context"
+      - name: Build independent candidate B without cache
+        run: |
+          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file "$GITHUB_WORKSPACE/integrations/continual_learning/Dockerfile.cl31-full-boundary-probe" --tag local/cl31-b:review "$RUNNER_TEMP/cl31-context"
+      - name: Verify byte-level image reconstruction and identical config IDs
+        run: |
+          docker save -o "$RUNNER_TEMP/cl31-a.tar" local/cl31-a:review
+          docker save -o "$RUNNER_TEMP/cl31-b.tar" local/cl31-b:review
+          python3 -B integrations/continual_learning/cl27_image_layer_audit.py "$RUNNER_TEMP/cl31-a.tar" "$RUNNER_TEMP/cl31-b.tar"
+          first="$(docker image inspect --format '{{.Id}}' local/cl31-a:review)"
+          second="$(docker image inspect --format '{{.Id}}' local/cl31-b:review)"
+          echo "CL-31 candidate image A: $first"
+          echo "CL-31 candidate image B: $second"
+          test "$first" = "$second"
+      - name: Observe full Linux boundary in reproducible candidate A (NO MODEL)
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl31-a:review
+      - name: Observe full Linux boundary in reproducible candidate B (NO MODEL)
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl31-b:review
