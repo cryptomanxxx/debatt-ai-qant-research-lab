@@ -65,5 +65,13 @@
     "security_signoff": false,
     "marcus_exact_inference_authorization_reference": null
   },
-  "physical_energy": "NOT_MEASURED"
+  "physical_energy": "NOT_MEASURED",
+  "interpretation": {
+    "numeric_parity_only": true,
+    "shared_index_reuse_exercised": false,
+    "shared_index_reuse_requires_step_path": true,
+    "algorithmic_efficiency_claim_authorized": false,
+    "continual_learning_claim_authorized": false,
+    "physical_energy_claim_authorized": false
+  }
 }

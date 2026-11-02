@@ -101,6 +101,31 @@ class TestCL28(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     validate_review_only(changed)
 
+    def test_first_probe_cannot_claim_shared_index_benefit(self):
+        result = audit_synthetic_fixture(self.spec, self.record)
+        self.assertTrue(result["numeric_parity_only"])
+        self.assertFalse(result["shared_index_reuse_exercised"])
+        forbidden = (
+            ("numeric_parity_only", False),
+            ("shared_index_reuse_exercised", True),
+            ("shared_index_reuse_requires_step_path", False),
+            ("algorithmic_efficiency_claim_authorized", True),
+            ("continual_learning_claim_authorized", True),
+            ("physical_energy_claim_authorized", True),
+        )
+        for field, unsafe_value in forbidden:
+            with self.subTest(field=field):
+                changed = copy.deepcopy(self.spec)
+                changed["interpretation"][field] = unsafe_value
+                with self.assertRaisesRegex(ValueError, "scientific interpretation scope"):
+                    validate_review_only(changed)
+
+    def test_interpretation_rejects_bool_integer_substitution(self):
+        changed = copy.deepcopy(self.spec)
+        changed["interpretation"]["shared_index_reuse_exercised"] = 0
+        with self.assertRaisesRegex(ValueError, "scientific interpretation scope"):
+            validate_review_only(changed)
+
     def test_nonzero_training_budget_rejected(self):
         changed = copy.deepcopy(self.spec)
         changed["execution"]["weight_updates_max"] = 1
