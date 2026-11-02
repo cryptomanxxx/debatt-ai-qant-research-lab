@@ -58,7 +58,7 @@ class TestCL10L(unittest.TestCase):
             if statement is branch:
                 break
             leading.append(statement)
-        pre_branch = "\\n".join(ast.unparse(statement) for statement in leading)
+        pre_branch = "\n".join(ast.unparse(statement) for statement in leading)
         self.assertNotIn("enumerate(x)", pre_branch)
         self.assertNotIn("for bit in x", pre_branch)
         self.assertNotIn("for i in x", pre_branch)
