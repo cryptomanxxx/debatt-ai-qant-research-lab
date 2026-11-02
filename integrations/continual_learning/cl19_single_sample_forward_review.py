@@ -13,7 +13,7 @@ from cl16_pinned_dataset_audit import audit_repository_archive
 HERE = Path(__file__).resolve().parent
 SPEC = HERE / "cl19_single_sample_forward_candidate.json"
 EXPECTED_ARMS = ["local_hybrid", "sparse_local_hybrid", "sparse_shared_index"]
-EXPECTED_FEATURES = [0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+EXPECTED_FEATURES = [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
 
 
 class ExecutionNotAuthorized(RuntimeError):
