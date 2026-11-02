@@ -42,7 +42,7 @@ jobs:
 
           if os.environ["EVENT_KIND"] != "pull_request":
               with open(os.environ["GITHUB_OUTPUT"], "a") as out:
-                  out.write("cl33_only=false\\n")
+                  out.write("cl33_only=false\n")
               raise SystemExit(0)
 
           allowed = {
@@ -76,7 +76,7 @@ jobs:
               raise RuntimeError("CL-33 NO_GO: empty PR file list")
           cl33_only = set(files).issubset(allowed)
           with open(os.environ["GITHUB_OUTPUT"], "a") as out:
-              out.write("cl33_only=" + str(cl33_only).lower() + "\\n")
+              out.write("cl33_only=" + str(cl33_only).lower() + "\n")
           print("CL-33 preparation-only:", cl33_only, "changed files:", len(files))
           PY
 
