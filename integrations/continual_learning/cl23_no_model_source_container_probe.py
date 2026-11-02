@@ -6,10 +6,18 @@ identity and model-execution security remain unapproved.
 from __future__ import annotations
 
 import json
+import runpy
 import sys
+from pathlib import Path
 
-from cl20_no_model_container_probe import MODEL_NAMES, verify_no_model_runtime
-from cl22_model_source_lock import audit_current_files
+# Python -I intentionally removes the script directory from sys.path.
+# Load these two audited *no-model utilities* by fixed absolute paths.
+DIR = Path("/opt/research/integrations/continual_learning")
+network_probe = runpy.run_path(str(DIR / "cl20_no_model_container_probe.py"))
+source_audit = runpy.run_path(str(DIR / "cl22_model_source_lock.py"))
+MODEL_NAMES = network_probe["MODEL_NAMES"]
+verify_no_model_runtime = network_probe["verify_no_model_runtime"]
+audit_current_files = source_audit["audit_current_files"]
 
 
 def verify_review_only() -> dict:
