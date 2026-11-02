@@ -33,7 +33,7 @@ jobs:
           assert source.index("CL-43 HARD NO_GO") < source.index("from integrations.continual_learning.cl2_local_mlp import")
           text=Path(".github/workflows/cl38-one-shot-activation-no-go.yml").read_text()
           assert ("\n  proposed_single_sample_launch:\n    if: " + chr(36) + "{{ false }}") in text, "Launch job must remain impossible to schedule"
-          assert "sha256:185ae9556fab66da1dd40987a44cdb600159920d965fe748bbd6a7b8913d344c" in text
+          assert "sha256:34b4fb59817acf1a5a5a8318ef34a26b73b691c0bacf2b69666dcb04efdce2ff" in text
           assert "reserveOnce({ github, owner: context.repo.owner" in text, "Future reservation not wired"
           print("HARD NO_GO: no model imported or executed")
           PY
@@ -66,7 +66,7 @@ jobs:
       - name: Build exact pinned image with no model import
         run: |
           docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file "$GITHUB_WORKSPACE/.github/cl36/Dockerfile" --tag local/cl38-one-sample:locked "$RUNNER_TEMP/cl38-context"
-          test "$(docker image inspect --format '{{.Id}}' local/cl38-one-sample:locked)" = "sha256:185ae9556fab66da1dd40987a44cdb600159920d965fe748bbd6a7b8913d344c"
+          test "$(docker image inspect --format '{{.Id}}' local/cl38-one-sample:locked)" = "sha256:34b4fb59817acf1a5a5a8318ef34a26b73b691c0bacf2b69666dcb04efdce2ff"
       # This mutation is part of an IMPOSSIBLE-TO-SCHEDULE job and currently
       # has contents:read, so the API refuses any real tag reservation even
       # if the job-level condition were somehow changed independently.
