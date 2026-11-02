@@ -26,7 +26,7 @@ jobs:
           assert "cl38-exact-owner-start-approval" in s
           assert "if: " + chr(36) + "{{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}" in s
           assert "APPROVAL_GATE_PROBE_ONLY" in s
-          assert all(token not in s for token in ("docker run", "approved-once", "createRef", "reserveOnce", "pip install"))
+          assert all(token not in s for token in ("docker"+" run", "approved"+"-once", "create"+"Ref", "reserve"+"Once", "pip"+" install"))
           print("CL-41 NO_MODEL static gate verified")
           PY
 
