@@ -88,6 +88,8 @@ def audit_source_texts(sources: dict[str, str]) -> dict:
         methods[arm] = names
         if arm in ("sparse", "shared") and "step" in names:
             _fail("sparse ablation changed local update implementation")
+        if arm == "sparse" and "_forward_with_active" in names:
+            _fail("sparse control illegally reused active indices")
         if arm == "shared" and "_forward" in names:
             _fail("shared index ablation changed standalone forward")
         if "predict" in names and arm != "dense":
@@ -102,6 +104,16 @@ def audit_source_texts(sources: dict[str, str]) -> dict:
         _fail("sparse forward override drift")
     if "_forward_with_active" not in methods["shared"]:
         _fail("shared active index override missing")
+    expected_methods = {
+        "dense": {"__init__", "parameter_count", "_input", "_forward",
+                  "predict", "loss_and_gradients", "step"},
+        "local": {"__init__", "_forward_first_layer_reads",
+                  "_forward_with_active", "step"},
+        "sparse": {"_forward_first_layer_reads", "_forward"},
+        "shared": {"_forward_with_active"},
+    }
+    if any(methods[arm] != expected_methods[arm] for arm in FILES):
+        _fail("unexpected model method addition/removal; independent source review required")
 
     local_tree = ast.parse(sources["local"])
     local = next(n for n in local_tree.body
