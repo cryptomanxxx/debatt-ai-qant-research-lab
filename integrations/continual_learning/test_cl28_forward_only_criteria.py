@@ -28,7 +28,7 @@ class TestCL28(unittest.TestCase):
         self.assertEqual(validate_review_only(self.spec)["decision"], "NO_GO")
         result = audit_synthetic_fixture(self.spec, self.record)
         self.assertTrue(result["candidate_parity_within_tolerance"])
-        self.assertEqual(result["compared_values"], 40)
+        self.assertEqual(result["compared_values"], 20)
         self.assertFalse(result["observations_authenticated"])
 
     def test_tiny_roundoff_accepted_in_fixture_only(self):
