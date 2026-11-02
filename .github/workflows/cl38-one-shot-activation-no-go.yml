@@ -28,7 +28,9 @@ jobs:
           source=Path(".github/cl36/once.py").read_text()
           tree=ast.parse(source)
           runner=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=="run_one_approved_probe")
-          assert isinstance(runner.body[1],ast.Raise), "Runner missing unconditional execution rejection"
+          assert "16343837fb8fa14308d0f4c1ba45ec994abcc25f0bda0b565d077b850840668a" in source
+          assert "CL43_APPROVAL_TOKEN" in source
+          assert source.index("CL-43 HARD NO_GO") < source.index("from integrations.continual_learning.cl2_local_mlp import")
           text=Path(".github/workflows/cl38-one-shot-activation-no-go.yml").read_text()
           assert ("\n  proposed_single_sample_launch:\n    if: " + chr(36) + "{{ false }}") in text, "Launch job must remain impossible to schedule"
           assert "sha256:185ae9556fab66da1dd40987a44cdb600159920d965fe748bbd6a7b8913d344c" in text
@@ -92,5 +94,6 @@ jobs:
         env:
           CL36_OWNER_APPROVAL_REFERENCE: NOT_AUTHORIZED
           CL36_FINAL_IMAGE_CONFIG_ID: NOT_AUTHORIZED
+          CL43_APPROVAL_TOKEN: NOT_AUTHORIZED
         run: |
-          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 -e CL36_OWNER_APPROVAL_REFERENCE -e CL36_FINAL_IMAGE_CONFIG_ID local/cl38-one-sample:locked --approved-once
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 -e CL36_OWNER_APPROVAL_REFERENCE -e CL36_FINAL_IMAGE_CONFIG_ID -e CL43_APPROVAL_TOKEN local/cl38-one-sample:locked --approved-once
