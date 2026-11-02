@@ -81,8 +81,16 @@ jobs:
             await reserveOnce({ github, owner: context.repo.owner,
               repo: context.repo.repo, commitSha: context.sha,
               imageConfigId: EXPECTED_IMAGE_CONFIG_ID });
-      # Intentionally no docker run --approved-once step exists here.
-      # This job itself is statically disabled, and the runner independently
-      # raises HARD NO_GO even if called with --approved-once.
-      - name: Remain in HARD NO_GO
-        run: echo "Not authorized to invoke models. Stop before inference."
+      # This step is only a reviewable PROPOSAL. The entire job has if:false,
+      # contents:read makes the preceding tag reservation fail, and the Python
+      # runner unconditionally raises before importing a model. The approval
+      # environment has already been separately checked with CL-41 NO_MODEL.
+      # A later approval-gated activation PR must resolve all three locks,
+      # recompute the image ID if the Python runner changes, and obtain
+      # Marcus's exact new-image start approval before any model execution.
+      - name: Proposed exact three-forward run (TRIPLE LOCKED; NEVER EXECUTED)
+        env:
+          CL36_OWNER_APPROVAL_REFERENCE: NOT_AUTHORIZED
+          CL36_FINAL_IMAGE_CONFIG_ID: NOT_AUTHORIZED
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 -e CL36_OWNER_APPROVAL_REFERENCE -e CL36_FINAL_IMAGE_CONFIG_ID local/cl38-one-sample:locked --approved-once
