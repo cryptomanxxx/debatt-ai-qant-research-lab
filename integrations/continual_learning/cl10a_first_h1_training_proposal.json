@@ -1,0 +1,170 @@
+{
+  "kind": "CL10A_FIRST_BOUNDED_H1_TRAINING_PROPOSAL",
+  "version": "cl10a-review-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "training_authorized": false,
+  "inference_authorized": false,
+  "dataset_generation_authorized": false,
+  "runnable_workflow_created": false,
+  "observations_recorded": 0,
+  "run_trigger": "NONE",
+  "planned_platform": "github_actions_standard_ubuntu_cpu_only",
+  "planned_model": {
+    "shape": [
+      16,
+      8,
+      2
+    ],
+    "parameters_per_arm": 154,
+    "learning_rate": 0.05,
+    "local_rate": 0.01,
+    "implementation_paths": [
+      "integrations/continual_learning/cl2_mlp_baseline.py",
+      "integrations/continual_learning/cl2_local_mlp.py",
+      "integrations/continual_learning/cl2_sparse_forward.py",
+      "integrations/continual_learning/cl2_shared_index_forward.py"
+    ]
+  },
+  "dataset": {
+    "generator": "integrations.continual_learning.cl2_shared_rule_candidate.generate_shared_rule_candidate",
+    "generator_version": "cl2-shared-rule-candidate-v0",
+    "label_rule": "xor_bits_0_1",
+    "tasks": [
+      "T1",
+      "T2",
+      "T3",
+      "T4"
+    ],
+    "train_per_task": 128,
+    "heldout_per_task": 64,
+    "balanced_classes": true,
+    "globally_disjoint_input_vectors_per_seed": true,
+    "task_id_feature": false,
+    "replay": false,
+    "heldout_tuning": false,
+    "per_seed_dataset_sha256": null,
+    "generator_source_sha256": null,
+    "calibration_split_digest": null
+  },
+  "training_plan": {
+    "arms": [
+      "dense_sgd",
+      "local_hybrid",
+      "sparse_local_hybrid",
+      "sparse_shared_index"
+    ],
+    "seeds": [
+      101,
+      102,
+      103,
+      104,
+      105
+    ],
+    "tasks_order": [
+      "T1",
+      "T2",
+      "T3",
+      "T4"
+    ],
+    "passes_per_task": 1,
+    "updates_per_arm_seed_max": 512,
+    "arm_seed_pairs": 20,
+    "total_updates_max": 10240,
+    "automatic_retries": false
+  },
+  "evaluation": {
+    "checkpoints": [
+      "pretrain",
+      "post_T1",
+      "post_T2",
+      "post_T3",
+      "post_T4"
+    ],
+    "heldout_tasks_each_checkpoint": [
+      "T1",
+      "T2",
+      "T3",
+      "T4"
+    ],
+    "heldout_examples_per_task": 64,
+    "planned_predictions_if_all_complete": 25600,
+    "final_accuracy_aggregation": "unweighted_mean_T1_T2_T3_T4_at_post_T4",
+    "per_arm_seed_final_floor": 0.65,
+    "max_absolute_paired_gap": 0.05,
+    "train_only_learnability_threshold": null,
+    "numerical_parity_tolerance": null
+  },
+  "contrasts": [
+    {
+      "id": "primary_sparse",
+      "reference": "local_hybrid",
+      "candidate": "sparse_local_hybrid",
+      "effects_phases": [
+        "train",
+        "heldout_inference"
+      ]
+    },
+    {
+      "id": "secondary_index_reuse",
+      "reference": "sparse_local_hybrid",
+      "candidate": "sparse_shared_index",
+      "effects_phases": [
+        "train"
+      ],
+      "heldout_inference": "NO_INTERVENTION_CONTROL"
+    }
+  ],
+  "measurement": {
+    "observed_source_event_components": [
+      "logical_parameter_reads",
+      "logical_parameter_writes",
+      "input_visits",
+      "active_index_visits",
+      "control_events",
+      "nonlinear_events"
+    ],
+    "paired_delta": "candidate_minus_reference",
+    "scalar_work_weights": null,
+    "scalar_directional_claim_allowed": false,
+    "physical_energy": "NOT_MEASURED",
+    "wall_time_and_rss": "DESCRIPTIVE_ONLY_AFTER_REVIEW"
+  },
+  "execution_budget": {
+    "duration_minutes_max": null,
+    "artifact_mib_max": 20,
+    "network_egress_policy": "UNRESOLVED_NO_NETWORK_HOST_GATE",
+    "cpu_only": true,
+    "paid_runners_allowed": false,
+    "exact_runner_image_sha": null
+  },
+  "provenance": {
+    "execution_code_commit_sha": null,
+    "source_tree_sha256": null,
+    "environment_manifest_sha256": null,
+    "protocol_sha256": null,
+    "per_seed_data_sha256": null,
+    "instrumentation_version_sha256": null,
+    "review_id": null,
+    "marcus_exact_execution_authorization_reference": null
+  },
+  "result_artifacts_proposed": [
+    "manifest.json",
+    "attempts.jsonl",
+    "heldout_accuracy.jsonl",
+    "source_events.jsonl",
+    "failure_ledger.jsonl",
+    "checksums.sha256"
+  ],
+  "gates_to_resolve_before_execution": [
+    "independent_train_only_calibration_and_split_review",
+    "frozen_per_seed_input_digests",
+    "independently_approved_numeric_tolerance",
+    "approved_measurement_scope_and_scalar_weights_or_vector_only",
+    "implemented_immutable_artifact_writer",
+    "verified_network_boundary_or_separately_amended_control",
+    "exact_resource_budget_and_runner_image",
+    "independent_scientific_and_security_signoff",
+    "marcus_separate_exact_training_and_inference_authorization"
+  ]
+}
