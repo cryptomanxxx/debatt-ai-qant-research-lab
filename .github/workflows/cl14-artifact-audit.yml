@@ -1,0 +1,35 @@
+name: CL-14 Independent CL-13 Artifact Review (NO MODEL)
+
+on:
+  pull_request:
+    paths:
+      - 'integrations/continual_learning/cl14_independent_artifact_audit.py'
+      - '.github/workflows/cl14-artifact-audit.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  verify_cl13_artifact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+      - name: Refuse missing or tampered artifact fixture (NO DATA GENERATION)
+        working-directory: integrations/continual_learning
+        run: python -B -m unittest -v test_cl14_independent_artifact_audit.py
+      - name: Download exact previously generated approved-scope CL-13 artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh run download 41432369864 --repo cryptomanxxx/debatt-ai-qant-research-lab --name cl13-data-only-unapproved-candidate --dir cl13-independent-audit-input
+      - name: Independently audit artifact bytes, labels, splits and SHA-256 (NO MODEL)
+        run: python -B integrations/continual_learning/cl14_independent_artifact_audit.py cl13-independent-audit-input .
+      - name: Prove tampered report authority and energy fields are rejected
+        working-directory: integrations/continual_learning
+        env:
+          CL14_REAL_ARTIFACT_PATH: ../../cl13-independent-audit-input
+        run: python -B -m unittest -v test_cl14_independent_artifact_audit.py
