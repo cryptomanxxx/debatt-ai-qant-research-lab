@@ -111,6 +111,11 @@ jobs:
         run: python -B -m unittest -v integrations.continual_learning.test_cl10l_forward_hooks
       - name: Check CL-10M training-phase source hooks (NO MODEL)
         run: python -B -m unittest -v integrations.continual_learning.test_cl10m_training_hooks
+      - name: CL-24 one-sample inference approval packet (HARD NO_GO, NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python -B cl24_inference_approval_packet.py
+          python -B -m unittest -v test_cl24_inference_approval_packet.py
       - name: CL-22 exact source closure and Git blob provenance (NO MODEL)
         working-directory: integrations/continual_learning
         run: |
