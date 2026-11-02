@@ -37,7 +37,7 @@ def validate_review_only(spec: dict, source_bytes: dict[str, bytes]) -> dict:
                 "security_signoff", "scientific_signoff"))):
         raise ValueError("CL-22 NO_GO: authorization or model scope drift")
     frozen = spec.get("source_git_blob_sha1")
-    expected_paths = {PREFIX + name for name in EXPECTED_FILES}
+    expected_paths = {PREFIX + name for name in EXPECTED_FILES} | {"integrations/__init__.py"}
     if (type(frozen) is not dict or set(frozen) != expected_paths
             or set(source_bytes) != expected_paths):
         raise ValueError("CL-22 NO_GO: model source closure drift")
@@ -51,7 +51,20 @@ def validate_review_only(spec: dict, source_bytes: dict[str, bytes]) -> dict:
         # Parse source text only. Never import or construct any model.
         tree = ast.parse(data, filename=path)
         for node in ast.walk(tree):
+            # Do not skip calls when handling import nodes. Dynamic imports
+            # invalidate the static dependency-closure claim.
+            if isinstance(node, ast.Call):
+                if (isinstance(node.func, ast.Name)
+                        and node.func.id in {"__import__", "eval", "exec"}):
+                    raise ValueError("CL-22 NO_GO: dynamic evaluation in source: " + path)
+                if (isinstance(node.func, ast.Attribute)
+                        and node.func.attr == "import_module"):
+                    raise ValueError("CL-22 NO_GO: dynamic import in source: " + path)
             if isinstance(node, ast.ImportFrom):
+                if node.level != 0 or node.module in {
+                    "integrations", "integrations.continual_learning",
+                }:
+                    raise ValueError("CL-22 NO_GO: unsupported relative/package import: " + path)
                 modules = [node.module] if node.module else []
             elif isinstance(node, ast.Import):
                 modules = [alias.name for alias in node.names]
@@ -63,10 +76,8 @@ def validate_review_only(spec: dict, source_bytes: dict[str, bytes]) -> dict:
                     dependency = PREFIX + module.removeprefix(prefix) + ".py"
                     if dependency not in expected_paths:
                         raise ValueError("CL-22 NO_GO: unfrozen model dependency: " + dependency)
-            if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in {
-                "__import__", "eval", "exec",
-            }:
-                raise ValueError("CL-22 NO_GO: dynamic evaluation in source: " + path)
+                elif module == "integrations.continual_learning":
+                    raise ValueError("CL-22 NO_GO: unsupported package import: " + path)
     return {
         "decision": "NO_GO",
         "source_files_pinned": len(expected_paths),
@@ -81,7 +92,7 @@ def validate_review_only(spec: dict, source_bytes: dict[str, bytes]) -> dict:
 
 def audit_current_files() -> dict:
     spec = json.loads(SPEC.read_text(encoding="ascii"))
-    paths = spec["source_git_blob_sha1"]
+    # An absent namespace-package initializer must stay absent, or its new\n    # executable contents would not be covered by the frozen manifest.\n    if (HERE / "__init__.py").exists():\n        raise ValueError("CL-22 NO_GO: unpinned namespace initializer added")\n    paths = spec["source_git_blob_sha1"]
     return validate_review_only(spec, {
         path: (ROOT / path).read_bytes() for path in paths
     })
