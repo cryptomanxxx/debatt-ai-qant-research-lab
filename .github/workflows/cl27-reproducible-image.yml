@@ -45,6 +45,9 @@ jobs:
           docker image inspect --format 'A created={{.Created}} layers={{json .RootFS.Layers}}' local/cl27-a:review
           docker image inspect --format 'B created={{.Created}} layers={{json .RootFS.Layers}}' local/cl27-b:review
           test "$first" = "$second"
+          # Observed in two separate GitHub-runner attempts; candidate ONLY.
+          expected="sha256:a2ef2f7872ddb06f301475d2551a24ed12ca31f8e160732b692fc6518faee0a3"
+          test "$first" = "$expected"
       - name: Recheck isolated no-model candidate A
         run: |
           docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl27-a:review
