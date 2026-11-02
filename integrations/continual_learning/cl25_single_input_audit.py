@@ -34,9 +34,14 @@ def validate_packaged(packet: dict) -> dict:
 
 def verify_source_bytes(data: bytes, packet: dict) -> dict:
     validate_packaged(packet)
-    if hashlib.sha256(data).hexdigest() != SHA256:
-        raise ValueError("CL-25 NO_GO: archived dataset fingerprint drift")
     archive = json.loads(data)
+    canonical = json.dumps(
+        archive, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+    ).encode("ascii")
+    if hashlib.sha256(canonical).hexdigest() != SHA256:
+        raise ValueError("CL-25 NO_GO: archived canonical dataset fingerprint drift")
+    if data != canonical + bytes([10]):
+        raise ValueError("CL-25 NO_GO: non-canonical archived file bytes")
     if (type(archive) is not list or len(archive) < 1
             or archive[0].get("task_id") != "T1"
             or archive[0]["train"][0] != [FEATURES, 0]):
