@@ -49,3 +49,16 @@ jobs:
           echo "TRAINING_STEPS=0"
           echo "WEIGHT_UPDATES=0"
           echo "PHYSICAL_ENERGY=NOT_MEASURED"
+      - name: Validate approval token digest without disclosure (NO MODEL)
+        env:
+          CL43_APPROVAL_TOKEN: ${{ secrets.CL43_APPROVAL_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, hmac, os
+          token = os.environ.get("CL43_APPROVAL_TOKEN", "")
+          expected = "16343837fb8fa14308d0f4c1ba45ec994abcc25f0bda0b565d077b850840668a"
+          valid = len(token) == 64 and hmac.compare_digest(hashlib.sha256(token.encode("ascii", "strict")).hexdigest(), expected)
+          if not valid:
+              raise SystemExit("CL-44 HARD NO_GO: environment token digest mismatch")
+          print("CL-44 environment token digest verified; NO MODEL, NO GO")
+          PY
