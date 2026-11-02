@@ -1,0 +1,65 @@
+name: CL-38 One-Sample Activation Proposal (HARD NO_GO)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/cl38-one-shot-activation-no-go.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify_locked_activation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Verify both independent execution locks without importing models
+        shell: bash
+        run: |
+          python3 -I -B .github/cl36/once.py | python3 -c 'import json,sys; x=json.load(sys.stdin); assert x["decision"]=="HARD_NO_GO" and x["models_imported"]==0 and x["forward_calls_executed"]==0'
+          python3 - <<'PY'
+          import ast
+          from pathlib import Path
+          source=Path(".github/cl36/once.py").read_text()
+          tree=ast.parse(source)
+          runner=next(n for n in tree.body if isinstance(n,ast.FunctionDef) and n.name=="run_one_approved_probe")
+          assert isinstance(runner.body[1],ast.Raise), "Runner missing unconditional execution rejection"
+          text=Path(".github/workflows/cl38-one-shot-activation-no-go.yml").read_text()
+          assert "if: " + chr(36) + "{{ false }}" in text, "Launch job must remain impossible to schedule"
+          assert "sha256:185ae9556fab66da1dd40987a44cdb600159920d965fe748bbd6a7b8913d344c" in text
+          print("HARD NO_GO: no model imported or executed")
+          PY
+
+  # This job is IMPOSSIBLE to schedule in CL-38. Owner approval does not
+  # follow from workflow_dispatch, an environment name, or a string input.
+  # A LATER separately reviewed commit must revise BOTH independent locks
+  # after Marcus approves the exact start, with one-run accounting.
+  proposed_single_sample_launch:
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    environment: cl38-exact-owner-start-approval
+    concurrency:
+      group: cl38-one-sample-seed101-T1-index0
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Stage only the sealed 21-file model image
+        run: python3 -B .github/cl36/stage_context.py "$RUNNER_TEMP/cl38-context"
+      - name: Build exact pinned image with no model import
+        run: |
+          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file "$GITHUB_WORKSPACE/.github/cl36/Dockerfile" --tag local/cl38-one-sample:locked "$RUNNER_TEMP/cl38-context"
+          test "$(docker image inspect --format '{{.Id}}' local/cl38-one-sample:locked)" = "sha256:185ae9556fab66da1dd40987a44cdb600159920d965fe748bbd6a7b8913d344c"
+      # Intentionally no docker run --approved-once step exists here.
+      # This job itself is statically disabled, and the runner independently
+      # raises HARD NO_GO even if called with --approved-once.
+      - name: Remain in HARD NO_GO
+        run: echo "Not authorized to invoke models. Stop before inference."
