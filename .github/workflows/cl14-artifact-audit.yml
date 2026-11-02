@@ -28,3 +28,8 @@ jobs:
         run: gh run download 41432369864 --repo cryptomanxxx/debatt-ai-qant-research-lab --name cl13-data-only-unapproved-candidate --dir cl13-independent-audit-input
       - name: Independently audit artifact bytes, labels, splits and SHA-256 (NO MODEL)
         run: python -B integrations/continual_learning/cl14_independent_artifact_audit.py cl13-independent-audit-input .
+      - name: Prove tampered report authority and energy fields are rejected
+        working-directory: integrations/continual_learning
+        env:
+          CL14_REAL_ARTIFACT_PATH: ../../cl13-independent-audit-input
+        run: python -B -m unittest -v test_cl14_independent_artifact_audit.py
