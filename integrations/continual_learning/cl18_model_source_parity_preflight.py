@@ -33,12 +33,27 @@ def audit_source_texts(sources: dict[str, str]) -> dict:
         if len(classes) != 1:
             _fail("missing or duplicate model class " + arm)
         cls = classes[0]
-        parents = [n.id for n in cls.bases if isinstance(n, ast.Name)]
+        # Every base must be checked. Ignoring qualified/mixed-in bases can
+        # silently alter MRO and replace the inherited update implementation.
+        if any(not isinstance(base, ast.Name) for base in cls.bases):
+            _fail("unsupported qualified or dynamic inheritance " + arm)
+        parents = [base.id for base in cls.bases]
         if expected_parent is None:
             if parents:
                 _fail("dense baseline unexpectedly inherited")
         elif parents != [expected_parent]:
             _fail("inheritance drift " + arm)
+        if cls.decorator_list or cls.keywords:
+            _fail("decorated or parameterized class inheritance " + arm)
+        # Current model classes contain only methods and docstrings. Reject
+        # class-level assignments (including lambda aliasing), exec(), and
+        # other executable bodies that could replace step/predict/_forward.
+        if any(not (isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+                    or (isinstance(node, ast.Expr)
+                        and isinstance(node.value, ast.Constant)
+                        and type(node.value.value) is str))
+               for node in cls.body):
+            _fail("class-level binding or execution drift " + arm)
         names = {n.name for n in cls.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))}
         methods[arm] = names
         if arm in ("sparse", "shared") and "step" in names:
