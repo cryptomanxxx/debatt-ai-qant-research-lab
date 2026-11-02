@@ -35,6 +35,30 @@ class TestCL21(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate_review_only(self.spec, self.docker, altered)
 
+    def test_timeout_100_with_comment_10_rejected(self):
+        changed = self.workflow.replace(
+            "    timeout-minutes: 10",
+            "    timeout-minutes: 100\n    # timeout-minutes: 10",
+        )
+        with self.assertRaisesRegex(ValueError, "executable CI job"):
+            validate_review_only(self.spec, self.docker, changed)
+
+    def test_read_only_only_in_comment_rejected(self):
+        changed = self.workflow.replace(
+            "--read-only --pids-limit=32",
+            "--pids-limit=32 # --read-only",
+        )
+        with self.assertRaisesRegex(ValueError, "executable CI job"):
+            validate_review_only(self.spec, self.docker, changed)
+
+    def test_extra_executable_step_rejected(self):
+        changed = self.workflow + (
+            "      - name: Unauthorized extra step\n"
+            "        run: python -c 'print(1)'\n"
+        )
+        with self.assertRaisesRegex(ValueError, "executable CI job"):
+            validate_review_only(self.spec, self.docker, changed)
+
 
 if __name__ == "__main__":
     unittest.main()
