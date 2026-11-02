@@ -54,6 +54,10 @@ jobs:
               ".github/workflows/cl34-sealed-first-forward-no-go.yml",
               ".github/cl34/stage_context.py",
               ".github/cl34/Dockerfile",
+              ".github/cl36/once.py",
+              ".github/cl36/stage_context.py",
+              ".github/cl36/Dockerfile",
+              ".github/workflows/cl36-one-forward-no-go.yml",
           }
           files = []
           for page in range(1, 51):
