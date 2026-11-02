@@ -19,6 +19,9 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
+      - name: Refuse missing or tampered artifact fixture (NO DATA GENERATION)
+        working-directory: integrations/continual_learning
+        run: python -B -m unittest -v test_cl14_independent_artifact_audit.py
       - name: Download exact previously generated approved-scope CL-13 artifact
         env:
           GH_TOKEN: ${{ github.token }}
