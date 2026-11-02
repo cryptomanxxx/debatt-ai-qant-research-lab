@@ -1,6 +1,6 @@
-# CL-20 review-only candidate. Base tag is NOT pinned to a digest yet.
-# Build may access the registry; the docker run below must be network-none.
-FROM python:3.11-slim
+# CL-21 review-only base-image pin from CL-20 run 41455392294.
+# The FINAL application image remains unapproved and is NOT registry-pinned.
+FROM python:3.11-slim@sha256:673719e071ecf27434fd2635bbd8d00f49f4fdd81f243143438a42ced8bedf60
 WORKDIR /opt/research
 COPY integrations/continual_learning /opt/research/integrations/continual_learning
 USER 65534:65534
