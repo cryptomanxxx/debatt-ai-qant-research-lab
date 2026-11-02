@@ -1,0 +1,7 @@
+# CL-31 deterministic 19-file context (CL-27 18 files + CL-26 boundary probe).
+# No model import, construction, inference, training, or energy measurement.
+# Candidate image ID only; NOT final approved/signed OCI identity.
+FROM python:3.11-slim@sha256:673719e071ecf27434fd2635bbd8d00f49f4fdd81f243143438a42ced8bedf60
+COPY . /
+USER 65534:65534
+ENTRYPOINT ["python3", "-I", "-B", "/opt/research/integrations/continual_learning/cl26_linux_boundary_probe.py"]
