@@ -111,6 +111,11 @@ jobs:
         run: python -B -m unittest -v integrations.continual_learning.test_cl10l_forward_hooks
       - name: Check CL-10M training-phase source hooks (NO MODEL)
         run: python -B -m unittest -v integrations.continual_learning.test_cl10m_training_hooks
+      - name: CL-22 exact source closure and Git blob provenance (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python -B cl22_model_source_lock.py
+          python -B -m unittest -v test_cl22_model_source_lock.py
       - name: CL-21 pinned Python base and strict resource budget (NO MODEL)
         working-directory: integrations/continual_learning
         run: |

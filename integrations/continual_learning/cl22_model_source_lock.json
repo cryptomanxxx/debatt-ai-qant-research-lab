@@ -1,0 +1,29 @@
+{
+  "kind": "CL22_MODEL_SOURCE_CLOSURE_REVIEW_ONLY",
+  "decision": "NO_GO",
+  "review_only": true,
+  "model_arms": [
+    "local_hybrid",
+    "sparse_local_hybrid",
+    "sparse_shared_index"
+  ],
+  "source_git_blob_sha1": {
+    "integrations/__init__.py": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+    "integrations/continual_learning/cl1_cpu.py": "92d9a142c432ef87cbb1d2fbaca97cca42755182",
+    "integrations/continual_learning/cl2_mlp_baseline.py": "9cbc81de6d1a0eb9f762555975390c9d990e5a5c",
+    "integrations/continual_learning/cl2_local_mlp.py": "436f4574888555ebfbe20a832b4a808186e21ee9",
+    "integrations/continual_learning/cl2_sparse_forward.py": "c8745b9e180d9c033dce997f414dc1803b39b1ad",
+    "integrations/continual_learning/cl2_shared_index_forward.py": "c34f7dd5aceebab1e778e88dc67102305b101c0f",
+    "integrations/continual_learning/cl10j_source_event_collector.py": "68db27ba22e9cf715638d9c9939fdad8dbe33f3e",
+    "integrations/continual_learning/cl10k_weight_update_hooks.py": "6ccec01bdfcbc6743dfeeac9c4898290eada1622",
+    "integrations/continual_learning/cl10l_forward_hooks.py": "cfd9e2da41566405be427e04eace081fa2220aec",
+    "integrations/continual_learning/cl10m_training_hooks.py": "f351353769758072afbb0a503c5107067fce6ce0"
+  },
+  "model_import_authorized": false,
+  "inference_authorized": false,
+  "training_authorized": false,
+  "energy_measurement_authorized": false,
+  "final_model_image_digest": null,
+  "security_signoff": false,
+  "scientific_signoff": false
+}
