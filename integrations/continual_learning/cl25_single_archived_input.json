@@ -3,7 +3,7 @@
   "decision": "NO_GO",
   "review_only": true,
   "source_dataset": "integrations/continual_learning/frozen_data_candidate/cl13/seed-101.json",
-  "source_dataset_sha256": "308a407d08f4591784b8ba2265bd72ddde29c85d40d3dbded251bc3653f8b93e",
+  "source_dataset_canonical_sha256": "308a407d08f4591784b8ba2265bd72ddde29c85d40d3dbded251bc3653f8b93e",
   "seed": 101,
   "task": "T1",
   "partition": "train",
