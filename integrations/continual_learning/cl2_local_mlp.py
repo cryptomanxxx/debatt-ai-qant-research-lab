@@ -11,6 +11,8 @@ from typing import Iterable
 
 from integrations.continual_learning.cl1_cpu import Counters
 from integrations.continual_learning.cl10k_weight_update_hooks import note_weight_update
+from integrations.continual_learning.cl10l_forward_hooks import attached_candidate
+from integrations.continual_learning.cl10m_training_hooks import observed_local_step_active, record_nonlinear_value
 from integrations.continual_learning.cl2_mlp_baseline import (
     HIDDEN_SIZE,
     INPUT_SIZE,
@@ -56,13 +58,21 @@ class LocalHebbianMLP(TinyDenseMLP):
         if type(label) is not int or not 0 <= label < N_CLASSES:
             raise ValueError("label must be 0 or 1")
         x = self._input(features)
-        active = [i for i, bit in enumerate(x) if bit]
+        active = (observed_local_step_active(self, x) if attached_candidate(self)
+                  else [i for i, bit in enumerate(x) if bit])
         hidden, logits = self._forward_with_active(x, active)
         offset = max(logits)
-        scaled = [math.exp(value - offset) for value in logits]
+        if attached_candidate(self):
+            scaled = [record_nonlinear_value(self, "softmax_exp_call", math.exp(value - offset))
+                      for value in logits]
+        else:
+            scaled = [math.exp(value - offset) for value in logits]
         denom = sum(scaled)
         probabilities = [value / denom for value in scaled]
-        loss = -math.log(probabilities[label])
+        if attached_candidate(self):
+            loss = -record_nonlinear_value(self, "loss_log_call", math.log(probabilities[label]))
+        else:
+            loss = -math.log(probabilities[label])
 
         # Output layer: local pre/post activity and explicit supervised error.
         # The error itself depends on both output scores; not pure STDP.
