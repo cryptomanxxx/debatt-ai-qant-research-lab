@@ -25,38 +25,55 @@ def require(ok: bool, reason: str):
         raise ValueError("CL-28 NO_GO: " + reason)
 
 
+
+def _exact_contract(actual: object, expected: object) -> bool:
+    """Compare fixed contract values without bool/int/float coercion."""
+    if type(actual) is not type(expected):
+        return False
+    if type(expected) is dict:
+        return (actual.keys() == expected.keys()
+                and all(_exact_contract(actual[key], item)
+                        for key, item in expected.items()))
+    if type(expected) is list:
+        return (len(actual) == len(expected)
+                and all(_exact_contract(a, b)
+                        for a, b in zip(actual, expected)))
+    return actual == expected
+
+
 def validate_review_only(spec: dict) -> dict:
     require(type(spec) is dict and spec.get("kind") ==
             "CL28_FORWARD_ONLY_NUMERIC_ACCEPTANCE_CANDIDATE"
             and spec.get("version") == "cl28-review-v1"
             and spec.get("decision") == "NO_GO"
             and spec.get("review_only") is True, "execution status")
-    require(spec.get("sample") == {
+    require(_exact_contract(spec.get("sample"), {
         "seed": 101, "task": "T1", "partition": "train", "index": 0,
         "active_indices": [2, 8], "heldout_access": False,
-    }, "frozen sample or active indices")
-    require(spec.get("arms") == ARMS and spec.get("pairs") == PAIRS, "paired arms")
-    require(spec.get("trace") == {
+    }), "frozen sample or active indices")
+    require(_exact_contract(spec.get("arms"), ARMS) and _exact_contract(spec.get("pairs"), PAIRS), "paired arms")
+    require(_exact_contract(spec.get("trace"), {
         "required_fields": FIELDS, "initial_weights_count": 154,
         "hidden_count": 8, "logits_count": 2, "finite_numeric_only": True,
         "same_initial_weights_required": True,
         "active_indices_exact_match": True, "no_loss_or_optimizer_fields": True,
-    }, "forward trace contract")
-    require(spec.get("tolerance") == {
+    }), "forward trace contract")
+    require(_exact_contract(spec.get("tolerance"), {
         "absolute": 1e-12, "relative": 1e-10,
         "method": "math_isclose_max_absolute_or_relative",
         "independently_approved": False,
-    }, "candidate tolerance or false signoff")
-    require(spec.get("execution") == {
+    }), "candidate tolerance or false signoff")
+    require(_exact_contract(spec.get("execution"), {
         "model_import_authorized": False, "inference_authorized": False,
         "training_authorized": False, "weight_updates_max": 0,
         "gradient_calls_max": 0, "forward_calls_max": 3,
         "observations_recorded": 0,
-    }, "execution budget or false authorization")
-    require(spec.get("approvals") == {
+    }), "execution budget or false authorization")
+    require(_exact_contract(spec.get("approvals"), {
         "scientific_signoff": False, "security_signoff": False,
         "marcus_exact_inference_authorization_reference": None,
-    } and spec.get("physical_energy") == "NOT_MEASURED", "false approval/energy")
+    }) and type(spec.get("physical_energy")) is str
+            and spec.get("physical_energy") == "NOT_MEASURED", "false approval/energy")
     require(not any(any(name in module for name in MODEL_NAMES) for module in sys.modules),
             "forbidden model import")
     return {
