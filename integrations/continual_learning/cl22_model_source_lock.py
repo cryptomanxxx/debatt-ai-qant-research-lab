@@ -45,7 +45,7 @@ def validate_review_only(spec: dict, source_bytes: dict[str, bytes]) -> dict:
         data = source_bytes[path]
         if type(data) is not bytes:
             raise ValueError("CL-22 NO_GO: source must be raw bytes")
-        blob = b"blob " + str(len(data)).encode("ascii") + b"\\0" + data
+        blob = b"blob " + str(len(data)).encode("ascii") + bytes([0]) + data
         if hashlib.sha1(blob).hexdigest() != frozen[path]:
             raise ValueError("CL-22 NO_GO: source fingerprint drift: " + path)
         # Parse source text only. Never import or construct any model.
