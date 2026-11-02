@@ -52,6 +52,16 @@ class TestCL10L(unittest.TestCase):
                       and ast.unparse(n.test) == "mode == 'shared'")
         shared_only = "\n".join(ast.unparse(statement) for statement in branch.body)
         self.assertNotIn("enumerate(x)", shared_only)
+        # Also reject any uncounted full scan BEFORE entering shared mode.
+        leading = []
+        for statement in method.body:
+            if statement is branch:
+                break
+            leading.append(statement)
+        pre_branch = "\\n".join(ast.unparse(statement) for statement in leading)
+        self.assertNotIn("enumerate(x)", pre_branch)
+        self.assertNotIn("for bit in x", pre_branch)
+        self.assertNotIn("for i in x", pre_branch)
 
     def test_unattached_fake_object_does_not_activate_forward(self):
         class Fake:
