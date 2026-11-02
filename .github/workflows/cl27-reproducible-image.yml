@@ -22,10 +22,10 @@ jobs:
           find integrations -exec touch -h -d '@0' {} +
       - name: Build candidate A with fixed epoch and no cache (NO MODEL)
         run: |
-          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file integrations/continual_learning/Dockerfile.cl25-one-input-probe --tag local/cl27-a:review .
+          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file integrations/continual_learning/Dockerfile.cl27-reproducible-probe --tag local/cl27-a:review .
       - name: Build candidate B independently with fixed epoch (NO MODEL)
         run: |
-          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file integrations/continual_learning/Dockerfile.cl25-one-input-probe --tag local/cl27-b:review .
+          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file integrations/continual_learning/Dockerfile.cl27-reproducible-probe --tag local/cl27-b:review .
       - name: Diagnose differences in ephemeral local image layers (NO MODEL)
         run: |
           docker save -o "$RUNNER_TEMP/cl27-a.tar" local/cl27-a:review
