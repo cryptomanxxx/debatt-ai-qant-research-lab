@@ -110,6 +110,11 @@ jobs:
         run: python -B -m unittest -v integrations.continual_learning.test_cl10l_forward_hooks
       - name: Check CL-10M training-phase source hooks (NO MODEL)
         run: python -B -m unittest -v integrations.continual_learning.test_cl10m_training_hooks
+      - name: CL-17 profile class-balancing bias and cross-seed data overlap (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python -B cl17_scientific_data_profile.py
+          python -B -m unittest -v test_cl17_scientific_data_profile.py
       - name: CL-16 independently check archived H1 bytes against locked CL-15 receipt
         working-directory: integrations/continual_learning
         run: python -B cl16_pinned_dataset_audit.py
