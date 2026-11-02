@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from typing import Iterable
 
 from integrations.continual_learning.cl10k_weight_update_hooks import note_weight_update
+from integrations.continual_learning.cl10l_forward_hooks import attached_candidate, candidate_forward
 
 
 INPUT_SIZE = 16
@@ -59,6 +60,8 @@ class TinyDenseMLP:
         return x
 
     def _forward(self, x: tuple[int, ...]) -> tuple[list[float], list[float]]:
+        if attached_candidate(self):
+            return candidate_forward(self, x, mode="dense")
         hidden = [
             math.tanh(self.b1[j] + sum(self.w1[j][i] * x[i] for i in range(INPUT_SIZE)))
             for j in range(HIDDEN_SIZE)

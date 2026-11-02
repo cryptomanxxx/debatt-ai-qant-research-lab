@@ -8,6 +8,7 @@ from __future__ import annotations
 import math
 
 from integrations.continual_learning.cl2_local_mlp import LocalHebbianMLP
+from integrations.continual_learning.cl10l_forward_hooks import attached_candidate, candidate_forward
 from integrations.continual_learning.cl2_mlp_baseline import HIDDEN_SIZE, N_CLASSES
 
 
@@ -22,6 +23,8 @@ class SparseForwardLocalMLP(LocalHebbianMLP):
         return active_count * HIDDEN_SIZE
 
     def _forward(self, x: tuple[int, ...]) -> tuple[list[float], list[float]]:
+        if attached_candidate(self):
+            return candidate_forward(self, x, mode="sparse")
         active = [i for i, value in enumerate(x) if value]
         hidden = [
             math.tanh(self.b1[j] + sum(self.w1[j][i] for i in active))
