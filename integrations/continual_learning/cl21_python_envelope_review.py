@@ -44,16 +44,26 @@ def validate_review_only(spec: dict, docker: str, workflow: str) -> dict:
         raise ValueError("CL-21 NO_GO: Docker base digest unpinned")
     if 'ENTRYPOINT ["python3", "-I", "-B", "/opt/research/integrations/continual_learning/cl20_no_model_container_probe.py"]' not in docker:
         raise ValueError("CL-21 NO_GO: model entrypoint drift")
-    mandatory_flags = (
-        "--rm", "--pull=never", "--network=none", "--cap-drop=ALL",
-        "--security-opt=no-new-privileges", "--read-only", "--pids-limit=32",
-        "--memory=128m", "--cpus=1", "--user=65534:65534",
-    )
-    for flag in mandatory_flags:
-        if flag not in workflow:
-            raise ValueError("CL-21 NO_GO: missing Docker restriction " + flag)
-    if "timeout-minutes: 10" not in workflow:
-        raise ValueError("CL-21 NO_GO: CI budget drift")
+    # The workflow is tiny and security-critical. Pin the *whole executable
+    # job*, not substrings anywhere in YAML: comments or a second timeout
+    # must never satisfy the checks for the real Docker run step.
+    expected_job = """  no_model_network_probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build Python candidate with project sources (NO MODEL IMPORT)
+        run: docker build --file integrations/continual_learning/Dockerfile.cl20-probe --tag local/cl20-no-model-probe:review .
+      - name: Record local candidate image ID (NOT final approved digest)
+        run: docker image inspect --format '{{.Id}}' local/cl20-no-model-probe:review
+      - name: Prove this unprivileged read-only container has no outbound TCP (NO MODEL)
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl20-no-model-probe:review"""
+    if (workflow.count("\njobs:\n") != 1
+            or workflow.split("\njobs:\n", 1)[1].strip() != expected_job.strip()):
+        raise ValueError("CL-21 NO_GO: executable CI job or resource budget drift")
+    if "permissions:\n  contents: read\n" not in workflow:
+        raise ValueError("CL-21 NO_GO: workflow permission drift")
     return {
         "decision": "NO_GO",
         "python_base_manifest_pinned": True,
