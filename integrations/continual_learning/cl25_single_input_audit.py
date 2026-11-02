@@ -14,7 +14,7 @@ FEATURES = [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
 EXPECTED = {
     "kind": "CL25_SINGLE_ARCHIVED_INPUT_REVIEW_ONLY",
     "decision": "NO_GO", "review_only": True,
-    "source_dataset": SOURCE, "source_dataset_sha256": SHA256,
+    "source_dataset": SOURCE, "source_dataset_canonical_sha256": SHA256,
     "seed": 101, "task": "T1", "partition": "train", "index": 0,
     "features": FEATURES, "label": 0, "heldout_data_packaged": False,
     "model_import_authorized": False, "inference_authorized": False,
