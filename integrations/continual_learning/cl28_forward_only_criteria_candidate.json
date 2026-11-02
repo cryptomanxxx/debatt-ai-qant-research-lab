@@ -1,0 +1,69 @@
+{
+  "kind": "CL28_FORWARD_ONLY_NUMERIC_ACCEPTANCE_CANDIDATE",
+  "version": "cl28-review-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "sample": {
+    "seed": 101,
+    "task": "T1",
+    "partition": "train",
+    "index": 0,
+    "active_indices": [
+      2,
+      8
+    ],
+    "heldout_access": false
+  },
+  "arms": [
+    "local_hybrid",
+    "sparse_local_hybrid",
+    "sparse_shared_index"
+  ],
+  "pairs": [
+    [
+      "local_hybrid",
+      "sparse_local_hybrid"
+    ],
+    [
+      "sparse_local_hybrid",
+      "sparse_shared_index"
+    ]
+  ],
+  "trace": {
+    "required_fields": [
+      "arm",
+      "initial_weights",
+      "hidden",
+      "logits",
+      "active_indices"
+    ],
+    "initial_weights_count": 154,
+    "hidden_count": 8,
+    "logits_count": 2,
+    "finite_numeric_only": true,
+    "same_initial_weights_required": true,
+    "active_indices_exact_match": true,
+    "no_loss_or_optimizer_fields": true
+  },
+  "tolerance": {
+    "absolute": 1e-12,
+    "relative": 1e-10,
+    "method": "math_isclose_max_absolute_or_relative",
+    "independently_approved": false
+  },
+  "execution": {
+    "model_import_authorized": false,
+    "inference_authorized": false,
+    "training_authorized": false,
+    "weight_updates_max": 0,
+    "gradient_calls_max": 0,
+    "forward_calls_max": 3,
+    "observations_recorded": 0
+  },
+  "approvals": {
+    "scientific_signoff": false,
+    "security_signoff": false,
+    "marcus_exact_inference_authorization_reference": null
+  },
+  "physical_energy": "NOT_MEASURED"
+}
