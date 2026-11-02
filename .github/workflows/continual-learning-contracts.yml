@@ -91,7 +91,10 @@ jobs:
         shell: bash
         run: |
           if [ "$EVENT_KIND" = "pull_request" ]; then
-            base="$PR_BASE"
+            # Compare PR changes against the common ancestor, not the
+            # advancing main tip; unrelated base-only commits must not
+            # re-enable model-executing legacy tests.
+            base="$(git merge-base "$PR_BASE" "$PR_HEAD")"
             head="$PR_HEAD"
           elif [ "$EVENT_KIND" = "push" ]; then
             base="$PUSH_BASE"
