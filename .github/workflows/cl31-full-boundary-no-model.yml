@@ -43,6 +43,12 @@ jobs:
           echo "CL-31 candidate image A: $first"
           echo "CL-31 candidate image B: $second"
           test "$first" = "$second"
+          # Observed in original CL-31 run and a separate GitHub-runner rerun:
+          # https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/actions/runs/41497149822
+          # Local Docker configuration ID only. NOT an approved/signed OCI manifest.
+          expected="sha256:fdc13d308e5df20c9e0f399caf1ee29f08bb7dd1edbc525b758c70c1c3126b4c"
+          test "$first" = "$expected"
+          test "$second" = "$expected"
       - name: Observe full Linux boundary in reproducible candidate A (NO MODEL)
         run: |
           docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl31-a:review
