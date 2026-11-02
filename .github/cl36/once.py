@@ -1,13 +1,16 @@
 """CL-36 proposed exactly-one-sample/three-forward runner.
 
 DEFAULT AND ALL CI BEHAVIOR: HARD NO_GO. No model import or inference.
-A future separately reviewed GitHub Actions job may invoke --approved-once only
-AFTER Marcus gives an exact start approval referencing the final image ID.
-Environment markers are audit metadata, NOT cryptographic authorization;
-the externally disabled workflow and explicit human approval are the gate.
+CL-43 candidate requires a high-entropy one-time approval token (hash pinned here)
+not present in GitHub Actions, as well as exact scope and image metadata.
+GitHub Actions launch job remains statically disabled, read-only and main-only.
+Token possession is NOT sufficient to prove GitHub environment approval;
+the separate human approval, image check and one-shot tag gate are mandatory.
 """
 from __future__ import annotations
 
+import hashlib
+import hmac
 import json
 import math
 import os
@@ -36,15 +39,18 @@ def _flatten(model: object) -> list[float]:
 
 
 def run_one_approved_probe() -> dict:
-    """Preparation-only: unconditional rejection before ANY model import."""
-    raise RuntimeError("CL-36 HARD NO_GO: execution locked pending separate reviewed activation")
-    # The proposed code below is intentionally unreachable in CL-36.
+    """Requires exact owner scope and a 256-bit secret absent from all NO_GO workflows."""
     approval = os.environ.get("CL36_OWNER_APPROVAL_REFERENCE", "")
     image_id = os.environ.get("CL36_FINAL_IMAGE_CONFIG_ID", "")
-    if (not approval.startswith("MARCUS-EXACT-ONE-SAMPLE-")
+    token = os.environ.get("CL43_APPROVAL_TOKEN", "")
+    digest = hashlib.sha256(token.encode("ascii", "strict")).hexdigest()
+    expected_digest = "16343837fb8fa14308d0f4c1ba45ec994abcc25f0bda0b565d077b850840668a"
+    if (approval != "MARCUS-EXACT-ONE-SAMPLE-SEED101-T1-TRAIN0-THREE-FORWARDS"
             or not image_id.startswith("sha256:")
-            or len(image_id) != 71):
-        raise RuntimeError("CL-36 HARD NO_GO: missing exact start/identity evidence")
+            or len(image_id) != 71
+            or len(token) != 64
+            or not hmac.compare_digest(digest, expected_digest)):
+        raise RuntimeError("CL-43 HARD NO_GO: exact approval token or identity evidence missing")
 
     # Source/model imports occur ONLY after the explicit CLI + environment gate.
     sys.path.insert(0, "/opt/research")
