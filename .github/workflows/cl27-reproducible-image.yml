@@ -17,6 +17,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v5
+      - name: Normalize checkout source timestamps for Docker COPY inputs
+        run: |
+          find integrations -exec touch -h -d '@0' {} +
       - name: Build candidate A with fixed epoch and no cache (NO MODEL)
         run: |
           docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file integrations/continual_learning/Dockerfile.cl25-one-input-probe --tag local/cl27-a:review .
