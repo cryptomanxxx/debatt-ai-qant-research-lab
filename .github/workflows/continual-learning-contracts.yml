@@ -110,6 +110,9 @@ jobs:
         run: python -B -m unittest -v integrations.continual_learning.test_cl10l_forward_hooks
       - name: Check CL-10M training-phase source hooks (NO MODEL)
         run: python -B -m unittest -v integrations.continual_learning.test_cl10m_training_hooks
+      - name: CL-15 independently audited data identity receipt (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: python -B -m unittest -v test_cl15_h1_data_lock_receipt.py
       - name: CL-12 supplied-data freeze validator negative contracts (NO DATA GENERATION)
         working-directory: integrations/continual_learning
         run: python -B -m unittest -v test_cl12_supplied_data_freeze_verifier.py
