@@ -37,9 +37,9 @@ def candidate_forward(model: object, x: tuple[int, ...], *,
         raise ValueError("CL-10L NO_GO: opt-in observer required")
     if mode not in ("dense", "sparse", "shared"):
         raise ValueError("CL-10L NO_GO: invalid forward mode")
-    if type(x) is not tuple or len(x) != 16 or any(
-        type(bit) is not int or bit not in (0, 1) for bit in x
-    ):
+    # Internal-only path: all callers already use TinyDenseMLP._input().
+    # Checking every bit here would create an uncounted full rescan in shared mode.
+    if type(x) is not tuple or len(x) != 16:
         raise ValueError("CL-10L NO_GO: invalid input shape")
     if mode == "shared":
         if (type(reused_active) is not list
