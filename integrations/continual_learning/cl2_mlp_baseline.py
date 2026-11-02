@@ -10,6 +10,8 @@ import random
 from dataclasses import dataclass
 from typing import Iterable
 
+from integrations.continual_learning.cl10k_weight_update_hooks import note_weight_update
+
 
 INPUT_SIZE = 16
 HIDDEN_SIZE = 8
@@ -104,11 +106,15 @@ class TinyDenseMLP:
         rate = self.learning_rate
         for j in range(HIDDEN_SIZE):
             for i in range(INPUT_SIZE):
+                note_weight_update(self, "w1_update_read")
                 self.w1[j][i] -= rate * grad.w1[j][i]
+                note_weight_update(self, "w1_update_write")
             self.b1[j] -= rate * grad.b1[j]
         for k in range(N_CLASSES):
             for j in range(HIDDEN_SIZE):
+                note_weight_update(self, "w2_update_read")
                 self.w2[k][j] -= rate * grad.w2[k][j]
+                note_weight_update(self, "w2_update_write")
             self.b2[k] -= rate * grad.b2[k]
         self.optimizer_steps += 1
         return loss
