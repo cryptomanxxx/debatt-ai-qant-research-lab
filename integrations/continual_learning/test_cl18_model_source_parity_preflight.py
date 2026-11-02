@@ -86,6 +86,30 @@ class TestCL18(unittest.TestCase):
             ):
                 audit_source_texts(sources)
 
+    def test_sparse_parent_import_aliased_from_wrong_model_rejected(self):
+        sources = originals()
+        sources["sparse"] = sources["sparse"].replace(
+            "from integrations.continual_learning.cl2_local_mlp import LocalHebbianMLP",
+            "from integrations.continual_learning.cl2_mlp_baseline import TinyDenseMLP as LocalHebbianMLP",
+        )
+        with self.assertRaisesRegex(ValueError, "parent import origin"):
+            audit_source_texts(sources)
+
+    def test_module_level_parent_rebinding_rejected(self):
+        sources = originals()
+        sources["sparse"] += "\nLocalHebbianMLP = object\n"
+        with self.assertRaisesRegex(ValueError, "parent import origin"):
+            audit_source_texts(sources)
+
+    def test_parent_import_duplicate_rejected(self):
+        sources = originals()
+        sources["shared"] += (
+            "\nfrom integrations.continual_learning.cl2_sparse_forward "
+            "import SparseForwardLocalMLP\n"
+        )
+        with self.assertRaisesRegex(ValueError, "parent import origin"):
+            audit_source_texts(sources)
+
 
 if __name__ == "__main__":
     unittest.main()
