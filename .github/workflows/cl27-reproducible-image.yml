@@ -29,6 +29,8 @@ jobs:
           second="$(docker image inspect --format '{{.Id}}' local/cl27-b:review)"
           echo "candidate A image ID: $first"
           echo "candidate B image ID: $second"
+          docker image inspect --format 'A created={{.Created}} layers={{json .RootFS.Layers}}' local/cl27-a:review
+          docker image inspect --format 'B created={{.Created}} layers={{json .RootFS.Layers}}' local/cl27-b:review
           test "$first" = "$second"
       - name: Recheck isolated no-model candidate A
         run: |
