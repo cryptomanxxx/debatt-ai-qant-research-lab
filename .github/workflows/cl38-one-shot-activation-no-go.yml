@@ -94,6 +94,8 @@ jobs:
         env:
           CL36_OWNER_APPROVAL_REFERENCE: NOT_AUTHORIZED
           CL36_FINAL_IMAGE_CONFIG_ID: NOT_AUTHORIZED
-          CL43_APPROVAL_TOKEN: NOT_AUTHORIZED
+          # This secret is inaccessible unless the protected environment approves.
+          # The job is still if:false and contents:read; it cannot execute.
+          CL43_APPROVAL_TOKEN: ${{ secrets.CL43_APPROVAL_TOKEN }}
         run: |
           docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 -e CL36_OWNER_APPROVAL_REFERENCE -e CL36_FINAL_IMAGE_CONFIG_ID -e CL43_APPROVAL_TOKEN local/cl38-one-sample:locked --approved-once
