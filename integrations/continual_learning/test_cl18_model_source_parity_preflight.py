@@ -132,6 +132,28 @@ class TestCL18(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "active-index forward hook"):
             audit_source_texts(sources)
 
+    def test_sparse_active_index_hook_override_refused(self):
+        sources = originals()
+        sources["sparse"] = sources["sparse"].replace(
+            "class SparseForwardLocalMLP(LocalHebbianMLP):",
+            "class SparseForwardLocalMLP(LocalHebbianMLP):\n"
+            "    def _forward_with_active(self, x, active):\n"
+            "        return self._forward(x)\n",
+        )
+        with self.assertRaisesRegex(ValueError, "illegally reused active indices"):
+            audit_source_texts(sources)
+
+    def test_extra_method_requires_review_instead_of_silent_acceptance(self):
+        sources = originals()
+        sources["shared"] = sources["shared"].replace(
+            "class SharedIndexSparseForwardLocalMLP(SparseForwardLocalMLP):",
+            "class SharedIndexSparseForwardLocalMLP(SparseForwardLocalMLP):\n"
+            "    def optimizer_step_override(self):\n"
+            "        return None\n",
+        )
+        with self.assertRaisesRegex(ValueError, "unexpected model method"):
+            audit_source_texts(sources)
+
 
 if __name__ == "__main__":
     unittest.main()
