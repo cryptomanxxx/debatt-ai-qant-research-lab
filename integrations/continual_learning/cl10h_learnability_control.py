@@ -81,7 +81,7 @@ def assess_supplied_counts(spec: dict, records: object) -> dict:
                  {"seed", "task", "correct", "eligible", "source"},
                  "unexpected row fields")
         seed, task = row["seed"], row["task"]
-        _require(type(seed) is int and seed in SEEDS and task in TASKS
+        _require(type(seed) is int and seed in SEEDS and type(task) is str and task in TASKS
                  and row["source"] == "SUPPLIED_UNVERIFIED"
                  and type(row["correct"]) is int
                  and type(row["eligible"]) is int
