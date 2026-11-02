@@ -78,6 +78,14 @@ def validate_review_only(spec: dict, source_bytes: dict[str, bytes]) -> dict:
                         raise ValueError("CL-22 NO_GO: unfrozen model dependency: " + dependency)
                 elif module == "integrations.continual_learning":
                     raise ValueError("CL-22 NO_GO: unsupported package import: " + path)
+                elif module.split(".", 1)[0] not in {
+                    "__future__", "math", "random", "dataclasses", "typing",
+                }:
+                    # Fail closed on every unreviewed external namespace,
+                    # including other local repository modules and third-party
+                    # packages. The known source closure uses only these
+                    # Python standard-library roots.
+                    raise ValueError("CL-22 NO_GO: unapproved import namespace: " + module)
     return {
         "decision": "NO_GO",
         "source_files_pinned": len(expected_paths),
