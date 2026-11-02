@@ -40,10 +40,22 @@ def validate_review_only(spec: dict, docker: str, workflow: str) -> dict:
         "energy_measurement_authorized", "scientific_signoff",
         "security_signoff")) or spec.get("marcus_exact_inference_authorization_reference") is not None:
         raise ValueError("CL-21 NO_GO: false approval claims")
-    if ("FROM " + BASE) not in docker:
-        raise ValueError("CL-21 NO_GO: Docker base digest unpinned")
-    if 'ENTRYPOINT ["python3", "-I", "-B", "/opt/research/integrations/continual_learning/cl20_no_model_container_probe.py"]' not in docker:
-        raise ValueError("CL-21 NO_GO: model entrypoint drift")
+    # Interpret only active Dockerfile instructions, never comments. Pin the
+    # complete executable instruction set to prevent hidden FROM/ENTRYPOINT
+    # replacements or extra RUN/CMD commands from bypassing source audit.
+    active_docker = [
+        line.strip() for line in docker.splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    expected_docker = [
+        "FROM " + BASE,
+        "WORKDIR /opt/research",
+        "COPY integrations/continual_learning /opt/research/integrations/continual_learning",
+        "USER 65534:65534",
+        'ENTRYPOINT ["python3", "-I", "-B", "/opt/research/integrations/continual_learning/cl20_no_model_container_probe.py"]',
+    ]
+    if active_docker != expected_docker:
+        raise ValueError("CL-21 NO_GO: executable Dockerfile instruction drift")
     # The workflow is tiny and security-critical. Pin the *whole executable
     # job*, not substrings anywhere in YAML: comments or a second timeout
     # must never satisfy the checks for the real Docker run step.
