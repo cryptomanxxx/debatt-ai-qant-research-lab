@@ -1,0 +1,62 @@
+name: CL-10E Manual Docker Network-None Probe (NO MODEL)
+
+# Deliberately manual only. No training, inference or dataset creation.
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  fixed-no-model-network-test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - name: Exercise fixed host-controlled endpoint and fail closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Pull outside the measured/probed container; Docker daemon is online.
+          IMAGE='busybox@sha256:fd7dc98638c8e305f4dc34e979f1c0fdfdcaeb0fbf8fcff77ae834b6da3d7e6e'
+          docker pull "$IMAGE"
+          PORT=48620
+          python3 -m http.server "$PORT" --bind 0.0.0.0 >/dev/null 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for n in {1..30}; do
+            if (echo >"/dev/tcp/127.0.0.1/$PORT") 2>/dev/null; then
+              break
+            fi
+            sleep 0.1
+          done
+          (echo >"/dev/tcp/127.0.0.1/$PORT") 2>/dev/null
+          GATEWAY="$(docker network inspect bridge --format '{{(index .IPAM.Config 0).Gateway}}')"
+          test -n "$GATEWAY"
+          echo "Host-controlled endpoint ready; checking positive bridge control"
+          # Required positive control proves the fixed endpoint would be reachable.
+          docker run --rm --pull=never --network bridge             --cap-drop ALL --security-opt no-new-privileges             --read-only --pids-limit 32 --memory 128m --cpus 1             "$IMAGE" wget -q -T 2 -O /dev/null "http://$GATEWAY:$PORT/"
+          echo "Checking negative network-none control"
+          # A failed Docker startup (notably exit 125) is NOT egress-denial evidence.
+          # The marker is emitted only after the container runs wget itself.
+          set +e
+          PROBE_OUTPUT="$(docker run --rm --pull=never --network none \
+            --cap-drop ALL --security-opt no-new-privileges \
+            --read-only --pids-limit 32 --memory 128m --cpus 1 \
+            "$IMAGE" sh -c '
+              command -v wget >/dev/null || exit 90
+              if wget -q -T 2 -O /dev/null "http://'"$GATEWAY:$PORT"'/"; then
+                echo "CL10E_UNEXPECTED_NETWORK_ACCESS"
+                exit 20
+              fi
+              echo "CL10E_CONTAINER_EXECUTED_DENIAL_OBSERVED"
+            ' 2>&1)"
+          DOCKER_STATUS=$?
+          set -e
+          if [[ "$DOCKER_STATUS" -ne 0 ]] || \
+             [[ "$PROBE_OUTPUT" != *"CL10E_CONTAINER_EXECUTED_DENIAL_OBSERVED"* ]]; then
+            echo "::error::NO_GO: unexpected access, Docker failure or missing container probe evidence"
+            echo "Docker exit status: $DOCKER_STATUS"
+            exit 1
+          fi
+          echo "PASS: bridge control reachable, network-none container denied."
+          echo "SCOPE: container-only negative evidence; host is still internet-connected."
+          echo "DECISION: NO_GO; does not authorize training or inference."
