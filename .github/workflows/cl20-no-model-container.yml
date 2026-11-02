@@ -1,0 +1,25 @@
+name: CL-20 Python Container NO-MODEL Boundary Probe
+
+on:
+  pull_request:
+    paths:
+      - 'integrations/continual_learning/Dockerfile.cl20-probe'
+      - 'integrations/continual_learning/cl20_no_model_container_probe.py'
+      - '.github/workflows/cl20-no-model-container.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  no_model_network_probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+      - name: Build Python candidate with project sources (NO MODEL IMPORT)
+        run: docker build --file integrations/continual_learning/Dockerfile.cl20-probe --tag local/cl20-no-model-probe:review .
+      - name: Record local candidate image ID (NOT final approved digest)
+        run: docker image inspect --format '{{.Id}}' local/cl20-no-model-probe:review
+      - name: Prove this unprivileged read-only container has no outbound TCP (NO MODEL)
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 local/cl20-no-model-probe:review
