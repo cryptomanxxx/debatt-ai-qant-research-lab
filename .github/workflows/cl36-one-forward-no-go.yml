@@ -45,7 +45,15 @@ jobs:
           echo "CL-36 candidate A image config ID: $first"
           echo "CL-36 candidate B image config ID: $second"
           test "$first" = "$second"
+          printf "%s\n" "$first" > "$RUNNER_TEMP/cl36-image-config-id.txt"
+          echo "CL-36 verified candidate config ID: $first" >> "$GITHUB_STEP_SUMMARY"
           # Config ID is neither an approved/signed OCI registry manifest nor permission to execute.
+      - name: Publish candidate config ID as review evidence (NO MODEL)
+        uses: actions/upload-artifact@v4
+        with:
+          name: cl36-candidate-image-config-id
+          path: ${{ runner.temp }}/cl36-image-config-id.txt
+          retention-days: 7
       - name: Observe full CL-26 Linux boundary in candidate A (NO MODEL)
         run: |
           docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 --entrypoint python3 local/cl36-a:review -I -B /opt/research/integrations/continual_learning/cl26_linux_boundary_probe.py
