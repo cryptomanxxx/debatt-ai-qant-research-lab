@@ -1,0 +1,144 @@
+{
+  "authorization_scope": "CL13_DATA_ONLY_AUTHORIZED_2026_11_02",
+  "dataset_origin_independently_authenticated": false,
+  "decision": "NO_GO",
+  "experiment_observations": 0,
+  "file_sha256": {
+    "seed-101.json": "9430ec60590fba5c3735727ba1077e4a68fcd290ca61da686504750a04e011ef",
+    "seed-102.json": "0cffcd588b685d05ca86c6e83c69719a9ecfb6966b21e56dbe588f0c0b3ff918",
+    "seed-103.json": "6a4dccf78d0ec38e89df052845ee49ba789a591308388113d572920488f49e69",
+    "seed-104.json": "785d63bfb94d5ddc9454cd344315d718b0b243c0dc375e16d0476a11751f3223",
+    "seed-105.json": "7339191e2b719335814bb876e6da59100b5966eb832bd09c430087be3cbdb218"
+  },
+  "generator_version": "cl2-shared-rule-candidate-v0",
+  "heldout_per_task": 64,
+  "inference_authorized": false,
+  "kind": "CL13_AUTHORIZED_DATA_ONLY_CANDIDATE",
+  "model_modules_imported": false,
+  "physical_energy": "NOT_MEASURED",
+  "scientific_signoff": false,
+  "seeds": [
+    101,
+    102,
+    103,
+    104,
+    105
+  ],
+  "source_sha256": {
+    "integrations/continual_learning/cl10g_train_only_split.py": "f0f4388fb1365a5f596415454e6ab17b9968f1b09d177888b227fb39fbdc026f",
+    "integrations/continual_learning/cl12_supplied_data_freeze_verifier.py": "47b7de84818856a18d6358f7113c3a10415dc30e0536cdf5fdba60b55c38fa10",
+    "integrations/continual_learning/cl2_data_candidate.py": "7a6b19d498b448645f36f3f3bf3295370c62084bed4530758399b734ef037179",
+    "integrations/continual_learning/cl2_shared_rule_candidate.py": "fae2dc90e4b6643cf026a873adbc690853acc3a315e67d8012d7af196b622f5f"
+  },
+  "tasks_per_seed": 4,
+  "total_records": 3840,
+  "train_per_task": 128,
+  "training_authorized": false,
+  "verification_reports": [
+    {
+      "data_origin_authenticated": false,
+      "dataset_generation_authorized": false,
+      "dataset_sha256_candidate": "308a407d08f4591784b8ba2265bd72ddde29c85d40d3dbded251bc3653f8b93e",
+      "decision": "NO_GO",
+      "generator_executed": false,
+      "heldout_count": 256,
+      "inference_authorized": false,
+      "physical_energy": "NOT_MEASURED",
+      "record_count": 768,
+      "scope": "SUPPLIED_RECORD_VALIDATION_ONLY",
+      "seed": 101,
+      "train_count": 512,
+      "train_only_partition_sha256_by_task": {
+        "T1": "fadda2e4bcf1b7a4e3734739b955d24e01304500af2a6a2377edd8d152bc7bee",
+        "T2": "2cbfe866057675ef4b2a666fc6b83c0a69cb2e26f04147d46d436e1148afa88f",
+        "T3": "408fcaa146e132e22ea044a8bb2dc60bd623fadcde33f64c1dd058001a9a43e0",
+        "T4": "aa89ce615177a9423ca0ed1209148e98ddadafb2ec15f364e0a6530b077a547d"
+      },
+      "training_authorized": false
+    },
+    {
+      "data_origin_authenticated": false,
+      "dataset_generation_authorized": false,
+      "dataset_sha256_candidate": "8ce0bd79de29189c93a9592ce4079d5e363610979dae3164887f6d965329161f",
+      "decision": "NO_GO",
+      "generator_executed": false,
+      "heldout_count": 256,
+      "inference_authorized": false,
+      "physical_energy": "NOT_MEASURED",
+      "record_count": 768,
+      "scope": "SUPPLIED_RECORD_VALIDATION_ONLY",
+      "seed": 102,
+      "train_count": 512,
+      "train_only_partition_sha256_by_task": {
+        "T1": "872ba58782a89d9ffd56e9b39ec5ed0ebb9cd14f9f12a2fb9eee57ddd788afcc",
+        "T2": "7cbc2fc80b9ac6af6ddaa0797e8422fdac1a25e25ac7d9f51c8d6aba4fe2def4",
+        "T3": "2d0bb76e4799a90f43fa19b59437288169e38b2109c6bffee295f0f47a625ec8",
+        "T4": "b7cd2fdf36ad6163cb010ca6c2e4b35965052ca5527e13d811131e902f1f66d8"
+      },
+      "training_authorized": false
+    },
+    {
+      "data_origin_authenticated": false,
+      "dataset_generation_authorized": false,
+      "dataset_sha256_candidate": "4592ab5b41704c454d7102ef17b1a128a72045901c3ae76bb63b937edd92143c",
+      "decision": "NO_GO",
+      "generator_executed": false,
+      "heldout_count": 256,
+      "inference_authorized": false,
+      "physical_energy": "NOT_MEASURED",
+      "record_count": 768,
+      "scope": "SUPPLIED_RECORD_VALIDATION_ONLY",
+      "seed": 103,
+      "train_count": 512,
+      "train_only_partition_sha256_by_task": {
+        "T1": "b0a64b4d42cddb22f2de1d323704a06f03e07742c3b0cc886e7a2453c265867b",
+        "T2": "c722952b973957199c662195e2bda09b400f4af6636018bd64fd86e3a31e3198",
+        "T3": "6ce29afd43dcb89070b5821ebcfab8fedd40dc40c80c1ecf2abacdd2adf026a1",
+        "T4": "745d7f9a38c0c6786e4508b02160db5e5cd2ef2b83f9d481a12dabc2dc601c5c"
+      },
+      "training_authorized": false
+    },
+    {
+      "data_origin_authenticated": false,
+      "dataset_generation_authorized": false,
+      "dataset_sha256_candidate": "0768f27f8f9cdfeab2bc503952d3d1c8760bb9ddfaea90883d50a9b45c8f5fa4",
+      "decision": "NO_GO",
+      "generator_executed": false,
+      "heldout_count": 256,
+      "inference_authorized": false,
+      "physical_energy": "NOT_MEASURED",
+      "record_count": 768,
+      "scope": "SUPPLIED_RECORD_VALIDATION_ONLY",
+      "seed": 104,
+      "train_count": 512,
+      "train_only_partition_sha256_by_task": {
+        "T1": "c5842ac0dd62b2c985669bcde1262ecb14f8669bf243e940635696d6abf2a628",
+        "T2": "4719e662294a968598cf3e13445c8547a2b08e0293a68240ad873a4300a406a5",
+        "T3": "b47952d08314ef61e06dd793b867dfddc8864ebcc2487ccaec92bb116b767a69",
+        "T4": "6a5b9b0c1c298bb3c2bfcda363bfd3e325534ce62040b8aef16dda222d3cbc29"
+      },
+      "training_authorized": false
+    },
+    {
+      "data_origin_authenticated": false,
+      "dataset_generation_authorized": false,
+      "dataset_sha256_candidate": "a39b9d923ccbe74748bec11e536e3517ba432d20d8cfae0310ca2ff710837f47",
+      "decision": "NO_GO",
+      "generator_executed": false,
+      "heldout_count": 256,
+      "inference_authorized": false,
+      "physical_energy": "NOT_MEASURED",
+      "record_count": 768,
+      "scope": "SUPPLIED_RECORD_VALIDATION_ONLY",
+      "seed": 105,
+      "train_count": 512,
+      "train_only_partition_sha256_by_task": {
+        "T1": "d1b3a2f048b67d314c8c3787c9666f6791184bd07b5b9f5b50f61a5014a879a7",
+        "T2": "5069518dc1e8345783dfecc02ef2e6d1e347ea7625f03f9cacc2ef2c2018edf9",
+        "T3": "c9713bace2d17d00d0e8d5edb183295c759424f7701a2492046b4b6ed55a57e2",
+        "T4": "1fc76e517c00da72d3916f08e9e0b0f4d29b7a50589774a7ef100ec5f659515a"
+      },
+      "training_authorized": false
+    }
+  ]
+}
