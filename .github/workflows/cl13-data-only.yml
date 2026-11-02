@@ -17,11 +17,14 @@ jobs:
     env:
       CL13_DATA_ONLY: '1'
       PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONPATH: 'integrations/continual_learning:.'
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
+      - name: Verify dataset-only authorization guards (NO DATA)
+        run: python -B -m unittest -v integrations.continual_learning.test_cl13_data_only_guard
       - name: Generate and verify only 5 preapproved H1 seeds (NO MODEL)
         run: python -B -m integrations.continual_learning.cl13_data_only cl13-reviewed-data CL13_DATA_ONLY_AUTHORIZED_2026_11_02
       - name: Upload unapproved data candidate and checksums for independent review
