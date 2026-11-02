@@ -14,6 +14,8 @@ This repository contains the experiments, results and research automation behind
 
 ## Current status
 
+**CL research progress:** [Research & Development Roadmap](docs/RESEARCH_ROADMAP.md) tracks the completed CL-45–CL-47 evidence and the planned CL-48–CL-55 milestones, including review and HARD NO_GO gates. It is a progress tracker, not authorization to run new experiments.
+
 **Start here:** [Current systems and protocols](docs/current-systems-and-protocols.md) is the maintained map of active vs historical systems, frozen evidence, protocol owners and human approval. This README is an overview, not an execution contract.
 
 The project is an early-stage research programme. Experiments currently run on **GitHub Actions standard CPU runners** using the **Q.ANT Native Computing Toolkit CPU backend**.
