@@ -1,0 +1,60 @@
+name: CL-34 Sealed Forward Candidate (HARD NO_GO)
+
+on:
+  pull_request:
+    paths:
+      - '.github/cl34/**'
+      - '.github/workflows/cl34-sealed-first-forward-no-go.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sealed_candidate_review_only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Verify frozen model source and single archived input (NO MODEL)
+        working-directory: integrations/continual_learning
+        run: |
+          python3 -B cl22_model_source_lock.py
+          python3 -B cl25_single_input_audit.py
+      - name: Stage only 20 audited files at epoch zero
+        run: |
+          python3 -B .github/cl34/stage_context.py "$RUNNER_TEMP/cl34-context"
+      - name: Build reproducible candidate A without cache (NO MODEL)
+        run: |
+          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file "$GITHUB_WORKSPACE/.github/cl34/Dockerfile" --tag local/cl34-a:review "$RUNNER_TEMP/cl34-context"
+      - name: Build reproducible candidate B without cache (NO MODEL)
+        run: |
+          docker buildx build --no-cache --platform linux/amd64 --build-arg SOURCE_DATE_EPOCH=0 --output=type=docker,rewrite-timestamp=true --file "$GITHUB_WORKSPACE/.github/cl34/Dockerfile" --tag local/cl34-b:review "$RUNNER_TEMP/cl34-context"
+      - name: Verify rebuilt image layers and candidate config identity
+        run: |
+          docker save -o "$RUNNER_TEMP/cl34-a.tar" local/cl34-a:review
+          docker save -o "$RUNNER_TEMP/cl34-b.tar" local/cl34-b:review
+          python3 -B integrations/continual_learning/cl27_image_layer_audit.py "$RUNNER_TEMP/cl34-a.tar" "$RUNNER_TEMP/cl34-b.tar"
+          first="$(docker image inspect --format '{{.Id}}' local/cl34-a:review)"
+          second="$(docker image inspect --format '{{.Id}}' local/cl34-b:review)"
+          echo "CL-34 candidate A image config ID: $first"
+          echo "CL-34 candidate B image config ID: $second"
+          test "$first" = "$second"
+          # Local config ID only, NOT an approved or signed registry OCI digest.
+      - name: Observe full CL-26 Linux boundary inside candidate A (NO MODEL)
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 --entrypoint python3 local/cl34-a:review -I -B /opt/research/integrations/continual_learning/cl26_linux_boundary_probe.py
+      - name: Observe full CL-26 Linux boundary inside candidate B (NO MODEL)
+        run: |
+          docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 --entrypoint python3 local/cl34-b:review -I -B /opt/research/integrations/continual_learning/cl26_linux_boundary_probe.py
+      - name: Execute only CL-33 HARD NO_GO preflight in both images
+        run: |
+          for image in local/cl34-a:review local/cl34-b:review; do
+            docker run --rm --pull=never --network=none --cap-drop=ALL --security-opt=no-new-privileges --read-only --pids-limit=32 --memory=128m --cpus=1 --user=65534:65534 "$image" | python3 -c 'import json,sys; x=json.load(sys.stdin); assert x["decision"]=="NO_GO" and x["model_imports"]==0 and x["forward_calls_executed"]==0 and x["training_steps"]==0 and x["weight_updates"]==0 and x["physical_energy"]=="NOT_MEASURED"; print("CL-34 HARD NO_GO verified")'
+          done
+      # There is deliberately NO inference, model construction, training,
+      # artifact publication, paid runner, or energy measurement action.
+      # A later source-reviewed unlock and Marcus's separate exact start
+      # authorization are required to change HARD NO_GO.
