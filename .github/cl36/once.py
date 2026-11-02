@@ -36,7 +36,9 @@ def _flatten(model: object) -> list[float]:
 
 
 def run_one_approved_probe() -> dict:
-    """Not invoked by any CL-36 GitHub Actions step."""
+    """Preparation-only: unconditional rejection before ANY model import."""
+    raise RuntimeError("CL-36 HARD NO_GO: execution locked pending separate reviewed activation")
+    # The proposed code below is intentionally unreachable in CL-36.
     approval = os.environ.get("CL36_OWNER_APPROVAL_REFERENCE", "")
     image_id = os.environ.get("CL36_FINAL_IMAGE_CONFIG_ID", "")
     if (not approval.startswith("MARCUS-EXACT-ONE-SAMPLE-")
