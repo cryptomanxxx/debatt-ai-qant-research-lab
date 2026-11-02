@@ -19,7 +19,49 @@ permissions:
   actions: read
 
 jobs:
+  preparation_scope:
+    # The legacy regression suite fits/predicts a Bayesian model. CL-33
+    # preparation-only PRs must not start that suite or related evidence jobs.
+    runs-on: ubuntu-latest
+    outputs:
+      cl33_only: ${{ steps.changed.outputs.cl33_only }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Check changed files relative to PR merge base (NO MODEL)
+        id: changed
+        env:
+          EVENT_KIND: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+        shell: bash
+        run: |
+          if [ "$EVENT_KIND" != "pull_request" ]; then
+            echo "cl33_only=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          test -n "$PR_BASE"
+          test -n "$PR_HEAD"
+          base="$(git merge-base "$PR_BASE" "$PR_HEAD")"
+          changes="$(git diff --name-only "$base" "$PR_HEAD")"
+          test -n "$changes"
+          only_cl33=true
+          while IFS= read -r path; do
+            case "$path" in
+              integrations/continual_learning/cl33_first_forward_candidate.py|integrations/continual_learning/test_cl33_hard_no_go.py|.github/workflows/cl33-first-forward-no-go.yml|.github/workflows/continual-learning-contracts.yml|.github/workflows/validate-research-safety-fixes.yml)
+                ;;
+              *)
+                only_cl33=false
+                ;;
+            esac
+          done <<< "$changes"
+          echo "cl33_only=$only_cl33" >> "$GITHUB_OUTPUT"
+
   regression:
+    needs: preparation_scope
+    if: ${{ needs.preparation_scope.outputs.cl33_only != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -90,6 +132,8 @@ jobs:
           python -m unittest discover -s tests -p 'test_first_live_research_session_v3.py' -v
 
   durable_round3_evidence:
+    needs: preparation_scope
+    if: ${{ needs.preparation_scope.outputs.cl33_only != 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
