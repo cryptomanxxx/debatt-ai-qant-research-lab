@@ -63,6 +63,14 @@ def validate_review_only(spec: dict) -> dict:
         "method": "math_isclose_max_absolute_or_relative",
         "independently_approved": False,
     }), "candidate tolerance or false signoff")
+    require(_exact_contract(spec.get("interpretation"), {
+        "numeric_parity_only": True,
+        "shared_index_reuse_exercised": False,
+        "shared_index_reuse_requires_step_path": True,
+        "algorithmic_efficiency_claim_authorized": False,
+        "continual_learning_claim_authorized": False,
+        "physical_energy_claim_authorized": False,
+    }), "scientific interpretation scope")
     require(_exact_contract(spec.get("execution"), {
         "model_import_authorized": False, "inference_authorized": False,
         "training_authorized": False, "weight_updates_max": 0,
@@ -81,6 +89,8 @@ def validate_review_only(spec: dict) -> dict:
         "observations_authenticated": False, "models_imported": 0,
         "forward_calls_executed": 0, "training_steps": 0,
         "tolerance_approved": False, "physical_energy": "NOT_MEASURED",
+        "numeric_parity_only": True,
+        "shared_index_reuse_exercised": False,
     }
 
 
@@ -128,6 +138,8 @@ def audit_synthetic_fixture(spec: dict, record: object) -> dict:
         "first_mismatch": first_mismatch, "compared_values": checks,
         "observations_authenticated": False, "scientific_signoff": False,
         "model_inference_authorized": False, "physical_energy": "NOT_MEASURED",
+        "numeric_parity_only": True,
+        "shared_index_reuse_exercised": False,
     }
 
 
