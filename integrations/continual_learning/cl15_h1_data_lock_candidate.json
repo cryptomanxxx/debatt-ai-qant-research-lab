@@ -1,0 +1,44 @@
+{
+  "kind": "CL15_H1_DATA_LOCK_CANDIDATE_RECEIPT",
+  "version": "cl15-review-v1",
+  "decision": "NO_GO",
+  "scientific_data_freeze_approved": false,
+  "records_committed_to_repository": false,
+  "source_generation": {
+    "run_id": 41432369864,
+    "repository": "cryptomanxxx/debatt-ai-qant-research-lab",
+    "head_commit_sha": "967e08f38026ab2bb209817ec61f142a71ad5514",
+    "artifact_id": 13134199013,
+    "artifact_name": "cl13-data-only-unapproved-candidate",
+    "artifact_zip_sha256": "bfe7aecfc40ba7ba5e93e60b7b6adf8959a30895b51d739f81e0bb9d3c20c8a8",
+    "artifact_expires_at_utc": "2026-11-16T10:53:27Z"
+  },
+  "independent_audit": {
+    "run_id": 41433518948,
+    "reviewer_code_commit_sha": "3da1bb76e172d714d27145dd44ec7eaf3ffb6c30",
+    "outcome": "COMPLETE_STRUCTURE_AND_DIGEST_VERIFIED",
+    "source_byte_hashes_match_checkout": true,
+    "scientific_signoff": false
+  },
+  "seed_dataset_sha256": {
+    "101": "308a407d08f4591784b8ba2265bd72ddde29c85d40d3dbded251bc3653f8b93e",
+    "102": "8ce0bd79de29189c93a9592ce4079d5e363610979dae3164887f6d965329161f",
+    "103": "4592ab5b41704c454d7102ef17b1a128a72045901c3ae76bb63b937edd92143c",
+    "104": "0768f27f8f9cdfeab2bc503952d3d1c8760bb9ddfaea90883d50a9b45c8f5fa4",
+    "105": "a39b9d923ccbe74748bec11e536e3517ba432d20d8cfae0310ca2ff710837f47"
+  },
+  "records_total": 3840,
+  "train_records": 2560,
+  "heldout_records": 1280,
+  "source_origin_independently_authenticated": false,
+  "physical_energy": "NOT_MEASURED",
+  "training_authorized": false,
+  "inference_authorized": false,
+  "dataset_regeneration_authorized": false,
+  "limitations": [
+    "Receipt alone is not an archival copy of actual dataset bytes",
+    "GitHub Actions artifact expires in 14 days",
+    "Independent scientific reviewer must approve data freeze and leakage assessment",
+    "Model inference and training still require separate exact authorization"
+  ]
+}
