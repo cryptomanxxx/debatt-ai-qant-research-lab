@@ -1,0 +1,40 @@
+{
+  "kind": "CL21_PINNED_PYTHON_NO_MODEL_ENVELOPE_CANDIDATE",
+  "version": "cl21-review-v1",
+  "decision": "NO_GO",
+  "review_only": true,
+  "from_verified_cl20_run_id": 41455392294,
+  "python_base_image": "python:3.11-slim@sha256:673719e071ecf27434fd2635bbd8d00f49f4fdd81f243143438a42ced8bedf60",
+  "prior_local_image_id_unpinned": "sha256:df602eb19238da1da1c42c17138d2827131e591d7cb531d5d5393d9fe2b1e014",
+  "container_envelope": {
+    "network": "none",
+    "capabilities": "ALL_DROPPED",
+    "no_new_privileges": true,
+    "read_only": true,
+    "uid_gid": "65534:65534",
+    "pids_limit": 32,
+    "memory_mib": 128,
+    "cpus": 1,
+    "job_timeout_minutes": 10,
+    "pull_policy": "never"
+  },
+  "future_numeric_sample_budget": {
+    "seeds": [
+      101
+    ],
+    "samples": 1,
+    "model_instances_max": 3,
+    "forward_calls_max": 3,
+    "weight_updates_max": 0,
+    "training_steps_max": 0,
+    "physical_energy": "NOT_MEASURED"
+  },
+  "runtime_boundary_approved": false,
+  "final_image_digest_approved": false,
+  "model_inference_authorized": false,
+  "training_authorized": false,
+  "energy_measurement_authorized": false,
+  "scientific_signoff": false,
+  "security_signoff": false,
+  "marcus_exact_inference_authorization_reference": null
+}
