@@ -1,0 +1,371 @@
+{
+ "backend": "simulator",
+ "experiment": "CL-70",
+ "rows": [
+  {
+   "primitive": "linear",
+   "seed": 11,
+   "sim_f32acc": 0.002094143039086226,
+   "sim_seq": 0.002094143039086226,
+   "terms": 1
+  },
+  {
+   "primitive": "linear",
+   "seed": 11,
+   "sim_f32acc": 0.002640431519169902,
+   "sim_seq": 0.003550295318473879,
+   "terms": 4
+  },
+  {
+   "primitive": "linear",
+   "seed": 11,
+   "sim_f32acc": 0.0026060884968225205,
+   "sim_seq": 0.005116197016291172,
+   "terms": 16
+  },
+  {
+   "primitive": "linear",
+   "seed": 11,
+   "sim_f32acc": 0.0027572495454019487,
+   "sim_seq": 0.008724118702573197,
+   "terms": 64
+  },
+  {
+   "primitive": "linear",
+   "seed": 11,
+   "sim_f32acc": 0.0028278945261363134,
+   "sim_seq": 0.017563731023998646,
+   "terms": 256
+  },
+  {
+   "primitive": "linear",
+   "seed": 11,
+   "sim_f32acc": 0.0026770220688603756,
+   "sim_seq": 0.033066659113226954,
+   "terms": 1024
+  },
+  {
+   "primitive": "linear",
+   "seed": 11,
+   "sim_f32acc": 0.002721694317234606,
+   "sim_seq": 0.06473686259673765,
+   "terms": 4096
+  },
+  {
+   "primitive": "linear",
+   "seed": 11,
+   "sim_f32acc": 0.0027108708209412284,
+   "sim_seq": 0.1262477446925354,
+   "terms": 16384
+  },
+  {
+   "primitive": "linear",
+   "seed": 11,
+   "sim_f32acc": 0.002736275503042876,
+   "sim_seq": 0.22986455495793198,
+   "terms": 65536
+  },
+  {
+   "primitive": "kan",
+   "seed": 11,
+   "sim_seq": 0.004567572389400793,
+   "terms": 4
+  },
+  {
+   "primitive": "kan",
+   "seed": 11,
+   "sim_seq": 0.005990390860848394,
+   "terms": 16
+  },
+  {
+   "primitive": "kan",
+   "seed": 11,
+   "sim_seq": 0.008717013732826528,
+   "terms": 64
+  },
+  {
+   "primitive": "kan",
+   "seed": 11,
+   "sim_seq": 0.017395599035108643,
+   "terms": 256
+  },
+  {
+   "primitive": "kan",
+   "seed": 11,
+   "sim_seq": 0.03157080118737724,
+   "terms": 1024
+  },
+  {
+   "primitive": "kan",
+   "seed": 11,
+   "sim_seq": 0.0658966501191051,
+   "terms": 4096
+  },
+  {
+   "primitive": "kan",
+   "seed": 11,
+   "sim_seq": 0.1274373455437193,
+   "terms": 16384
+  },
+  {
+   "primitive": "kan",
+   "seed": 11,
+   "sim_seq": 0.25210056687566784,
+   "terms": 65536
+  },
+  {
+   "primitive": "linear",
+   "seed": 22,
+   "sim_f32acc": 0.002304319739998401,
+   "sim_seq": 0.002304319739998401,
+   "terms": 1
+  },
+  {
+   "primitive": "linear",
+   "seed": 22,
+   "sim_f32acc": 0.002420556100497353,
+   "sim_seq": 0.003464524127956422,
+   "terms": 4
+  },
+  {
+   "primitive": "linear",
+   "seed": 22,
+   "sim_f32acc": 0.002659852787110779,
+   "sim_seq": 0.0053266457427755725,
+   "terms": 16
+  },
+  {
+   "primitive": "linear",
+   "seed": 22,
+   "sim_f32acc": 0.00276274414316959,
+   "sim_seq": 0.00901104447667225,
+   "terms": 64
+  },
+  {
+   "primitive": "linear",
+   "seed": 22,
+   "sim_f32acc": 0.0027844849712927847,
+   "sim_seq": 0.01701031792774766,
+   "terms": 256
+  },
+  {
+   "primitive": "linear",
+   "seed": 22,
+   "sim_f32acc": 0.0027001216732073694,
+   "sim_seq": 0.03321983590726412,
+   "terms": 1024
+  },
+  {
+   "primitive": "linear",
+   "seed": 22,
+   "sim_f32acc": 0.0027532208636961947,
+   "sim_seq": 0.06618479575424382,
+   "terms": 4096
+  },
+  {
+   "primitive": "linear",
+   "seed": 22,
+   "sim_f32acc": 0.002767781058133629,
+   "sim_seq": 0.12854142653788442,
+   "terms": 16384
+  },
+  {
+   "primitive": "linear",
+   "seed": 22,
+   "sim_f32acc": 0.0027470724348644406,
+   "sim_seq": 0.24331436394864792,
+   "terms": 65536
+  },
+  {
+   "primitive": "kan",
+   "seed": 22,
+   "sim_seq": 0.003961246512930635,
+   "terms": 4
+  },
+  {
+   "primitive": "kan",
+   "seed": 22,
+   "sim_seq": 0.005770777645362696,
+   "terms": 16
+  },
+  {
+   "primitive": "kan",
+   "seed": 22,
+   "sim_seq": 0.009651151376054472,
+   "terms": 64
+  },
+  {
+   "primitive": "kan",
+   "seed": 22,
+   "sim_seq": 0.017216272939404198,
+   "terms": 256
+  },
+  {
+   "primitive": "kan",
+   "seed": 22,
+   "sim_seq": 0.0315073736346421,
+   "terms": 1024
+  },
+  {
+   "primitive": "kan",
+   "seed": 22,
+   "sim_seq": 0.06192975597750325,
+   "terms": 4096
+  },
+  {
+   "primitive": "kan",
+   "seed": 22,
+   "sim_seq": 0.13224208352947078,
+   "terms": 16384
+  },
+  {
+   "primitive": "kan",
+   "seed": 22,
+   "sim_seq": 0.23815062770034234,
+   "terms": 65536
+  },
+  {
+   "primitive": "linear",
+   "seed": 33,
+   "sim_f32acc": 0.0022676349117008213,
+   "sim_seq": 0.0022676349117008213,
+   "terms": 1
+  },
+  {
+   "primitive": "linear",
+   "seed": 33,
+   "sim_f32acc": 0.0023522693253099016,
+   "sim_seq": 0.003242403615826756,
+   "terms": 4
+  },
+  {
+   "primitive": "linear",
+   "seed": 33,
+   "sim_f32acc": 0.0027182861730681847,
+   "sim_seq": 0.005043130374209855,
+   "terms": 16
+  },
+  {
+   "primitive": "linear",
+   "seed": 33,
+   "sim_f32acc": 0.002720522565314264,
+   "sim_seq": 0.0089308160022782,
+   "terms": 64
+  },
+  {
+   "primitive": "linear",
+   "seed": 33,
+   "sim_f32acc": 0.0026763965292382307,
+   "sim_seq": 0.016403326637247237,
+   "terms": 256
+  },
+  {
+   "primitive": "linear",
+   "seed": 33,
+   "sim_f32acc": 0.002738105418188977,
+   "sim_seq": 0.03282250551316897,
+   "terms": 1024
+  },
+  {
+   "primitive": "linear",
+   "seed": 33,
+   "sim_f32acc": 0.0027012471660910723,
+   "sim_seq": 0.06536079523667404,
+   "terms": 4096
+  },
+  {
+   "primitive": "linear",
+   "seed": 33,
+   "sim_f32acc": 0.0027952186632918706,
+   "sim_seq": 0.12659205222046468,
+   "terms": 16384
+  },
+  {
+   "primitive": "linear",
+   "seed": 33,
+   "sim_f32acc": 0.0028014121162061385,
+   "sim_seq": 0.2329319405332717,
+   "terms": 65536
+  },
+  {
+   "primitive": "kan",
+   "seed": 33,
+   "sim_seq": 0.004336356977975561,
+   "terms": 4
+  },
+  {
+   "primitive": "kan",
+   "seed": 33,
+   "sim_seq": 0.006264051052062978,
+   "terms": 16
+  },
+  {
+   "primitive": "kan",
+   "seed": 33,
+   "sim_seq": 0.009221210198082162,
+   "terms": 64
+  },
+  {
+   "primitive": "kan",
+   "seed": 33,
+   "sim_seq": 0.01672806066201369,
+   "terms": 256
+  },
+  {
+   "primitive": "kan",
+   "seed": 33,
+   "sim_seq": 0.033969457158391295,
+   "terms": 1024
+  },
+  {
+   "primitive": "kan",
+   "seed": 33,
+   "sim_seq": 0.06358185230977201,
+   "terms": 4096
+  },
+  {
+   "primitive": "kan",
+   "seed": 33,
+   "sim_seq": 0.11868690985231474,
+   "terms": 16384
+  },
+  {
+   "primitive": "kan",
+   "seed": 33,
+   "sim_seq": 0.24236650375238789,
+   "terms": 65536
+  }
+ ],
+ "summary": {
+  "sim_f32acc": {
+   "linear_1": 0.00222203256359515,
+   "linear_1024": 0.0027050830534189074,
+   "linear_16": 0.0026614091523338283,
+   "linear_16384": 0.0027579568474555755,
+   "linear_256": 0.002762925342222443,
+   "linear_4": 0.0024710856483257187,
+   "linear_4096": 0.0027253874490072907,
+   "linear_64": 0.0027468387512952675,
+   "linear_65536": 0.0027615866847044853
+  },
+  "sim_seq": {
+   "kan_1024": 0.03234921066013688,
+   "kan_16": 0.006008406519424689,
+   "kan_16384": 0.12612211297516826,
+   "kan_256": 0.017113310878842176,
+   "kan_4": 0.00428839196010233,
+   "kan_4096": 0.06380275280212679,
+   "kan_64": 0.009196458435654387,
+   "kan_65536": 0.24420589944279936,
+   "linear_1": 0.00222203256359515,
+   "linear_1024": 0.03303633351122002,
+   "linear_16": 0.005161991044425533,
+   "linear_16384": 0.12712707448362817,
+   "linear_256": 0.016992458529664512,
+   "linear_4": 0.0034190743540856855,
+   "linear_4096": 0.0654274845292185,
+   "linear_64": 0.008888659727174548,
+   "linear_65536": 0.23537028647995054
+  }
+ }
+}
