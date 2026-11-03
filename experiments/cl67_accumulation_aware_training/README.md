@@ -32,7 +32,7 @@ Means over 3 seeds (per-seed values are in `results.json`).
 - **Per seed, Q.ANT-path accuracy compared with `exact`:**
   - `seq_ste`: +0.40, +0.29 and −0.04 pp;
   - `finetune`: +0.55, +0.32 and +0.03 pp.
-- **Disagreements** fall for every seed in both arms.
+- **Disagreements** fall for every seed with `seq_ste` (279/340/392 → 270/318/352). With `finetune` they fall for seeds 11 and 33 but rise for seed 22 (340 → 346).
 
 ## Predictions
 
@@ -45,13 +45,13 @@ Means over 3 seeds (per-seed values are in `results.json`).
 | 5 | `seq_ste` stays above 100 disagreements | ✓ 313 |
 | 6 | `finetune` achieves ≥ half of `seq_ste`'s reduction | ✓ 70% |
 
-**3 of 6 held.**
+**4 of 6 held.**
 
 ## Findings
 
 1. **Training through the accumulation helps only a little.**
    - Q.ANT-path accuracy rises by 0.2–0.3 pp, and disagreements fall by 5–7%.
-   - The gain is not consistent across seeds: one seed shows no improvement.
+   - The gain is not consistent across seeds: one seed shows no accuracy gain, and `finetune` increases disagreements for seed 22.
    - A single fine-tuning epoch does about as well as training through the simulator for all three epochs.
 2. **Architecture beats training here.** Splitting the same logit into 16 Q.ANT calls (CL-64) gives twice the accuracy gain and 12× the reduction in disagreements, with no retraining. This matches the derivation made before the run: every logit is still a 3,136-term sequential bfloat16 sum, and training can only move margins, not remove the rounding.
 3. **Practical rule for the Q.ANT CPU backend:** keep each call's sequential sum short (tens to about a hundred terms), and treat accumulation-aware training as an optional final touch.

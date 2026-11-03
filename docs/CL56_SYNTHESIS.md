@@ -94,8 +94,8 @@ Two side questions were also tested:
 | CL-64 | 5 of 6 |
 | CL-65 | 4 of 5 |
 | CL-66 | 6 of 6 |
-| CL-67 | 3 of 6 |
-| **Total** | **68 of 106 (64%)** |
+| CL-67 | 4 of 6 |
+| **Total** | **69 of 106 (65%)** |
 
 The misses were mostly over-optimistic expectations: work savings for selectors, compiled-kernel speed, kWTA reducing forgetting, bfloat16 rounding explaining the Q.ANT mismatch, and (CL-62) pairwise or blockwise rather than sequential accumulation. Some SNN misses went the other way: the SNN was more accurate at T=4 than expected, and the spike-rate penalty *improved* accuracy. CL-50 had no written predictions.
 

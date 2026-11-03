@@ -121,7 +121,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 ### ✅ CL-56 — Synthesis of CL-50 to CL-55
 
-[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-67: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch, which sequential bfloat16 accumulation reproduces in aggregate and predicts out of sample (Exp021, Exp022, Exp027) and image by image on Q.ANT (CL-66), while training through it helps little (CL-67); spiking networks do not beat a smaller dense network on counted operations. Predictions: 68 of 106 held.
+[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-67: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch, which sequential bfloat16 accumulation reproduces in aggregate and predicts out of sample (Exp021, Exp022, Exp027) and image by image on Q.ANT (CL-66), while training through it helps little (CL-67); spiking networks do not beat a smaller dense network on counted operations. Predictions: 69 of 106 held.
 
 - [x] Separate established results from what was not shown (no energy, photonic or neuromorphic claims).
 - [x] Report negative results, errors found and fixed, limitations and what would change the conclusions.
