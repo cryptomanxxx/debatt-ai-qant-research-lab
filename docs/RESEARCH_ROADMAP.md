@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-55 complete  
+**Current checkpoint:** CL-56 complete (synthesis)  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -119,14 +119,13 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 **H2 as motivated in the README (sparse, local plasticity reduces forgetting) is not supported in this test.** Possible next steps: class-incremental Split MNIST, and gated readouts.
 
-### ⬜ CL-56 — Evidence synthesis, literature and subsequent tracks
+### ✅ CL-56 — Synthesis of CL-50 to CL-55
 
-- [ ] Review prior sparse-compute, continual-learning, neuromorphic and photonic research with primary-source attribution.
-- [ ] Evaluate H1 with explicitly approved quality, provenance, work and statistical criteria; report support, no observed advantage or inconclusive.
-- [ ] Separate later H2 (retention/forgetting), H3 (combined benefits), and Fourier/KAN numerical-error hypotheses.
-- [ ] Report missing/negative results, limitations and platform-specific extrapolations.
+[Synthesis report](CL56_SYNTHESIS.md): H1 narrowly supported for input sparsity (5× faster inference at identical accuracy with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Predictions: 27 of 44 held.
 
-**Completion condition:** transparent, independently critiqued scientific report; no claim beyond observed evidence.
+- [x] Separate established results from what was not shown (no energy, photonic or neuromorphic claims).
+- [x] Report negative results, errors found and fixed, limitations and what would change the conclusions.
+- [ ] Outside critique of the report (open).
 
 ## Tracking table
 
@@ -145,7 +144,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-54 | ✅ Completed | [Compiled sparse kernels](../experiments/cl54_compiled_sparse_kernels/README.md) |
 | Energy | 🔒 Tier 2 | Physical energy measurement needs explicit owner approval |
 | CL-55 | ✅ Completed | [H2 Permuted MNIST forgetting](../experiments/cl55_h2_permuted_mnist_forgetting/README.md) |
-| CL-56 | ⬜ Planned | Synthesis depends on future evidence |
+| CL-56 | ✅ Completed | [Synthesis report](CL56_SYNTHESIS.md) |
 
 ## Progress log
 
@@ -168,6 +167,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-54: compiled kernels make counted work track wall time; skipping zero pixels gives a real 5× speed-up at identical accuracy; kWTA still does not win.
 
 - **2026-11-03:** CL-55 (H2): sparse representations and DFA did not reduce forgetting on Permuted MNIST; a larger dense network, EWC and replay did best.
+
+- **2026-11-03:** CL-56 synthesis of CL-50 to CL-55 published.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 

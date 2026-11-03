@@ -18,6 +18,8 @@ This repository contains the experiments, results and research automation behind
 
 **Risk tiers:** [Risk tiers for research work](docs/RISK_TIERS.md) is the active policy for which work can proceed directly and which needs owner approval. AI assistants follow [AGENTS.md](AGENTS.md).
 
+**Latest results:** [CL-56 synthesis](docs/CL56_SYNTHESIS.md) summarises the CL-50 to CL-55 experiments on sparse computation (H1) and forgetting (H2).
+
 **Start here:** [Current systems and protocols](docs/current-systems-and-protocols.md) is the maintained map of active vs historical systems, frozen evidence, protocol owners and human approval. This README is an overview, not an execution contract.
 
 The project is an early-stage research programme. Experiments currently run on **GitHub Actions standard CPU runners** using the **Q.ANT Native Computing Toolkit CPU backend**.
