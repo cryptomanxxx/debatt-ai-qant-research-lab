@@ -57,6 +57,14 @@ async function cleanupMergedPrBranches({ github, context, core, exec }) {
         summary.kept.push({ name, reason: "already_missing" });
         continue;
       }
+      // A transient GitHub server error on one ref must not abort the whole
+      // run (it scans every historical merged PR). Keeping the branch is the
+      // safe outcome; a later run retries it. Other errors (e.g. 403) still abort.
+      if (error && typeof error.status === "number" && error.status >= 500) {
+        core.warning("Keeping " + name + ": GitHub returned " + error.status + " for getRef");
+        summary.kept.push({ name, reason: "github_server_error" });
+        continue;
+      }
       throw error;
     }
 
