@@ -1,0 +1,102 @@
+{
+ "cflags": [
+  "-O2",
+  "-shared",
+  "-fPIC",
+  "-fno-fast-math",
+  "-ffp-contract=off"
+ ],
+ "dataset": "FashionMNIST",
+ "epochs": 3,
+ "evaluation": "CL-62 simulator, one Q.ANT call per logit (bf16 operands/cos/products, sequential bf16 sum, bf16 bias)",
+ "experiment": "CL-67",
+ "grid": 4,
+ "numpy": "2.5.3",
+ "rows": [
+  {
+   "arm": "exact",
+   "disagreements": 279,
+   "qant_path_accuracy": 0.8396,
+   "reference_accuracy": 0.8451,
+   "seed": 11
+  },
+  {
+   "arm": "exact",
+   "disagreements": 340,
+   "qant_path_accuracy": 0.8431,
+   "reference_accuracy": 0.8462,
+   "seed": 22
+  },
+  {
+   "arm": "exact",
+   "disagreements": 392,
+   "qant_path_accuracy": 0.8026,
+   "reference_accuracy": 0.8078,
+   "seed": 33
+  },
+  {
+   "arm": "seq_ste",
+   "disagreements": 270,
+   "qant_path_accuracy": 0.8436,
+   "reference_accuracy": 0.8461,
+   "seed": 11
+  },
+  {
+   "arm": "seq_ste",
+   "disagreements": 318,
+   "qant_path_accuracy": 0.846,
+   "reference_accuracy": 0.8426,
+   "seed": 22
+  },
+  {
+   "arm": "seq_ste",
+   "disagreements": 352,
+   "qant_path_accuracy": 0.8022,
+   "reference_accuracy": 0.8055,
+   "seed": 33
+  },
+  {
+   "arm": "finetune",
+   "disagreements": 270,
+   "qant_path_accuracy": 0.8451,
+   "reference_accuracy": 0.8476,
+   "seed": 11
+  },
+  {
+   "arm": "finetune",
+   "disagreements": 346,
+   "qant_path_accuracy": 0.8463,
+   "reference_accuracy": 0.8459,
+   "seed": 22
+  },
+  {
+   "arm": "finetune",
+   "disagreements": 345,
+   "qant_path_accuracy": 0.8029,
+   "reference_accuracy": 0.807,
+   "seed": 33
+  }
+ ],
+ "seeds": [
+  11,
+  22,
+  33
+ ],
+ "summary": {
+  "exact": {
+   "disagreements": 337.0,
+   "qant_path_accuracy": 0.8284333333333334,
+   "reference_accuracy": 0.8330333333333333
+  },
+  "finetune": {
+   "disagreements": 320.3333333333333,
+   "qant_path_accuracy": 0.8314333333333334,
+   "reference_accuracy": 0.8335
+  },
+  "seq_ste": {
+   "disagreements": 313.3333333333333,
+   "qant_path_accuracy": 0.8306,
+   "reference_accuracy": 0.8314
+  }
+ }
+}
