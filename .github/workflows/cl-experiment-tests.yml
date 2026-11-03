@@ -34,11 +34,12 @@ jobs:
           python-version: '3.13'
       - name: Install NumPy
         run: python -m pip install "numpy==2.5.3"
-      - name: Run CL-50 to CL-54 tests
+      - name: Run CL-50 to CL-55 tests
         run: |
           python -m unittest -v \
             tests.test_cl50_baselines_and_factorial \
             tests.test_cl51_local_rules_and_hidden_sparsity \
             tests.test_cl52_cheap_winner_selection \
             tests.test_cl53_mnist_hidden_sparsity \
-            tests.test_cl54_compiled_sparse_kernels
+            tests.test_cl54_compiled_sparse_kernels \
+            tests.test_cl55_h2_permuted_mnist_forgetting
