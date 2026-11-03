@@ -7,6 +7,19 @@
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
 
+## Research goal (set by the owner, 2026-11-03)
+
+**Which AI models, of which sizes and properties, are best and worst suited to Q.ANT's photonic hardware, and why?** Compare each model's performance on Q.ANT with its performance on ordinary CPU/GPU hardware; the largest gaps point to the best- and worst-suited models. Test many model types, varying one property at a time, so that the result explains *why* a model suits Q.ANT.
+
+- **Measurable now (Q.ANT CPU backend and simulator):** numerical fidelity, meaning the accuracy lost and the disagreements against a float32 reference.
+- **Needs physical hardware (Tier 2, external access):** latency, throughput, energy, and the noise of real optics.
+- **Plan:**
+  - **A.** Check whether the accumulation simulator also holds for `linear_fprop`, using archived data (Tier 0).
+  - **B.** Characterise `linear_fprop` and the activations on Q.ANT (Tier 2).
+  - **C.** A systematic model zoo in simulation (Tier 0).
+  - **D.** Confirm a subset on Q.ANT (Tier 2).
+  - **E.** Photonic hardware via the IONOS/Q.ANT pilot (Tier 2).
+
 ## Scientific objective
 
 Determine whether sparse neural-network computation, including reuse of active-neuron indices, can reduce **observed computational work and eventually measured electrical energy** at comparable held-out predictive quality, while keeping sparse traversal distinct from the effects of local learning rules.
