@@ -2,6 +2,8 @@
 
 > **As of 29 September 2026.** This is a navigation map for `main`, not a new experiment protocol, research permission, data migration, or compute authorization. For a specific study, use its committed implementation, versioned machine-readable protocol, reviewed proposal/job, actual source/result records and provenance at the relevant Git revision.
 
+> **Risk tiers (2026-11-03):** what may run without approval, and what needs owner approval, is set by [Risk tiers for research work](RISK_TIERS.md). The paths below still apply to Tier 1 and Tier 2 work (e.g. metered Groq sessions, the guarded compute queue).
+
 ## System status and source of authority
 
 | System / scope | Status | Where to find the governing records |

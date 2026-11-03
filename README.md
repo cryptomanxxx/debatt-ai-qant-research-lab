@@ -14,9 +14,9 @@ This repository contains the experiments, results and research automation behind
 
 ## Current status
 
-**CL research progress:** [Research & Development Roadmap](docs/RESEARCH_ROADMAP.md) tracks the completed CL-45–CL-47 evidence and the planned CL-48–CL-55 milestones, including review and HARD NO_GO gates. It is a progress tracker, not authorization to run new experiments.
+**CL research progress:** [Research & Development Roadmap](docs/RESEARCH_ROADMAP.md) tracks the completed CL-45–CL-47 evidence and the planned CL-48–CL-55 milestones, with approval levels set by the [risk tiers](docs/RISK_TIERS.md).
 
-**Risk tiers (draft):** [Risk tiers for research work](docs/RISK_TIERS.md) proposes which work can proceed directly and which needs owner approval. AI assistants follow [AGENTS.md](AGENTS.md).
+**Risk tiers:** [Risk tiers for research work](docs/RISK_TIERS.md) is the active policy for which work can proceed directly and which needs owner approval. AI assistants follow [AGENTS.md](AGENTS.md).
 
 **Start here:** [Current systems and protocols](docs/current-systems-and-protocols.md) is the maintained map of active vs historical systems, frozen evidence, protocol owners and human approval. This README is an overview, not an execution contract.
 
@@ -105,7 +105,7 @@ Photonic hardware may accelerate suitable mathematical primitives, such as certa
 
 ### Experimental status and next gates
 
-**No new CL model training is authorized.** The CL-3A scientific readiness gates remain **NO_GO** for execution until a separately reviewed protocol is approved and Marcus gives **explicit, separate authorization** for training. Merging a PR or running a static visualization workflow is not that authorization.
+**CL model runs follow the [risk tiers](docs/RISK_TIERS.md)** (adopted 2026-11-03). Small local/CI runs of the CL toy models are Tier 0 and need no separate approval; external hardware, paid compute and physical energy measurement remain Tier 2 and need Marcus's explicit approval.
 
 Next analytical work may vary network dimensions, activity and memory-cost assumptions (CL-3U), then preregister fair H1/H2 comparisons. Any real experiment should report task quality and forgetting alongside operation counts, wall-clock time, actual memory traffic and **measured electrical energy** with an appropriate baseline and uncertainty. Hardware-specific photonic or neuromorphic claims require access to, and measurement on, those devices.
 
@@ -232,4 +232,4 @@ This repository contains Debatt-AI's research code and results. Q.ANT's Native C
 
 ---
 
-**Historical Toolkit/PNN snapshot (29 September 2026):** Toolkit discovery retained through Exp030; separate PNN-v1 results through Exp021; v2 guarded research orchestration; v3 research prototypes; frozen Dev-4 benchmark. Consult the [current protocol map](docs/current-systems-and-protocols.md) for source-of-truth links. **CL research update (1 November 2026):** static CL-3T crossover analysis and GitHub Actions visualizations are available; continual-learning training remains NO_GO pending separate approval.
+**Historical Toolkit/PNN snapshot (29 September 2026):** Toolkit discovery retained through Exp030; separate PNN-v1 results through Exp021; v2 guarded research orchestration; v3 research prototypes; frozen Dev-4 benchmark. Consult the [current protocol map](docs/current-systems-and-protocols.md) for source-of-truth links. **CL research update (1 November 2026):** static CL-3T crossover analysis and GitHub Actions visualizations are available; continual-learning training was NO_GO at that time; since 2026-11-03 it follows the [risk tiers](docs/RISK_TIERS.md).

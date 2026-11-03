@@ -1,6 +1,6 @@
 # Risk tiers for research work
 
-**Status:** DRAFT for owner decision. Takes effect only when Marcus merges it.
+**Status:** ACTIVE. Adopted by the owner on 2026-11-03 ([PR #316](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/pull/316)).
 **Owner:** Marcus (repository owner). Only the owner can change this policy.
 
 ## Why this exists
@@ -96,7 +96,7 @@ Keep the existing reporting discipline. It is a strength of this project:
 
 ## Relation to earlier rules
 
-When merged, this policy replaces the blanket "HARD NO_GO" for the CL track
+This policy replaces the blanket "HARD NO_GO" for the CL track
 for Tier 0 and Tier 1 work. Tier 2 keeps a full, explicit approval
 requirement. Historical records remain unchanged: the consumed CL-45 one-shot
 reservation is not reset or reused, and archived evidence is not rewritten.
