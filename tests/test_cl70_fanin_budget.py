@@ -17,8 +17,11 @@ def fake_modules():
     ai.relu_fprop = lambda v: np.maximum(f(v), 0)
     ai.sigmoid_fprop = lambda v: R.bf16(1 / (1 + np.exp(-f(v))))
     def softmax(v):
-        e = np.exp(f(v) - f(v).max(1, keepdims=True))
-        return R.bf16(e / e.sum(1, keepdims=True))
+        v = f(v)
+        if v.ndim != 1:  # mimic the toolkit: batched input is rejected
+            raise RuntimeError("does not support batched input")
+        e = np.exp(v - v.max())
+        return R.bf16(e / e.sum())
     ai.softmax_fprop = softmax
     ai.add_bias_fprop = lambda a, b: R.bf16(f(a) + f(b))
     pkg = types.ModuleType("qant_native_computing_toolkit")
