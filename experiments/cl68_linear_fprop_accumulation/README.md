@@ -1,6 +1,6 @@
 # CL-68 — Does `linear_fprop` accumulate like `calc_kan_layer_fprop`?
 
-**Tier 0** under [docs/RISK_TIERS.md](../../docs/RISK_TIERS.md). It runs locally in about 2 minutes on 4 processes and makes no Q.ANT run. It is compared with the archived Q.ANT CPU-backend results of Exp008 (MNIST) and Exp009 (Fashion-MNIST). This is phase A of the [research goal](../../docs/RESEARCH_ROADMAP.md#research-goal-set-by-the-owner-2026-11-03). **Exploratory.** [Predictions](PREDICTIONS.md) were pushed before the run (commit `0ac6e08`). Physical energy: `NOT_MEASURED`.
+**Tier 0** under [docs/RISK_TIERS.md](../../docs/RISK_TIERS.md) when the CL-53 MNIST and CL-58 Fashion-MNIST downloads are already present, as they were for this run. On a fresh checkout, the loaders first fetch those public datasets with pinned SHA-256, which is Tier 1. It runs locally in about 2 minutes on 4 processes and makes no Q.ANT run. It is compared with the archived Q.ANT CPU-backend results of Exp008 (MNIST) and Exp009 (Fashion-MNIST). This is phase A of the [research goal](../../docs/RESEARCH_ROADMAP.md#research-goal-set-by-the-owner-2026-11-03). **Exploratory.** [Predictions](PREDICTIONS.md) were pushed before the run (commit `0ac6e08`). Physical energy: `NOT_MEASURED`.
 
 Reproduce from the repository root: `python -m experiments.cl68_linear_fprop_accumulation.run`, which writes [`results.json`](results.json).
 
