@@ -5,7 +5,7 @@
   "expires": "2027-02-01",
   "id": 13239684862,
   "name": "cl58-results-qant",
-  "note": "per-seed values; not committed because artifact storage is not reachable from the analysis session",
+  "note": "committed unchanged as results_qant.json (owner-supplied download; zip SHA-256 verified against the run log)",
   "zip_sha256": "7acc1033159c6eac05c0f3c1f646c638bb94277f0c9b80aa1a8cae7ac5042c19"
  },
  "image": "ghcr.io/cryptomanxxx/debatt-ai-qant-research-lab:research-py313-v1",

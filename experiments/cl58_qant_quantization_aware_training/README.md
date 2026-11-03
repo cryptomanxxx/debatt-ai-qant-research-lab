@@ -7,7 +7,7 @@
 
 Reproduce from the repository root:
 - Part 1: `python -m experiments.cl58_qant_quantization_aware_training.run`, which writes [`results_local.json`](results_local.json).
-- Part 2: dispatch the workflow; it adds `--qant`. [`results_qant_summary.json`](results_qant_summary.json) holds the Part 2 means from the job log. Per-seed values are in the run's artifact `cl58-results-qant`, which expires 2027-02-01 and could not be downloaded from the analysis session.
+- Part 2: dispatch the workflow; it adds `--qant`. [`results_qant.json`](results_qant.json) is the run's artifact `cl58-results-qant`, unchanged. The owner supplied it; its zip SHA-256 matches the digest the run logged (`7acc1033…`). [`results_qant_summary.json`](results_qant_summary.json) records the run, job and artifact identifiers.
 
 ## Question
 
@@ -57,7 +57,10 @@ Mean over 3 seeds; disagreements are out of 10,000 test images.
 
 ## Findings
 
-1. **QAT does not reduce the Q.ANT mismatch.** Disagreements with the float reference are unchanged for both grids (all differences ≤ 10 of 10,000; grid 4 324.7–334.7, grid 8 462.0–468.3), and Q.ANT accuracy moves by at most 0.0009. Adding training noise does not help either.
+1. **QAT does not reduce the Q.ANT mismatch.** Disagreements with the float reference are unchanged for both grids (mean differences ≤ 10 of 10,000; grid 4 324.7–334.7, grid 8 462.0–468.3), and Q.ANT accuracy moves by at most 0.0009. Adding training noise does not help either.
+   Seed by seed, the change in disagreements against `exact_cosine` has no consistent sign:
+   - Grid 4, QAT: +12, +10, −14. Grid 4, QAT + noise: −15, +12, −19.
+   - Grid 8, QAT: +9, +2, −1. Grid 8, QAT + noise: +12, +6, +1.
 2. **The Q.ANT mismatch is not caused by bfloat16 rounding of the operands.** Rounding inputs, phases, amplitudes, bias and cosine outputs explains about 1–2% of the disagreements. The simulator disagrees with Q.ANT almost exactly as often as the float reference does.
 3. **Training-side fixes have now failed twice:** Exp015 (fitted response curve) and CL-58 (bfloat16 QAT ± noise). The lever the lab found earlier was architectural: lower fan-in and hierarchical accumulation (Exp021–030).
 
