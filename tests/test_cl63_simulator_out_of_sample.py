@@ -31,9 +31,11 @@ class CL63(unittest.TestCase):
     def test_grouped_one_group_equals_monolithic_seq(self):
         model = R.cl58.QFourier(1, 4)
         X = np.random.default_rng(0).random((4, R.cl58.D)).astype(np.float32)
-        g1 = R.grouped_logits(model, X, 1, "seq")
+        g1 = R.grouped_logits(model, X, 1, "seq", bias=True)
         mono = R.cl62.variant_logits(model, X, "seq")
         np.testing.assert_array_equal(g1, mono)
+        no_bias = R.grouped_logits(model, X, 1, "seq")
+        np.testing.assert_array_equal(no_bias, R.kan_sim(X, model.phi, model.A, model.k, "seq"))
 
 
 if __name__ == "__main__":

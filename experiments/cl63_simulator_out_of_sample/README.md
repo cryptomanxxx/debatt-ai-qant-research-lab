@@ -15,6 +15,7 @@ Reproduce from the repository root: `python -m experiments.cl63_simulator_out_of
   - Simulated mean absolute error (MAE) against Exp021's float32 cosine reference is compared with the archived Q.ANT MAE.
 - **B. Exp022 grouped accumulation.**
   - Exp022 evaluated one Q.ANT call per contiguous group of 784/g pixels and summed the group outputs in float32.
+  - In the code that ran (commit `0b2947c`), the bias call sits inside a comment, so the archived Q.ANT logits have no bias and no final rounding. The simulation follows that path; a version with a bfloat16 bias is reported as a sensitivity check. (Codex caught this. The first version of this PR added the bias, and its numbers were slightly different: 337/116/43.)
   - This is simulated with `seq` inside each group on the CL-58 `exact_cosine` grid-4 models (3 seeds).
   - These are not Exp022's torch models (torch is not installed), only the same architecture and recipe, so B is an aggregate comparison.
 - **Simulator variants,** all with bfloat16 operands, cosines, products and output:
@@ -41,11 +42,11 @@ Reproduce from the repository root: `python -m experiments.cl63_simulator_out_of
 
 **B. Exp022** (mean disagreements per 10k against the float reference)
 
-| Groups | Q.ANT (Exp022, archived) | `seq` simulated | `f32acc` simulated |
-|---|---|---|---|
-| 1 (monolithic) | 323.0 | 337.0 (1.04×) | 18.0 |
-| 4 | 114.3 | 116.3 (1.02×) | 16.0 |
-| 16 | 37.7 | 42.7 (1.13×) | 15.3 |
+| Groups | Q.ANT (Exp022, archived) | `seq` simulated | `f32acc` simulated | `seq` with bias (sensitivity check) |
+|---|---|---|---|---|
+| 1 (monolithic) | 323.0 | 337.3 (1.04×) | 18.0 | 337.0 |
+| 4 | 114.3 | 114.3 (1.00×) | 8.3 | 116.3 |
+| 16 | 37.7 | 41.0 (1.09×) | 8.0 | 42.7 |
 
 ## Predictions
 
@@ -56,7 +57,7 @@ Reproduce from the repository root: `python -m experiments.cl63_simulator_out_of
 | 3 | `seq` exponent within 0.364 ± 0.05 | ✓ 0.397 |
 | 4 | `f32acc` ≥ 3× too low at 784 × 8, within ±30% at 1 term | ✓ 14× too low, and −24% |
 | 5 | `pair` and `block32` exponents < 0.25 | ✓ 0.10 and 0.05 |
-| 6 | **Grouped `seq` within ±25% of Exp022 for 4 and 16 groups** | ✓ +2% and +13% |
+| 6 | **Grouped `seq` within ±25% of Exp022 for 4 and 16 groups** | ✓ 0% and +9% |
 
 **5 of 5 testable predictions held.**
 
@@ -64,7 +65,7 @@ Reproduce from the repository root: `python -m experiments.cl63_simulator_out_of
 
 1. **The simulator predicts results it was never fitted to.**
    - **Exp021:** it reproduces Q.ANT's error at every scale from 128 to 6,272 terms within 0–14%. It also reproduces the scaling exponent (0.40 against 0.36), with r = 0.996 on log MAE over 108 points.
-   - **Exp022:** it predicts the 3× and 9× drops in disagreements from splitting the sum into 4 and 16 Q.ANT calls.
+   - **Exp022:** it predicts the 3× and 9× drops in disagreements from splitting the sum into 4 and 16 Q.ANT calls, within 0–9%.
    - **Every other scheme fails:** float32, pairwise and blockwise accumulation are off by 2.5–14×.
 2. **The √n mechanism holds.** Q.ANT's own slope approaches the 0.5 random-walk exponent at large n, as derived before the run.
 3. **There is a small extra Q.ANT error at low term counts.** With 1–32 terms the simulator underestimates Q.ANT by up to 33%. The source could be the cosine implementation or another operand detail, matching the Q.ANT-specific residual in Exp014. It is negligible at the fan-ins used in practice.

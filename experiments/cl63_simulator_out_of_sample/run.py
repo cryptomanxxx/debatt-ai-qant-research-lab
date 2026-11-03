@@ -100,14 +100,19 @@ def run_a():
 
 # ------------------------------------------------------------------ B. Exp022
 
-def grouped_logits(model, X, groups, variant):
-    """Exp022: one Q.ANT call per contiguous pixel group, float32 sum of bf16 outputs, bf16 bias."""
+def grouped_logits(model, X, groups, variant, bias=False):
+    """Exp022: one Q.ANT call per contiguous pixel group, float32 sum of the bf16 outputs.
+
+    In the executed Exp022 code (commit 0b2947c, run.py line 44) the add_bias_fprop call
+    sits inside a comment, so the archived Q.ANT logits have no bias and no final
+    rounding. bias=False reproduces that path; bias=True adds a bf16 bias as in CL-62.
+    """
     total = np.zeros((len(X), cl58.C), np.float32)
     for g in range(groups):
         lo, hi = g * cl58.D // groups, (g + 1) * cl58.D // groups
         out = kan_sim(X[:, lo:hi], model.phi[:, lo:hi], model.A[:, lo:hi], model.k, variant)
         total = total + out
-    return bf16(bf16(total) + bf16(model.b))
+    return bf16(bf16(total) + bf16(model.b)) if bias else total
 
 
 def run_b_job(args):
@@ -116,9 +121,11 @@ def run_b_job(args):
     model = cl62.train(seed, 4, "exact_cosine", x_tr, y_tr)
     ref = model.predict(x_te)
     row = {"seed": seed, "reference_accuracy": float((ref == y_te).mean())}
-    for v in ("seq", "f32acc"):
+    for v in ("seq", "f32acc", "seq_with_bias"):
         for g in GROUPS_B:
-            pred = np.concatenate([grouped_logits(model, x_te[s:s + 100], g, v).argmax(1) for s in range(0, len(x_te), 100)])
+            base, bias = ("seq", True) if v == "seq_with_bias" else (v, False)
+            pred = np.concatenate([grouped_logits(model, x_te[s:s + 100], g, base, bias).argmax(1)
+                                   for s in range(0, len(x_te), 100)])
             row[f"{v}_g{g}_disagreements"] = int((pred != ref).sum())
             row[f"{v}_g{g}_accuracy"] = float((pred == y_te).mean())
     return row
@@ -136,10 +143,12 @@ def run_b(data_dir, processes):
     for g in GROUPS_B:
         q = qant[names[g]]
         summary[f"groups_{g}"] = {"exp022_qant_mean_disagreements": q}
-        for v in ("seq", "f32acc"):
+        for v in ("seq", "f32acc", "seq_with_bias"):
             m = statistics.fmean(r[f"{v}_g{g}_disagreements"] for r in rows)
             summary[f"groups_{g}"][v] = {"mean_disagreements": m, "ratio_to_qant": m / q}
     return {"models": "CL-58 exact_cosine grid-4 models (NumPy), not the Exp022 torch models",
+            "evaluation_path": "as executed in Exp022 (commit 0b2947c): float32 sum of bf16 group outputs, no bias; "
+                               "seq_with_bias adds a bf16 bias as a sensitivity check",
             "summary": summary, "rows": rows}
 
 
@@ -163,7 +172,8 @@ def main():
     print("B. Exp022:")
     for g, s in b["summary"].items():
         print(f"  {g:10s} Q.ANT {s['exp022_qant_mean_disagreements']:.1f}  seq {s['seq']['mean_disagreements']:.1f}"
-              f" ({s['seq']['ratio_to_qant']:.2f})  f32acc {s['f32acc']['mean_disagreements']:.1f}")
+              f" ({s['seq']['ratio_to_qant']:.2f})  f32acc {s['f32acc']['mean_disagreements']:.1f}"
+              f"  seq_with_bias {s['seq_with_bias']['mean_disagreements']:.1f}")
 
 
 if __name__ == "__main__":

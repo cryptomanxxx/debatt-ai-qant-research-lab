@@ -176,7 +176,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 [Results](../experiments/cl63_simulator_out_of_sample/README.md), with [predictions pushed before the run](../experiments/cl63_simulator_out_of_sample/PREDICTIONS.md): the unchanged CL-62 simulator against archived Exp021 and Exp022 Q.ANT results.
 
 - [x] It reproduces the Exp021 error scaling (exponent 0.40 against 0.36; within 0–14% from 128 terms; r = 0.996).
-- [x] It predicts the Exp022 grouped-call results (116 and 43 against 114 and 38 disagreements per 10k).
+- [x] It predicts the Exp022 grouped-call results (114 and 41 against 114 and 38 disagreements per 10k).
 
 ## Tracking table
 
