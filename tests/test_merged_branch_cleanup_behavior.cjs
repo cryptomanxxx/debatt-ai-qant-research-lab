@@ -127,7 +127,7 @@ test("multiple merged PRs at a name: only a previously merged exact tip is eligi
   ]);
 });
 
-test("404 on getRef is safe; any other GitHub error aborts", async () => {
+test("404 on getRef is safe; client errors such as 403 abort", async () => {
   const missing = harness({
     closed: [pr("feature/gone")],
     refError: { "heads/feature/gone": 404 }
@@ -142,6 +142,23 @@ test("404 on getRef is safe; any other GitHub error aborts", async () => {
   });
   await assert.rejects(forbidden.run(), /fake getRef error/);
   assert.equal(forbidden.calls.pushes.length, 0);
+});
+
+test("5xx on getRef keeps that branch and continues with the rest", async () => {
+  const h = harness({
+    closed: [pr("feature/flaky"), pr("feature/done")],
+    refError: { "heads/feature/flaky": 500 },
+    refs: { "heads/feature/done": OLD }
+  });
+  const summary = await h.run();
+  assert.deepEqual(summary.kept, [{ name: "feature/flaky", reason: "github_server_error" }]);
+  assert.deepEqual(summary.deleted, ["feature/done"]);
+  assert.equal(h.calls.pushes.length, 1);
+  assert.deepEqual(h.calls.pushes[0].args, [
+    "push", "--force-with-lease=refs/heads/feature/done:" + OLD,
+    "origin", ":refs/heads/feature/done"
+  ]);
+  assert.equal(h.calls.warnings.length, 1);
 });
 
 test("new open PR detected on second listing: do not attempt the Git delete", async () => {
