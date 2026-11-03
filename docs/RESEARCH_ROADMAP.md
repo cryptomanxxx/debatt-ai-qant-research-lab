@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-54 complete  
+**Current checkpoint:** CL-55 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -108,7 +108,18 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 **Completion condition:** reviewed protocol; energy remains `NOT_MEASURED` until separately authorized measurements exist.
 
-### ⬜ CL-55 — Evidence synthesis, literature and subsequent tracks
+### ✅ CL-55 — H2: catastrophic forgetting on Permuted MNIST (Tier 1 experiment)
+
+[Results](../experiments/cl55_h2_permuted_mnist_forgetting/README.md), with [predictions pushed before the run](../experiments/cl55_h2_permuted_mnist_forgetting/PREDICTIONS.md): 5 permuted-MNIST tasks, 3 seeds, 10 arms.
+
+- [x] The task produces real forgetting: plain SGD loses 0.085 on earlier tasks (BWT).
+- [x] Sparse representations did not reduce forgetting: kWTA forgot more than an equal-size dense network in every seed, and a frozen random expansion forgot most.
+- [x] Local learning (DFA) gave no protection.
+- [x] A larger dense network (ACC 0.908), EWC λ=100 (0.904) and replay (0.902) did best; joint training reaches 0.945.
+
+**H2 as motivated in the README (sparse, local plasticity reduces forgetting) is not supported in this test.** Possible next steps: class-incremental Split MNIST, and gated readouts.
+
+### ⬜ CL-56 — Evidence synthesis, literature and subsequent tracks
 
 - [ ] Review prior sparse-compute, continual-learning, neuromorphic and photonic research with primary-source attribution.
 - [ ] Evaluate H1 with explicitly approved quality, provenance, work and statistical criteria; report support, no observed advantage or inconclusive.
@@ -133,7 +144,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-53 | ✅ Completed | [MNIST hidden sparsity](../experiments/cl53_mnist_hidden_sparsity/README.md) |
 | CL-54 | ✅ Completed | [Compiled sparse kernels](../experiments/cl54_compiled_sparse_kernels/README.md) |
 | Energy | 🔒 Tier 2 | Physical energy measurement needs explicit owner approval |
-| CL-55 | ⬜ Planned | Synthesis depends on future evidence |
+| CL-55 | ✅ Completed | [H2 Permuted MNIST forgetting](../experiments/cl55_h2_permuted_mnist_forgetting/README.md) |
+| CL-56 | ⬜ Planned | Synthesis depends on future evidence |
 
 ## Progress log
 
@@ -154,6 +166,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-53 (MNIST): low-rank selection finds 98% of winners cheaply, but kWTA stays below the dense frontier; counted work and wall time diverge 40×.
 
 - **2026-11-03:** CL-54: compiled kernels make counted work track wall time; skipping zero pixels gives a real 5× speed-up at identical accuracy; kWTA still does not win.
+
+- **2026-11-03:** CL-55 (H2): sparse representations and DFA did not reduce forgetting on Permuted MNIST; a larger dense network, EWC and replay did best.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
