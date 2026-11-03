@@ -195,9 +195,9 @@
    "eval_work_per_input": {
     "out": 8.0,
     "pre": 117.14010416666666,
-    "select": 51.89375
+    "select": 55.89375
    },
-   "eval_work_per_input_total": 177.03385416666666,
+   "eval_work_per_input_total": 181.03385416666666,
    "final_mean": {
     "ci95": [
      0.951953125,
@@ -218,10 +218,10 @@
    "train_work_per_step": {
     "out": 8.0,
     "pre": 115.78393229166666,
-    "select": 84.01302083333333
+    "select": 88.98802083333334
    },
-   "train_work_per_step_total": 207.796953125,
-   "train_work_vs_exact": 1.157952302727051,
+   "train_work_per_step_total": 212.77195312499998,
+   "train_work_vs_exact": 1.185675580760881,
    "writes_per_step": 29.431510416666665
   },
   "simhash_K3_L2": {
@@ -233,9 +233,9 @@
    "eval_work_per_input": {
     "out": 8.0,
     "pre": 35.862239583333334,
-    "select": 38.9203125
+    "select": 40.9203125
    },
-   "eval_work_per_input_total": 82.78255208333334,
+   "eval_work_per_input_total": 84.78255208333334,
    "final_mean": {
     "ci95": [
      0.72890625,
@@ -256,10 +256,10 @@
    "train_work_per_step": {
     "out": 8.0,
     "pre": 35.92150390625,
-    "select": 63.009765625
+    "select": 65.497265625
    },
-   "train_work_per_step_total": 106.93126953125,
-   "train_work_vs_exact": 0.5958764453719075,
+   "train_work_per_step_total": 109.41876953125,
+   "train_work_vs_exact": 0.6097380843888225,
    "writes_per_step": 29.431510416666665
   },
   "static_first_k": {

@@ -83,9 +83,17 @@ class SelMLP:
         return iters * 2 * H * INPUTS * r + H * INPUTS * r + iters * r * r * INPUTS
 
     def _refresh_hash(self):
-        self.unit_codes = [[tuple(sum(p[i] * w for i, w in enumerate(self.w1[j] + [self.b1[j]])) > 0
-                                  for p in self.P[t]) for j in range(self.H)] for t in range(self.L)]
-        return self.H * self.L * self.K * (INPUTS + 1)
+        """Hash every unit's [w; b] and index units by code (one bucket dict per table)."""
+        self.buckets = []
+        for t in range(self.L):
+            table = {}
+            for j in range(self.H):
+                code = tuple(sum(p[i] * w for i, w in enumerate(self.w1[j] + [self.b1[j]])) > 0
+                             for p in self.P[t])
+                table.setdefault(code, []).append(j)
+            self.buckets.append(table)
+        # projections + one bucket insert per unit and table
+        return self.H * self.L * self.K * (INPUTS + 1) + self.H * self.L
 
     def _select(self, active, training):
         H, k = self.H, self.k
@@ -107,8 +115,8 @@ class SelMLP:
             cand_set = set()
             for t in range(self.L):
                 code = tuple(sum(self.P[t][b][i] for i in active) + self.P[t][b][INPUTS] > 0 for b in range(self.K))
-                cand_set.update(j for j in range(H) if self.unit_codes[t][j] == code)
-            select += self.L * self.K * (len(active) + 1)
+                cand_set.update(self.buckets[t].get(code, ()))  # indexed lookup, no unit scan
+            select += self.L * self.K * (len(active) + 1) + self.L  # projections + one lookup per table
             cand = sorted(cand_set)
             if len(cand) < k:  # pad as SLIDE does, with random units
                 rest = [j for j in range(H) if j not in cand_set]

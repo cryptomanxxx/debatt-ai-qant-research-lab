@@ -18,7 +18,7 @@ CL-51 found that a hidden layer with H=32 units, of which the top k=4 are kept, 
 - the W1 terms computed exactly;
 - the W2 terms.
 
-**Not counted:** the one-off set-up cost of a selector, and bucket lookups, which a hash table makes O(1).
+**Not counted:** the one-off set-up cost of a selector. SimHash looks up candidates in a per-table hash index, which is rebuilt at each refresh. Each lookup counts as one operation, and each insertion counts toward the refresh cost.
 
 **Recall** is the share of the true top-4 units that the selector found, measured on test inputs after training. For `static_first_k` it is not meaningful, because only its 4 units are ever trained.
 
@@ -34,8 +34,8 @@ The table shows accuracy as the mean over 30 seeds with a bootstrap 95% CI. Work
 | `random` | 0.693 [0.657, 0.730] | 0.13 | 0.16 | 0.60–0.80 ✓ |
 | `lowrank_r2_c8` | 0.978 [0.960, 0.993] | 0.93 | 0.92 | ≥ 0.97 ✓, ≤ 0.60 ✗ |
 | `lowrank_r4_c8` | 0.987 [0.975, 0.996] | 0.96 | 1.57 | — |
-| `simhash_K3_L2` | 0.760 [0.729, 0.788] | 0.41 | 0.60 | 0.85–0.97 ✗ |
-| `simhash_K2_L4` | 0.964 [0.952, 0.974] | 0.85 | 1.16 | 0.85–0.97 ✓, 0.4–0.8 ✗ |
+| `simhash_K3_L2` | 0.760 [0.729, 0.788] | 0.41 | 0.61 | 0.85–0.97 ✗, 0.4–0.8 ✓ |
+| `simhash_K2_L4` | 0.964 [0.952, 0.974] | 0.85 | 1.19 | 0.85–0.97 ✓, 0.4–0.8 ✗ |
 
 ## Findings
 
@@ -44,7 +44,7 @@ The table shows accuracy as the mean over 30 seeds with a bootstrap 95% CI. Work
 3. **Which unit is chosen matters less than staying consistent.** Choosing 4 random units per input gives 0.693, while always using the same 4 units gives 0.995. On this task, input-dependent sparsity gives no advantage over a smaller network.
 4. **Hash recall drives accuracy.** SimHash with few tables (recall 0.41) loses 0.23 in accuracy; with more tables (recall 0.85) it is close but more expensive than `exact`.
 
-**Timing** (the archived run in `timing.json`, single run, Python): from 2.8 s (`static_first_k`) to 12.3 s (`lowrank_r4_c8`) per arm for 30 seeds. This follows the same ordering as the counted work, but it is too noisy for close comparisons.
+**Timing** (the archived run in `timing.json`, single run, Python): from 3.6 s (`static_first_k`) to 12.4 s (`lowrank_r4_c8`) per arm for 30 seeds. It roughly follows the counted work, with exceptions: `lowrank_r2_c8` (10.2 s) was slower than `exact` (8.1 s) despite less counted work. Treat timing as indicative only.
 
 ## Implications for H1
 
