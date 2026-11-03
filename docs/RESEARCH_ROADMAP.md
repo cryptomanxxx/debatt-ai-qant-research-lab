@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-61 complete  
+**Current checkpoint:** CL-62 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -121,7 +121,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 ### ✅ CL-56 — Synthesis of CL-50 to CL-55
 
-[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-61: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch; spiking networks do not beat a smaller dense network on counted operations. Predictions: 43 of 73 held.
+[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-62: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch, which sequential bfloat16 accumulation reproduces in aggregate; spiking networks do not beat a smaller dense network on counted operations. Predictions: 45 of 78 held.
 
 - [x] Separate established results from what was not shown (no energy, photonic or neuromorphic claims).
 - [x] Report negative results, errors found and fixed, limitations and what would change the conclusions.
@@ -164,6 +164,13 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - [x] The penalty cuts hidden spikes 4.7× and raises accuracy, to 96.42% at λ=1, with 39,355 additions against 41,247 MACs for zero-skipping dense H=256.
 - [x] The input layer (38,687 additions) sets a floor; dense H=128 is more accurate (96.61%) at half the operations (20,624 MACs).
 
+### ✅ CL-62 — Q.ANT accumulation simulator (Tier 0 experiment)
+
+[Results](../experiments/cl62_qant_accumulation_simulator/README.md), with [predictions pushed before the run](../experiments/cl62_qant_accumulation_simulator/PREDICTIONS.md): the 18 CL-58 models retrained (exact reproduction), five accumulation schemes compared with the archived Q.ANT counts.
+
+- [x] Sequential bfloat16 accumulation matches the Q.ANT disagreement counts within 1% for both grids, with r = 0.98–0.99 across runs; other schemes give 3–7%.
+- [ ] Per-image confirmation needs a new Q.ANT run that saves predictions (Tier 2).
+
 ## Tracking table
 
 | Stage | Status | Verification |
@@ -187,6 +194,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-59 | ✅ Completed | [Spiking network on MNIST](../experiments/cl59_spiking_mnist/README.md) |
 | CL-60 | ✅ Completed | [Latency-coded spiking network](../experiments/cl60_latency_coded_snn/README.md) |
 | CL-61 | ✅ Completed | [Spike-rate penalty](../experiments/cl61_spike_rate_penalty/README.md) |
+| CL-62 | ✅ Completed | [Q.ANT accumulation simulator](../experiments/cl62_qant_accumulation_simulator/README.md) |
 
 ## Progress log
 
@@ -223,6 +231,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-61: a spike-rate penalty lifts the SNN to 96.42% at 39k additions, but a dense H=128 network is more accurate at half the operations.
 
 - **2026-11-03:** [Synthesis](CL56_SYNTHESIS.md) updated to cover CL-50 to CL-61 (43 of 73 predictions held).
+
+- **2026-11-03:** CL-62: sequential bfloat16 accumulation reproduces the Q.ANT CPU-backend mismatch in aggregate (within 1%, r = 0.99); synthesis updated.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
