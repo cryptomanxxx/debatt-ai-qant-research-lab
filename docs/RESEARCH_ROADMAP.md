@@ -2,10 +2,23 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-67 complete  
+**Current checkpoint:** CL-68 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
+
+## Research goal (set by the owner, 2026-11-03)
+
+**Which AI models, of which sizes and properties, are best and worst suited to Q.ANT's photonic hardware, and why?** Compare each model's performance on Q.ANT with its performance on ordinary CPU/GPU hardware; the largest gaps point to the best- and worst-suited models. Test many model types, varying one property at a time, so that the result explains *why* a model suits Q.ANT.
+
+- **Measurable now (Q.ANT CPU backend and simulator):** numerical fidelity, meaning the accuracy lost and the disagreements against a float32 reference.
+- **Needs physical hardware (Tier 2, external access):** latency, throughput, energy, and the noise of real optics.
+- **Plan:**
+  - **A.** ✅ Check whether the accumulation simulator also holds for `linear_fprop`, using archived data (Tier 0). [CL-68](../experiments/cl68_linear_fprop_accumulation/README.md): it does not. `linear_fprop` behaves like float32 accumulation, and MLPs keep about 1–14 disagreements per 10k against 124–390 for KAN layers.
+  - **B.** Characterise `linear_fprop` and the activations on Q.ANT (Tier 2).
+  - **C.** A systematic model zoo in simulation (Tier 0).
+  - **D.** Confirm a subset on Q.ANT (Tier 2).
+  - **E.** Photonic hardware via the IONOS/Q.ANT pilot (Tier 2).
 
 ## Scientific objective
 
@@ -121,7 +134,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 ### ✅ CL-56 — Synthesis of CL-50 to CL-55
 
-[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-67: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch, which sequential bfloat16 accumulation reproduces in aggregate and predicts out of sample (Exp021, Exp022, Exp027) and image by image on Q.ANT (CL-66), while training through it helps little (CL-67); spiking networks do not beat a smaller dense network on counted operations. Predictions: 69 of 106 held.
+[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-68: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch, which sequential bfloat16 accumulation reproduces in aggregate and predicts out of sample (Exp021, Exp022, Exp027) and image by image on Q.ANT (CL-66), while training through it helps little (CL-67); spiking networks do not beat a smaller dense network on counted operations. Predictions: 71 of 110 held.
 
 - [x] Separate established results from what was not shown (no energy, photonic or neuromorphic claims).
 - [x] Report negative results, errors found and fixed, limitations and what would change the conclusions.
@@ -235,6 +248,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-65 | ✅ Completed | [Hierarchical design with grouped head](../experiments/cl65_hierarchical_grouped_head/README.md) |
 | CL-66 | ✅ Completed | [Q.ANT confirmation](../experiments/cl66_qant_confirmation/README.md) |
 | CL-67 | ✅ Completed | [Accumulation-aware training](../experiments/cl67_accumulation_aware_training/README.md) |
+| CL-68 | ✅ Completed | [`linear_fprop` accumulation (phase A)](../experiments/cl68_linear_fprop_accumulation/README.md) |
 
 ## Progress log
 
@@ -283,6 +297,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-66 (Q.ANT, Tier 2): simulator confirmed image by image (recall 0.92); the grouped-head design reaches 0.8598 on Q.ANT with 46 disagreements per 10k.
 
 - **2026-11-03:** CL-67: training through the simulated accumulation helps little (+0.2–0.3 pp, −5–7% mismatch); architecture is the lever.
+
+- **2026-11-03:** Research goal set: which AI models suit Q.ANT's hardware, and why. CL-68 (phase A): `linear_fprop` behaves like float32 accumulation, unlike the KAN primitive, so the primitive matters more than model size.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
