@@ -77,4 +77,4 @@ This says nothing about speed or energy on photonic hardware, which may favour d
 
 ## What this does and does not show
 
-All results are simulated on one dataset with 3 seeds. The `linear_fprop` model rests on an aggregate match (CL-68), and the sigmoid and softmax paths are assumptions. Phase B, a Q.ANT run that measures `linear_fprop` and the activations directly, would check these assumptions (Tier 2).
+All results are simulated on one dataset with 3 seeds. The `linear_fprop` model rests on an aggregate match (CL-68), and the sigmoid and softmax paths are assumptions. CL-70 later measured `linear_fprop` directly: its error is flat with fan-in, as assumed. It also found that `sigmoid_fprop` differs from the assumed bf16(float32 sigmoid) by one bf16 step in 30% of values, so the `mlp_sig_h256` row rests on a slightly wrong activation model. Phase B, a Q.ANT run that measures `linear_fprop` and the activations directly, would check these assumptions (Tier 2).
