@@ -1,9 +1,9 @@
 # Q.ANT Research Lab — Research & Development Roadmap
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
-**Last updated:** 2026-11-02  
+**Last updated:** 2026-11-03  
 **Current checkpoint:** CL-48 complete; **CL-49 in review (documentation only)**  
-**Execution state:** **HARD NO_GO** for every additional model inference, training, gradient computation, weight update, physical energy measurement, or remote hardware run unless separately reviewed and explicitly approved by Marcus for an exact scope.
+**Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
 
@@ -69,7 +69,7 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 - [ ] Separately account for supervised gradient-based versus local gradient-free updates.
 - [ ] Obtain an independent methodological review and Marcus's **fresh exact authorization** before any future training/inference.
 
-**Completion condition:** reviewed protocol, **not** a training result; HARD NO_GO until owner approval.
+**Completion condition:** preregistered confirmatory protocol and results. Toy-model runs are Tier 0.
 
 ### ⬜ CL-53 — Scale-up, instrumentation and hardware crossover
 
@@ -110,9 +110,9 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 | CL-49 | ⏳ In review | [Analytical review](CL49_ANALYTICAL_H1_BASELINE_AND_REVIEW.md); no inference |
 | CL-50 | ⬜ Planned | Baselines and learnability review only |
 | CL-51 | ⬜ Planned | Falsifiable contrasts; no execution |
-| CL-52 | 🔒 NO_GO | Bounded training/inference not authorized |
-| CL-53 | 🔒 NO_GO | Scale-up/counter experiment not authorized |
-| CL-54 | 🔒 NO_GO | Physical energy measurement not authorized |
+| CL-52 | ⬜ Planned | Tier 0 (toy-model training/inference) |
+| CL-53 | ⬜ Planned | Tier 0 or 1 depending on size |
+| CL-54 | 🔒 Tier 2 | Physical energy measurement needs explicit owner approval |
 | CL-55 | ⬜ Planned | Synthesis depends on future evidence |
 
 ## Progress log
@@ -123,8 +123,12 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 - **2026-11-02:** CL-48 English roadmap [merged in PR #314](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/pull/314).
 - **2026-11-02:** CL-49 analytical H1 baseline and external AI critique response proposed for review; no new model execution.
 
+- **2026-11-03:** [Risk tiers](RISK_TIERS.md) adopted ([PR #316](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/pull/316)); blanket HARD NO_GO replaced for Tier 0/1 work.
+
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
-## Permanent safety rule
+## Safety rule
 
-**HARD NO_GO** for unapproved AI inferencing, model training, gradient work, weight updates, physical energy measurement, new dataset generation, and any use of external compute resources. Approval of one step never transfers to a later step. The CL-45 one-shot reservation must never be reset, bypassed or re-used. Any future execution requires a reviewed, specifically bounded proposal and a fresh exact human start approval.
+Since 2026-11-03 the [risk tiers](RISK_TIERS.md) replace the blanket rule below for Tier 0 and Tier 1 work. Tier 2 work keeps explicit, scope-specific owner approval. The CL-45 one-shot reservation is still never reset or reused.
+
+**Historical rule (before 2026-11-03):** HARD NO_GO for unapproved AI inferencing, model training, gradient work, weight updates, physical energy measurement, new dataset generation, and any use of external compute resources. Approval of one step never transfers to a later step. The CL-45 one-shot reservation must never be reset, bypassed or re-used. Any future execution requires a reviewed, specifically bounded proposal and a fresh exact human start approval.
