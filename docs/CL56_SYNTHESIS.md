@@ -1,6 +1,6 @@
-# CL-56 — Synthesis of the Compute Paradox experiments (CL-50 to CL-68)
+# CL-56 — Synthesis of the Compute Paradox experiments (CL-50 to CL-69)
 
-**Date:** 2026-11-03 · **Scope:** eighteen exploratory experiments run on CPU (Tier 0/1 under [RISK_TIERS.md](RISK_TIERS.md)). CL-58 Part 2 and CL-66 ran on the Q.ANT CPU backend (Tier 2, owner-approved) · **Physical energy:** `NOT_MEASURED` in every experiment.
+**Date:** 2026-11-03 · **Scope:** nineteen exploratory experiments run on CPU (Tier 0/1 under [RISK_TIERS.md](RISK_TIERS.md)). CL-58 Part 2 and CL-66 ran on the Q.ANT CPU backend (Tier 2, owner-approved) · **Physical energy:** `NOT_MEASURED` in every experiment.
 
 This report summarises what the experiments showed, what they did not show, and what would change the conclusions. Each experiment folder has its own README, predictions, code and raw results; the numbers here are taken from those files.
 
@@ -56,6 +56,7 @@ Two side questions were also tested:
 | [CL-66](../experiments/cl66_qant_confirmation/README.md) | On Q.ANT, does the simulator flip the same images, and does the CL-65 design work? | Yes. For the monolithic model, recall is 0.92 and precision 0.90, and the simulator differs from Q.ANT on 62 images against 332 for float32. 28×8 with an 8-call head reaches Q.ANT accuracy 0.8598 with 45.7 disagreements, exactly the simulated mean: 3.1 pp more accurate and 7.3× fewer disagreements than the monolithic layer. 6 of 6 predictions held. |
 | [CL-67](../experiments/cl67_accumulation_aware_training/README.md) | Does training through the simulated accumulation help, with one call per logit? | Only a little: Q.ANT-path accuracy rises 0.2–0.3 pp and disagreements fall 5–7% (337 → 313), not consistently across seeds. Splitting into 16 calls does far more (−87%). |
 | [CL-68](../experiments/cl68_linear_fprop_accumulation/README.md) | Does `linear_fprop` accumulate like the KAN primitive? | No. For 11 archived MLP topology–dataset pairs, float32 accumulation reproduces the Q.ANT disagreements (0.86–1.16× in sum), while sequential bfloat16 overshoots every pair (4.6–5.8× in sum). MLPs keep about 1–14 disagreements per 10k at fan-in 784; KAN layers keep 124–390. |
+| [CL-69](../experiments/cl69_qant_model_zoo/README.md) | Which of 14 models keep their float accuracy best and worst on the simulated Q.ANT path? | All seven linear models lose essentially nothing (±0.04 pp, 7–17 disagreements per 10k) at any width, depth or activation tested. KAN models lose up to 0.96 pp (worst: `kan_g8`, 471 disagreements), ranked by their longest sequential bf16 sum (ρ = 0.87). The best model on the Q.ANT path is a 3-layer ReLU MLP (0.867). |
 | [CL-59](../experiments/cl59_spiking_mnist/README.md) | Does a rate-coded LIF network reach dense accuracy, and with how many operations? | It reaches 96.65–96.80% against 97.08%, but needs T × 103.9 × 256 input additions: 110k at T=4, against 41k MACs for zero-skipping dense. Hidden spike rate is 37–38%. |
 | [CL-60](../experiments/cl60_latency_coded_snn/README.md) | Does latency coding (one spike per nonzero pixel) fix the operation count? | Partly. Operations fall 2.6×, to 41.8k at T=4 (level with zero-skipping), but accuracy drops to 95.70%. It falls further with more steps (93.23% at T=16). |
 | [CL-61](../experiments/cl61_spike_rate_penalty/README.md) | Does a spike-rate penalty help, and does the SNN beat smaller dense networks? | The penalty cuts hidden spikes 4.7× and *raises* accuracy, to 96.42% at 39,355 additions. The input layer sets a floor of 38,687, and dense H=128 is more accurate at half the operations. |
@@ -97,7 +98,8 @@ Two side questions were also tested:
 | CL-66 | 6 of 6 |
 | CL-67 | 4 of 6 |
 | CL-68 | 2 of 4 |
-| **Total** | **71 of 110 (65%)** |
+| CL-69 | 5 of 6 |
+| **Total** | **76 of 116 (66%)** |
 
 The misses were mostly over-optimistic expectations: work savings for selectors, compiled-kernel speed, kWTA reducing forgetting, bfloat16 rounding explaining the Q.ANT mismatch, and (CL-62) pairwise or blockwise rather than sequential accumulation. Some SNN misses went the other way: the SNN was more accurate at T=4 than expected, and the spike-rate penalty *improved* accuracy. CL-50 had no written predictions.
 
