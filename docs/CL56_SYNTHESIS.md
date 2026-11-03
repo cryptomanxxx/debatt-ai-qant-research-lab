@@ -110,12 +110,14 @@ The misses were mostly over-optimistic expectations: work savings for selectors,
 - **H1, hidden sparsity:** a model size, input density or batched sparse library at which kWTA lies *above* the dense accuracy–time frontier, measured with low timing noise.
 - **H1, input sparsity:** whether the inference and training gains survive against a tuned, batched sparse library rather than per-sample loops.
 - **H2:** a class-incremental benchmark (e.g. Split MNIST) with task- or label-gated sparse readouts, compared at equal compute with EWC and replay.
-- **Q.ANT mismatch:** a simulator with low-precision (bfloat16 or blockwise) accumulation that reproduces the Q.ANT disagreements would identify the cause and make a fair QAT test possible.
+- **Q.ANT mismatch:** a simulator with low-precision (bfloat16 or blockwise) accumulation that reproduces the Q.ANT disagreements image by image would identify the cause and make a fair QAT test possible.
 - **Spiking networks:** measured energy per addition and per routed event on a neuromorphic chip, if it is well below half a MAC. A coding scheme that sends fewer input events than there are nonzero pixels, such as delta coding on temporal data, could also change the result.
 
 ## Recommended next steps
 
-1. Test the accumulation hypothesis for Q.ANT: add bfloat16 or blockwise accumulation to the CL-58 simulator and compare it against the saved Q.ANT predictions (Tier 0).
+1. Test the accumulation hypothesis for Q.ANT. Add bfloat16 or blockwise accumulation to the CL-58 simulator.
+   - **Aggregate check (Tier 0):** compare its disagreement counts with the archived per-seed Q.ANT counts. CL-58 saved only accuracies and disagreement counts, not per-image predictions.
+   - **Per-image check:** confirming that it reproduces the *same* disagreements needs a new Q.ANT run that saves predictions (a workflow dispatch, Tier 2).
 2. Benchmark input sparsity against a batched sparse library (e.g. `scipy.sparse` against BLAS) on dedicated hardware.
 3. If H2 is continued, use Split MNIST with gated readouts, at equal compute.
 4. Ask an outside reader for critique of this report. Possible routes are an ML forum, the Open Neuromorphic community, or Q.ANT, whose toolkit the lab uses.
