@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-51 complete  
+**Current checkpoint:** CL-52 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -66,14 +66,17 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 
 **Next:** cheap winner selection (e.g. hashing) and measurement on vectorised kernels; a task with real interference for H2.
 
-### ⬜ CL-52 — Statistical and bounded-training protocol
+### ✅ CL-52 — Cheap selection of active hidden units (Tier 0 experiment)
 
-- [ ] Specify meaningful effect sizes, paired-seed/sample planning, equivalence margins and uncertainty intervals; review before data collection.
-- [ ] Freeze data provenance, initialization, tuning fairness, held-out quality, training steps, gradient calls, weight writes and stop conditions.
-- [ ] Separately account for supervised gradient-based versus local gradient-free updates.
-- [ ] Obtain an independent methodological review and Marcus's **fresh exact authorization** before any future training/inference.
+[Results](../experiments/cl52_cheap_winner_selection/README.md), with [predictions committed before the run](../experiments/cl52_cheap_winner_selection/PREDICTIONS.md): 30 seeds, 10 passes per task, H=32 with k=4 winners.
 
-**Completion condition:** preregistered confirmatory protocol and results. Toy-model runs are Tier 0.
+- [x] A dense 4-unit network matches exact kWTA (0.995 against 0.992) with 16% of the forward work.
+- [x] Low-rank and SimHash selectors only come close in accuracy when they cost 0.9–1.6× the exact computation; screening costs about as much as it saves.
+- [x] Random winners fail (0.693): consistent unit use matters more than per-input selection.
+
+**Negative result for H1 at this scale:** sparse expansion plus selection loses to a smaller dense network. The next test needs larger fan-in or much larger H, with vectorised kernels (CL-53).
+
+The earlier plan for this stage (a statistical protocol) is covered in practice by 30 paired seeds, bootstrap CIs and predictions committed before each run. A formal confirmatory protocol belongs before any public claim (Tier 2).
 
 ### ⬜ CL-53 — Scale-up, instrumentation and hardware crossover
 
@@ -114,7 +117,7 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 | CL-49 | ✅ Completed | [Analytical review](CL49_ANALYTICAL_H1_BASELINE_AND_REVIEW.md) |
 | CL-50 | ✅ Completed | [Baselines and factorial results](../experiments/cl50_baselines_and_factorial/README.md) |
 | CL-51 | ✅ Completed | [Local rules and hidden sparsity](../experiments/cl51_local_rules_and_hidden_sparsity/README.md) |
-| CL-52 | ⬜ Planned | Tier 0 (toy-model training/inference) |
+| CL-52 | ✅ Completed | [Cheap winner selection](../experiments/cl52_cheap_winner_selection/README.md) |
 | CL-53 | ⬜ Planned | Tier 0 or 1 depending on size |
 | CL-54 | 🔒 Tier 2 | Physical energy measurement needs explicit owner approval |
 | CL-55 | ⬜ Planned | Synthesis depends on future evidence |
@@ -132,6 +135,8 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 - **2026-11-03:** CL-50 first Tier 0 experiment: sparse traversal bit-identical; local hidden rule collapses to one class; backprop learns XOR with 10 passes.
 
 - **2026-11-03:** CL-51: only direct feedback alignment learns among local rules (0.815); hidden-layer kWTA gives a real accuracy–work trade-off.
+
+- **2026-11-03:** CL-52: no cheap selector beats a small dense network; sparse expansion plus selection is a negative result at this scale.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
