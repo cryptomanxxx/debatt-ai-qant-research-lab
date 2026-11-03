@@ -1,6 +1,6 @@
-# CL-56 — Synthesis of the Compute Paradox experiments (CL-50 to CL-64)
+# CL-56 — Synthesis of the Compute Paradox experiments (CL-50 to CL-65)
 
-**Date:** 2026-11-03 · **Scope:** fourteen exploratory experiments run on CPU (Tier 0/1 under [RISK_TIERS.md](RISK_TIERS.md)). CL-58 Part 2 ran on the Q.ANT CPU backend (Tier 2, owner-approved) · **Physical energy:** `NOT_MEASURED` in every experiment.
+**Date:** 2026-11-03 · **Scope:** fifteen exploratory experiments run on CPU (Tier 0/1 under [RISK_TIERS.md](RISK_TIERS.md)). CL-58 Part 2 ran on the Q.ANT CPU backend (Tier 2, owner-approved) · **Physical energy:** `NOT_MEASURED` in every experiment.
 
 This report summarises what the experiments showed, what they did not show, and what would change the conclusions. Each experiment folder has its own README, predictions, code and raw results; the numbers here are taken from those files.
 
@@ -52,6 +52,7 @@ Two side questions were also tested:
 | [CL-62](../experiments/cl62_qant_accumulation_simulator/README.md) | Does low-precision accumulation reproduce the CL-58 Q.ANT counts? | Sequential bfloat16 accumulation does: 332.9 and 465.1 disagreements against Q.ANT's 330.4 and 465.2, with r = 0.98–0.99 within each grid. Runs differ by at most 19 of 10k, so it is not bit-exact. Pairwise and blockwise accumulation give 3–7%. |
 | [CL-63](../experiments/cl63_simulator_out_of_sample/README.md) | Does the CL-62 simulator predict earlier Q.ANT results it was not fitted to? | Yes. For Exp021 it is within ±15% of Q.ANT's error in 83% of 36 conditions and 0–14% from 128 terms up, with exponent 0.40 against 0.36. For Exp022, grouped calls give 337/114/41 against Q.ANT's 323/114/38 disagreements. Float32, pairwise and blockwise accumulation are off by 2.5–14×. It underestimates by up to 33% at ≤ 32 terms. |
 | [CL-64](../experiments/cl64_simulator_design_screen/README.md) | Which design gives the best trade-off between accuracy and simulated Q.ANT mismatch? | Splitting a monolithic logit into 16 Q.ANT calls cuts disagreements 337 → 43, and 49 calls reach the floor of about 17–25, with unchanged accuracy (0.833). Hierarchical designs reach 0.86 but keep 93–148 disagreements, because the head's long sequential sum dominates. Simulated counts match all six archived Exp027 designs within 0.85–1.07×. |
+| [CL-65](../experiments/cl65_hierarchical_grouped_head/README.md) | Does splitting the hierarchical head into several Q.ANT calls keep accuracy and cut mismatch? | Yes, in simulation. 28×8 with 8 head calls (36 calls) keeps 0.860 accuracy and cuts disagreements 148 → 46. That is 2.6 pp more accurate than the best grouped monolithic model at the same mismatch. The remaining floor (about 35) is in stage 1. Not yet run on Q.ANT. |
 | [CL-59](../experiments/cl59_spiking_mnist/README.md) | Does a rate-coded LIF network reach dense accuracy, and with how many operations? | It reaches 96.65–96.80% against 97.08%, but needs T × 103.9 × 256 input additions: 110k at T=4, against 41k MACs for zero-skipping dense. Hidden spike rate is 37–38%. |
 | [CL-60](../experiments/cl60_latency_coded_snn/README.md) | Does latency coding (one spike per nonzero pixel) fix the operation count? | Partly. Operations fall 2.6×, to 41.8k at T=4 (level with zero-skipping), but accuracy drops to 95.70%. It falls further with more steps (93.23% at T=16). |
 | [CL-61](../experiments/cl61_spike_rate_penalty/README.md) | Does a spike-rate penalty help, and does the SNN beat smaller dense networks? | The penalty cuts hidden spikes 4.7× and *raises* accuracy, to 96.42% at 39,355 additions. The input layer sets a floor of 38,687, and dense H=128 is more accurate at half the operations. |
@@ -89,7 +90,8 @@ Two side questions were also tested:
 | CL-62 | 2 of 5 |
 | CL-63 | 5 of 5 (one prediction not checkable) |
 | CL-64 | 5 of 6 |
-| **Total** | **55 of 89 (62%)** |
+| CL-65 | 4 of 5 |
+| **Total** | **59 of 94 (63%)** |
 
 The misses were mostly over-optimistic expectations: work savings for selectors, compiled-kernel speed, kWTA reducing forgetting, bfloat16 rounding explaining the Q.ANT mismatch, and (CL-62) pairwise or blockwise rather than sequential accumulation. Some SNN misses went the other way: the SNN was more accurate at T=4 than expected, and the spike-rate penalty *improved* accuracy. CL-50 had no written predictions.
 
@@ -121,7 +123,7 @@ The misses were mostly over-optimistic expectations: work savings for selectors,
 
 ## Recommended next steps
 
-1. Build the design CL-64 points to: a hierarchical model with a grouped head (0.86 accuracy, aiming for the mismatch floor). Screen it locally (Tier 0), then confirm it on Q.ANT. The aggregate checks are done (CL-62 to CL-64). Confirming that the model flips the *same* images still needs a new Q.ANT run that saves predictions (a workflow dispatch, Tier 2).
+1. Confirm the CL-65 design (28×8 hierarchical, 8 head calls: simulated 0.860 accuracy, 46 disagreements per 10k) in one Q.ANT CPU-backend run that saves per-image predictions (Tier 2). The aggregate checks of the simulator are done (CL-62 to CL-64). Confirming that the model flips the *same* images still needs a new Q.ANT run that saves predictions (a workflow dispatch, Tier 2).
 2. Benchmark input sparsity against a batched sparse library (e.g. `scipy.sparse` against BLAS) on dedicated hardware.
 3. If H2 is continued, use Split MNIST with gated readouts, at equal compute.
 4. Ask an outside reader for critique of this report. Possible routes are an ML forum, the Open Neuromorphic community, or Q.ANT, whose toolkit the lab uses.
