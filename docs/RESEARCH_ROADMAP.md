@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-60 complete  
+**Current checkpoint:** CL-61 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -157,6 +157,13 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - [x] Accuracy drops to 95.70% at T=4, and falls further with more steps (93.23% at T=16).
 - [x] Hidden spikes (316–838 per image) exceed the ~256 needed to beat zero-skipping.
 
+### ✅ CL-61 — Spike-rate penalty for the latency-coded SNN (Tier 1 experiment)
+
+[Results](../experiments/cl61_spike_rate_penalty/README.md), with [predictions pushed before the run](../experiments/cl61_spike_rate_penalty/PREDICTIONS.md): λ sweep at T=4, plus dense H = 64/128/256 baselines.
+
+- [x] The penalty cuts hidden spikes 4.7× and raises accuracy, to 96.42% at λ=1, with 39,355 additions against 41,247 MACs for zero-skipping dense H=256.
+- [x] The input layer (38,687 additions) sets a floor; dense H=128 is more accurate (96.61%) at half the operations (20,624 MACs).
+
 ## Tracking table
 
 | Stage | Status | Verification |
@@ -179,6 +186,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-58 | ✅ Completed | [QAT for the Q.ANT KAN layer](../experiments/cl58_qant_quantization_aware_training/README.md) |
 | CL-59 | ✅ Completed | [Spiking network on MNIST](../experiments/cl59_spiking_mnist/README.md) |
 | CL-60 | ✅ Completed | [Latency-coded spiking network](../experiments/cl60_latency_coded_snn/README.md) |
+| CL-61 | ✅ Completed | [Spike-rate penalty](../experiments/cl61_spike_rate_penalty/README.md) |
 
 ## Progress log
 
@@ -211,6 +219,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-59: first spiking network; near-dense accuracy, but rate coding needs more operations than a zero-skipping dense network.
 
 - **2026-11-03:** CL-60: latency coding brings SNN operations level with the zero-skipping dense network (41.8k vs 41.2k), at a 1.4 pp accuracy cost.
+
+- **2026-11-03:** CL-61: a spike-rate penalty lifts the SNN to 96.42% at 39k additions, but a dense H=128 network is more accurate at half the operations.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
