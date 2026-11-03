@@ -40,7 +40,7 @@ Per task, the OR rule scores 0.99, 0.94, 0.86 and 0.75. Mean active inputs per t
 4. **There is almost no forgetting to study.** Under backprop, mean forgetting of T1–T3 is 0.001 with 10 passes. The shared rule involves only covariate shift, so this task cannot test H2.
 5. **The 0.65 quality floor does not discriminate.** At 1 pass, both the undertrained MLP and a linear model cross it in some seeds, while the rule-based OR baseline (0.88) is far above it.
 
-**Timing (one run, Python, no A/A control):** with 10 passes, `sparse_sgd` took 6.1 s and `dense_sgd` 12.8 s. `sparse_local_hybrid` took 6.4 s and `local_hybrid` 5.9 s. Fewer counted operations did not reliably mean less wall time. These numbers are indicative only.
+**Timing (the archived run in `timing.json`, Python, no A/A control):** with 10 passes, `sparse_sgd` took 6.7 s and `dense_sgd` 13.1 s. `sparse_local_hybrid` took 5.3 s and `local_hybrid` 6.8 s. An earlier run of the same code, which was not archived, gave the opposite ordering for the local pair (6.4 s against 5.9 s). Wall time at this scale is too noisy to compare arms with similar costs, so these numbers are indicative only.
 
 ## Implications
 
