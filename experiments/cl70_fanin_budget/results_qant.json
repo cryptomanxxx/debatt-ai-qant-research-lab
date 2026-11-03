@@ -1,0 +1,418 @@
+{
+ "activations": {
+  "add_bias_fprop vs bf16(a+b)": {
+   "exact_match_fraction": 1.0,
+   "max_abs_diff": 0.0,
+   "n": 640
+  },
+  "relu_fprop vs max(x,0)": {
+   "exact_match_fraction": 1.0,
+   "max_abs_diff": 0.0,
+   "n": 8000
+  },
+  "sigmoid_fprop vs bf16(sigmoid_f32)": {
+   "exact_match_fraction": 0.69725,
+   "max_abs_diff": 0.00390625,
+   "n": 8000
+  },
+  "sigmoid_fprop vs bf16(sigmoid_f64)": {
+   "exact_match_fraction": 0.69725,
+   "max_abs_diff": 0.00390625,
+   "n": 8000
+  },
+  "softmax_fprop": "RuntimeError: Rust core error: Toolkit Error: does not support batched input."
+ },
+ "backend": "qant-cpu",
+ "experiment": "CL-70",
+ "provenance": {
+  "artifact": {
+   "id": 13275059448,
+   "name": "cl70-results-qant",
+   "zip_sha256": "23199146bcfa1aa9e8240915b3bd4ae500adcb18795f943e16dde9a52931497c"
+  },
+  "commit": "b0d8f981a744021879990ea5dec754d35703d377",
+  "job_id": 126245430775,
+  "run_id": 41730263785,
+  "source": "transcribed from the SUMMARY_JSON line of the job log; per-seed values re-averaged and checked against the logged means to 1e-15"
+ },
+ "rows": [
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.002094143039086226,
+   "seed": 11,
+   "terms": 1
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.0030551745507865387,
+   "seed": 11,
+   "terms": 4
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.0030545082818555914,
+   "seed": 11,
+   "terms": 16
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003151454907370397,
+   "seed": 11,
+   "terms": 64
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003309253796577994,
+   "seed": 11,
+   "terms": 256
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.0031268350132082367,
+   "seed": 11,
+   "terms": 1024
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.0032684754481797544,
+   "seed": 11,
+   "terms": 4096
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003142066088798261,
+   "seed": 11,
+   "terms": 16384
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003250343583948041,
+   "seed": 11,
+   "terms": 65536
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.005714691270362979,
+   "seed": 11,
+   "terms": 4
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.007262998464186306,
+   "seed": 11,
+   "terms": 16
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.009425115661827861,
+   "seed": 11,
+   "terms": 64
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.01781637809851403,
+   "seed": 11,
+   "terms": 256
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.03187108095860198,
+   "seed": 11,
+   "terms": 1024
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.06657343349515316,
+   "seed": 11,
+   "terms": 4096
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.12781338842868284,
+   "seed": 11,
+   "terms": 16384
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.2514351654612646,
+   "seed": 11,
+   "terms": 65536
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.002304319739998401,
+   "seed": 22,
+   "terms": 1
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.0029290253138440233,
+   "seed": 22,
+   "terms": 4
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003067632256189681,
+   "seed": 22,
+   "terms": 16
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003197654473148101,
+   "seed": 22,
+   "terms": 64
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.0032624073540307922,
+   "seed": 22,
+   "terms": 256
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.0031669132580561176,
+   "seed": 22,
+   "terms": 1024
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003237196672400901,
+   "seed": 22,
+   "terms": 4096
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.0033002740047718172,
+   "seed": 22,
+   "terms": 16384
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003182447353946053,
+   "seed": 22,
+   "terms": 65536
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.005032352320956493,
+   "seed": 22,
+   "terms": 4
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.00681997451681994,
+   "seed": 22,
+   "terms": 16
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.010592845566691976,
+   "seed": 22,
+   "terms": 64
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.017378422972750066,
+   "seed": 22,
+   "terms": 256
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.031488190985430826,
+   "seed": 22,
+   "terms": 1024
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.06103777288003061,
+   "seed": 22,
+   "terms": 4096
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.1298222695558164,
+   "seed": 22,
+   "terms": 16384
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.23623298877189577,
+   "seed": 22,
+   "terms": 65536
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.0022676349117008213,
+   "seed": 33,
+   "terms": 1
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.002649722128164277,
+   "seed": 33,
+   "terms": 4
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.0030776469362294124,
+   "seed": 33,
+   "terms": 16
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003207512492652602,
+   "seed": 33,
+   "terms": 64
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003169236267045598,
+   "seed": 33,
+   "terms": 256
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003221542605041433,
+   "seed": 33,
+   "terms": 1024
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003173745583022377,
+   "seed": 33,
+   "terms": 4096
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003306329470326675,
+   "seed": 33,
+   "terms": 16384
+  },
+  {
+   "error": null,
+   "primitive": "linear",
+   "qant": 0.003225186688222132,
+   "seed": 33,
+   "terms": 65536
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.005666128590637205,
+   "seed": 33,
+   "terms": 4
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.007461169317232643,
+   "seed": 33,
+   "terms": 16
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.01002628096164823,
+   "seed": 33,
+   "terms": 64
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.017162389753694742,
+   "seed": 33,
+   "terms": 256
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.03484732966872029,
+   "seed": 33,
+   "terms": 1024
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.06462461551381735,
+   "seed": 33,
+   "terms": 4096
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.11861266820237089,
+   "seed": 33,
+   "terms": 16384
+  },
+  {
+   "error": null,
+   "primitive": "kan",
+   "qant": 0.24023243109965675,
+   "seed": 33,
+   "terms": 65536
+  }
+ ],
+ "summary": {
+  "qant": {
+   "kan_1024": 0.0327355338709177,
+   "kan_16": 0.007181380766079629,
+   "kan_16384": 0.12541610872895673,
+   "kan_256": 0.017452396941652945,
+   "kan_4": 0.005471057393985558,
+   "kan_4096": 0.0640786072963337,
+   "kan_64": 0.010014747396722689,
+   "kan_65536": 0.24263352844427236,
+   "linear_1": 0.00222203256359515,
+   "linear_1024": 0.0031717636254352624,
+   "linear_16": 0.0030665958247582284,
+   "linear_16384": 0.003249556521298918,
+   "linear_256": 0.003246965805884795,
+   "linear_4": 0.0028779739975982794,
+   "linear_4096": 0.0032264725678676776,
+   "linear_64": 0.0031855406243903664,
+   "linear_65536": 0.0032193258753720755
+  }
+ }
+}
