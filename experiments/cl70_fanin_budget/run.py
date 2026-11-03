@@ -126,7 +126,7 @@ def run_qant():
                          "qant": None if out is None else rel_mae(out, exact), "error": err})
 
     rng = np.random.default_rng(70)
-    vals = bf16(np.concatenate([np.linspace(-12, 12, 4001), rng.normal(0, 3, 4000)]).astype(np.float32)).reshape(8, -1)
+    vals = bf16(np.concatenate([np.linspace(-12, 12, 4000), rng.normal(0, 3, 4000)]).astype(np.float32)).reshape(8, -1)
     acts = {}
 
     def compare(name, q_out, candidate):
