@@ -7,6 +7,7 @@
 
 - [`results_simulator.json`](results_simulator.json) is the local run.
 - [`results_qant.json`](results_qant.json) was transcribed from the job log's `SUMMARY_JSON` line. The per-seed values reproduce the logged means to 1e-15. The run's artifact is `cl70-results-qant`, with zip SHA-256 `23199146…`.
+- **Rerun for softmax.** The first run's batched `softmax_fprop` call was rejected. After Codex review, softmax was called one row at a time, and the same approved measurement was dispatched again ([run 41732943458](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/actions/runs/41732943458); artifact zip SHA-256 `e1b73540…`). All 51 linear and KAN values and every other activation value were **identical** to the first run.
 
 ## Question
 
@@ -41,7 +42,8 @@ The Q.ANT KAN log–log slope from 256 to 65,536 terms is 0.47.
 | `relu_fprop` | max(x, 0) | 100% | 0 |
 | `add_bias_fprop` | bf16(a + b) | 100% | 0 |
 | `sigmoid_fprop` | bf16(float32 sigmoid) | **69.7%** | 0.0039 (one bf16 step near 0.5–1) |
-| `softmax_fprop` | — | not tested: the toolkit rejected batched input ("does not support batched input") | — |
+| `softmax_fprop` (one row per call) | bf16(float32 softmax) | **62.0%** | 0.0039 (one bf16 step) |
+| `softmax_fprop` argmax | argmax of the logits | 100% (500 rows) | — |
 
 ## Predictions
 
@@ -51,7 +53,7 @@ The Q.ANT KAN log–log slope from 256 to 65,536 terms is 0.47.
 | 2 | **KAN within ±20% of the sequential-bf16 simulator from 256 to 65,536 terms (≤ 35% above at ≤ 64)** | ✓ within 2% from 256 to 65,536; +9% to +28% at ≤ 64 |
 | 3 | KAN slope from 256 to 65,536 terms between 0.40 and 0.55 | ✓ 0.47 |
 | 4 | **Budget:** KAN above 1% beyond about 100 terms and above 10% beyond about 10,000; linear below 0.5% up to 65,536 | ✓ KAN reaches 1.0% at 64 and 12.5% at 16,384; linear stays at 0.32% |
-| 5 | Activations: relu 100%, bias ≥ 99.9%, sigmoid ≥ 99%, softmax ≥ 95% | ✗ relu and bias exact; sigmoid matches only 69.7%; softmax not testable in batched form |
+| 5 | Activations: relu 100%, bias ≥ 99.9%, sigmoid ≥ 99%, softmax ≥ 95%, softmax argmax ≥ 99.5% | ✗ relu, bias and softmax argmax hold (100%); sigmoid matches only 69.7%, softmax only 62.0% |
 
 **4 of 5 held.**
 
@@ -71,7 +73,10 @@ The Q.ANT KAN log–log slope from 256 to 65,536 terms is 0.47.
    | 10% | any | about 10,000 terms |
 
 4. **`sigmoid_fprop` is not bf16(float32 sigmoid):** 30% of its outputs differ by one bfloat16 step. That is too small to matter much for classification. CL-69's sigmoid MLP had 11 disagreements under the assumed path, but that row is now known to rest on a slightly wrong activation model.
-5. **`softmax_fprop` only accepts single rows.** That is consistent with the archived per-sample use in Exp001/003/009.
+5. **`softmax_fprop` only accepts single rows,** consistent with the archived per-sample use in Exp001/003/009.
+   - Like sigmoid, its outputs differ from bf16(float32 softmax) by one bf16 step in 38% of values.
+   - Its argmax always equals the argmax of the logits, so it never changes a classification.
+   - The Q.ANT transcendental activations evidently use a slightly different approximation or rounding than float32 followed by RNE to bf16.
 
 ## What this does and does not show
 

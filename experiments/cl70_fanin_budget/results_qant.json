@@ -20,7 +20,19 @@
    "max_abs_diff": 0.00390625,
    "n": 8000
   },
-  "softmax_fprop": "RuntimeError: Rust core error: Toolkit Error: does not support batched input."
+  "softmax_fprop argmax vs logits argmax": {
+   "exact_match_fraction": 1.0,
+   "max_abs_diff": 0.0,
+   "n": 500,
+   "source": "rerun 41732943458 (per-row calls)"
+  },
+  "softmax_fprop batched call (first run)": "RuntimeError: Rust core error: Toolkit Error: does not support batched input.",
+  "softmax_fprop vs bf16(softmax_f32)": {
+   "exact_match_fraction": 0.6196,
+   "max_abs_diff": 0.00390625,
+   "n": 5000,
+   "source": "rerun 41732943458 (per-row calls)"
+  }
  },
  "backend": "qant-cpu",
  "experiment": "CL-70",
@@ -32,6 +44,18 @@
   },
   "commit": "b0d8f981a744021879990ea5dec754d35703d377",
   "job_id": 126245430775,
+  "rerun": {
+   "artifact": {
+    "id": 13276334541,
+    "name": "cl70-results-qant",
+    "zip_sha256": "e1b73540b38fd777d4217ea89971345ec0057729808cb6886d376b4bfc3e7c83"
+   },
+   "commit": "36c770599a624672a4dc93f342989fd5890af296",
+   "job_id": 126254709749,
+   "reason": "softmax_fprop called per row after the batched call was rejected (Codex review)",
+   "reproducibility": "all 51 linear/KAN rows and every non-softmax activation value identical to the first run (summary means equal as logged)",
+   "run_id": 41732943458
+  },
   "run_id": 41730263785,
   "source": "transcribed from the SUMMARY_JSON line of the job log; per-seed values re-averaged and checked against the logged means to 1e-15"
  },
