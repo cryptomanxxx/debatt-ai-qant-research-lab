@@ -75,7 +75,7 @@ The Q.ANT KAN log–log slope from 256 to 65,536 terms is 0.47.
 4. **`sigmoid_fprop` is not bf16(float32 sigmoid):** 30% of its outputs differ by one bfloat16 step. That is too small to matter much for classification. CL-69's sigmoid MLP had 11 disagreements under the assumed path, but that row is now known to rest on a slightly wrong activation model.
 5. **`softmax_fprop` only accepts single rows,** consistent with the archived per-sample use in Exp001/003/009.
    - Like sigmoid, its outputs differ from bf16(float32 softmax) by one bf16 step in 38% of values.
-   - Its argmax always equals the argmax of the logits, so it never changes a classification.
+   - Its argmax equalled the argmax of the logits in all 500 tested rows (random logits, σ = 3). That does not rule out changes for near-tied logits: two close probabilities can round to the same bf16 value and tie.
    - The Q.ANT transcendental activations evidently use a slightly different approximation or rounding than float32 followed by RNE to bf16.
 
 ## What this does and does not show
