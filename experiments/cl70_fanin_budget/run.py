@@ -143,7 +143,8 @@ def run_qant():
     else:
         acts["sigmoid_fprop"] = err
     logits = bf16(rng.normal(0, 3, (500, 10)).astype(np.float32))
-    out, err = call(lambda: np.asarray(q.softmax_fprop(logits.astype(BF)), np.float32).reshape(500, 10))
+    # softmax_fprop rejects batched input ("does not support batched input"), so call it per row, as Exp001/003/009 did.
+    out, err = call(lambda: np.stack([np.asarray(q.softmax_fprop(row.astype(BF)), np.float32).reshape(-1) for row in logits]))
     if err is None:
         e = np.exp(logits - logits.max(1, keepdims=True))
         compare("softmax_fprop vs bf16(softmax_f32)", out, bf16(e / e.sum(1, keepdims=True)))
