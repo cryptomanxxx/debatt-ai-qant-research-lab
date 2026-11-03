@@ -11,7 +11,7 @@ from __future__ import annotations
 import os
 
 for _var in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
-    os.environ.setdefault(_var, "1")  # single-threaded: reproducible numbers, cleaner timing
+    os.environ[_var] = "1"  # enforce single-threaded BLAS: reproducible numbers, comparable timing
 
 import argparse
 import gzip
