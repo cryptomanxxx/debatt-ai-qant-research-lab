@@ -1,0 +1,478 @@
+{
+ "archives": {
+  "FashionMNIST": "results/exp009_cross_dataset_validation.json",
+  "MNIST": "results/exp008_full_mnist_validation.json"
+ },
+ "batch": 128,
+ "cflags": [
+  "-O2",
+  "-shared",
+  "-fPIC",
+  "-fno-fast-math",
+  "-ffp-contract=off"
+ ],
+ "epochs": 3,
+ "experiment": "CL-68",
+ "lr": 0.001,
+ "numpy": "2.5.3",
+ "rows": [
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9628,
+   "f32acc_disagreements": 2,
+   "reference_accuracy": 0.963,
+   "seed": 11,
+   "seq_accuracy": 0.963,
+   "seq_disagreements": 20,
+   "topology": "h32_512"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9615,
+   "f32acc_disagreements": 3,
+   "reference_accuracy": 0.9612,
+   "seed": 22,
+   "seq_accuracy": 0.9617,
+   "seq_disagreements": 20,
+   "topology": "h32_512"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.959,
+   "f32acc_disagreements": 4,
+   "reference_accuracy": 0.9588,
+   "seed": 33,
+   "seq_accuracy": 0.9589,
+   "seq_disagreements": 17,
+   "topology": "h32_512"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9667,
+   "f32acc_disagreements": 3,
+   "reference_accuracy": 0.9668,
+   "seed": 11,
+   "seq_accuracy": 0.9667,
+   "seq_disagreements": 14,
+   "topology": "h64_512"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9686,
+   "f32acc_disagreements": 4,
+   "reference_accuracy": 0.9684,
+   "seed": 22,
+   "seq_accuracy": 0.968,
+   "seq_disagreements": 18,
+   "topology": "h64_512"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9655,
+   "f32acc_disagreements": 2,
+   "reference_accuracy": 0.9656,
+   "seed": 33,
+   "seq_accuracy": 0.965,
+   "seq_disagreements": 12,
+   "topology": "h64_512"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9715,
+   "f32acc_disagreements": 2,
+   "reference_accuracy": 0.9715,
+   "seed": 11,
+   "seq_accuracy": 0.9717,
+   "seq_disagreements": 10,
+   "topology": "h128_512"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.971,
+   "f32acc_disagreements": 6,
+   "reference_accuracy": 0.9715,
+   "seed": 22,
+   "seq_accuracy": 0.9711,
+   "seq_disagreements": 25,
+   "topology": "h128_512"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9686,
+   "f32acc_disagreements": 4,
+   "reference_accuracy": 0.9684,
+   "seed": 33,
+   "seq_accuracy": 0.9685,
+   "seq_disagreements": 11,
+   "topology": "h128_512"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.963,
+   "f32acc_disagreements": 0,
+   "reference_accuracy": 0.963,
+   "seed": 11,
+   "seq_accuracy": 0.9637,
+   "seq_disagreements": 15,
+   "topology": "h128"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9638,
+   "f32acc_disagreements": 3,
+   "reference_accuracy": 0.9637,
+   "seed": 22,
+   "seq_accuracy": 0.964,
+   "seq_disagreements": 12,
+   "topology": "h128"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9644,
+   "f32acc_disagreements": 4,
+   "reference_accuracy": 0.9645,
+   "seed": 33,
+   "seq_accuracy": 0.9643,
+   "seq_disagreements": 11,
+   "topology": "h128"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9701,
+   "f32acc_disagreements": 3,
+   "reference_accuracy": 0.9702,
+   "seed": 11,
+   "seq_accuracy": 0.9702,
+   "seq_disagreements": 10,
+   "topology": "h256"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9699,
+   "f32acc_disagreements": 2,
+   "reference_accuracy": 0.9697,
+   "seed": 22,
+   "seq_accuracy": 0.9703,
+   "seq_disagreements": 11,
+   "topology": "h256"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9694,
+   "f32acc_disagreements": 2,
+   "reference_accuracy": 0.9696,
+   "seed": 33,
+   "seq_accuracy": 0.9699,
+   "seq_disagreements": 9,
+   "topology": "h256"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9744,
+   "f32acc_disagreements": 2,
+   "reference_accuracy": 0.9746,
+   "seed": 11,
+   "seq_accuracy": 0.9745,
+   "seq_disagreements": 10,
+   "topology": "h512"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9729,
+   "f32acc_disagreements": 1,
+   "reference_accuracy": 0.9728,
+   "seed": 22,
+   "seq_accuracy": 0.9731,
+   "seq_disagreements": 12,
+   "topology": "h512"
+  },
+  {
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9756,
+   "f32acc_disagreements": 3,
+   "reference_accuracy": 0.9753,
+   "seed": 33,
+   "seq_accuracy": 0.9752,
+   "seq_disagreements": 11,
+   "topology": "h512"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8678,
+   "f32acc_disagreements": 5,
+   "reference_accuracy": 0.8681,
+   "seed": 11,
+   "seq_accuracy": 0.867,
+   "seq_disagreements": 61,
+   "topology": "h64_512"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.868,
+   "f32acc_disagreements": 10,
+   "reference_accuracy": 0.8682,
+   "seed": 22,
+   "seq_accuracy": 0.8689,
+   "seq_disagreements": 64,
+   "topology": "h64_512"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8432,
+   "f32acc_disagreements": 19,
+   "reference_accuracy": 0.8441,
+   "seed": 33,
+   "seq_accuracy": 0.8432,
+   "seq_disagreements": 68,
+   "topology": "h64_512"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8712,
+   "f32acc_disagreements": 12,
+   "reference_accuracy": 0.8711,
+   "seed": 11,
+   "seq_accuracy": 0.8707,
+   "seq_disagreements": 60,
+   "topology": "h128_512"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8655,
+   "f32acc_disagreements": 6,
+   "reference_accuracy": 0.8659,
+   "seed": 22,
+   "seq_accuracy": 0.8643,
+   "seq_disagreements": 45,
+   "topology": "h128_512"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8395,
+   "f32acc_disagreements": 11,
+   "reference_accuracy": 0.8398,
+   "seed": 33,
+   "seq_accuracy": 0.8398,
+   "seq_disagreements": 45,
+   "topology": "h128_512"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8598,
+   "f32acc_disagreements": 13,
+   "reference_accuracy": 0.8595,
+   "seed": 11,
+   "seq_accuracy": 0.8594,
+   "seq_disagreements": 54,
+   "topology": "h128"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8588,
+   "f32acc_disagreements": 10,
+   "reference_accuracy": 0.8586,
+   "seed": 22,
+   "seq_accuracy": 0.8585,
+   "seq_disagreements": 45,
+   "topology": "h128"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8412,
+   "f32acc_disagreements": 7,
+   "reference_accuracy": 0.841,
+   "seed": 33,
+   "seq_accuracy": 0.8403,
+   "seq_disagreements": 60,
+   "topology": "h128"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8632,
+   "f32acc_disagreements": 11,
+   "reference_accuracy": 0.8633,
+   "seed": 11,
+   "seq_accuracy": 0.8629,
+   "seq_disagreements": 43,
+   "topology": "h256"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8661,
+   "f32acc_disagreements": 8,
+   "reference_accuracy": 0.8663,
+   "seed": 22,
+   "seq_accuracy": 0.8668,
+   "seq_disagreements": 44,
+   "topology": "h256"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.838,
+   "f32acc_disagreements": 7,
+   "reference_accuracy": 0.8381,
+   "seed": 33,
+   "seq_accuracy": 0.8384,
+   "seq_disagreements": 56,
+   "topology": "h256"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8712,
+   "f32acc_disagreements": 4,
+   "reference_accuracy": 0.8714,
+   "seed": 11,
+   "seq_accuracy": 0.8709,
+   "seq_disagreements": 36,
+   "topology": "h512"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8682,
+   "f32acc_disagreements": 13,
+   "reference_accuracy": 0.8687,
+   "seed": 22,
+   "seq_accuracy": 0.8678,
+   "seq_disagreements": 52,
+   "topology": "h512"
+  },
+  {
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8445,
+   "f32acc_disagreements": 15,
+   "reference_accuracy": 0.8445,
+   "seed": 33,
+   "seq_accuracy": 0.8453,
+   "seq_disagreements": 67,
+   "topology": "h512"
+  }
+ ],
+ "seeds": [
+  11,
+  22,
+  33
+ ],
+ "summary": [
+  {
+   "archived_qant_disagreements": 1.6666666666666667,
+   "archived_reference_accuracy": 0.9608666666666666,
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9611000000000001,
+   "f32acc_disagreements": 3.0,
+   "reference_accuracy": 0.961,
+   "seq_accuracy": 0.9611999999999999,
+   "seq_disagreements": 19.0,
+   "topology": "h32_512"
+  },
+  {
+   "archived_qant_disagreements": 3.3333333333333335,
+   "archived_reference_accuracy": 0.9671,
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9669333333333334,
+   "f32acc_disagreements": 3.0,
+   "reference_accuracy": 0.9669333333333334,
+   "seq_accuracy": 0.9665666666666667,
+   "seq_disagreements": 14.666666666666666,
+   "topology": "h64_512"
+  },
+  {
+   "archived_qant_disagreements": 2.6666666666666665,
+   "archived_reference_accuracy": 0.9726,
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9703666666666667,
+   "f32acc_disagreements": 4.0,
+   "reference_accuracy": 0.9704666666666667,
+   "seq_accuracy": 0.9704333333333333,
+   "seq_disagreements": 15.333333333333334,
+   "topology": "h128_512"
+  },
+  {
+   "archived_qant_disagreements": 1.3333333333333333,
+   "archived_reference_accuracy": 0.9629666666666666,
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9637333333333333,
+   "f32acc_disagreements": 2.3333333333333335,
+   "reference_accuracy": 0.9637333333333333,
+   "seq_accuracy": 0.964,
+   "seq_disagreements": 12.666666666666666,
+   "topology": "h128"
+  },
+  {
+   "archived_qant_disagreements": 3.3333333333333335,
+   "archived_reference_accuracy": 0.9699666666666666,
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9697999999999999,
+   "f32acc_disagreements": 2.3333333333333335,
+   "reference_accuracy": 0.9698333333333333,
+   "seq_accuracy": 0.9701333333333334,
+   "seq_disagreements": 10.0,
+   "topology": "h256"
+  },
+  {
+   "archived_qant_disagreements": 2.0,
+   "archived_reference_accuracy": 0.9737333333333335,
+   "dataset": "MNIST",
+   "f32acc_accuracy": 0.9743,
+   "f32acc_disagreements": 2.0,
+   "reference_accuracy": 0.9742333333333333,
+   "seq_accuracy": 0.9742666666666667,
+   "seq_disagreements": 11.0,
+   "topology": "h512"
+  },
+  {
+   "archived_qant_disagreements": 7.666666666666667,
+   "archived_reference_accuracy": 0.8586999999999999,
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8596666666666666,
+   "f32acc_disagreements": 11.333333333333334,
+   "reference_accuracy": 0.8601333333333333,
+   "seq_accuracy": 0.8597,
+   "seq_disagreements": 64.33333333333333,
+   "topology": "h64_512"
+  },
+  {
+   "archived_qant_disagreements": 14.0,
+   "archived_reference_accuracy": 0.8589666666666668,
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8587333333333333,
+   "f32acc_disagreements": 9.666666666666666,
+   "reference_accuracy": 0.8589333333333333,
+   "seq_accuracy": 0.8582666666666666,
+   "seq_disagreements": 50.0,
+   "topology": "h128_512"
+  },
+  {
+   "archived_qant_disagreements": 11.333333333333334,
+   "archived_reference_accuracy": 0.8503,
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8532666666666667,
+   "f32acc_disagreements": 10.0,
+   "reference_accuracy": 0.8530333333333333,
+   "seq_accuracy": 0.8527333333333335,
+   "seq_disagreements": 53.0,
+   "topology": "h128"
+  },
+  {
+   "archived_qant_disagreements": 12.666666666666666,
+   "archived_reference_accuracy": 0.8586999999999999,
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8557666666666667,
+   "f32acc_disagreements": 8.666666666666666,
+   "reference_accuracy": 0.8559,
+   "seq_accuracy": 0.8560333333333334,
+   "seq_disagreements": 47.666666666666664,
+   "topology": "h256"
+  },
+  {
+   "archived_qant_disagreements": 12.666666666666666,
+   "archived_reference_accuracy": 0.8650333333333333,
+   "dataset": "FashionMNIST",
+   "f32acc_accuracy": 0.8613,
+   "f32acc_disagreements": 10.666666666666666,
+   "reference_accuracy": 0.8615333333333334,
+   "seq_accuracy": 0.8613333333333334,
+   "seq_disagreements": 51.666666666666664,
+   "topology": "h512"
+  }
+ ]
+}
