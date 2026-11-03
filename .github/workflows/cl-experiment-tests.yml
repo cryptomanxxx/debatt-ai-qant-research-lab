@@ -42,7 +42,7 @@ jobs:
           python-version: '3.13'
       - name: Install NumPy
         run: python -m pip install "numpy==2.5.3"
-      - name: Run CL-50 to CL-71 tests
+      - name: Run CL-50 to CL-72 tests
         run: |
           python -m unittest -v \
             tests.test_cl50_baselines_and_factorial \
@@ -65,4 +65,5 @@ jobs:
             tests.test_cl68_linear_fprop_accumulation \
             tests.test_cl69_qant_model_zoo \
             tests.test_cl70_fanin_budget \
-            tests.test_cl71_qant_zoo_confirmation
+            tests.test_cl71_qant_zoo_confirmation \
+            tests.test_cl72_application_mapping
