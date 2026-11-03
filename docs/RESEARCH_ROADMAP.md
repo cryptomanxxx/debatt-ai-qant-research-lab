@@ -18,7 +18,7 @@ This document tracks development and research milestones. It is **not an executi
   - **B.** ✅ Characterise `linear_fprop` and the activations on Q.ANT (Tier 2). [CL-70](../experiments/cl70_fanin_budget/README.md): `linear_fprop`'s error is flat at 0.32% up to 65,536 terms. KAN follows the simulator within 2% up to 65,536 terms, reaching 1% error at about 64 terms and 10% at about 10,000. `sigmoid_fprop` and `softmax_fprop` differ by one bf16 step in 30% and 38% of values, but softmax left the argmax unchanged in all 500 tested rows; near-ties could still tie in bf16.
   - **C.** ✅ A systematic model zoo in simulation (Tier 0). [CL-69](../experiments/cl69_qant_model_zoo/README.md): for fidelity on the Q.ANT CPU backend, linear models are best suited at any size tested, and large monolithic KAN layers are worst suited. The longest sequential bf16 sum per call explains the KAN ranking.
   - **D.** ✅ Confirm a subset on Q.ANT (Tier 2). [CL-71](../experiments/cl71_qant_zoo_confirmation/README.md): the KAN-containing arms are within 3% of the simulator, the linear arms 1–2 disagreements per 10k above it, and the ranking is identical (ρ = 1.0). For numerical fidelity on the Q.ANT CPU backend, linear models are best suited and monolithic KAN worst; this is now measured, not only simulated.
-  - **E.** Photonic hardware via the IONOS/Q.ANT pilot (Tier 2). Candidate workloads, ranked by necessary conditions in [CL-72](../experiments/cl72_application_mapping/README.md): ResNet-type CNNs first, then short-sequence transformer encoders, then LSTM and time-series models. Depthwise CNNs, long-context or decode transformers and recommenders come last.
+  - **E.** Photonic hardware via the IONOS/Q.ANT pilot (Tier 2). Candidate workloads, ranked by necessary conditions in [CL-72](../experiments/cl72_application_mapping/README.md): short-sequence transformer encoders first, then ResNet-type CNNs (best with device-side patch extraction), then LSTM and time-series models. Depthwise CNNs, long-context or decode transformers and recommenders come last.
 
 ## Scientific objective
 
@@ -310,7 +310,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 - **2026-11-03:** CL-71 (phase D, Q.ANT CPU backend): the model-suitability ranking is confirmed on Q.ANT; the KAN-containing arms are within 3% of the simulator.
 
-- **2026-11-03:** CL-72: applications ranked by the necessary conditions for a photonic `linear_fprop` advantage. ResNet-type CNNs and short-sequence encoders rank first; a CNN keeps float32 accuracy on the simulated Q.ANT path.
+- **2026-11-03:** CL-72: applications ranked by the necessary conditions for a photonic `linear_fprop` advantage. short-sequence encoders and ResNet-type CNNs rank first; a CNN keeps float32 accuracy on the simulated Q.ANT path.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 

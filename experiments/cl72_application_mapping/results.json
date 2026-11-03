@@ -3,6 +3,7 @@
  "numpy": "2.5.3",
  "part_a": [
   {
+   "arithmetic_intensity_im2col_macs_per_byte": 73.92739273927393,
    "arithmetic_intensity_macs_per_byte": 73.92739273927393,
    "dynamic_mac_share": 0.0,
    "extra_bytes": 0,
@@ -16,6 +17,7 @@
    "workload": "MLP 784-256-256-10"
   },
   {
+   "arithmetic_intensity_im2col_macs_per_byte": 10.183447263739234,
    "arithmetic_intensity_macs_per_byte": 35.4551566491865,
    "dynamic_mac_share": 0.0,
    "extra_bytes": 0,
@@ -29,6 +31,7 @@
    "workload": "LeNet-style CNN (Part B)"
   },
   {
+   "arithmetic_intensity_im2col_macs_per_byte": 52.81376349054701,
    "arithmetic_intensity_macs_per_byte": 194.3144793782188,
    "dynamic_mac_share": 0.0,
    "extra_bytes": 0,
@@ -42,6 +45,7 @@
    "workload": "ResNet-18"
   },
   {
+   "arithmetic_intensity_im2col_macs_per_byte": 4.913064511702849,
    "arithmetic_intensity_macs_per_byte": 11.184266436774633,
    "dynamic_mac_share": 0.0,
    "extra_bytes": 0,
@@ -55,6 +59,7 @@
    "workload": "MobileNetV2"
   },
   {
+   "arithmetic_intensity_im2col_macs_per_byte": 196.65051903114187,
    "arithmetic_intensity_macs_per_byte": 196.65051903114187,
    "dynamic_mac_share": 0.027027027027026973,
    "extra_bytes": 196608,
@@ -68,6 +73,7 @@
    "workload": "BERT-base encoder, sequence 128"
   },
   {
+   "arithmetic_intensity_im2col_macs_per_byte": 79.1595639246779,
    "arithmetic_intensity_macs_per_byte": 79.1595639246779,
    "dynamic_mac_share": 0.3076923076923077,
    "extra_bytes": 3145728,
@@ -81,6 +87,7 @@
    "workload": "BERT-base encoder, sequence 2048"
   },
   {
+   "arithmetic_intensity_im2col_macs_per_byte": 3.6728820351680187,
    "arithmetic_intensity_macs_per_byte": 3.6728820351680187,
    "dynamic_mac_share": 0.1325387623028178,
    "extra_bytes": 0,
@@ -94,6 +101,7 @@
    "workload": "GPT-2-small decode, context 1024"
   },
   {
+   "arithmetic_intensity_im2col_macs_per_byte": 35.603721948549534,
    "arithmetic_intensity_macs_per_byte": 35.603721948549534,
    "dynamic_mac_share": 0.04316812200221376,
    "extra_bytes": 3328,
@@ -107,6 +115,7 @@
    "workload": "DLRM-style recommender"
   },
   {
+   "arithmetic_intensity_im2col_macs_per_byte": 341.3333333333333,
    "arithmetic_intensity_macs_per_byte": 341.3333333333333,
    "dynamic_mac_share": 0.0,
    "extra_bytes": 0,

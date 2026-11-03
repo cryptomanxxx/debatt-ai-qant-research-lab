@@ -17,6 +17,13 @@ class CL72(unittest.TestCase):
         self.assertAlmostEqual(s["total_macs"] / 1e9, 0.30, delta=0.03)  # ~300 MMACs, commonly cited
         self.assertEqual(s["min_fan_in"], 9)
 
+    def test_im2col_traffic_counts_expanded_patches(self):
+        w = R.Workload("one conv", "")
+        w.conv(24, 24, 1, 16, 5, 28, 28)
+        layer = w.layers[0]
+        self.assertEqual(layer["io_bytes"], 2 * (28 * 28 + 24 * 24 * 16))
+        self.assertEqual(layer["io_bytes_matrix"], 2 * (24 * 24 * 25 + 24 * 24 * 16))
+
     def test_bert_static_macs(self):
         s = R.bert(128).summary()
         static = s["total_macs"] * s["static_mac_share"]

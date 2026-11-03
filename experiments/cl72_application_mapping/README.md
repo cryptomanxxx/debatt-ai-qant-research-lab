@@ -14,7 +14,9 @@ CL-68 to CL-71 showed that `linear_fprop` models keep their float32 accuracy on 
 
 - the share of MACs with **static weights** (C1, C2), as opposed to activation × activation products such as attention QKᵀ/AV or recommender interactions;
 - the **MAC-weighted mean fan-in** and the minimum fan-in (C3);
-- **arithmetic intensity**: MACs per bf16 byte of layer input and output, with the weights resident (C3). Embedding and KV-cache reads are counted as extra bytes.
+- **arithmetic intensity** (C3): MACs per bf16 byte of layer input and output, with the weights resident. Embedding and KV-cache reads are counted as extra bytes. Two versions are reported:
+  - *ideal reuse*: each input value is counted once;
+  - *im2col*: convolutions are fed to a matrix primitive as expanded patches, so every overlapping pixel is sent again. That is what `linear_fprop` receives, unless the device extracts patches itself.
 - the bf16 weight size;
 - **host operations per MAC**: activations, norms, softmax and residual adds (C5).
 
@@ -24,17 +26,17 @@ CL-68 to CL-71 showed that `linear_fprop` models keep their float32 accuracy on 
 
 **Part A**
 
-| Workload | GMACs | Static-weight share | MAC-weighted fan-in (min) | MACs per byte | Weights (MB, bf16) | Host ops per MAC |
+| Workload | GMACs | Static-weight share | MAC-weighted fan-in (min) | MACs per byte, ideal reuse / im2col | Weights (MB, bf16) | Host ops per MAC |
 |---|---|---|---|---|---|---|
-| ResNet-18, 224² | 1.81 | **100%** | **1,828** (64) | **194** | 23 | 0.002 |
-| BERT-base, sequence 128 | 11.2 | **97.3%** | **1,497** (64) | **197** | 170 | 0.003 |
-| 2-layer LSTM, hidden 512 (per step) | 0.004 | 100% | 1,024 (1,024) | 341 | 8 | 0.002 |
-| MLP 784–256–256–10 | 0.0003 | 100% | 650 (256) | 74 | 0.5 | 0.002 |
-| DLRM-style recommender | 0.0005 | 95.7% | 438 (13) | 36 | 1 | 0.003 |
-| LeNet-style CNN (Part B) | 0.001 | 100% | 319 (25) | 36 | 0.03 | 0.013 |
-| MobileNetV2, 224² | 0.30 | 100% | **251 (9)** | **11** | 7 | 0.021 |
-| GPT-2-small decode, context 1,024 | 0.14 | **86.7%** | 1,196 (64) | **3.7** | 247 | 0.007 |
-| BERT-base, sequence 2,048 | 251 | **69.2%** | 1,388 (64) | 79 | 170 | 0.014 |
+| BERT-base, sequence 128 | 11.2 | **97.3%** | **1,497** (64) | **197 / 197** | 170 | 0.003 |
+| 2-layer LSTM, hidden 512 (per step) | 0.004 | 100% | 1,024 (1,024) | 341 / 341 | 8 | 0.002 |
+| ResNet-18, 224² | 1.81 | **100%** | **1,828** (64) | 194 / **53** | 23 | 0.002 |
+| MLP 784–256–256–10 | 0.0003 | 100% | 650 (256) | 74 / 74 | 0.5 | 0.002 |
+| DLRM-style recommender | 0.0005 | 95.7% | 438 (13) | 36 / 36 | 1 | 0.003 |
+| LeNet-style CNN (Part B) | 0.001 | 100% | 319 (25) | 36 / 10 | 0.03 | 0.013 |
+| MobileNetV2, 224² | 0.30 | 100% | **251 (9)** | 11 / **4.9** | 7 | 0.021 |
+| GPT-2-small decode, context 1,024 | 0.14 | **86.7%** | 1,196 (64) | **3.7 / 3.7** | 247 | 0.007 |
+| BERT-base, sequence 2,048 | 251 | **69.2%** | 1,388 (64) | 79 / 79 | 170 | 0.014 |
 
 **Part B: CNN on the simulated Q.ANT path.** Float32 accuracy is 0.8427 and Q.ANT-path accuracy 0.8428, a gap of +0.01 pp, with 8.3 disagreements per 10k (10 / 9 / 6 per seed).
 
@@ -51,21 +53,20 @@ CL-68 to CL-71 showed that `linear_fprop` models keep their float32 accuracy on 
 
 ## Findings
 
-1. **The strongest candidates are dense, static-weight vision and encoder workloads.** ResNet-type CNNs and short-sequence transformer encoders such as BERT at sequence 128:
-   - put 97–100% of their MACs in fixed-weight matrix products;
-   - have large fan-in (about 1,500–1,800) and high arithmetic intensity (about 195 MACs per byte);
-   - need little host-side work.
-
-   A CNN written as matrix products also keeps its float32 accuracy on the Q.ANT path (Part B).
-2. **LSTMs and large MLP layers also meet C1–C3,** with the highest arithmetic intensity (341). But an LSTM must compute its time steps one after another, so its benefit depends on photonic *latency*, which is unknown.
-3. **Weak candidates, each failing a different condition:**
-   - **MobileNetV2-style networks:** depthwise convolutions have fan-in 9 and an arithmetic intensity of 11. Efficient-on-CPU designs are a poor fit.
+1. **The strongest candidate is the short-sequence transformer encoder,** such as BERT at sequence 128. It puts 97% of its MACs in fixed-weight matrix products, with fan-in about 1,500 and about 197 MACs per byte whether or not inputs are reused. It needs little host-side work.
+2. **ResNet-type CNNs are close behind, if the device extracts convolution patches itself.**
+   - They put 100% of their MACs in fixed weights, with fan-in about 1,800.
+   - Their arithmetic intensity is 194 MACs per byte with ideal reuse, but 53 when every im2col patch is sent to `linear_fprop`. Whether the photonic unit avoids re-sending overlapping pixels is a question for Q.ANT.
+   - A CNN written as matrix products keeps its float32 accuracy on the Q.ANT path (Part B).
+3. **LSTMs and large MLP layers also meet C1–C3,** with the highest arithmetic intensity (341). But an LSTM must compute its time steps one after another, so its benefit depends on photonic *latency*, which is unknown.
+4. **Weak candidates, each failing a different condition:**
+   - **MobileNetV2-style networks:** depthwise convolutions have fan-in 9, and the arithmetic intensity is 11 with ideal reuse (4.9 with im2col). Efficient-on-CPU designs are a poor fit.
    - **Long-context transformers:** at sequence 2,048, 31% of BERT's MACs are activation × activation products whose "weights" change with every input.
    - **Autoregressive decoding (GPT-2):** about 4 MACs per byte. Each 247 MB set of weights is used once per token, so the workload is data-movement-bound unless the weights stay on the chip.
    - **Recommenders:** the MLP part is small, and the main cost, the embedding tables, is memory, not matrix work.
-4. **Ranking as test candidates for the photonic pilot (phase E):**
-   1. CNN image classification (ResNet-type);
-   2. short-sequence transformer encoders;
+5. **Ranking as test candidates for the photonic pilot (phase E):**
+   1. short-sequence transformer encoders;
+   2. CNN image classification (ResNet-type), ideally with device-side patch extraction;
    3. LSTM or time-series models, if latency is good;
    4. long-context or decode transformers, and depthwise CNNs, last.
 
@@ -74,4 +75,5 @@ CL-68 to CL-71 showed that `linear_fprop` models keep their float32 accuracy on 
 It ranks workloads by **necessary** conditions only.
 - Whether any of them is faster or more energy-efficient on Q.ANT's photonic hardware depends on facts we do not have: the physical matrix size, the cost of reconfiguring weights, host↔chip transfer, analog noise and power.
 - Part A rests on standard shapes and simple accounting, without measurements. Batch-size effects on weight reuse are not modelled; the intensity counts activation I/O with resident weights.
+- **Correction after review:** the first version counted only ideal-reuse traffic for convolutions. Codex pointed out that im2col sends expanded patches. Both are now reported, and the ranking puts the BERT encoder ahead of ResNet.
 - Part B uses the CPU-backend model of `linear_fprop` from CL-70, not the photonic chip.

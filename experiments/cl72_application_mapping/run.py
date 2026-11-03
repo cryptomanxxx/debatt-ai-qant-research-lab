@@ -35,10 +35,14 @@ class Workload:
         self.host_ops = 0        # non-matrix elementwise operations (activations, norms, softmax, residual adds)
         self.extra_bytes = 0     # memory traffic not tied to a matrix product (embeddings, KV cache)
 
-    def mm(self, macs_per_out, n_out, fan_in, n_in, static, weights=0):
-        """A matrix product producing n_out outputs, each a dot product of length fan_in."""
+    def mm(self, macs_per_out, n_out, fan_in, n_in, static, weights=0, n_in_matrix=None):
+        """A matrix product producing n_out outputs, each a dot product of length fan_in.
+
+        n_in counts distinct input values (ideal spatial reuse); n_in_matrix counts the values
+        actually fed to a matrix primitive (for convolutions: the expanded im2col patches)."""
+        n_in_matrix = n_in if n_in_matrix is None else n_in_matrix
         self.layers.append({"macs": macs_per_out * n_out, "fan_in": fan_in, "io_bytes": B2 * (n_in + n_out),
-                            "static": static, "weights": weights})
+                            "io_bytes_matrix": B2 * (n_in_matrix + n_out), "static": static, "weights": weights})
 
     def linear(self, n_tokens, d_in, d_out, act=True):
         self.mm(d_in, n_tokens * d_out, d_in, n_tokens * d_in, True, d_in * d_out + d_out)
@@ -47,7 +51,8 @@ class Workload:
 
     def conv(self, h_out, w_out, c_in, c_out, k, h_in, w_in, groups=1, act=True):
         fan = k * k * c_in // groups
-        self.mm(fan, h_out * w_out * c_out, fan, h_in * w_in * c_in, True, fan * c_out + c_out)
+        self.mm(fan, h_out * w_out * c_out, fan, h_in * w_in * c_in, True, fan * c_out + c_out,
+                n_in_matrix=h_out * w_out * k * k * c_in)
         if act:
             self.host_ops += h_out * w_out * c_out
 
@@ -55,11 +60,13 @@ class Workload:
         macs = sum(l["macs"] for l in self.layers)
         static = sum(l["macs"] for l in self.layers if l["static"])
         io = sum(l["io_bytes"] for l in self.layers) + self.extra_bytes
+        io_m = sum(l["io_bytes_matrix"] for l in self.layers) + self.extra_bytes
         return {"workload": self.name, "note": self.note, "total_macs": macs,
                 "static_mac_share": static / macs, "dynamic_mac_share": 1 - static / macs,
                 "mac_weighted_mean_fan_in": sum(l["macs"] * l["fan_in"] for l in self.layers) / macs,
                 "min_fan_in": min(l["fan_in"] for l in self.layers),
                 "arithmetic_intensity_macs_per_byte": macs / io,
+                "arithmetic_intensity_im2col_macs_per_byte": macs / io_m,
                 "extra_bytes": self.extra_bytes, "weights_mb_bf16": B2 * sum(l["weights"] for l in self.layers) / 1e6,
                 "host_ops_per_mac": self.host_ops / macs}
 
@@ -296,10 +303,11 @@ def main():
     bsum = {k: statistics.fmean(r[k] for r in b) for k in b[0] if k != "seed"}
     res = {"experiment": "CL-72", "part_a": a, "part_b_rows": b, "part_b_summary": bsum, "numpy": np.__version__}
     (HERE / "results.json").write_text(json.dumps(res, indent=1, sort_keys=True) + "\n")
-    print(f"{'workload':38s} {'GMAC':>8s} {'static':>7s} {'dyn':>6s} {'fan-in':>7s} {'min':>5s} {'MAC/B':>7s} {'W MB':>7s} {'host/MAC':>8s}")
+    print(f"{'workload':38s} {'GMAC':>8s} {'static':>7s} {'dyn':>6s} {'fan-in':>7s} {'min':>5s} {'MAC/B':>7s} {'im2col':>7s} {'W MB':>7s} {'host/MAC':>8s}")
     for s in a:
         print(f"{s['workload']:38s} {s['total_macs']/1e9:8.4f} {s['static_mac_share']:7.3f} {s['dynamic_mac_share']:6.3f}"
               f" {s['mac_weighted_mean_fan_in']:7.0f} {s['min_fan_in']:5d} {s['arithmetic_intensity_macs_per_byte']:7.1f}"
+              f" {s['arithmetic_intensity_im2col_macs_per_byte']:7.1f}"
               f" {s['weights_mb_bf16']:7.1f} {s['host_ops_per_mac']:8.4f}")
     print("Part B CNN:", {k: round(v, 4) for k, v in bsum.items()}, [r["disagreements"] for r in b])
 
