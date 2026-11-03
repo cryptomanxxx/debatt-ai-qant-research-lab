@@ -1,0 +1,84 @@
+{
+ "cflags": "-O3 -march=native -ffast-math",
+ "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+ "experiment": "CL-57",
+ "lr": 0.01,
+ "mean_nonzero_pixels_per_train_sample": 149.9026,
+ "numpy": "2.5.3",
+ "runs": {
+  "H128_seed11": {
+   "dense": {
+    "counted_terms_per_step": 204544,
+    "test_accuracy": 0.9666
+   },
+   "sparse_input": {
+    "counted_terms_per_step": 42215.0656,
+    "test_accuracy": 0.9666
+   },
+   "weights_bit_identical": true
+  },
+  "H128_seed22": {
+   "dense": {
+    "counted_terms_per_step": 204544,
+    "test_accuracy": 0.962
+   },
+   "sparse_input": {
+    "counted_terms_per_step": 42215.0656,
+    "test_accuracy": 0.962
+   },
+   "weights_bit_identical": true
+  },
+  "H128_seed33": {
+   "dense": {
+    "counted_terms_per_step": 204544,
+    "test_accuracy": 0.9653
+   },
+   "sparse_input": {
+    "counted_terms_per_step": 42215.0656,
+    "test_accuracy": 0.9653
+   },
+   "weights_bit_identical": true
+  },
+  "H256_seed11": {
+   "dense": {
+    "counted_terms_per_step": 409088,
+    "test_accuracy": 0.9661
+   },
+   "numpy_batch64_test_accuracy": 0.9239,
+   "sparse_input": {
+    "counted_terms_per_step": 84430.1312,
+    "test_accuracy": 0.9661
+   },
+   "weights_bit_identical": true
+  },
+  "H256_seed22": {
+   "dense": {
+    "counted_terms_per_step": 409088,
+    "test_accuracy": 0.9669
+   },
+   "numpy_batch64_test_accuracy": 0.9213,
+   "sparse_input": {
+    "counted_terms_per_step": 84430.1312,
+    "test_accuracy": 0.9669
+   },
+   "weights_bit_identical": true
+  },
+  "H256_seed33": {
+   "dense": {
+    "counted_terms_per_step": 409088,
+    "test_accuracy": 0.9671
+   },
+   "numpy_batch64_test_accuracy": 0.9235,
+   "sparse_input": {
+    "counted_terms_per_step": 84430.1312,
+    "test_accuracy": 0.9671
+   },
+   "weights_bit_identical": true
+  }
+ },
+ "seeds": [
+  11,
+  22,
+  33
+ ]
+}

@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-56 complete (synthesis)  
+**Current checkpoint:** CL-57 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -127,6 +127,13 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - [x] Report negative results, errors found and fixed, limitations and what would change the conclusions.
 - [ ] Outside critique of the report (open).
 
+### ✅ CL-57 — Training cost with sparse inputs (Tier 1 experiment)
+
+[Results](../experiments/cl57_sparse_input_training_cost/README.md), with [predictions pushed before the run](../experiments/cl57_sparse_input_training_cost/PREDICTIONS.md): MNIST, 3 seeds, H=128 and 256, per-sample SGD in C.
+
+- [x] Skipping zero pixels makes the whole training step (forward, backward, update) 2.5–4.4× faster, with weights bit-identical to dense training in all 6 runs.
+- [x] Per-sample sparse C training is about as fast as NumPy batched dense BLAS training.
+
 ## Tracking table
 
 | Stage | Status | Verification |
@@ -145,6 +152,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | Energy | 🔒 Tier 2 | Physical energy measurement needs explicit owner approval |
 | CL-55 | ✅ Completed | [H2 Permuted MNIST forgetting](../experiments/cl55_h2_permuted_mnist_forgetting/README.md) |
 | CL-56 | ✅ Completed | [Synthesis report](CL56_SYNTHESIS.md) |
+| CL-57 | ✅ Completed | [Sparse-input training cost](../experiments/cl57_sparse_input_training_cost/README.md) |
 
 ## Progress log
 
@@ -169,6 +177,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-55 (H2): sparse representations and DFA did not reduce forgetting on Permuted MNIST; a larger dense network, EWC and replay did best.
 
 - **2026-11-03:** CL-56 synthesis of CL-50 to CL-55 published.
+
+- **2026-11-03:** CL-57: skipping zero inputs makes training 2.5–4.4× faster at bit-identical weights (3 seeds).
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 

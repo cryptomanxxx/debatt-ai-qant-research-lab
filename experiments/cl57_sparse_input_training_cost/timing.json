@@ -1,0 +1,18 @@
+{
+ "c_dense_H128_seed11": 1.7626622320003662,
+ "c_dense_H128_seed22": 2.197927544000777,
+ "c_dense_H128_seed33": 1.341920458000459,
+ "c_dense_H256_seed11": 3.730569108999589,
+ "c_dense_H256_seed11_AA": 3.560002682999766,
+ "c_dense_H256_seed22": 3.216122384999835,
+ "c_dense_H256_seed33": 2.96611899599975,
+ "c_sparse_input_H128_seed11": 0.4282841220001501,
+ "c_sparse_input_H128_seed22": 0.49479146099929494,
+ "c_sparse_input_H128_seed33": 0.39894482899944705,
+ "c_sparse_input_H256_seed11": 0.9359354919997713,
+ "c_sparse_input_H256_seed22": 1.2844961999999214,
+ "c_sparse_input_H256_seed33": 1.0671961039997768,
+ "numpy_batch64_dense_H256_seed11": 0.9900114730007772,
+ "numpy_batch64_dense_H256_seed22": 1.036031143999935,
+ "numpy_batch64_dense_H256_seed33": 0.9576560519999475
+}
