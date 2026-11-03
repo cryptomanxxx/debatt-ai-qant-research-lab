@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-52 complete  
+**Current checkpoint:** CL-53 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -78,14 +78,15 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 
 The earlier plan for this stage (a statistical protocol) is covered in practice by 30 paired seeds, bootstrap CIs and predictions committed before each run. A formal confirmatory protocol belongs before any public claim (Tier 2).
 
-### ⬜ CL-53 — Scale-up, instrumentation and hardware crossover
+### ✅ CL-53 — Hidden-layer sparsity on MNIST, with wall time (Tier 1 experiment)
 
-- [ ] Preregister analytic algorithmic counts and test instrumentation against known quantities.
-- [ ] Specify A/A controls, index/branch overhead, size/density sweep and compiled/vectorized kernels.
-- [ ] Plan machine-level counters, memory, runtime, observer overhead and allocation of compute budget.
-- [ ] Decide what evidence would falsify a speed/work advantage.
+[Results](../experiments/cl53_mnist_hidden_sparsity/README.md), with [predictions committed before the run](../experiments/cl53_mnist_hidden_sparsity/PREDICTIONS.md): MNIST, 3 seeds, 2 epochs, single-threaded NumPy.
 
-**Completion condition:** approved measurement design or separately authorized evidence; no automatic run.
+- [x] Low-rank screening finds 98–99% of the true kWTA winners at 0.20–0.32× the work of exact selection, losing ≤ 0.09 pp.
+- [x] kWTA networks still sit below the dense accuracy–work frontier (e.g. 92.96% at 0.79× the work of dense H=256, against 93.53% for dense H=128 at 0.50×).
+- [x] Counted work and wall time diverge: low-rank inference does 0.79× the counted work of dense H=256 but takes 40× longer in NumPy. The A/A timing noise is 12%.
+
+**Next:** a compiled sparse kernel (C or Numba) to test whether counted savings can become real time savings, and longer training, before any energy work.
 
 ### ⬜ CL-54 — Physical energy measurement and platform models
 
@@ -118,7 +119,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-50 | ✅ Completed | [Baselines and factorial results](../experiments/cl50_baselines_and_factorial/README.md) |
 | CL-51 | ✅ Completed | [Local rules and hidden sparsity](../experiments/cl51_local_rules_and_hidden_sparsity/README.md) |
 | CL-52 | ✅ Completed | [Cheap winner selection](../experiments/cl52_cheap_winner_selection/README.md) |
-| CL-53 | ⬜ Planned | Tier 0 or 1 depending on size |
+| CL-53 | ✅ Completed | [MNIST hidden sparsity](../experiments/cl53_mnist_hidden_sparsity/README.md) |
 | CL-54 | 🔒 Tier 2 | Physical energy measurement needs explicit owner approval |
 | CL-55 | ⬜ Planned | Synthesis depends on future evidence |
 
@@ -137,6 +138,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-51: only direct feedback alignment learns among local rules (0.815); hidden-layer kWTA gives a real accuracy–work trade-off.
 
 - **2026-11-03:** CL-52: no cheap selector beats a small dense network; sparse expansion plus selection is a negative result at this scale.
+
+- **2026-11-03:** CL-53 (MNIST): low-rank selection finds 98% of winners cheaply, but kWTA stays below the dense frontier; counted work and wall time diverge 40×.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
