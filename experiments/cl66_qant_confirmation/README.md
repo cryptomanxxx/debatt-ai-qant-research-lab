@@ -54,7 +54,7 @@ Per seed, `mono` Q.ANT disagreements are 275 / 340 / 381, identical to CL-58's a
    - This confirms the CL-62 mechanism image by image: the Q.ANT CPU backend behaves like sequential bfloat16 accumulation per logit.
 2. **The CL-65 design works on Q.ANT as predicted.**
    - 28×8 with an 8-call head reaches a Q.ANT accuracy of 0.8598, the same as its float32 reference, with 45.7 disagreements. The simulator predicted 45.7 exactly in the mean.
-   - Compared with CL-58's monolithic Q.ANT models, that is 3.0 pp more accurate (0.8598 against 0.8285) and 7.3× fewer disagreements (46 against 332). It costs 36 calls instead of 1.
+   - Compared with CL-58's monolithic Q.ANT models, that is 3.1 pp more accurate (0.8598 against 0.8285) and 7.3× fewer disagreements (46 against 332). It costs 36 calls instead of 1.
 3. **At low mismatch, the per-image match weakens** (recall 0.63 for `head8`). The remaining flips sit on near-ties, where details the simulator does not reproduce exactly start to matter, such as summation order or the small Q.ANT residual seen at few terms (CL-63). The counts still agree.
 
 ## What this does and does not show
