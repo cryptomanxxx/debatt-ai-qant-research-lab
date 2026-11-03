@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-68 complete  
+**Current checkpoint:** CL-69 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -16,7 +16,7 @@ This document tracks development and research milestones. It is **not an executi
 - **Plan:**
   - **A.** ✅ Check whether the accumulation simulator also holds for `linear_fprop`, using archived data (Tier 0). [CL-68](../experiments/cl68_linear_fprop_accumulation/README.md): it does not. `linear_fprop` behaves like float32 accumulation, and MLPs keep about 1–14 disagreements per 10k against 124–390 for KAN layers.
   - **B.** Characterise `linear_fprop` and the activations on Q.ANT (Tier 2).
-  - **C.** A systematic model zoo in simulation (Tier 0).
+  - **C.** ✅ A systematic model zoo in simulation (Tier 0). [CL-69](../experiments/cl69_qant_model_zoo/README.md): for fidelity on the Q.ANT CPU backend, linear models are best suited at any size tested, and large monolithic KAN layers are worst suited. The longest sequential bf16 sum per call explains the KAN ranking.
   - **D.** Confirm a subset on Q.ANT (Tier 2).
   - **E.** Photonic hardware via the IONOS/Q.ANT pilot (Tier 2).
 
@@ -134,7 +134,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 ### ✅ CL-56 — Synthesis of CL-50 to CL-55
 
-[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-68: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch, which sequential bfloat16 accumulation reproduces in aggregate and predicts out of sample (Exp021, Exp022, Exp027) and image by image on Q.ANT (CL-66), while training through it helps little (CL-67); spiking networks do not beat a smaller dense network on counted operations. Predictions: 71 of 110 held.
+[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-69: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch, which sequential bfloat16 accumulation reproduces in aggregate and predicts out of sample (Exp021, Exp022, Exp027) and image by image on Q.ANT (CL-66), while training through it helps little (CL-67); spiking networks do not beat a smaller dense network on counted operations. Predictions: 76 of 116 held.
 
 - [x] Separate established results from what was not shown (no energy, photonic or neuromorphic claims).
 - [x] Report negative results, errors found and fixed, limitations and what would change the conclusions.
@@ -249,6 +249,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-66 | ✅ Completed | [Q.ANT confirmation](../experiments/cl66_qant_confirmation/README.md) |
 | CL-67 | ✅ Completed | [Accumulation-aware training](../experiments/cl67_accumulation_aware_training/README.md) |
 | CL-68 | ✅ Completed | [`linear_fprop` accumulation (phase A)](../experiments/cl68_linear_fprop_accumulation/README.md) |
+| CL-69 | ✅ Completed | [Q.ANT model zoo (phase C)](../experiments/cl69_qant_model_zoo/README.md) |
 
 ## Progress log
 
@@ -299,6 +300,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-67: training through the simulated accumulation helps little (+0.2–0.3 pp, −5–7% mismatch); architecture is the lever.
 
 - **2026-11-03:** Research goal set: which AI models suit Q.ANT's hardware, and why. CL-68 (phase A): `linear_fprop` behaves like float32 accumulation, unlike the KAN primitive, so the primitive matters more than model size.
+
+- **2026-11-03:** CL-69 (phase C): in a 14-model zoo, linear MLPs keep their float accuracy on the Q.ANT path (±0.04 pp), while monolithic KAN loses up to 0.96 pp; the worst-suited model is `kan_g8`.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
