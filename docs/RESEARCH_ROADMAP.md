@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-53 complete  
+**Current checkpoint:** CL-54 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -88,7 +88,18 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 **Next:** a compiled sparse kernel (C or Numba) to test whether counted savings can become real time savings, and longer training, before any energy work.
 
-### ⬜ CL-54 — Physical energy measurement and platform models
+### ✅ CL-54 — Compiled sparse kernels: counted work against wall time (Tier 1 experiment)
+
+[Results](../experiments/cl54_compiled_sparse_kernels/README.md), with [predictions pushed before the run](../experiments/cl54_compiled_sparse_kernels/PREDICTIONS.md): C kernels, MNIST, seed 11, single-threaded.
+
+- [x] With compiled kernels, wall time tracks counted work within 1.0–1.5× for kernels with contiguous memory access; the 40× gap in CL-53 was a NumPy artefact.
+- [x] Skipping zero pixels gives the first real speed-up: dense H=256 inference is 5× faster in C, with identical predictions.
+- [x] Optimised batched BLAS dense (58 ms) is about as fast as the sparse-input C kernel (70 ms); kWTA kernels remain slower than both.
+- [x] Timing noise on the shared CPU is large (A/A 15% in C, 41% in NumPy).
+
+**Next:** compare with a batched, tuned sparse library on dedicated hardware before any energy measurement.
+
+### ⬜ Later — Physical energy measurement and platform models (Tier 2)
 
 - [ ] Identify calibrated meters/sensors, dedicated hardware, idle baseline, repetitions, randomization and uncertainty.
 - [ ] Scale workload sufficiently to exceed the instrument noise floor; do not claim hardware thresholds without primary-source verification.
@@ -120,7 +131,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-51 | ✅ Completed | [Local rules and hidden sparsity](../experiments/cl51_local_rules_and_hidden_sparsity/README.md) |
 | CL-52 | ✅ Completed | [Cheap winner selection](../experiments/cl52_cheap_winner_selection/README.md) |
 | CL-53 | ✅ Completed | [MNIST hidden sparsity](../experiments/cl53_mnist_hidden_sparsity/README.md) |
-| CL-54 | 🔒 Tier 2 | Physical energy measurement needs explicit owner approval |
+| CL-54 | ✅ Completed | [Compiled sparse kernels](../experiments/cl54_compiled_sparse_kernels/README.md) |
+| Energy | 🔒 Tier 2 | Physical energy measurement needs explicit owner approval |
 | CL-55 | ⬜ Planned | Synthesis depends on future evidence |
 
 ## Progress log
@@ -140,6 +152,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-52: no cheap selector beats a small dense network; sparse expansion plus selection is a negative result at this scale.
 
 - **2026-11-03:** CL-53 (MNIST): low-rank selection finds 98% of winners cheaply, but kWTA stays below the dense frontier; counted work and wall time diverge 40×.
+
+- **2026-11-03:** CL-54: compiled kernels make counted work track wall time; skipping zero pixels gives a real 5× speed-up at identical accuracy; kWTA still does not win.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 

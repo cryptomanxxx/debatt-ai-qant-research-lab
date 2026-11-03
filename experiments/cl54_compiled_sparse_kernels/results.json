@@ -1,0 +1,103 @@
+{
+ "cflags": "gcc -O3 -march=native -ffast-math -shared -fPIC",
+ "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+ "cpu": "x86_64",
+ "experiment": "CL-54",
+ "kernels": {
+  "c_dense_H128_full_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 101632,
+   "model": "dense_H128",
+   "test_accuracy": 0.9328,
+   "variant": "full_input"
+  },
+  "c_dense_H128_sparse_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 20623.6032,
+   "model": "dense_H128",
+   "test_accuracy": 0.9328,
+   "variant": "sparse_input"
+  },
+  "c_dense_H256_full_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 203264,
+   "model": "dense_H256",
+   "test_accuracy": 0.9346,
+   "variant": "full_input"
+  },
+  "c_dense_H256_sparse_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 41247.2064,
+   "model": "dense_H256",
+   "test_accuracy": 0.9346,
+   "variant": "sparse_input"
+  },
+  "c_kwta_exact_H1024_k32_full_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 804160,
+   "model": "kwta_exact_H1024_k32",
+   "test_accuracy": 0.9308,
+   "variant": "full_input"
+  },
+  "c_kwta_exact_H1024_k32_sparse_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 156092.8256,
+   "model": "kwta_exact_H1024_k32",
+   "test_accuracy": 0.9308,
+   "variant": "sparse_input"
+  },
+  "c_kwta_exact_H1024_k64_full_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 804480,
+   "model": "kwta_exact_H1024_k64",
+   "test_accuracy": 0.9357,
+   "variant": "full_input"
+  },
+  "c_kwta_exact_H1024_k64_sparse_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 156412.8256,
+   "model": "kwta_exact_H1024_k64",
+   "test_accuracy": 0.9357,
+   "variant": "sparse_input"
+  },
+  "c_kwta_lowrank_H1024_k32_full_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 159680,
+   "model": "kwta_lowrank_H1024_k32",
+   "test_accuracy": 0.9314,
+   "variant": "full_input"
+  },
+  "c_kwta_lowrank_H1024_k32_sparse_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 58419.504,
+   "model": "kwta_lowrank_H1024_k32",
+   "test_accuracy": 0.9314,
+   "variant": "sparse_input"
+  },
+  "c_kwta_lowrank_H1024_k64_full_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 260480,
+   "model": "kwta_lowrank_H1024_k64",
+   "test_accuracy": 0.9346,
+   "variant": "full_input"
+  },
+  "c_kwta_lowrank_H1024_k64_sparse_input": {
+   "agreement_with_numpy": 1.0,
+   "counted_terms_per_sample": 78211.1072,
+   "model": "kwta_lowrank_H1024_k64",
+   "test_accuracy": 0.9346,
+   "variant": "sparse_input"
+  }
+ },
+ "mean_nonzero_pixels_per_test_sample": 151.1219,
+ "numpy": "2.5.3",
+ "retrained_accuracy_matches_cl53": {
+  "dense_H128": true,
+  "dense_H256": true,
+  "kwta_exact_H1024_k32": true,
+  "kwta_exact_H1024_k64": true,
+  "kwta_lowrank_H1024_k32": true,
+  "kwta_lowrank_H1024_k64": true
+ },
+ "seed": 11
+}
