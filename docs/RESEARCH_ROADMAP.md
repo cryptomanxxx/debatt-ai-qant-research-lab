@@ -121,7 +121,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 ### ✅ CL-56 — Synthesis of CL-50 to CL-55
 
-[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Predictions: 32 of 50 held.
+[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-61: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch; spiking networks do not beat a smaller dense network on counted operations. Predictions: 43 of 73 held.
 
 - [x] Separate established results from what was not shown (no energy, photonic or neuromorphic claims).
 - [x] Report negative results, errors found and fixed, limitations and what would change the conclusions.
@@ -221,6 +221,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-60: latency coding brings SNN operations level with the zero-skipping dense network (41.8k vs 41.2k), at a 1.4 pp accuracy cost.
 
 - **2026-11-03:** CL-61: a spike-rate penalty lifts the SNN to 96.42% at 39k additions, but a dense H=128 network is more accurate at half the operations.
+
+- **2026-11-03:** [Synthesis](CL56_SYNTHESIS.md) updated to cover CL-50 to CL-61 (43 of 73 predictions held).
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
