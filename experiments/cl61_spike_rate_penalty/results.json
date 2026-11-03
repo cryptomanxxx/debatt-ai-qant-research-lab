@@ -1,0 +1,1111 @@
+{
+ "T": 4,
+ "batch": 64,
+ "beta": 0.9,
+ "dataset": "MNIST",
+ "epochs": 2,
+ "experiment": "CL-61",
+ "lambdas": [
+  0.0,
+  0.03,
+  0.1,
+  0.3,
+  1.0,
+  3.0
+ ],
+ "lr": 0.001,
+ "mnist_sha256": {
+  "t10k-images-idx3-ubyte.gz": "8d422c7b0a1c1c79245a5bcf07fe86e33eeafee792b84584aec276f5a2dbc4e6",
+  "t10k-labels-idx1-ubyte.gz": "f7ae60f92e00ec6debd23a6088c31dbd2371eca3ffa0defaefb259924204aec6",
+  "train-images-idx3-ubyte.gz": "440fcabf73cc546fa21475e81ea370265605f56be210a4024d2ca8f203523609",
+  "train-labels-idx1-ubyte.gz": "3552534a0a558bbed6aed32b30c495cca23d567ec52cac8be1a0730e8010255c"
+ },
+ "numpy": "2.5.3",
+ "penalty": "lam * hidden spikes / (H * T), batch mean",
+ "rows": [
+  {
+   "H": 64,
+   "arm": "ann_H64",
+   "dense_macs": 50816,
+   "epoch_seconds_mean": 0.5853339490000025,
+   "ops_per_image": 10311.8016,
+   "seed": 11,
+   "test_accuracy": 0.9567
+  },
+  {
+   "H": 64,
+   "arm": "ann_H64",
+   "dense_macs": 50816,
+   "epoch_seconds_mean": 0.5573873179999964,
+   "ops_per_image": 10311.8016,
+   "seed": 22,
+   "test_accuracy": 0.9572
+  },
+  {
+   "H": 64,
+   "arm": "ann_H64",
+   "dense_macs": 50816,
+   "epoch_seconds_mean": 0.6543400675000015,
+   "ops_per_image": 10311.8016,
+   "seed": 33,
+   "test_accuracy": 0.9576
+  },
+  {
+   "H": 128,
+   "arm": "ann_H128",
+   "dense_macs": 101632,
+   "epoch_seconds_mean": 0.9656811865000066,
+   "ops_per_image": 20623.6032,
+   "seed": 11,
+   "test_accuracy": 0.9654
+  },
+  {
+   "H": 128,
+   "arm": "ann_H128",
+   "dense_macs": 101632,
+   "epoch_seconds_mean": 0.8366255655000003,
+   "ops_per_image": 20623.6032,
+   "seed": 22,
+   "test_accuracy": 0.9649
+  },
+  {
+   "H": 128,
+   "arm": "ann_H128",
+   "dense_macs": 101632,
+   "epoch_seconds_mean": 0.904210876999997,
+   "ops_per_image": 20623.6032,
+   "seed": 33,
+   "test_accuracy": 0.9681
+  },
+  {
+   "H": 256,
+   "arm": "ann_H256",
+   "dense_macs": 203264,
+   "epoch_seconds_mean": 1.9589236569999997,
+   "ops_per_image": 41247.2064,
+   "seed": 11,
+   "test_accuracy": 0.9704
+  },
+  {
+   "H": 256,
+   "arm": "ann_H256",
+   "dense_macs": 203264,
+   "epoch_seconds_mean": 1.882304974500002,
+   "ops_per_image": 41247.2064,
+   "seed": 22,
+   "test_accuracy": 0.9687
+  },
+  {
+   "H": 256,
+   "arm": "ann_H256",
+   "dense_macs": 203264,
+   "epoch_seconds_mean": 1.8844405205000072,
+   "ops_per_image": 41247.2064,
+   "seed": 33,
+   "test_accuracy": 0.9732
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0",
+   "epoch_seconds_mean": 4.126218742500015,
+   "hidden_spike_rate": 0.30913994140625,
+   "hidden_spikes_per_image": 316.5593,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.0,
+   "ops_per_image": 41852.7994,
+   "seed": 11,
+   "test_accuracy": 0.9566
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0",
+   "epoch_seconds_mean": 3.986178813500004,
+   "hidden_spike_rate": 0.30390146484375,
+   "hidden_spikes_per_image": 311.1951,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.0,
+   "ops_per_image": 41799.1574,
+   "seed": 22,
+   "test_accuracy": 0.9563
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0",
+   "epoch_seconds_mean": 4.187493109500011,
+   "hidden_spike_rate": 0.31120361328125,
+   "hidden_spikes_per_image": 318.6725,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.0,
+   "ops_per_image": 41873.9314,
+   "seed": 33,
+   "test_accuracy": 0.958
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0.03",
+   "epoch_seconds_mean": 4.093042107500011,
+   "hidden_spike_rate": 0.26572763671875,
+   "hidden_spikes_per_image": 272.1051,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.03,
+   "ops_per_image": 41408.2574,
+   "seed": 11,
+   "test_accuracy": 0.9578
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0.03",
+   "epoch_seconds_mean": 3.945622573999998,
+   "hidden_spike_rate": 0.2647625,
+   "hidden_spikes_per_image": 271.1168,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.03,
+   "ops_per_image": 41398.3744,
+   "seed": 22,
+   "test_accuracy": 0.9572
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0.03",
+   "epoch_seconds_mean": 3.9463069085000058,
+   "hidden_spike_rate": 0.26068125,
+   "hidden_spikes_per_image": 266.9376,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.03,
+   "ops_per_image": 41356.5824,
+   "seed": 33,
+   "test_accuracy": 0.9585
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0.1",
+   "epoch_seconds_mean": 4.283576706999995,
+   "hidden_spike_rate": 0.19645537109375,
+   "hidden_spikes_per_image": 201.1703,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.1,
+   "ops_per_image": 40698.9094,
+   "seed": 11,
+   "test_accuracy": 0.9598
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0.1",
+   "epoch_seconds_mean": 4.091062763499991,
+   "hidden_spike_rate": 0.1958013671875,
+   "hidden_spikes_per_image": 200.5006,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.1,
+   "ops_per_image": 40692.2124,
+   "seed": 22,
+   "test_accuracy": 0.96
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0.1",
+   "epoch_seconds_mean": 4.116470384499991,
+   "hidden_spike_rate": 0.1926654296875,
+   "hidden_spikes_per_image": 197.2894,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.1,
+   "ops_per_image": 40660.1004,
+   "seed": 33,
+   "test_accuracy": 0.9612
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0.3",
+   "epoch_seconds_mean": 3.896083829499986,
+   "hidden_spike_rate": 0.12791259765625,
+   "hidden_spikes_per_image": 130.9825,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.3,
+   "ops_per_image": 39997.0314,
+   "seed": 11,
+   "test_accuracy": 0.962
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0.3",
+   "epoch_seconds_mean": 4.188799729500005,
+   "hidden_spike_rate": 0.12804580078125,
+   "hidden_spikes_per_image": 131.1189,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.3,
+   "ops_per_image": 39998.3954,
+   "seed": 22,
+   "test_accuracy": 0.9615
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam0.3",
+   "epoch_seconds_mean": 4.092849245500005,
+   "hidden_spike_rate": 0.12551435546875,
+   "hidden_spikes_per_image": 128.5267,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.3,
+   "ops_per_image": 39972.4734,
+   "seed": 33,
+   "test_accuracy": 0.9634
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam1",
+   "epoch_seconds_mean": 3.9521627835000146,
+   "hidden_spike_rate": 0.06461015625,
+   "hidden_spikes_per_image": 66.1608,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 1.0,
+   "ops_per_image": 39348.8144,
+   "seed": 11,
+   "test_accuracy": 0.9649
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam1",
+   "epoch_seconds_mean": 4.335614322499993,
+   "hidden_spike_rate": 0.06699755859375,
+   "hidden_spikes_per_image": 68.6055,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 1.0,
+   "ops_per_image": 39373.2614,
+   "seed": 22,
+   "test_accuracy": 0.9627
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam1",
+   "epoch_seconds_mean": 4.068964770999983,
+   "hidden_spike_rate": 0.064144921875,
+   "hidden_spikes_per_image": 65.6844,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 1.0,
+   "ops_per_image": 39344.0504,
+   "seed": 33,
+   "test_accuracy": 0.965
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam3",
+   "epoch_seconds_mean": 4.07146567449999,
+   "hidden_spike_rate": 0.03387841796875,
+   "hidden_spikes_per_image": 34.6915,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 3.0,
+   "ops_per_image": 39034.1214,
+   "seed": 11,
+   "test_accuracy": 0.9599
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam3",
+   "epoch_seconds_mean": 4.253151602999992,
+   "hidden_spike_rate": 0.03429189453125,
+   "hidden_spikes_per_image": 35.1149,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 3.0,
+   "ops_per_image": 39038.3554,
+   "seed": 22,
+   "test_accuracy": 0.9586
+  },
+  {
+   "H": 256,
+   "T": 4,
+   "arm": "lat_T4_H256_lam3",
+   "epoch_seconds_mean": 4.107258583000004,
+   "hidden_spike_rate": 0.0340087890625,
+   "hidden_spikes_per_image": 34.825,
+   "input_layer_ops_per_image": 38687.2064,
+   "input_spikes_per_image": 151.1219,
+   "lam": 3.0,
+   "ops_per_image": 39035.4564,
+   "seed": 33,
+   "test_accuracy": 0.9616
+  },
+  {
+   "H": 64,
+   "T": 4,
+   "arm": "lat_T4_H64_lam0",
+   "epoch_seconds_mean": 1.3170453835000018,
+   "hidden_spike_rate": 0.446053125,
+   "hidden_spikes_per_image": 114.1896,
+   "input_layer_ops_per_image": 9671.8016,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.0,
+   "ops_per_image": 10813.6976,
+   "seed": 11,
+   "test_accuracy": 0.9366
+  },
+  {
+   "H": 64,
+   "T": 4,
+   "arm": "lat_T4_H64_lam0",
+   "epoch_seconds_mean": 1.4133203469999955,
+   "hidden_spike_rate": 0.46786875,
+   "hidden_spikes_per_image": 119.7744,
+   "input_layer_ops_per_image": 9671.8016,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.0,
+   "ops_per_image": 10869.5456,
+   "seed": 22,
+   "test_accuracy": 0.9374
+  },
+  {
+   "H": 64,
+   "T": 4,
+   "arm": "lat_T4_H64_lam0",
+   "epoch_seconds_mean": 1.4800017995000019,
+   "hidden_spike_rate": 0.434452734375,
+   "hidden_spikes_per_image": 111.2199,
+   "input_layer_ops_per_image": 9671.8016,
+   "input_spikes_per_image": 151.1219,
+   "lam": 0.0,
+   "ops_per_image": 10784.0006,
+   "seed": 33,
+   "test_accuracy": 0.9367
+  }
+ ],
+ "seeds": [
+  11,
+  22,
+  33
+ ],
+ "summary": {
+  "ann_H128": {
+   "H": {
+    "mean": 128.0,
+    "per_seed": [
+     128,
+     128,
+     128
+    ]
+   },
+   "dense_macs": {
+    "mean": 101632.0,
+    "per_seed": [
+     101632,
+     101632,
+     101632
+    ]
+   },
+   "epoch_seconds_mean": {
+    "mean": 0.9021725430000013,
+    "per_seed": [
+     0.9656811865000066,
+     0.8366255655000003,
+     0.904210876999997
+    ]
+   },
+   "ops_per_image": {
+    "mean": 20623.6032,
+    "per_seed": [
+     20623.6032,
+     20623.6032,
+     20623.6032
+    ]
+   },
+   "test_accuracy": {
+    "mean": 0.9661333333333334,
+    "per_seed": [
+     0.9654,
+     0.9649,
+     0.9681
+    ]
+   }
+  },
+  "ann_H256": {
+   "H": {
+    "mean": 256.0,
+    "per_seed": [
+     256,
+     256,
+     256
+    ]
+   },
+   "dense_macs": {
+    "mean": 203264.0,
+    "per_seed": [
+     203264,
+     203264,
+     203264
+    ]
+   },
+   "epoch_seconds_mean": {
+    "mean": 1.908556384000003,
+    "per_seed": [
+     1.9589236569999997,
+     1.882304974500002,
+     1.8844405205000072
+    ]
+   },
+   "ops_per_image": {
+    "mean": 41247.2064,
+    "per_seed": [
+     41247.2064,
+     41247.2064,
+     41247.2064
+    ]
+   },
+   "test_accuracy": {
+    "mean": 0.9707666666666667,
+    "per_seed": [
+     0.9704,
+     0.9687,
+     0.9732
+    ]
+   }
+  },
+  "ann_H64": {
+   "H": {
+    "mean": 64.0,
+    "per_seed": [
+     64,
+     64,
+     64
+    ]
+   },
+   "dense_macs": {
+    "mean": 50816.0,
+    "per_seed": [
+     50816,
+     50816,
+     50816
+    ]
+   },
+   "epoch_seconds_mean": {
+    "mean": 0.5990204448333335,
+    "per_seed": [
+     0.5853339490000025,
+     0.5573873179999964,
+     0.6543400675000015
+    ]
+   },
+   "ops_per_image": {
+    "mean": 10311.8016,
+    "per_seed": [
+     10311.8016,
+     10311.8016,
+     10311.8016
+    ]
+   },
+   "test_accuracy": {
+    "mean": 0.9571666666666667,
+    "per_seed": [
+     0.9567,
+     0.9572,
+     0.9576
+    ]
+   }
+  },
+  "lat_T4_H256_lam0": {
+   "H": {
+    "mean": 256.0,
+    "per_seed": [
+     256,
+     256,
+     256
+    ]
+   },
+   "T": {
+    "mean": 4.0,
+    "per_seed": [
+     4,
+     4,
+     4
+    ]
+   },
+   "epoch_seconds_mean": {
+    "mean": 4.099963555166677,
+    "per_seed": [
+     4.126218742500015,
+     3.986178813500004,
+     4.187493109500011
+    ]
+   },
+   "hidden_spike_rate": {
+    "mean": 0.30808167317708335,
+    "per_seed": [
+     0.30913994140625,
+     0.30390146484375,
+     0.31120361328125
+    ]
+   },
+   "hidden_spikes_per_image": {
+    "mean": 315.47563333333335,
+    "per_seed": [
+     316.5593,
+     311.1951,
+     318.6725
+    ]
+   },
+   "input_layer_ops_per_image": {
+    "mean": 38687.2064,
+    "per_seed": [
+     38687.2064,
+     38687.2064,
+     38687.2064
+    ]
+   },
+   "input_spikes_per_image": {
+    "mean": 151.1219,
+    "per_seed": [
+     151.1219,
+     151.1219,
+     151.1219
+    ]
+   },
+   "lam": {
+    "mean": 0.0,
+    "per_seed": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "ops_per_image": {
+    "mean": 41841.962733333334,
+    "per_seed": [
+     41852.7994,
+     41799.1574,
+     41873.9314
+    ]
+   },
+   "test_accuracy": {
+    "mean": 0.9569666666666666,
+    "per_seed": [
+     0.9566,
+     0.9563,
+     0.958
+    ]
+   }
+  },
+  "lat_T4_H256_lam0.03": {
+   "H": {
+    "mean": 256.0,
+    "per_seed": [
+     256,
+     256,
+     256
+    ]
+   },
+   "T": {
+    "mean": 4.0,
+    "per_seed": [
+     4,
+     4,
+     4
+    ]
+   },
+   "epoch_seconds_mean": {
+    "mean": 3.994990530000005,
+    "per_seed": [
+     4.093042107500011,
+     3.945622573999998,
+     3.9463069085000058
+    ]
+   },
+   "hidden_spike_rate": {
+    "mean": 0.26372379557291664,
+    "per_seed": [
+     0.26572763671875,
+     0.2647625,
+     0.26068125
+    ]
+   },
+   "hidden_spikes_per_image": {
+    "mean": 270.05316666666664,
+    "per_seed": [
+     272.1051,
+     271.1168,
+     266.9376
+    ]
+   },
+   "input_layer_ops_per_image": {
+    "mean": 38687.2064,
+    "per_seed": [
+     38687.2064,
+     38687.2064,
+     38687.2064
+    ]
+   },
+   "input_spikes_per_image": {
+    "mean": 151.1219,
+    "per_seed": [
+     151.1219,
+     151.1219,
+     151.1219
+    ]
+   },
+   "lam": {
+    "mean": 0.03,
+    "per_seed": [
+     0.03,
+     0.03,
+     0.03
+    ]
+   },
+   "ops_per_image": {
+    "mean": 41387.738066666665,
+    "per_seed": [
+     41408.2574,
+     41398.3744,
+     41356.5824
+    ]
+   },
+   "test_accuracy": {
+    "mean": 0.9578333333333333,
+    "per_seed": [
+     0.9578,
+     0.9572,
+     0.9585
+    ]
+   }
+  },
+  "lat_T4_H256_lam0.1": {
+   "H": {
+    "mean": 256.0,
+    "per_seed": [
+     256,
+     256,
+     256
+    ]
+   },
+   "T": {
+    "mean": 4.0,
+    "per_seed": [
+     4,
+     4,
+     4
+    ]
+   },
+   "epoch_seconds_mean": {
+    "mean": 4.163703284999992,
+    "per_seed": [
+     4.283576706999995,
+     4.091062763499991,
+     4.116470384499991
+    ]
+   },
+   "hidden_spike_rate": {
+    "mean": 0.1949740559895833,
+    "per_seed": [
+     0.19645537109375,
+     0.1958013671875,
+     0.1926654296875
+    ]
+   },
+   "hidden_spikes_per_image": {
+    "mean": 199.6534333333333,
+    "per_seed": [
+     201.1703,
+     200.5006,
+     197.2894
+    ]
+   },
+   "input_layer_ops_per_image": {
+    "mean": 38687.2064,
+    "per_seed": [
+     38687.2064,
+     38687.2064,
+     38687.2064
+    ]
+   },
+   "input_spikes_per_image": {
+    "mean": 151.1219,
+    "per_seed": [
+     151.1219,
+     151.1219,
+     151.1219
+    ]
+   },
+   "lam": {
+    "mean": 0.10000000000000002,
+    "per_seed": [
+     0.1,
+     0.1,
+     0.1
+    ]
+   },
+   "ops_per_image": {
+    "mean": 40683.74073333333,
+    "per_seed": [
+     40698.9094,
+     40692.2124,
+     40660.1004
+    ]
+   },
+   "test_accuracy": {
+    "mean": 0.9603333333333334,
+    "per_seed": [
+     0.9598,
+     0.96,
+     0.9612
+    ]
+   }
+  },
+  "lat_T4_H256_lam0.3": {
+   "H": {
+    "mean": 256.0,
+    "per_seed": [
+     256,
+     256,
+     256
+    ]
+   },
+   "T": {
+    "mean": 4.0,
+    "per_seed": [
+     4,
+     4,
+     4
+    ]
+   },
+   "epoch_seconds_mean": {
+    "mean": 4.059244268166665,
+    "per_seed": [
+     3.896083829499986,
+     4.188799729500005,
+     4.092849245500005
+    ]
+   },
+   "hidden_spike_rate": {
+    "mean": 0.12715758463541668,
+    "per_seed": [
+     0.12791259765625,
+     0.12804580078125,
+     0.12551435546875
+    ]
+   },
+   "hidden_spikes_per_image": {
+    "mean": 130.20936666666668,
+    "per_seed": [
+     130.9825,
+     131.1189,
+     128.5267
+    ]
+   },
+   "input_layer_ops_per_image": {
+    "mean": 38687.2064,
+    "per_seed": [
+     38687.2064,
+     38687.2064,
+     38687.2064
+    ]
+   },
+   "input_spikes_per_image": {
+    "mean": 151.1219,
+    "per_seed": [
+     151.1219,
+     151.1219,
+     151.1219
+    ]
+   },
+   "lam": {
+    "mean": 0.3,
+    "per_seed": [
+     0.3,
+     0.3,
+     0.3
+    ]
+   },
+   "ops_per_image": {
+    "mean": 39989.30006666667,
+    "per_seed": [
+     39997.0314,
+     39998.3954,
+     39972.4734
+    ]
+   },
+   "test_accuracy": {
+    "mean": 0.9622999999999999,
+    "per_seed": [
+     0.962,
+     0.9615,
+     0.9634
+    ]
+   }
+  },
+  "lat_T4_H256_lam1": {
+   "H": {
+    "mean": 256.0,
+    "per_seed": [
+     256,
+     256,
+     256
+    ]
+   },
+   "T": {
+    "mean": 4.0,
+    "per_seed": [
+     4,
+     4,
+     4
+    ]
+   },
+   "epoch_seconds_mean": {
+    "mean": 4.118913958999997,
+    "per_seed": [
+     3.9521627835000146,
+     4.335614322499993,
+     4.068964770999983
+    ]
+   },
+   "hidden_spike_rate": {
+    "mean": 0.06525087890624999,
+    "per_seed": [
+     0.06461015625,
+     0.06699755859375,
+     0.064144921875
+    ]
+   },
+   "hidden_spikes_per_image": {
+    "mean": 66.81689999999999,
+    "per_seed": [
+     66.1608,
+     68.6055,
+     65.6844
+    ]
+   },
+   "input_layer_ops_per_image": {
+    "mean": 38687.2064,
+    "per_seed": [
+     38687.2064,
+     38687.2064,
+     38687.2064
+    ]
+   },
+   "input_spikes_per_image": {
+    "mean": 151.1219,
+    "per_seed": [
+     151.1219,
+     151.1219,
+     151.1219
+    ]
+   },
+   "lam": {
+    "mean": 1.0,
+    "per_seed": [
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "ops_per_image": {
+    "mean": 39355.3754,
+    "per_seed": [
+     39348.8144,
+     39373.2614,
+     39344.0504
+    ]
+   },
+   "test_accuracy": {
+    "mean": 0.9642,
+    "per_seed": [
+     0.9649,
+     0.9627,
+     0.965
+    ]
+   }
+  },
+  "lat_T4_H256_lam3": {
+   "H": {
+    "mean": 256.0,
+    "per_seed": [
+     256,
+     256,
+     256
+    ]
+   },
+   "T": {
+    "mean": 4.0,
+    "per_seed": [
+     4,
+     4,
+     4
+    ]
+   },
+   "epoch_seconds_mean": {
+    "mean": 4.143958620166662,
+    "per_seed": [
+     4.07146567449999,
+     4.253151602999992,
+     4.107258583000004
+    ]
+   },
+   "hidden_spike_rate": {
+    "mean": 0.03405970052083333,
+    "per_seed": [
+     0.03387841796875,
+     0.03429189453125,
+     0.0340087890625
+    ]
+   },
+   "hidden_spikes_per_image": {
+    "mean": 34.87713333333333,
+    "per_seed": [
+     34.6915,
+     35.1149,
+     34.825
+    ]
+   },
+   "input_layer_ops_per_image": {
+    "mean": 38687.2064,
+    "per_seed": [
+     38687.2064,
+     38687.2064,
+     38687.2064
+    ]
+   },
+   "input_spikes_per_image": {
+    "mean": 151.1219,
+    "per_seed": [
+     151.1219,
+     151.1219,
+     151.1219
+    ]
+   },
+   "lam": {
+    "mean": 3.0,
+    "per_seed": [
+     3.0,
+     3.0,
+     3.0
+    ]
+   },
+   "ops_per_image": {
+    "mean": 39035.97773333333,
+    "per_seed": [
+     39034.1214,
+     39038.3554,
+     39035.4564
+    ]
+   },
+   "test_accuracy": {
+    "mean": 0.9600333333333334,
+    "per_seed": [
+     0.9599,
+     0.9586,
+     0.9616
+    ]
+   }
+  },
+  "lat_T4_H64_lam0": {
+   "H": {
+    "mean": 64.0,
+    "per_seed": [
+     64,
+     64,
+     64
+    ]
+   },
+   "T": {
+    "mean": 4.0,
+    "per_seed": [
+     4,
+     4,
+     4
+    ]
+   },
+   "epoch_seconds_mean": {
+    "mean": 1.403455843333333,
+    "per_seed": [
+     1.3170453835000018,
+     1.4133203469999955,
+     1.4800017995000019
+    ]
+   },
+   "hidden_spike_rate": {
+    "mean": 0.449458203125,
+    "per_seed": [
+     0.446053125,
+     0.46786875,
+     0.434452734375
+    ]
+   },
+   "hidden_spikes_per_image": {
+    "mean": 115.0613,
+    "per_seed": [
+     114.1896,
+     119.7744,
+     111.2199
+    ]
+   },
+   "input_layer_ops_per_image": {
+    "mean": 9671.8016,
+    "per_seed": [
+     9671.8016,
+     9671.8016,
+     9671.8016
+    ]
+   },
+   "input_spikes_per_image": {
+    "mean": 151.1219,
+    "per_seed": [
+     151.1219,
+     151.1219,
+     151.1219
+    ]
+   },
+   "lam": {
+    "mean": 0.0,
+    "per_seed": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "ops_per_image": {
+    "mean": 10822.414599999998,
+    "per_seed": [
+     10813.6976,
+     10869.5456,
+     10784.0006
+    ]
+   },
+   "test_accuracy": {
+    "mean": 0.9369,
+    "per_seed": [
+     0.9366,
+     0.9374,
+     0.9367
+    ]
+   }
+  }
+ },
+ "surrogate_slope": 5.0,
+ "theta": 1.0
+}
