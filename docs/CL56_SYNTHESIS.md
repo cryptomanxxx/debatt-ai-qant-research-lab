@@ -15,9 +15,16 @@ This report summarises what the experiments showed, what they did not show, and 
 ## How the experiments were run
 
 - Every experiment from CL-51 onwards committed and pushed its predictions to GitHub **before** running. Failed predictions were left as written.
-- The runs used 30 paired seeds for the small tasks and 3 seeds for MNIST, with fixed hyperparameters and no tuning on test data.
-- Reported accuracies come with bootstrap CIs or standard deviations.
-- Each new implementation was checked for **bit-for-bit identity** with the existing CL-2 model classes before any comparison was trusted.
+- **Seeds:**
+  - CL-50 to CL-52 used 30 paired seeds.
+  - CL-53 and CL-55 used 3 seeds.
+  - **CL-54 used a single trained model (seed 11).** Its 7 timing repeats measure that one model, so the 5× speed-up is not a multi-seed replication.
+- **Hyperparameters:** fixed in advance, with no tuning on test data. Reported accuracies come with bootstrap CIs or standard deviations.
+- **Implementation checks differed between experiments:**
+  - **Bit-for-bit identity** was checked in CL-50 (sparse against dense arms), CL-51 (reference backprop and Hebbian configurations against the CL-2 classes) and CL-52 (reference configurations against CL-51).
+  - **CL-53** used a finite-difference gradient check, and model tests on random data.
+  - **CL-54** checked that the retrained models reproduce CL-53's accuracies, and that every C kernel predicts the same class as NumPy on 100% of test samples. This is agreement on predicted labels, not bit-identical numbers.
+  - **CL-55** relied on model and metric tests on random data.
 - Every PR was reviewed by Codex. It found three real errors, all fixed before merging (see "Errors found and fixed").
 
 ## Experiment by experiment
@@ -69,7 +76,7 @@ The misses were mostly over-optimistic expectations about sparse methods: work s
 ## Limitations
 
 - These are small models: 16–2048 hidden units and one hidden layer. MNIST is the largest dataset used.
-- Seeds are few for MNIST (3). Some differences, such as kWTA against dense on MNIST, are within about 1 sd.
+- Seeds are few for MNIST: 3 in CL-53 and CL-55, and 1 in CL-54, which carries the headline input-sparsity speed-up. Some differences, such as kWTA against dense on MNIST, are within about 1 sd.
 - MNIST runs were short (1–2 epochs) and under-trained (about 94%).
 - Timing was done on a shared cloud CPU with A/A noise of 12–41%; only several-fold differences are reliable.
 - There is one forgetting benchmark (domain-incremental). Class-incremental settings were not tested.
