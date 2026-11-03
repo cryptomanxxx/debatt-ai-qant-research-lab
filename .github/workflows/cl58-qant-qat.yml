@@ -1,9 +1,10 @@
-name: CL-58/CL-66/CL-70 Q.ANT CPU-backend runs (manual, Tier 2)
+name: CL-58/CL-66/CL-70/CL-71 Q.ANT CPU-backend runs (manual, Tier 2)
 
 # Owner-approved Tier 2 workflow (docs/RISK_TIERS.md): manual dispatch only.
 # Runs experiments/cl58_qant_quantization_aware_training (experiment: cl58) or
 # experiments/cl66_qant_confirmation (experiment: cl66, owner-approved 2026-11-03) or
-# experiments/cl70_fanin_budget (experiment: cl70, owner-approved 2026-11-03)
+# experiments/cl70_fanin_budget (experiment: cl70, owner-approved 2026-11-03) or
+# experiments/cl71_qant_zoo_confirmation (experiment: cl71, owner-approved 2026-11-03)
 # in the existing Q.ANT research image on the Q.ANT CPU backend. Needs packages: read
 # to pull the private image with GITHUB_TOKEN. No other secrets, no writes.
 
@@ -13,7 +14,7 @@ on:
       experiment:
         description: Which experiment to run
         type: choice
-        options: [cl58, cl66, cl70]
+        options: [cl58, cl66, cl70, cl71]
         default: cl58
 
 permissions:
@@ -70,4 +71,13 @@ jobs:
         with:
           name: cl70-results-qant
           path: cl70-results-qant.json
+          if-no-files-found: error
+      - name: Train the zoo models and evaluate them on the Q.ANT CPU backend (CL-71)
+        if: inputs.experiment == 'cl71'
+        run: python -m experiments.cl71_qant_zoo_confirmation.run --mode qant --processes 2 --out cl71-results-qant.json
+      - uses: actions/upload-artifact@v4
+        if: inputs.experiment == 'cl71'
+        with:
+          name: cl71-results-qant
+          path: cl71-results-qant.json
           if-no-files-found: error
