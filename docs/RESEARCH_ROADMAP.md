@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-65 complete  
+**Current checkpoint:** CL-66 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -121,7 +121,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 ### ✅ CL-56 — Synthesis of CL-50 to CL-55
 
-[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-65: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch, which sequential bfloat16 accumulation reproduces in aggregate and predicts out of sample (Exp021, Exp022, Exp027); spiking networks do not beat a smaller dense network on counted operations. Predictions: 59 of 94 held.
+[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-66: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch, which sequential bfloat16 accumulation reproduces in aggregate and predicts out of sample (Exp021, Exp022, Exp027) and image by image on Q.ANT (CL-66); spiking networks do not beat a smaller dense network on counted operations. Predictions: 65 of 100 held.
 
 - [x] Separate established results from what was not shown (no energy, photonic or neuromorphic claims).
 - [x] Report negative results, errors found and fixed, limitations and what would change the conclusions.
@@ -191,7 +191,14 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 [Results](../experiments/cl65_hierarchical_grouped_head/README.md), with [predictions pushed before the run](../experiments/cl65_hierarchical_grouped_head/PREDICTIONS.md).
 
 - [x] 28×8 with 8 head calls: simulated accuracy 0.860, disagreements 148 → 46 per 10k; the best design so far in simulation.
-- [ ] One confirmatory Q.ANT run with per-image predictions (Tier 2).
+- [x] One confirmatory Q.ANT run with per-image predictions (Tier 2): CL-66.
+
+### ✅ CL-66 — Q.ANT confirmation (Tier 2, owner-approved)
+
+[Results](../experiments/cl66_qant_confirmation/README.md), with [predictions pushed before the run](../experiments/cl66_qant_confirmation/PREDICTIONS.md), from [run 41708172554](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/actions/runs/41708172554).
+
+- [x] The simulator flips the same images as Q.ANT: recall 0.92 and precision 0.90 for the monolithic layer, against about 3% by chance.
+- [x] 28×8 with an 8-call head: Q.ANT accuracy 0.8598, equal to float32, with 45.7 disagreements per 10k (simulated 45.7). 6 of 6 predictions held.
 
 ## Tracking table
 
@@ -220,6 +227,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-63 | ✅ Completed | [Simulator out-of-sample test](../experiments/cl63_simulator_out_of_sample/README.md) |
 | CL-64 | ✅ Completed | [Simulator design screen](../experiments/cl64_simulator_design_screen/README.md) |
 | CL-65 | ✅ Completed | [Hierarchical design with grouped head](../experiments/cl65_hierarchical_grouped_head/README.md) |
+| CL-66 | ✅ Completed | [Q.ANT confirmation](../experiments/cl66_qant_confirmation/README.md) |
 
 ## Progress log
 
@@ -264,6 +272,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-64: simulator matches all six archived Exp027 hierarchical designs; grouping reaches the mismatch floor; the head's long sum limits hierarchical designs.
 
 - **2026-11-03:** CL-65: splitting the head into 8 calls keeps 0.860 accuracy and cuts simulated mismatch 148 → 46.
+
+- **2026-11-03:** CL-66 (Q.ANT, Tier 2): simulator confirmed image by image (recall 0.92); the grouped-head design reaches 0.8598 on Q.ANT with 46 disagreements per 10k.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 

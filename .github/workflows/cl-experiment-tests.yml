@@ -38,7 +38,7 @@ jobs:
           python-version: '3.13'
       - name: Install NumPy
         run: python -m pip install "numpy==2.5.3"
-      - name: Run CL-50 to CL-65 tests
+      - name: Run CL-50 to CL-66 tests
         run: |
           python -m unittest -v \
             tests.test_cl50_baselines_and_factorial \
@@ -55,4 +55,5 @@ jobs:
             tests.test_cl62_qant_accumulation_simulator \
             tests.test_cl63_simulator_out_of_sample \
             tests.test_cl64_simulator_design_screen \
-            tests.test_cl65_hierarchical_grouped_head
+            tests.test_cl65_hierarchical_grouped_head \
+            tests.test_cl66_qant_confirmation
