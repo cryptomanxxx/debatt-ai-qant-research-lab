@@ -40,7 +40,7 @@ Means over 3 seeds. "Longest sum" is the longest sequential bfloat16 sum in any 
 | `lin128_kanhead` | hybrid | 110,730 | 2 | 512 | 0.8499 | 0.8498 | −0.01 | 95.0 |
 | `kan32_linhead` | hybrid | 201,066 | 2 | 3,136 | 0.8393 | 0.8393 | +0.00 | 129.7 |
 
-Across the 8 KAN-containing models, the Spearman rank correlation between the longest sequential sum and the disagreements is 0.83.
+Across the 8 KAN-containing models, the tie-corrected Spearman rank correlation between the longest sequential sum and the disagreements is 0.87. The first version reported 0.83 from a rank function that broke the tie between `kan_g4` and `kan32_linhead` (both 3,136 terms) by order; Codex caught it, and the value was recomputed from the stored summary without a rerun.
 
 ## Predictions
 
@@ -51,7 +51,7 @@ Across the 8 KAN-containing models, the Spearman rank correlation between the lo
 | 3 | KAN disagreements rise with grid: g1 < g2 < g4 < g8 | ✓ 162 < 258 < 337 < 471 |
 | 4 | **Worst-suited model is `kan_g8`; the best-suited are linear** | ✓ `kan_g8` has the most disagreements and the largest gap; the fewest are in `mlp_h256x2` |
 | 5 | `lin128_kanhead` ≥ 3× fewer disagreements than `kan_g4`; `kan32_linhead` keeps ≥ half of `kan_g4`'s | ✗ the first holds (3.5×), but `kan32_linhead` keeps only 38% |
-| 6 | Spearman(longest sum, disagreements) ≥ 0.7 for the KAN-containing models | ✓ 0.83 |
+| 6 | Spearman(longest sum, disagreements) ≥ 0.7 for the KAN-containing models | ✓ 0.87 (tie-corrected) |
 
 **5 of 6 held.**
 
@@ -60,7 +60,7 @@ Across the 8 KAN-containing models, the Spearman rank correlation between the lo
 1. **On the Q.ANT CPU backend, the primitive decides fidelity, not model size.**
    - All seven linear models lose essentially nothing: gaps within ±0.04 pp and 7–17 disagreements per 10k, at every width (64–1024), depth (1–3 hidden layers) and activation tested.
    - The KAN models range from about 40 to about 470 disagreements, and lose up to 0.96 pp of accuracy.
-2. **Within KAN, the longest sequential bfloat16 sum per call explains the ranking** (ρ = 0.83). More grid components per input mean longer sums and more mismatch.
+2. **Within KAN, the longest sequential bfloat16 sum per call explains the ranking** (ρ = 0.87). More grid components per input mean longer sums and more mismatch.
    - The biggest gap, and so the worst-suited model, is the largest monolithic KAN (`kan_g8`, 6,272-term sums).
    - Splitting calls (`kan_g4_split16`) or a hierarchical layout (`hier_28x8_head8`) brings KAN to about 45 disagreements with no accuracy loss.
 3. **Hybrids sit in between, depending on where the KAN layer is.** A KAN head over 128 linear features gives 95 disagreements. A KAN first layer with a linear head gives 130, fewer than its 3,136-term sums predicted. A hypothesis, not tested: the linear head averages 32 noisy features, which partly cancels their errors.

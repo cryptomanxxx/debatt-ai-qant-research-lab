@@ -66,6 +66,15 @@ class CL69(unittest.TestCase):
         lin = R.Net(4, [("lin", 64), ("lin", 10)], "relu")
         self.assertEqual(lin.longest_seq_sum(), 0)
 
+    def test_spearman_ties_are_order_independent(self):
+        a = [784, 1568, 3136, 6272, 196, 112, 512, 3136]
+        b = [162.3, 258.0, 337.0, 470.7, 42.7, 45.7, 95.0, 129.7]
+        perm = [7, 0, 1, 3, 6, 5, 2, 4]
+        r1 = R.spearman(a, b)
+        r2 = R.spearman([a[i] for i in perm], [b[i] for i in perm])
+        self.assertAlmostEqual(r1, r2, places=12)
+        np.testing.assert_array_equal(R.average_ranks([3, 1, 3]), [2.5, 1, 2.5])
+
 
 if __name__ == "__main__":
     unittest.main()

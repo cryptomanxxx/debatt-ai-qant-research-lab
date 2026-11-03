@@ -603,7 +603,8 @@
   22,
   33
  ],
- "spearman_kan_longest_sum_vs_disagreements": 0.8333333333333335,
+ "spearman_kan_longest_sum_vs_disagreements": 0.8742671711966791,
+ "spearman_note": "tie-corrected (average ranks); recomputed from the stored summary after review, no rerun",
  "summary": {
   "hier_28x8_head8": {
    "disagreements": 45.666666666666664,

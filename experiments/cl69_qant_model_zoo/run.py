@@ -227,9 +227,24 @@ def job(args):
     return out
 
 
+def average_ranks(x):
+    """Ranks starting at 1; tied values get the mean of the ranks they span."""
+    x = np.asarray(x, float)
+    order = np.argsort(x, kind="stable")
+    ranks = np.empty(len(x))
+    i = 0
+    while i < len(x):
+        j = i
+        while j + 1 < len(x) and x[order[j + 1]] == x[order[i]]:
+            j += 1
+        ranks[order[i:j + 1]] = (i + j) / 2 + 1
+        i = j + 1
+    return ranks
+
+
 def spearman(a, b):
-    ra, rb = np.argsort(np.argsort(a)), np.argsort(np.argsort(b))
-    return float(np.corrcoef(ra, rb)[0, 1])
+    """Tie-corrected Spearman rank correlation (Pearson on average ranks)."""
+    return float(np.corrcoef(average_ranks(a), average_ranks(b))[0, 1])
 
 
 def run(data_dir, processes):
