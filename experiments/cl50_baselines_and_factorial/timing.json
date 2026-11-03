@@ -1,0 +1,20 @@
+{
+ "1": {
+  "dense_sgd": 2.8309513900001093,
+  "local_hybrid": 1.2671681529998295,
+  "logistic": 0.15131149700005153,
+  "readout_only": 1.144408212000144,
+  "sparse_local_hybrid": 0.9839877070000966,
+  "sparse_sgd": 0.957107009000083,
+  "sparse_shared_index": 1.2013071740000214
+ },
+ "10": {
+  "dense_sgd": 13.051701216000083,
+  "local_hybrid": 6.824398457999905,
+  "logistic": 0.4235796770001343,
+  "readout_only": 6.8290239660000225,
+  "sparse_local_hybrid": 5.290786056000115,
+  "sparse_sgd": 6.681673047999993,
+  "sparse_shared_index": 5.870666726000081
+ }
+}
