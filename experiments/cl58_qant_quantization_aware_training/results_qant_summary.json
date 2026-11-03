@@ -1,0 +1,66 @@
+{
+ "commit": "a84de4b1c6ab11941c3c382807ef62d3d8148d8a",
+ "experiment": "CL-58 Part 2",
+ "full_results_artifact": {
+  "expires": "2027-02-01",
+  "id": 13239684862,
+  "name": "cl58-results-qant",
+  "note": "per-seed values; not committed because artifact storage is not reachable from the analysis session",
+  "zip_sha256": "7acc1033159c6eac05c0f3c1f646c638bb94277f0c9b80aa1a8cae7ac5042c19"
+ },
+ "image": "ghcr.io/cryptomanxxx/debatt-ai-qant-research-lab:research-py313-v1",
+ "image_numpy": "2.3.5",
+ "job_id": 125987358047,
+ "source": "summary lines printed by run.py in the job log (means over seeds 11, 22, 33; rounded as printed)",
+ "summary_means": {
+  "g4_bf16_ste": {
+   "disagreements_ref_vs_qant": 334.7,
+   "disagreements_ref_vs_sim": 4.3,
+   "disagreements_sim_vs_qant": 334.3,
+   "qant_accuracy": 0.8294,
+   "reference_accuracy": 0.8331,
+   "simulated_bf16_accuracy": 0.8332
+  },
+  "g4_bf16_ste_noise": {
+   "disagreements_ref_vs_qant": 324.7,
+   "disagreements_ref_vs_sim": 6.7,
+   "disagreements_sim_vs_qant": 328.7,
+   "qant_accuracy": 0.8293,
+   "reference_accuracy": 0.833,
+   "simulated_bf16_accuracy": 0.8331
+  },
+  "g4_exact_cosine": {
+   "disagreements_ref_vs_qant": 332.0,
+   "disagreements_ref_vs_sim": 6.3,
+   "disagreements_sim_vs_qant": 334.3,
+   "qant_accuracy": 0.8285,
+   "reference_accuracy": 0.833,
+   "simulated_bf16_accuracy": 0.8331
+  },
+  "g8_bf16_ste": {
+   "disagreements_ref_vs_qant": 465.3,
+   "disagreements_ref_vs_sim": 5.7,
+   "disagreements_sim_vs_qant": 463.3,
+   "qant_accuracy": 0.833,
+   "reference_accuracy": 0.8429,
+   "simulated_bf16_accuracy": 0.8428
+  },
+  "g8_bf16_ste_noise": {
+   "disagreements_ref_vs_qant": 468.3,
+   "disagreements_ref_vs_sim": 5.7,
+   "disagreements_sim_vs_qant": 468.0,
+   "qant_accuracy": 0.8341,
+   "reference_accuracy": 0.8429,
+   "simulated_bf16_accuracy": 0.8428
+  },
+  "g8_exact_cosine": {
+   "disagreements_ref_vs_qant": 462.0,
+   "disagreements_ref_vs_sim": 5.0,
+   "disagreements_sim_vs_qant": 462.3,
+   "qant_accuracy": 0.8334,
+   "reference_accuracy": 0.8429,
+   "simulated_bf16_accuracy": 0.8427
+  }
+ },
+ "workflow_run": "https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/actions/runs/41656287068"
+}

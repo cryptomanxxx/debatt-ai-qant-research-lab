@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-57 complete  
+**Current checkpoint:** CL-58 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -134,6 +134,13 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - [x] Skipping zero pixels makes the whole training step (forward, backward, update) 2.5–4.4× faster, with weights bit-identical to dense training in all 6 runs.
 - [x] Per-sample sparse C training is about as fast as NumPy batched dense BLAS training.
 
+### ✅ CL-58 — Quantization-aware training for the Q.ANT KAN layer (Tier 1 local + Tier 2 Q.ANT CPU backend)
+
+[Results](../experiments/cl58_qant_quantization_aware_training/README.md), with [predictions pushed before the runs](../experiments/cl58_qant_quantization_aware_training/PREDICTIONS.md): Fashion-MNIST, Exp015 KAN layer, grids 4 and 8, 3 seeds.
+
+- [x] bfloat16 QAT (with or without noise) does not change the Q.ANT mismatch (324–335 and 462–468 disagreements per 10k against 332 and 462 for exact-cosine training).
+- [x] bfloat16 rounding of the operands explains only about 1–2% of the Q.ANT disagreements; the main source is elsewhere, possibly accumulation precision (hypothesis).
+
 ## Tracking table
 
 | Stage | Status | Verification |
@@ -153,6 +160,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-55 | ✅ Completed | [H2 Permuted MNIST forgetting](../experiments/cl55_h2_permuted_mnist_forgetting/README.md) |
 | CL-56 | ✅ Completed | [Synthesis report](CL56_SYNTHESIS.md) |
 | CL-57 | ✅ Completed | [Sparse-input training cost](../experiments/cl57_sparse_input_training_cost/README.md) |
+| CL-58 | ✅ Completed | [QAT for the Q.ANT KAN layer](../experiments/cl58_qant_quantization_aware_training/README.md) |
 
 ## Progress log
 
@@ -179,6 +187,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-56 synthesis of CL-50 to CL-55 published.
 
 - **2026-11-03:** CL-57: skipping zero inputs makes training 2.5–4.4× faster at bit-identical weights (3 seeds).
+
+- **2026-11-03:** CL-58: bfloat16 QAT does not reduce the Q.ANT CPU-backend mismatch; bfloat16 operand rounding explains only ~1–2% of it.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
