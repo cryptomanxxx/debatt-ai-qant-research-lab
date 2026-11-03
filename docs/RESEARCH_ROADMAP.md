@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-58 complete  
+**Current checkpoint:** CL-59 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -141,6 +141,14 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - [x] bfloat16 QAT (with or without noise) does not change the Q.ANT mismatch (324–335 and 462–468 disagreements per 10k against 332 and 462 for exact-cosine training).
 - [x] bfloat16 rounding of the operands explains only about 1–2% of the Q.ANT disagreements; the main source is elsewhere, possibly accumulation precision (hypothesis).
 
+### ✅ CL-59 — First spiking (LIF) network on MNIST (Tier 1 experiment)
+
+[Results](../experiments/cl59_spiking_mnist/README.md), with [predictions and analytic counts pushed before the run](../experiments/cl59_spiking_mnist/PREDICTIONS.md): rate-coded LIF network, BPTT with surrogate gradient, T = 4/8/16, 3 seeds.
+
+- [x] The SNN reaches 96.65–96.80% against 97.08% for an equal-size dense network.
+- [x] Rate coding costs T × 103.9 × 256 input-layer additions: 110k at T=4, against 41k MACs for the zero-skipping dense network (CL-57). Hidden spike rate is 37–38%.
+- [x] Whether additions are cheap enough to compensate is a hardware question; not tested.
+
 ## Tracking table
 
 | Stage | Status | Verification |
@@ -161,6 +169,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-56 | ✅ Completed | [Synthesis report](CL56_SYNTHESIS.md) |
 | CL-57 | ✅ Completed | [Sparse-input training cost](../experiments/cl57_sparse_input_training_cost/README.md) |
 | CL-58 | ✅ Completed | [QAT for the Q.ANT KAN layer](../experiments/cl58_qant_quantization_aware_training/README.md) |
+| CL-59 | ✅ Completed | [Spiking network on MNIST](../experiments/cl59_spiking_mnist/README.md) |
 
 ## Progress log
 
@@ -189,6 +198,8 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-57: skipping zero inputs makes training 2.5–4.4× faster at bit-identical weights (3 seeds).
 
 - **2026-11-03:** CL-58: bfloat16 QAT does not reduce the Q.ANT CPU-backend mismatch; bfloat16 operand rounding explains only ~1–2% of it.
+
+- **2026-11-03:** CL-59: first spiking network; near-dense accuracy, but rate coding needs more operations than a zero-skipping dense network.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
