@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-50 complete (first Tier 0 experiment)  
+**Current checkpoint:** CL-51 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -55,14 +55,16 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 
 **Implication:** the primary H1 contrast is INCONCLUSIVE until the local rule is fixed. Next: a stable local rule and hidden-layer sparsity (CL-51).
 
-### ⬜ CL-51 — Falsifiable architecture and fairness contrasts
+### ✅ CL-51 — Stabilised local rules and hidden-layer sparsity (Tier 0 experiment)
 
-- [ ] Evaluate hidden-layer threshold/kWTA or related approximate sparsity as an accuracy-versus-work question.
-- [ ] Define dense/sparse × backprop/local comparisons, including sparse-aware SGD.
-- [ ] Identify mathematically predetermined parity/static counters separately from falsifiable total-cost, timing, quality-floor and learning hypotheses.
-- [ ] Consider expanded sparse representations, temporal/delta sparsity and Fourier/KAN numeric-compatibility questions as separately scoped proposals.
+[Results](../experiments/cl51_local_rules_and_hidden_sparsity/README.md), with [predictions committed before the run](../experiments/cl51_local_rules_and_hidden_sparsity/PREDICTIONS.md): 30 seeds, 10 passes per task.
 
-**Completion condition:** selected preregistered contrasts and controls; no execution approved.
+- [x] Label-independent local rules (Hebbian without bias, Oja, competitive kWTA) still fail (0.50–0.52).
+- [x] Direct feedback alignment is the only working local rule: 0.815, against 0.999 for backprop.
+- [x] Hidden-layer kWTA is a real accuracy–work trade-off: H=8, k=4 gives 0.970 with half the weight writes.
+- [x] Expansion (H=32, k=4) reaches 0.992 with half the writes but 3× the forward work, because winner selection computes every unit.
+
+**Next:** cheap winner selection (e.g. hashing) and measurement on vectorised kernels; a task with real interference for H2.
 
 ### ⬜ CL-52 — Statistical and bounded-training protocol
 
@@ -111,7 +113,7 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 | CL-48 | ✅ Completed | [PR #314](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/pull/314) |
 | CL-49 | ✅ Completed | [Analytical review](CL49_ANALYTICAL_H1_BASELINE_AND_REVIEW.md) |
 | CL-50 | ✅ Completed | [Baselines and factorial results](../experiments/cl50_baselines_and_factorial/README.md) |
-| CL-51 | ⬜ Planned | Falsifiable contrasts; no execution |
+| CL-51 | ✅ Completed | [Local rules and hidden sparsity](../experiments/cl51_local_rules_and_hidden_sparsity/README.md) |
 | CL-52 | ⬜ Planned | Tier 0 (toy-model training/inference) |
 | CL-53 | ⬜ Planned | Tier 0 or 1 depending on size |
 | CL-54 | 🔒 Tier 2 | Physical energy measurement needs explicit owner approval |
@@ -128,6 +130,8 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 - **2026-11-03:** [Risk tiers](RISK_TIERS.md) adopted ([PR #316](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/pull/316)); blanket HARD NO_GO replaced for Tier 0/1 work.
 
 - **2026-11-03:** CL-50 first Tier 0 experiment: sparse traversal bit-identical; local hidden rule collapses to one class; backprop learns XOR with 10 passes.
+
+- **2026-11-03:** CL-51: only direct feedback alignment learns among local rules (0.815); hidden-layer kWTA gives a real accuracy–work trade-off.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
