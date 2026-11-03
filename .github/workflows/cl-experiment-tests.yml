@@ -1,0 +1,44 @@
+name: CL experiment tests (Tier 0)
+
+# Runs the fast tests for the Tier 0/1 CL experiments (CL-50 onwards).
+# Pure Python plus NumPy on random or synthetic data; no downloads, no secrets.
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/cl5*/**'
+      - 'integrations/continual_learning/**'
+      - 'tests/test_cl5*.py'
+      - '.github/workflows/cl-experiment-tests.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'experiments/cl5*/**'
+      - 'integrations/continual_learning/**'
+      - 'tests/test_cl5*.py'
+      - '.github/workflows/cl-experiment-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install NumPy
+        run: python -m pip install "numpy==2.5.3"
+      - name: Run CL-50 to CL-54 tests
+        run: |
+          python -m unittest -v \
+            tests.test_cl50_baselines_and_factorial \
+            tests.test_cl51_local_rules_and_hidden_sparsity \
+            tests.test_cl52_cheap_winner_selection \
+            tests.test_cl53_mnist_hidden_sparsity \
+            tests.test_cl54_compiled_sparse_kernels
