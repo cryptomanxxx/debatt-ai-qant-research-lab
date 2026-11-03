@@ -1,12 +1,19 @@
-name: CL-58 Q.ANT quantization-aware training (manual, Tier 2)
+name: CL-58/CL-66 Q.ANT CPU-backend runs (manual, Tier 2)
 
 # Owner-approved Tier 2 workflow (docs/RISK_TIERS.md): manual dispatch only.
-# Runs experiments/cl58_qant_quantization_aware_training in the existing Q.ANT
-# research image and evaluates on the Q.ANT CPU backend. Needs packages: read
+# Runs experiments/cl58_qant_quantization_aware_training (experiment: cl58) or
+# experiments/cl66_qant_confirmation (experiment: cl66, owner-approved 2026-11-03)
+# in the existing Q.ANT research image on the Q.ANT CPU backend. Needs packages: read
 # to pull the private image with GITHUB_TOKEN. No other secrets, no writes.
 
 on:
   workflow_dispatch:
+    inputs:
+      experiment:
+        description: Which experiment to run
+        type: choice
+        options: [cl58, cl66]
+        default: cl58
 
 permissions:
   contents: read
@@ -33,10 +40,24 @@ jobs:
         run: python -c "import numpy, ml_dtypes, qant_native_computing_toolkit; print('Q.ANT environment ready', numpy.__version__)"
       - name: Check the bfloat16 simulator against ml_dtypes
         run: python -m unittest -v tests.test_cl58_qant_quantization_aware_training
-      - name: Train and evaluate on the Q.ANT CPU backend
+      - name: Train and evaluate on the Q.ANT CPU backend (CL-58)
+        if: inputs.experiment == 'cl58'
         run: python -m experiments.cl58_qant_quantization_aware_training.run --qant --processes 2 --out cl58-results-qant.json
       - uses: actions/upload-artifact@v4
+        if: inputs.experiment == 'cl58'
         with:
           name: cl58-results-qant
           path: cl58-results-qant.json
+          if-no-files-found: error
+      - name: Check the CL-66 evaluation paths
+        if: inputs.experiment == 'cl66'
+        run: python -m unittest -v tests.test_cl66_qant_confirmation
+      - name: Train and evaluate on the Q.ANT CPU backend (CL-66)
+        if: inputs.experiment == 'cl66'
+        run: python -m experiments.cl66_qant_confirmation.run --backend qant --processes 2 --out cl66-results-qant.json
+      - uses: actions/upload-artifact@v4
+        if: inputs.experiment == 'cl66'
+        with:
+          name: cl66-results-qant
+          path: cl66-results-qant.json
           if-no-files-found: error
