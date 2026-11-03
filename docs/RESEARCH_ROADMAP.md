@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-48 complete; **CL-49 in review (documentation only)**  
+**Current checkpoint:** CL-50 complete (first Tier 0 experiment)  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -34,7 +34,7 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 
 **Completed:** documentation merged; no new experimental execution authorized.
 
-### ⏳ CL-49 — Analytical H1 baseline and external AI review response (documentation only)
+### ✅ CL-49 — Analytical H1 baseline and external AI review response (documentation only)
 
 - [ ] Review Claude Code's critique against the actual dense, sparse, local-update and existing unit-test implementations.
 - [ ] Write the conditional binary-input parity argument and source-level weight-read formulas, distinguishing mathematical predictions from measurements.
@@ -44,14 +44,16 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 
 **Completion condition:** reviewed documentation only. No new model operation.
 
-### ⬜ CL-50 — Baselines, learnability and task-validity review
+### ✅ CL-50 — Baselines, learnability and task validity (Tier 0 experiment)
 
-- [ ] Preregister chance, majority, linear/OR and XOR-oracle baselines (and task-aware reference if appropriate).
-- [ ] Examine whether task activity and difficulty are confounded, including class balance and global uniqueness.
-- [ ] Review saturation/normalization concerns for the local hidden update without assuming instability is proven.
-- [ ] Define clean train/validation/test boundaries and a meaningful criterion for learned nonlinear features.
+[Results](../experiments/cl50_baselines_and_factorial/README.md): 30 seeds, 7 arms plus chance/majority/OR/oracle baselines, 1 and 10 passes per task.
 
-**Completion condition:** credible written test design; no dataset generation or model run.
+- [x] Baselines: OR rule 0.882, chance/majority 0.500; backprop reaches 0.999 with 10 passes.
+- [x] Sparse traversal is bit-for-bit identical to dense for both backprop and the local rule (all 60 runs); it changes work counts only.
+- [x] The local hidden rule collapses: biases grow, hidden units saturate, every local arm predicts one class (0.500) in every seed.
+- [x] The shared-rule task shows almost no forgetting under backprop (0.001), so it cannot test H2.
+
+**Implication:** the primary H1 contrast is INCONCLUSIVE until the local rule is fixed. Next: a stable local rule and hidden-layer sparsity (CL-51).
 
 ### ⬜ CL-51 — Falsifiable architecture and fairness contrasts
 
@@ -107,8 +109,8 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 | CL-46 | ✅ Completed | [PR #312](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/pull/312) |
 | CL-47 | ✅ Completed | [PR #313](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/pull/313) |
 | CL-48 | ✅ Completed | [PR #314](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/pull/314) |
-| CL-49 | ⏳ In review | [Analytical review](CL49_ANALYTICAL_H1_BASELINE_AND_REVIEW.md); no inference |
-| CL-50 | ⬜ Planned | Baselines and learnability review only |
+| CL-49 | ✅ Completed | [Analytical review](CL49_ANALYTICAL_H1_BASELINE_AND_REVIEW.md) |
+| CL-50 | ✅ Completed | [Baselines and factorial results](../experiments/cl50_baselines_and_factorial/README.md) |
 | CL-51 | ⬜ Planned | Falsifiable contrasts; no execution |
 | CL-52 | ⬜ Planned | Tier 0 (toy-model training/inference) |
 | CL-53 | ⬜ Planned | Tier 0 or 1 depending on size |
@@ -124,6 +126,8 @@ The initial sequence was revised after a **Claude Code AI critique** highlighted
 - **2026-11-02:** CL-49 analytical H1 baseline and external AI critique response proposed for review; no new model execution.
 
 - **2026-11-03:** [Risk tiers](RISK_TIERS.md) adopted ([PR #316](https://github.com/cryptomanxxx/debatt-ai-qant-research-lab/pull/316)); blanket HARD NO_GO replaced for Tier 0/1 work.
+
+- **2026-11-03:** CL-50 first Tier 0 experiment: sparse traversal bit-identical; local hidden rule collapses to one class; backprop learns XOR with 10 passes.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
