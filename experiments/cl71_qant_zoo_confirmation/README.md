@@ -41,7 +41,7 @@ Means over 3 seeds, out of 10,000 Fashion-MNIST test images. The float32 accurac
 
 ## Findings
 
-1. **The simulator's ranking of model suitability holds on the Q.ANT CPU backend.** Every arm is within 3% of its simulated disagreement count, and the rank order is identical (ρ = 1.0).
+1. **The simulator's ranking of model suitability holds on the Q.ANT CPU backend.** Every KAN-containing arm is within 3% of its simulated disagreement count (0.98–1.03×). The two linear arms are 1–2 disagreements per 10k above the simulator (+9% and +17%), at very low counts. The rank order is identical (ρ = 1.0).
    - Where many images flip (the KAN models), 85–92% of Q.ANT's flipped images are the same ones the simulator flips.
    - Where few flip, as in the linear models and the split KAN, the remaining flips are near-ties and per-image agreement drops to 74–78%.
 2. **Answer to the research question for numerical fidelity, now measured on Q.ANT:**
