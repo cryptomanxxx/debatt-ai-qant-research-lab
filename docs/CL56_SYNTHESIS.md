@@ -1,6 +1,6 @@
-# CL-56 — Synthesis of the Compute Paradox experiments (CL-50 to CL-61)
+# CL-56 — Synthesis of the Compute Paradox experiments (CL-50 to CL-62)
 
-**Date:** 2026-11-03 · **Scope:** eleven exploratory experiments run on CPU (Tier 0/1 under [RISK_TIERS.md](RISK_TIERS.md)). CL-58 Part 2 ran on the Q.ANT CPU backend (Tier 2, owner-approved) · **Physical energy:** `NOT_MEASURED` in every experiment.
+**Date:** 2026-11-03 · **Scope:** twelve exploratory experiments run on CPU (Tier 0/1 under [RISK_TIERS.md](RISK_TIERS.md)). CL-58 Part 2 ran on the Q.ANT CPU backend (Tier 2, owner-approved) · **Physical energy:** `NOT_MEASURED` in every experiment.
 
 This report summarises what the experiments showed, what they did not show, and what would change the conclusions. Each experiment folder has its own README, predictions, code and raw results; the numbers here are taken from those files.
 
@@ -16,7 +16,7 @@ Two side questions were also tested:
 
 | Question | Verdict | Main evidence |
 |---|---|---|
-| Can training fix the Q.ANT CPU-backend mismatch? | **No, in two attempts** | bfloat16 QAT, with or without noise, leaves 324–468 disagreements per 10k unchanged. bfloat16 operand rounding explains only about 1–2% of them (CL-58). |
+| What causes the Q.ANT CPU-backend mismatch, and can training fix it? | **Consistent with sequential bfloat16 accumulation; QAT does not fix it** | bfloat16 QAT leaves 324–468 disagreements per 10k unchanged (CL-58). A simulator that rounds the running sum to bfloat16 after every term matches the Q.ANT counts within 1% and their run-to-run variation (r = 0.99); float32, pairwise and blockwise accumulation give only 3–7% (CL-62). This is an aggregate match, not yet checked image by image. |
 | Do spiking networks need fewer operations than dense ones? | **No, on MNIST with counted operations** | The best spiking network (latency coding plus a spike-rate penalty) reaches 96.42% with 39,355 additions. A dense H=128 network with zero-skipping reaches 96.61% with 20,624 MACs (CL-59 to CL-61). |
 
 ## How the experiments were run
@@ -48,7 +48,8 @@ Two side questions were also tested:
 | [CL-54](../experiments/cl54_compiled_sparse_kernels/README.md) | With compiled C kernels, does counted work predict wall time? | Mostly yes: within 1.0–1.5× for contiguous-access kernels. Skipping zero pixels gives a real 5× speed-up at identical accuracy. Optimised batched BLAS dense (58 ms) is about as fast as the hand-written sparse kernel (70 ms). |
 | [CL-55](../experiments/cl55_h2_permuted_mnist_forgetting/README.md) | H2: do sparsity or local learning reduce forgetting? | No. Plain SGD forgets 0.085 (BWT); kWTA −0.065 against −0.053 for an equal-size dense network; frozen sparse expansion −0.108; DFA −0.086. The best final accuracy came from a larger dense network (0.908), EWC λ=100 (0.904) and replay (0.902). |
 | [CL-57](../experiments/cl57_sparse_input_training_cost/README.md) | Does skipping zero inputs also make training cheaper? | Yes. With per-sample SGD in C, the whole training step (forward, backward, update) takes 0.23–0.40× the dense time, with bit-identical weights after one epoch in all 6 runs (3 seeds × 2 sizes). This is about as fast as NumPy batched dense BLAS training. |
-| [CL-58](../experiments/cl58_qant_quantization_aware_training/README.md) | Does bfloat16 QAT reduce the Q.ANT CPU-backend mismatch of the Fourier/KAN layer (Fashion-MNIST)? | No. Disagreements with the float reference stay at 324–335 (grid 4) and 462–468 (grid 8) per 10k in every arm. A bfloat16 operand simulator accounts for only 4–7 of them. Lower-precision accumulation is a hypothesis, not tested. |
+| [CL-58](../experiments/cl58_qant_quantization_aware_training/README.md) | Does bfloat16 QAT reduce the Q.ANT CPU-backend mismatch of the Fourier/KAN layer (Fashion-MNIST)? | No. Disagreements with the float reference stay at 324–335 (grid 4) and 462–468 (grid 8) per 10k in every arm. A bfloat16 operand simulator accounts for only 4–7 of them. Lower-precision accumulation is a hypothesis, tested in CL-62. |
+| [CL-62](../experiments/cl62_qant_accumulation_simulator/README.md) | Does low-precision accumulation reproduce the CL-58 Q.ANT counts? | Sequential bfloat16 accumulation does: 332.9 and 465.1 disagreements against Q.ANT's 330.4 and 465.2, with r = 0.98–0.99 within each grid. Runs differ by at most 19 of 10k, so it is not bit-exact. Pairwise and blockwise accumulation give 3–7%. |
 | [CL-59](../experiments/cl59_spiking_mnist/README.md) | Does a rate-coded LIF network reach dense accuracy, and with how many operations? | It reaches 96.65–96.80% against 97.08%, but needs T × 103.9 × 256 input additions: 110k at T=4, against 41k MACs for zero-skipping dense. Hidden spike rate is 37–38%. |
 | [CL-60](../experiments/cl60_latency_coded_snn/README.md) | Does latency coding (one spike per nonzero pixel) fix the operation count? | Partly. Operations fall 2.6×, to 41.8k at T=4 (level with zero-skipping), but accuracy drops to 95.70%. It falls further with more steps (93.23% at T=16). |
 | [CL-61](../experiments/cl61_spike_rate_penalty/README.md) | Does a spike-rate penalty help, and does the SNN beat smaller dense networks? | The penalty cuts hidden spikes 4.7× and *raises* accuracy, to 96.42% at 39,355 additions. The input layer sets a floor of 38,687, and dense H=128 is more accurate at half the operations. |
@@ -60,7 +61,7 @@ Two side questions were also tested:
 2. With genuinely sparse inputs (19% non-zero MNIST pixels) and a kernel that skips zeros, single-sample inference work and wall time both drop about 5×, with identical predictions (one seed). The full training step becomes 2.5–4.4× faster with bit-identical weights (3 seeds).
 3. Counted operations are a poor predictor of wall time in interpreted or gather-heavy code (40× off in NumPy), and a reasonable one in compiled, contiguous loops (within 1.5×).
 4. The label-independent local rules tested (Hebbian, Oja, competitive) do not learn the toy XOR task; DFA does, partially.
-5. The Q.ANT CPU-backend mismatch of the Fourier/KAN layer is not caused by bfloat16 operand rounding, and bfloat16 QAT does not reduce it.
+5. The Q.ANT CPU-backend mismatch of the Fourier/KAN layer is not caused by bfloat16 operand rounding, and bfloat16 QAT does not reduce it. In aggregate it is reproduced by accumulating each logit term by term in bfloat16 (CL-62).
 6. On MNIST, LIF networks trained with surrogate gradients come within 0.3–0.7 pp of an equal-width dense network. Their operation count is dominated by the input layer: input spikes × hidden width. Rate coding multiplies that by T. Latency coding brings it down to one addition per nonzero pixel per hidden unit, which matches zero-skipping dense but does not go below it.
 
 **Not shown:**
@@ -83,9 +84,10 @@ Two side questions were also tested:
 | CL-59 | 3 of 6 |
 | CL-60 | 3 of 5 |
 | CL-61 | 3 of 5 |
-| **Total** | **43 of 73 (59%)** |
+| CL-62 | 2 of 5 |
+| **Total** | **45 of 78 (58%)** |
 
-The misses were mostly over-optimistic expectations: work savings for selectors, compiled-kernel speed, kWTA reducing forgetting, and bfloat16 rounding explaining the Q.ANT mismatch. Some SNN misses went the other way: the SNN was more accurate at T=4 than expected, and the spike-rate penalty *improved* accuracy. CL-50 had no written predictions.
+The misses were mostly over-optimistic expectations: work savings for selectors, compiled-kernel speed, kWTA reducing forgetting, bfloat16 rounding explaining the Q.ANT mismatch, and (CL-62) pairwise or blockwise rather than sequential accumulation. Some SNN misses went the other way: the SNN was more accurate at T=4 than expected, and the spike-rate penalty *improved* accuracy. CL-50 had no written predictions.
 
 ## Errors found and fixed
 
@@ -110,14 +112,12 @@ The misses were mostly over-optimistic expectations: work savings for selectors,
 - **H1, hidden sparsity:** a model size, input density or batched sparse library at which kWTA lies *above* the dense accuracy–time frontier, measured with low timing noise.
 - **H1, input sparsity:** whether the inference and training gains survive against a tuned, batched sparse library rather than per-sample loops.
 - **H2:** a class-incremental benchmark (e.g. Split MNIST) with task- or label-gated sparse readouts, compared at equal compute with EWC and replay.
-- **Q.ANT mismatch:** a simulator with low-precision (bfloat16 or blockwise) accumulation that reproduces the Q.ANT disagreements image by image would identify the cause and make a fair QAT test possible.
+- **Q.ANT mismatch:** a per-image comparison would confirm or reject the sequential-bfloat16 model from CL-62. If confirmed, QAT against that simulator, or the existing low-fan-in architectures, can be compared fairly.
 - **Spiking networks:** measured energy per addition and per routed event on a neuromorphic chip, if it is well below half a MAC. A coding scheme that sends fewer input events than there are nonzero pixels, such as delta coding on temporal data, could also change the result.
 
 ## Recommended next steps
 
-1. Test the accumulation hypothesis for Q.ANT. Add bfloat16 or blockwise accumulation to the CL-58 simulator.
-   - **Aggregate check (Tier 0):** compare its disagreement counts with the archived per-seed Q.ANT counts. CL-58 saved only accuracies and disagreement counts, not per-image predictions.
-   - **Per-image check:** confirming that it reproduces the *same* disagreements needs a new Q.ANT run that saves predictions (a workflow dispatch, Tier 2).
+1. Check the CL-62 sequential-bfloat16 model per image. The aggregate check is done (CL-62). Confirming that it flips the *same* images needs a new Q.ANT run that saves predictions (a workflow dispatch, Tier 2).
 2. Benchmark input sparsity against a batched sparse library (e.g. `scipy.sparse` against BLAS) on dedicated hardware.
 3. If H2 is continued, use Split MNIST with gated readouts, at equal compute.
 4. Ask an outside reader for critique of this report. Possible routes are an ML forum, the Open Neuromorphic community, or Q.ANT, whose toolkit the lab uses.
