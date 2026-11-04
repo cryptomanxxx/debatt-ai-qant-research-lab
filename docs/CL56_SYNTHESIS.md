@@ -1,6 +1,6 @@
-# CL-56 — Synthesis of the Compute Paradox experiments (CL-50 to CL-73)
+# CL-56 — Synthesis of the Compute Paradox experiments (CL-50 to CL-74)
 
-**Date:** 2026-11-03 · **Scope:** twenty-three exploratory experiments run on CPU (Tier 0/1 under [RISK_TIERS.md](RISK_TIERS.md)). CL-58 Part 2, CL-66, CL-70 and CL-71 ran on the Q.ANT CPU backend (Tier 2, owner-approved) · **Physical energy:** `NOT_MEASURED` in every experiment.
+**Date:** 2026-11-03 · **Scope:** twenty-four exploratory experiments run on CPU (Tier 0/1 under [RISK_TIERS.md](RISK_TIERS.md)). CL-58 Part 2, CL-66, CL-70 and CL-71 ran on the Q.ANT CPU backend (Tier 2, owner-approved) · **Physical energy:** `NOT_MEASURED` in every experiment.
 
 This report summarises what the experiments showed, what they did not show, and what would change the conclusions. Each experiment folder has its own README, predictions, code and raw results; the numbers here are taken from those files.
 
@@ -61,6 +61,7 @@ Two side questions were also tested:
 | [CL-71](../experiments/cl71_qant_zoo_confirmation/README.md) | Does the CL-69 model ranking hold on the Q.ANT CPU backend? | Yes. The KAN-containing arms are within 3% of the simulated disagreements; the linear arms are 1–2 per 10k above (+9–17%). The rank order is identical (ρ = 1.0). Per image, 85–92% of Q.ANT's flips are shared with the simulator for KAN models. Linear MLPs keep float32 accuracy (about 12 disagreements per 10k); `kan_g8` loses 0.95 pp (462). 5 of 5 predictions held. |
 | [CL-72](../experiments/cl72_application_mapping/README.md) | Which applications best meet the necessary conditions for a photonic `linear_fprop` advantage? | Short-sequence BERT (97% static-weight MACs, fan-in about 1,500, 197 MACs per byte) first, then ResNet-type CNNs (100% static, fan-in about 1,800, but 194 or 53 MACs per byte depending on whether im2col patches are re-sent). A CNN keeps float32 accuracy on the simulated Q.ANT path (+0.01 pp). Weak: MobileNetV2 (depthwise fan-in 9), long-context transformers (31% dynamic MACs), GPT-2 decode (3.7 MACs per byte), recommenders (memory-bound). Necessary conditions only; no speed or energy data. |
 | [CL-73](../experiments/cl73_search_embeddings/README.md) | Does a transformer encoder's search ranking survive the Q.ANT `linear_fprop` path? | Yes in simulation: embeddings keep cosine 0.999996 to float32, Recall@1 changes by at most 0.1 pp and 99.4% of top-1 results agree, also with a float32-built index. The small encoder (0.37M parameters, trained on repo text) is weaker than BM25 (2.5% against 5.5% Recall@1). Simulator only. |
+| [CL-74](../experiments/cl74_pilot_kit/README.md) | A pilot kit for phase E, and CPU baselines | A standalone kit (MLP, CNN and BERT-style encoder, with fixed weights and reference outputs) is ready for the photonic pilot; its Q.ANT backend is not run (Tier 2). NumPy CPU baseline: encoder 1.2 ms per query, 550 per second at batch 256. The CNN and encoder are host-bound (22% and 31% of time in matrix products), which caps any matrix-only speed-up at about 1.3–1.4×. Energy and GPU not measured. |
 | [CL-59](../experiments/cl59_spiking_mnist/README.md) | Does a rate-coded LIF network reach dense accuracy, and with how many operations? | It reaches 96.65–96.80% against 97.08%, but needs T × 103.9 × 256 input additions: 110k at T=4, against 41k MACs for zero-skipping dense. Hidden spike rate is 37–38%. |
 | [CL-60](../experiments/cl60_latency_coded_snn/README.md) | Does latency coding (one spike per nonzero pixel) fix the operation count? | Partly. Operations fall 2.6×, to 41.8k at T=4 (level with zero-skipping), but accuracy drops to 95.70%. It falls further with more steps (93.23% at T=16). |
 | [CL-61](../experiments/cl61_spike_rate_penalty/README.md) | Does a spike-rate penalty help, and does the SNN beat smaller dense networks? | The penalty cuts hidden spikes 4.7× and *raises* accuracy, to 96.42% at 39,355 additions. The input layer sets a floor of 38,687, and dense H=128 is more accurate at half the operations. |
@@ -107,7 +108,8 @@ Two side questions were also tested:
 | CL-71 | 5 of 5 |
 | CL-72 | 2 of 4 |
 | CL-73 | 3 of 4 |
-| **Total** | **90 of 134 (67%)** |
+| CL-74 | 2 of 5 |
+| **Total** | **92 of 139 (66%)** |
 
 The misses were mostly over-optimistic expectations: work savings for selectors, compiled-kernel speed, kWTA reducing forgetting, bfloat16 rounding explaining the Q.ANT mismatch, and (CL-62) pairwise or blockwise rather than sequential accumulation. Some SNN misses went the other way: the SNN was more accurate at T=4 than expected, and the spike-rate penalty *improved* accuracy. CL-50 had no written predictions.
 

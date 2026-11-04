@@ -67,4 +67,5 @@ jobs:
             tests.test_cl70_fanin_budget \
             tests.test_cl71_qant_zoo_confirmation \
             tests.test_cl72_application_mapping \
-            tests.test_cl73_search_embeddings
+            tests.test_cl73_search_embeddings \
+            tests.test_cl74_pilot_kit
