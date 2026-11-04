@@ -45,6 +45,11 @@ class CL74(unittest.TestCase):
         kit.mlp(t, W, self.X)
         self.assertGreater(t.t, 0)
 
+    def test_thread_argument_both_forms(self):
+        self.assertEqual(kit._threads_from_argv(["kit.py", "bench", "--threads", "4"]), "4")
+        self.assertEqual(kit._threads_from_argv(["kit.py", "bench", "--threads=4"]), "4")
+        self.assertEqual(kit._threads_from_argv(["kit.py", "bench"]), "1")
+
 
 if __name__ == "__main__":
     unittest.main()

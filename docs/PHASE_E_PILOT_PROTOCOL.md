@@ -33,7 +33,7 @@ These are the CL-72 candidates at a size the kit ships:
 - **Measure end to end.** Use the wall time of the whole workload, including host operations, transfers and the weight load. Matrix-product time alone does not count.
 - **Compare like with like.** Use the same workload, batch size and fidelity threshold as the CPU baseline from CL-74.
 - **Use a fair baseline.** The CL-74 NumPy baseline is a lower bar. A claim also needs an optimised CPU runtime, such as ONNX Runtime, and a GPU baseline.
-- **Report weight-load time separately.** If it exceeds about 100 inference calls, only workloads with fixed weights can benefit. That matches the CL-72 condition C2.
+- **Report weight-load time separately.** The kit's `host_weight_prep_ms` is host-side conversion only. The device's reconfiguration cost must come from a toolkit operation that loads weights, or from Q.ANT (question 3 below). `first_call_ms` against the median latency gives only a hint. If reconfiguration costs more than about 100 inference calls, only workloads with fixed weights can benefit. That matches the CL-72 condition C2.
 - **Report all results.** A slower or less efficient result is a valid result and is reported the same way.
 
 ## Questions to settle with Q.ANT before the run

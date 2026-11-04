@@ -15,14 +15,21 @@ import os
 import sys
 
 
-def _threads_from_argv():
-    if "--threads" in sys.argv:
-        return sys.argv[sys.argv.index("--threads") + 1]
+def _threads_from_argv(argv):
+    """Read --threads N or --threads=N before NumPy is imported (BLAS reads its thread count at import)."""
+    for i, a in enumerate(argv):
+        if a == "--threads" and i + 1 < len(argv):
+            return argv[i + 1]
+        if a.startswith("--threads="):
+            return a.split("=", 1)[1]
     return "1"
 
 
+THREADS = _threads_from_argv(sys.argv)
+
+
 for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
-    os.environ[_v] = _threads_from_argv()  # must precede the NumPy import
+    os.environ[_v] = THREADS  # must precede the NumPy import
 
 import argparse
 import json
@@ -46,7 +53,7 @@ def bf16(a):
 
 
 # ------------------------------------------------------------------ backends
-# Weights are stored in "x @ W" layout (fan-in first). A backend prepares each weight once (the weight load),
+# Weights are stored in "x @ W" layout (fan-in first). A backend prepares each weight once on the host,
 # then multiplies activations by it. mm_dyn multiplies two activation tensors (attention QK^T and AV).
 
 class Float32:
@@ -281,8 +288,10 @@ def check(be):
 def bench_one(be, W, workload, batch, R, min_time=1.0, min_reps=5, max_reps=500):
     X = inputs(R, workload, batch)
     tb = Timed(be)
-    for _ in range(2):
-        run_workload(tb, W, workload, X)  # warm-up
+    t0 = time.perf_counter()
+    run_workload(tb, W, workload, X)  # first call after the weights were prepared: includes any lazy device load
+    first = time.perf_counter() - t0
+    run_workload(tb, W, workload, X)  # warm-up
     times, mtimes, total = [], [], 0.0
     while (total < min_time or len(times) < min_reps) and len(times) < max_reps:
         tb.t = 0.0
@@ -293,7 +302,8 @@ def bench_one(be, W, workload, batch, R, min_time=1.0, min_reps=5, max_reps=500)
         mtimes.append(tb.t)
         total += dt
     med = statistics.median(times)
-    return {"workload": workload, "batch": batch, "reps": len(times), "latency_ms_median": 1e3 * med,
+    return {"workload": workload, "batch": batch, "reps": len(times), "first_call_ms": 1e3 * first,
+            "latency_ms_median": 1e3 * med,
             "latency_ms_p95": 1e3 * float(np.percentile(times, 95)), "inferences_per_s": batch / med,
             "gmac_per_s": batch * macs(workload) / med / 1e9,
             "matrix_time_share": float(np.sum(mtimes) / np.sum(times))}
@@ -310,10 +320,13 @@ def bench(be, threads, watts=None):
             loads.append(time.perf_counter() - t0)
         for b in BATCHES:
             r = bench_one(be, Wp, wl, b, R)
-            r["weight_load_ms"] = 1e3 * statistics.median(loads)
+            # host-side conversion only; the kit cannot see when the device loads weights, which happens inside
+            # the timed toolkit calls (compare first_call_ms with latency_ms_median for a hint)
+            r["host_weight_prep_ms"] = 1e3 * statistics.median(loads)
+            r["device_weight_load_ms"] = "NOT_MEASURED"
             r["energy_j_per_inference"] = (watts * r["latency_ms_median"] / 1e3 / b) if watts else "NOT_MEASURED"
             rows.append(r)
-    return {"backend": be.name, "threads": int(threads), "watts_measured": watts if watts else "NOT_MEASURED",
+    return {"backend": be.name, "threads": int(THREADS), "watts_measured": watts if watts else "NOT_MEASURED",
             "machine": platform.processor() or platform.machine(), "cpu_count": os.cpu_count(),
             "numpy": np.__version__, "rows": rows}
 

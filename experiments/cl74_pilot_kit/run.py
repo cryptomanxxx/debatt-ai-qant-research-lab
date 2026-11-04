@@ -35,7 +35,7 @@ def main():
     for b in res["bench"]:
         for r in b["rows"]:
             print(b["threads"], r["workload"], r["batch"], round(r["latency_ms_median"], 3), round(r["gmac_per_s"], 2),
-                  round(r["matrix_time_share"], 2), round(r["weight_load_ms"], 3))
+                  round(r["matrix_time_share"], 2), round(r["host_weight_prep_ms"], 3))
 
 
 if __name__ == "__main__":

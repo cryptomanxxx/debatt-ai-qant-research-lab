@@ -323,7 +323,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 - **2026-11-03:** CL-72: applications ranked by the necessary conditions for a photonic `linear_fprop` advantage. short-sequence encoders and ResNet-type CNNs rank first; a CNN keeps float32 accuracy on the simulated Q.ANT path.
 - **2026-11-04:** CL-73: a small BERT-style search encoder keeps its rankings on the simulated Q.ANT path (cosine 0.999996, ≤ 0.1 pp Recall@1); the encoder itself is weaker than BM25.
-- **2026-11-04:** Owner decision: Q.ANT CPU-backend experiments paused until photonic hardware access. CL-74: the phase E pilot kit, its measurement protocol and NumPy CPU baselines (encoder 1.08 ms per query; CNN and encoder host-bound).
+- **2026-11-04:** Owner decision: Q.ANT CPU-backend experiments paused until photonic hardware access. CL-74: the phase E pilot kit, its measurement protocol and NumPy CPU baselines (encoder 1.2 ms per query; CNN and encoder host-bound).
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
