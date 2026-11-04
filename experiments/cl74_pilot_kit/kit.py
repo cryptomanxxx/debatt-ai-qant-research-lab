@@ -182,7 +182,7 @@ def layernorm(x, g, b):
 
 
 def gelu(x):
-    return 0.5 * x * (1 + np.tanh(math.sqrt(2 / math.pi) * (x + 0.044715 * x ** 3)))
+    return 0.5 * x * (1 + np.tanh(math.sqrt(2 / math.pi) * (x + 0.044715 * (x * x * x))))  # x**3 is ~70x slower in NumPy
 
 
 def softmax(s):

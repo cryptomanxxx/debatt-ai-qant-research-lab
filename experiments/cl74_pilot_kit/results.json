@@ -1,0 +1,358 @@
+{
+  "experiment": "CL-74",
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.30GHz",
+  "gpu": "NOT_MEASURED (no GPU in this environment)",
+  "energy": "NOT_MEASURED (no power counter or instrument)",
+  "fidelity": {
+    "float32": {
+      "mlp": {
+        "n": 1000,
+        "top1_agreement_float32": 1.0,
+        "top1_agreement_qant_sim": 1.0,
+        "max_rel_error_vs_float32": 0.0
+      },
+      "cnn": {
+        "n": 1000,
+        "top1_agreement_float32": 1.0,
+        "top1_agreement_qant_sim": 0.999,
+        "max_rel_error_vs_float32": 0.0
+      },
+      "encoder": {
+        "n": 256,
+        "top1_agreement_float32": 1.0,
+        "top1_agreement_qant_sim": 1.0,
+        "min_cosine_vs_float32": 0.9999997615814209
+      }
+    },
+    "qant_sim": {
+      "mlp": {
+        "n": 1000,
+        "top1_agreement_float32": 1.0,
+        "top1_agreement_qant_sim": 1.0,
+        "max_rel_error_vs_float32": 0.005326118320226669
+      },
+      "cnn": {
+        "n": 1000,
+        "top1_agreement_float32": 0.999,
+        "top1_agreement_qant_sim": 1.0,
+        "max_rel_error_vs_float32": 0.004546246025711298
+      },
+      "encoder": {
+        "n": 256,
+        "top1_agreement_float32": 1.0,
+        "top1_agreement_qant_sim": 1.0,
+        "min_cosine_vs_float32": 0.9999909400939941
+      }
+    }
+  },
+  "bench": [
+    {
+      "backend": "float32",
+      "threads": 1,
+      "watts_measured": "NOT_MEASURED",
+      "machine": "x86_64",
+      "cpu_count": 4,
+      "numpy": "2.5.3",
+      "rows": [
+        {
+          "workload": "mlp",
+          "batch": 1,
+          "reps": 500,
+          "latency_ms_median": 0.020161999941592512,
+          "latency_ms_p95": 0.023431900052628404,
+          "inferences_per_s": 49598.254285135874,
+          "gmac_per_s": 13.332010751844523,
+          "matrix_time_share": 0.8192124491301372,
+          "weight_load_ms": 0.0010640000027706265,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "mlp",
+          "batch": 8,
+          "reps": 500,
+          "latency_ms_median": 0.06695150000268768,
+          "latency_ms_p95": 0.11371969999345308,
+          "inferences_per_s": 119489.4811868121,
+          "gmac_per_s": 32.1187725430151,
+          "matrix_time_share": 0.923740193141874,
+          "weight_load_ms": 0.0010640000027706265,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "mlp",
+          "batch": 64,
+          "reps": 500,
+          "latency_ms_median": 0.28515349998770034,
+          "latency_ms_p95": 0.3622125000333653,
+          "inferences_per_s": 224440.5206415511,
+          "gmac_per_s": 60.329611948448935,
+          "matrix_time_share": 0.9434534636324572,
+          "weight_load_ms": 0.0010640000027706265,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "mlp",
+          "batch": 256,
+          "reps": 500,
+          "latency_ms_median": 1.033336500029236,
+          "latency_ms_p95": 1.1073359499789601,
+          "inferences_per_s": 247741.17627003114,
+          "gmac_per_s": 66.59282818138436,
+          "matrix_time_share": 0.9520107520987494,
+          "weight_load_ms": 0.0010640000027706265,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "cnn",
+          "batch": 1,
+          "reps": 500,
+          "latency_ms_median": 0.10371449997137461,
+          "latency_ms_p95": 0.13124939990802886,
+          "inferences_per_s": 9641.853359713461,
+          "gmac_per_s": 10.169455575556983,
+          "matrix_time_share": 0.25396172714190957,
+          "weight_load_ms": 0.0010259999498885009,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "cnn",
+          "batch": 8,
+          "reps": 500,
+          "latency_ms_median": 0.6744504999574019,
+          "latency_ms_p95": 0.7344504499712912,
+          "inferences_per_s": 11861.507998741608,
+          "gmac_per_s": 12.51056971643275,
+          "matrix_time_share": 0.25582988703137843,
+          "weight_load_ms": 0.0010259999498885009,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "cnn",
+          "batch": 64,
+          "reps": 117,
+          "latency_ms_median": 8.43892099999266,
+          "latency_ms_p95": 9.592769799996859,
+          "inferences_per_s": 7583.907942740033,
+          "gmac_per_s": 7.998899385366768,
+          "matrix_time_share": 0.18862757244015033,
+          "weight_load_ms": 0.0010259999498885009,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "cnn",
+          "batch": 256,
+          "reps": 30,
+          "latency_ms_median": 33.595501000036165,
+          "latency_ms_p95": 39.721675400033966,
+          "inferences_per_s": 7620.06793706468,
+          "gmac_per_s": 8.03703805458086,
+          "matrix_time_share": 0.17769426545741507,
+          "weight_load_ms": 0.0010259999498885009,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "encoder",
+          "batch": 1,
+          "reps": 500,
+          "latency_ms_median": 1.078927500032023,
+          "latency_ms_p95": 1.1344793999910507,
+          "inferences_per_s": 926.8463358013579,
+          "gmac_per_s": 15.553697537139357,
+          "matrix_time_share": 0.3231103469265648,
+          "weight_load_ms": 0.0026640000214683823,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "encoder",
+          "batch": 8,
+          "reps": 108,
+          "latency_ms_median": 9.288723499992102,
+          "latency_ms_p95": 9.498213949950696,
+          "inferences_per_s": 861.2593538828885,
+          "gmac_per_s": 14.453061930427163,
+          "matrix_time_share": 0.33202320250965606,
+          "weight_load_ms": 0.0026640000214683823,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "encoder",
+          "batch": 64,
+          "reps": 12,
+          "latency_ms_median": 86.04973699999618,
+          "latency_ms_p95": 91.71727345004115,
+          "inferences_per_s": 743.7559047972783,
+          "gmac_per_s": 12.481199890245424,
+          "matrix_time_share": 0.2918668703342107,
+          "weight_load_ms": 0.0026640000214683823,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "encoder",
+          "batch": 256,
+          "reps": 5,
+          "latency_ms_median": 461.062509000044,
+          "latency_ms_p95": 488.5589237999511,
+          "inferences_per_s": 555.2392463122079,
+          "gmac_per_s": 9.31764302701001,
+          "matrix_time_share": 0.29953365558018913,
+          "weight_load_ms": 0.0026640000214683823,
+          "energy_j_per_inference": "NOT_MEASURED"
+        }
+      ]
+    },
+    {
+      "backend": "float32",
+      "threads": 4,
+      "watts_measured": "NOT_MEASURED",
+      "machine": "x86_64",
+      "cpu_count": 4,
+      "numpy": "2.5.3",
+      "rows": [
+        {
+          "workload": "mlp",
+          "batch": 1,
+          "reps": 500,
+          "latency_ms_median": 0.020430000006399496,
+          "latency_ms_p95": 0.023300950056182036,
+          "inferences_per_s": 48947.62602480469,
+          "gmac_per_s": 13.157121875467501,
+          "matrix_time_share": 0.8238979779180456,
+          "weight_load_ms": 0.0010350000820835703,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "mlp",
+          "batch": 8,
+          "reps": 500,
+          "latency_ms_median": 0.04494050006087491,
+          "latency_ms_p95": 0.0557112999729269,
+          "inferences_per_s": 178013.15048037886,
+          "gmac_per_s": 47.84993484912583,
+          "matrix_time_share": 0.8935296328291057,
+          "weight_load_ms": 0.0010350000820835703,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "mlp",
+          "batch": 64,
+          "reps": 500,
+          "latency_ms_median": 0.16246899997440778,
+          "latency_ms_p95": 0.20175864999600887,
+          "inferences_per_s": 393921.30197195354,
+          "gmac_per_s": 105.8860459700611,
+          "matrix_time_share": 0.874208726868984,
+          "weight_load_ms": 0.0010350000820835703,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "mlp",
+          "batch": 256,
+          "reps": 500,
+          "latency_ms_median": 0.4455044999644997,
+          "latency_ms_p95": 0.6439194000449787,
+          "inferences_per_s": 574629.4370099505,
+          "gmac_per_s": 154.46039266827472,
+          "matrix_time_share": 0.9059922656124983,
+          "weight_load_ms": 0.0010350000820835703,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "cnn",
+          "batch": 1,
+          "reps": 500,
+          "latency_ms_median": 0.16557150001972332,
+          "latency_ms_p95": 0.21188489991459392,
+          "inferences_per_s": 6039.68678112403,
+          "gmac_per_s": 6.370178441787137,
+          "matrix_time_share": 0.25527777600117063,
+          "weight_load_ms": 0.0015129999155760743,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "cnn",
+          "batch": 8,
+          "reps": 500,
+          "latency_ms_median": 0.7262629999900128,
+          "latency_ms_p95": 0.9800456999982995,
+          "inferences_per_s": 11015.293358067274,
+          "gmac_per_s": 11.618050210620714,
+          "matrix_time_share": 0.26919014157424465,
+          "weight_load_ms": 0.0015129999155760743,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "cnn",
+          "batch": 64,
+          "reps": 137,
+          "latency_ms_median": 7.272263000004386,
+          "latency_ms_p95": 7.607720200007861,
+          "inferences_per_s": 8800.561805858973,
+          "gmac_per_s": 9.282128547875576,
+          "matrix_time_share": 0.2061095086858351,
+          "weight_load_ms": 0.0015129999155760743,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "cnn",
+          "batch": 256,
+          "reps": 33,
+          "latency_ms_median": 31.140302999915548,
+          "latency_ms_p95": 31.885674799968914,
+          "inferences_per_s": 8220.857709724092,
+          "gmac_per_s": 8.670703043600195,
+          "matrix_time_share": 0.18936753881220328,
+          "weight_load_ms": 0.0015129999155760743,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "encoder",
+          "batch": 1,
+          "reps": 500,
+          "latency_ms_median": 1.1096190000330353,
+          "latency_ms_p95": 1.272125500020138,
+          "inferences_per_s": 901.2102351980529,
+          "gmac_per_s": 15.123490134451908,
+          "matrix_time_share": 0.3171775408994645,
+          "weight_load_ms": 0.002556000026743277,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "encoder",
+          "batch": 8,
+          "reps": 117,
+          "latency_ms_median": 8.496953000076246,
+          "latency_ms_p95": 9.07793099997889,
+          "inferences_per_s": 941.5139756484723,
+          "gmac_per_s": 15.799839777717414,
+          "matrix_time_share": 0.323241429703209,
+          "weight_load_ms": 0.002556000026743277,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "encoder",
+          "batch": 64,
+          "reps": 12,
+          "latency_ms_median": 87.53404299994827,
+          "latency_ms_p95": 90.33048159995474,
+          "inferences_per_s": 731.1441104124234,
+          "gmac_per_s": 12.269557433793327,
+          "matrix_time_share": 0.2783870970923253,
+          "weight_load_ms": 0.002556000026743277,
+          "energy_j_per_inference": "NOT_MEASURED"
+        },
+        {
+          "workload": "encoder",
+          "batch": 256,
+          "reps": 5,
+          "latency_ms_median": 444.3983040000603,
+          "latency_ms_p95": 464.6874874000332,
+          "inferences_per_s": 576.0598042245572,
+          "gmac_per_s": 9.667039305351214,
+          "matrix_time_share": 0.27599041008475933,
+          "weight_load_ms": 0.002556000026743277,
+          "energy_j_per_inference": "NOT_MEASURED"
+        }
+      ]
+    }
+  ]
+}

@@ -8,6 +8,7 @@ from __future__ import annotations
 import experiments.cl58_qant_quantization_aware_training.run as cl58  # sets single-threaded BLAS first
 
 import multiprocessing as mp
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -63,10 +64,13 @@ def bench_sequences(paras, vocab):
 
 
 def main():
-    with mp.get_context("fork").Pool(3) as pool:
-        W = {k: v for _, d in pool.map(_job, ("mlp", "cnn", "encoder")) for k, v in d.items()}
-    W = {k: np.asarray(v, np.float32) for k, v in W.items()}
-    np.savez_compressed(HERE / "weights.npz", **W)
+    if "--references-only" in sys.argv:  # keep the trained weights, rebuild the reference outputs
+        W = dict(np.load(HERE / "weights.npz"))
+    else:
+        with mp.get_context("fork").Pool(3) as pool:
+            W = {k: v for _, d in pool.map(_job, ("mlp", "cnn", "encoder")) for k, v in d.items()}
+        W = {k: np.asarray(v, np.float32) for k, v in W.items()}
+        np.savez_compressed(HERE / "weights.npz", **W)
 
     _, _, x_te, y_te = cl58.load_fashion_mnist(cl58.HERE / "data")
     images = np.round(x_te[:N_REF_IMAGES] * 255).astype(np.uint8)
