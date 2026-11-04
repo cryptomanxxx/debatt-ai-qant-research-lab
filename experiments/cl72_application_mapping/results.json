@@ -1,0 +1,161 @@
+{
+ "experiment": "CL-72",
+ "numpy": "2.5.3",
+ "part_a": [
+  {
+   "arithmetic_intensity_im2col_macs_per_byte": 73.92739273927393,
+   "arithmetic_intensity_macs_per_byte": 73.92739273927393,
+   "dynamic_mac_share": 0.0,
+   "extra_bytes": 0,
+   "host_ops_per_mac": 0.0019047619047619048,
+   "mac_weighted_mean_fan_in": 650.24,
+   "min_fan_in": 256,
+   "note": "dense classifier",
+   "static_mac_share": 1.0,
+   "total_macs": 268800,
+   "weights_mb_bf16": 0.538644,
+   "workload": "MLP 784-256-256-10"
+  },
+  {
+   "arithmetic_intensity_im2col_macs_per_byte": 10.183447263739234,
+   "arithmetic_intensity_macs_per_byte": 35.4551566491865,
+   "dynamic_mac_share": 0.0,
+   "extra_bytes": 0,
+   "host_ops_per_mac": 0.013349514563106795,
+   "mac_weighted_mean_fan_in": 318.626213592233,
+   "min_fan_in": 25,
+   "note": "28x28 input",
+   "static_mac_share": 1.0,
+   "total_macs": 1054720,
+   "weights_mb_bf16": 0.036756,
+   "workload": "LeNet-style CNN (Part B)"
+  },
+  {
+   "arithmetic_intensity_im2col_macs_per_byte": 52.81376349054701,
+   "arithmetic_intensity_macs_per_byte": 194.3144793782188,
+   "dynamic_mac_share": 0.0,
+   "extra_bytes": 0,
+   "host_ops_per_mac": 0.0018116841917500772,
+   "mac_weighted_mean_fan_in": 1828.2786793079079,
+   "min_fan_in": 64,
+   "note": "224x224 image",
+   "static_mac_share": 1.0,
+   "total_macs": 1814073344,
+   "weights_mb_bf16": 23.369424,
+   "workload": "ResNet-18"
+  },
+  {
+   "arithmetic_intensity_im2col_macs_per_byte": 4.913064511702849,
+   "arithmetic_intensity_macs_per_byte": 11.184266436774633,
+   "dynamic_mac_share": 0.0,
+   "extra_bytes": 0,
+   "host_ops_per_mac": 0.021228198667205152,
+   "mac_weighted_mean_fan_in": 250.69208685508846,
+   "min_fan_in": 9,
+   "note": "224x224 image; depthwise convolutions",
+   "static_mac_share": 1.0,
+   "total_macs": 300774272,
+   "weights_mb_bf16": 6.975632,
+   "workload": "MobileNetV2"
+  },
+  {
+   "arithmetic_intensity_im2col_macs_per_byte": 196.65051903114187,
+   "arithmetic_intensity_macs_per_byte": 196.65051903114187,
+   "dynamic_mac_share": 0.027027027027026973,
+   "extra_bytes": 196608,
+   "host_ops_per_mac": 0.00316722972972973,
+   "mac_weighted_mean_fan_in": 1497.081081081081,
+   "min_fan_in": 64,
+   "note": "12 layers, d=768, 12 heads",
+   "static_mac_share": 0.972972972972973,
+   "total_macs": 11173625856,
+   "weights_mb_bf16": 170.0352,
+   "workload": "BERT-base encoder, sequence 128"
+  },
+  {
+   "arithmetic_intensity_im2col_macs_per_byte": 79.1595639246779,
+   "arithmetic_intensity_macs_per_byte": 79.1595639246779,
+   "dynamic_mac_share": 0.3076923076923077,
+   "extra_bytes": 3145728,
+   "host_ops_per_mac": 0.013521634615384616,
+   "mac_weighted_mean_fan_in": 1388.3076923076924,
+   "min_fan_in": 64,
+   "note": "12 layers, d=768, 12 heads",
+   "static_mac_share": 0.6923076923076923,
+   "total_macs": 251255586816,
+   "weights_mb_bf16": 170.0352,
+   "workload": "BERT-base encoder, sequence 2048"
+  },
+  {
+   "arithmetic_intensity_im2col_macs_per_byte": 3.6728820351680187,
+   "arithmetic_intensity_macs_per_byte": 3.6728820351680187,
+   "dynamic_mac_share": 0.1325387623028178,
+   "extra_bytes": 0,
+   "host_ops_per_mac": 0.006471619253067278,
+   "mac_weighted_mean_fan_in": 1196.3652797627074,
+   "min_fan_in": 64,
+   "note": "one new token; KV cache read",
+   "static_mac_share": 0.8674612376971822,
+   "total_macs": 142406400,
+   "weights_mb_bf16": 247.330466,
+   "workload": "GPT-2-small decode, context 1024"
+  },
+  {
+   "arithmetic_intensity_im2col_macs_per_byte": 35.603721948549534,
+   "arithmetic_intensity_macs_per_byte": 35.603721948549534,
+   "dynamic_mac_share": 0.04316812200221376,
+   "extra_bytes": 3328,
+   "host_ops_per_mac": 0.0030746525642602386,
+   "mac_weighted_mean_fan_in": 438.4857951051531,
+   "min_fan_in": 13,
+   "note": "26 embedding tables x 64; MLPs",
+   "static_mac_share": 0.9568318779977862,
+   "total_macs": 520384,
+   "weights_mb_bf16": 0.999042,
+   "workload": "DLRM-style recommender"
+  },
+  {
+   "arithmetic_intensity_im2col_macs_per_byte": 341.3333333333333,
+   "arithmetic_intensity_macs_per_byte": 341.3333333333333,
+   "dynamic_mac_share": 0.0,
+   "extra_bytes": 0,
+   "host_ops_per_mac": 0.002197265625,
+   "mac_weighted_mean_fan_in": 1024.0,
+   "min_fan_in": 1024,
+   "note": "one time step; sequential dependency",
+   "static_mac_share": 1.0,
+   "total_macs": 4194304,
+   "weights_mb_bf16": 8.3968,
+   "workload": "2-layer LSTM, hidden 512"
+  }
+ ],
+ "part_b_rows": [
+  {
+   "disagreements": 10,
+   "float_accuracy": 0.8465,
+   "gap_pp": 0.019999999999997797,
+   "qant_accuracy": 0.8467,
+   "seed": 11
+  },
+  {
+   "disagreements": 9,
+   "float_accuracy": 0.8427,
+   "gap_pp": -0.019999999999997797,
+   "qant_accuracy": 0.8425,
+   "seed": 22
+  },
+  {
+   "disagreements": 6,
+   "float_accuracy": 0.8389,
+   "gap_pp": 0.019999999999997797,
+   "qant_accuracy": 0.8391,
+   "seed": 33
+  }
+ ],
+ "part_b_summary": {
+  "disagreements": 8.333333333333334,
+  "float_accuracy": 0.8427000000000001,
+  "gap_pp": 0.0066666666666659324,
+  "qant_accuracy": 0.8427666666666666
+ }
+}
