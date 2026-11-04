@@ -1,7 +1,7 @@
 # Q.ANT Research Lab — Research & Development Roadmap
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
-**Last updated:** 2026-11-03  
+**Last updated:** 2026-11-04  
 **Current checkpoint:** CL-73 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
@@ -19,6 +19,15 @@ This document tracks development and research milestones. It is **not an executi
   - **C.** ✅ A systematic model zoo in simulation (Tier 0). [CL-69](../experiments/cl69_qant_model_zoo/README.md): for fidelity on the Q.ANT CPU backend, linear models are best suited at any size tested, and large monolithic KAN layers are worst suited. The longest sequential bf16 sum per call explains the KAN ranking.
   - **D.** ✅ Confirm a subset on Q.ANT (Tier 2). [CL-71](../experiments/cl71_qant_zoo_confirmation/README.md): the KAN-containing arms are within 3% of the simulator, the linear arms 1–2 disagreements per 10k above it, and the ranking is identical (ρ = 1.0). For numerical fidelity on the Q.ANT CPU backend, linear models are best suited and monolithic KAN worst; this is now measured, not only simulated.
   - **E.** Photonic hardware via the IONOS/Q.ANT pilot (Tier 2). Candidate workloads, ranked by necessary conditions in [CL-72](../experiments/cl72_application_mapping/README.md): short-sequence transformer encoders first, then ResNet-type CNNs (best with device-side patch extraction), then LSTM and time-series models. Depthwise CNNs, long-context or decode transformers and recommenders come last.
+
+### Decision: Q.ANT CPU-backend experiments paused (owner, 2026-11-04)
+
+The goal is to show a photonic advantage. That advantage can only appear as speed, latency or energy, and none of these can be measured on the Q.ANT CPU backend. The CPU backend has answered the question it can answer: the suitable models keep their accuracy under Q.ANT's arithmetic (CL-66 to CL-73). **No further experiments on the Q.ANT CPU backend are planned until photonic hardware access exists.** Work until then:
+
+- the pilot kit and its measurement protocol ([CL-74](../experiments/cl74_pilot_kit/README.md), [protocol](PHASE_E_PILOT_PROTOCOL.md));
+- CPU (and later GPU) baselines for the same workloads.
+
+The owner can lift this pause at any time.
 
 ## Scientific objective
 
