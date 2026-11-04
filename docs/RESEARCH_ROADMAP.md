@@ -2,7 +2,7 @@
 
 **Track:** The Compute Paradox (sparse computation and continual learning)  
 **Last updated:** 2026-11-03  
-**Current checkpoint:** CL-72 complete  
+**Current checkpoint:** CL-73 complete  
 **Execution state:** governed by the [risk tiers](RISK_TIERS.md) (adopted 2026-11-03). Tier 0 work (local/CI, ≤30 min, ≤1M parameters, no network, secrets or money) proceeds directly; Tier 1 needs a one-line owner OK; Tier 2 (money, secrets, external hardware, physical energy measurement, public claims) needs Marcus's explicit approval for the exact scope.
 
 This document tracks development and research milestones. It is **not an execution contract or authorization**. Each checkbox is updated only when its evidence exists; opening or merging a PR does not authorize experiments. The [current systems/protocols map](current-systems-and-protocols.md) and the relevant experiment-specific safety contracts remain authoritative.
@@ -134,7 +134,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 
 ### ✅ CL-56 — Synthesis of CL-50 to CL-55
 
-[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-72: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch, which sequential bfloat16 accumulation reproduces in aggregate and predicts out of sample (Exp021, Exp022, Exp027) and image by image on Q.ANT (CL-66), while training through it helps little (CL-67); spiking networks do not beat a smaller dense network on counted operations. Predictions: 87 of 130 held.
+[Synthesis report](CL56_SYNTHESIS.md), updated with CL-57 to CL-73: H1 narrowly supported for input sparsity (5× faster inference and 2.5–4.4× faster training at identical results with a zero-skipping kernel), not supported for hidden-layer sparsity; H2 not supported in the test performed; H3 not tested. Side questions: QAT does not fix the Q.ANT mismatch, which sequential bfloat16 accumulation reproduces in aggregate and predicts out of sample (Exp021, Exp022, Exp027) and image by image on Q.ANT (CL-66), while training through it helps little (CL-67); spiking networks do not beat a smaller dense network on counted operations. Predictions: 90 of 134 held.
 
 - [x] Separate established results from what was not shown (no energy, photonic or neuromorphic claims).
 - [x] Report negative results, errors found and fixed, limitations and what would change the conclusions.
@@ -253,6 +253,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 | CL-70 | ✅ Completed | [Fan-in budget and activations (phase B)](../experiments/cl70_fanin_budget/README.md) |
 | CL-71 | ✅ Completed | [Q.ANT zoo confirmation (phase D)](../experiments/cl71_qant_zoo_confirmation/README.md) |
 | CL-72 | ✅ Completed | [Application mapping](../experiments/cl72_application_mapping/README.md) |
+| CL-73 | ✅ Completed | [Search embeddings on the Q.ANT path](../experiments/cl73_search_embeddings/README.md) |
 
 ## Progress log
 
@@ -311,6 +312,7 @@ The earlier plan for this stage (a statistical protocol) is covered in practice 
 - **2026-11-03:** CL-71 (phase D, Q.ANT CPU backend): the model-suitability ranking is confirmed on Q.ANT; the KAN-containing arms are within 3% of the simulator.
 
 - **2026-11-03:** CL-72: applications ranked by the necessary conditions for a photonic `linear_fprop` advantage. short-sequence encoders and ResNet-type CNNs rank first; a CNN keeps float32 accuracy on the simulated Q.ANT path.
+- **2026-11-04:** CL-73: a small BERT-style search encoder keeps its rankings on the simulated Q.ANT path (cosine 0.999996, ≤ 0.1 pp Recall@1); the encoder itself is weaker than BM25.
 
 Update this document at each milestone through a separate reviewable PR. Do not mark stages complete merely because code exists or a workflow is green.
 
